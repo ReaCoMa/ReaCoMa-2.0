@@ -76,6 +76,12 @@ Again, these can be found in the action menu **(`Shift + /`)**. This will allow 
 
 I have not yet implemented the amplitude slicing object because a) I don't understand it and b) I am led to believe there are issues with digital silence with it.
 
+# Acknowledgements
+
+Thank you to Pierre-Alexandre Tremblay for guiding me on the interface of these scripts and how they should work for the user. The tools themselves are not my own work, but a product of the FluCoMa project which can be found here. 
+
+http://www.flucoma.org
+
 
 
 
