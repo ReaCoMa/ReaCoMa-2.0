@@ -36,7 +36,7 @@ You can have this folder anywhere you want on your machine, REAPER doesn't actua
 
 Once you have followed all the steps of the installation process you can simply execute one of the scripts by doing the following.
 
-1. `Shift + /` (or as I call it **`?`** ;) to bring up the Action Menu
+1. `Shift + /` (or as I like to call it **`?`** ;)) to bring up the Action Menu
 2. Select the action `ReaScript: Run Reascript`
 3. Select the desired script which you have cleverly stored in an easy to find location.
 
@@ -47,7 +47,7 @@ All of the scripts are named to match up the corresponding algorithm. For exampl
 
 ## Slicing
 
-So far, all of the slicing based algorithms will directly segment media items in the arrangement. This is not destructive and segmenets the media item the same as using the split action (`S`). You can undo just like any other action and your original media item is restored to its previously unsegmented state. The numerical results are stored in temporary csv files and are deleted as soon as the process is completed.
+So far, all of the slicing based algorithms will directly segment media items in the arrangement. This is not destructive and is like calling the 'Split' action multiple times (`S`). You can undo just like any other action and your original media item is restored to its previously unsegmented state. The numerical results are stored in temporary csv files and are deleted as soon as the process is completed.
 
 ## Objects/Layers
 
