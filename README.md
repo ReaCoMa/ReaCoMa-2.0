@@ -4,7 +4,7 @@ ReaScripts that interface with the FluCoMa tools
 # Installation
 
 ## Command Line Tools
-First, ensure the FluCoMa command line executables are stored in a sensibly located folder. Ideally, this folder would be a `path` known to your shell of choice. If you are uncomfortable with these concepts, perservere as there is very little configuration once this stage is sorted out. Put simply, a `path` is a directory on your computer typically containing executable files and your computer is made aware of this location so when you call a specific command it knows what you are talking about.
+First, ensure the FluCoMa command line executables are stored in a sensibly located folder. Ideally, this folder would be a `path` known to your shell of choice. If you are uncomfortable with these concepts, perservere as there is very little configuration once this stage is sorted out. Put simply, a `path` is a directory on your computer often containing executable files and your computer is made aware of this location so when you call a specific command it knows what you are talking about.
 
 Some typical `path` locations that are (to my knowledge) default on MacOS are:
 
