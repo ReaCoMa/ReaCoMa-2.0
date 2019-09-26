@@ -42,6 +42,8 @@ Once you have followed all the steps of the installation process you can simply 
 
 All of the scripts are named to match up the corresponding algorithm. For example, to do harmonic percussive separation, you would need to run the `fluid-hpss.lua` script.
 
+The first time that you execute any of the scripts you will be asked to provide a path to the location of the command line tools. Dont worry, this only happens once per REAPER installation. If you decided to put the executables in `/usr/local/bin` then provide that path to the pop-up box.
+
 
 # What will happen? Is it safe?
 
