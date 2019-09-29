@@ -56,6 +56,14 @@ function commasplit(input_string)
     return t
 end
 
+function statstotable(string)
+    local t = {}
+    for word in string:gmatch('([^,]+)') do
+        table.insert(t, tonumber(word))
+    end
+    return t
+end
+
 function spacesplit(input_string)
     local t = {}
     for word in input_string:gmatch("%w+") do table.insert(t, word) end
