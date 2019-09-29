@@ -25,19 +25,21 @@ if num_selected_items ~= 0 then
         reaper.Undo_BeginBlock()
         -- Algorithm Parameters
         local params = commasplit(user_inputs)
-        local centroid = params[1]
+        local centroid = tonumber(params[1])
         local fftsettings = "1024 -1 -1"
 
         -- Create storage --
         local item_t = {} -- table of selected items
         local ss_cmd_t = {} -- command line arguments for spectralshape
         local st_cmd_t = {} -- command line arguments for stats
-        local centroid_t = {} -- centroid data   
+        chans_t = {}
+        centroid_t = {} -- centroid data   
         local string_data_t = {} -- all the output data as raw strings   
         local tmp_file_t = {} -- annoying tmp files made by os.tmpname()
         local tmp_anal_t = {} -- analysis files made by processor (spectralshape, loudness)
         local tmp_stat_t = {} -- stats files made by fluid.bufstats~
         local full_path_t = {} -- full paths to media items
+        shape_t = {}
 
         for i=1, num_selected_items do
             local tmp_file = os.tmpname()
@@ -52,6 +54,8 @@ if num_selected_items ~= 0 then
             local src = reaper.GetMediaItemTake_Source(take)
             local full_path = reaper.GetMediaSourceFileName(src, '')
             local sr = reaper.GetMediaSourceSampleRate(src)
+            
+            table.insert(chans_t, reaper.GetMediaSourceNumChannels(src))
             table.insert(item_t, item)
             table.insert(full_path_t, full_path)
 
@@ -78,10 +82,36 @@ if num_selected_items ~= 0 then
         for i=1, num_selected_items do
             os.execute(ss_cmd_t[i])
             os.execute(st_cmd_t[i])
-            table.insert(string_data_t, readfile(tmp_stat_t[i]))
         end
-        reaper.ShowConsoleMsg(string_data_t[1])
-        -- Read data and execute --
+        
+
+        -- Convert the CSV into a table --
+        for i=1, num_selected_items do
+            temporary_stats = {}
+
+            for line in io.lines(tmp_stat_t[i]) do
+                table.insert(temporary_stats, statstotable(line))
+            end
+
+            -- Take the median of every channel --
+            -- if there is more than 1 average the medians --
+            local accum = 0
+            for j=1, chans_t[i] do --loop over the amount of channels
+                local lookup = (j * 7) - 6
+                accum = accum + temporary_stats[lookup][6]
+            end
+            accum = accum / chans_t[i]
+            table.insert(centroid_t, accum)
+        end
+
+        -- Selection logic --
+        for i=1, num_selected_items do
+            if centroid_t[i] >= centroid then reaper.SetMediaItemSelected(item_t[i], true) end
+            if centroid_t[i] < centroid then reaper.SetMediaItemSelected(item_t[i], false) end
+        end
+
+
+        -- Cleanup --
         for i=1, num_selected_items do
             remove_file(tmp_file_t[i])
             remove_file(tmp_anal_t[i])
