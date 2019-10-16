@@ -1,3 +1,7 @@
+function DEBUG(string)
+    reaper.ShowConsoleMsg(string)
+end
+
 function sampstos(samps_in, sr)
     return samps_in / sr
 end
@@ -85,6 +89,15 @@ end
 function doublequote(input_string)
   return '"'..input_string..'"'
 end
+---------- Custom operators ----------
+
+matchers = {
+    ['>'] = function (x, y) return x > y end,
+    ['<'] = function (x, y) return x < y end,
+    ['>='] = function (x, y) return x >= y end,
+    ['<='] = function (x, y) return x <= y end
+}
+
 
 ---------- Functions for to setting state ----------
 
