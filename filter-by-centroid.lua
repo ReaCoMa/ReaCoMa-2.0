@@ -1,4 +1,3 @@
-
 local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
 dofile(script_path .. "FluidUtils.lua")
@@ -18,22 +17,23 @@ local st_exe = doublequote(st_suf)
 
 local num_selected_items = reaper.CountSelectedMediaItems(0)
 if num_selected_items ~= 0 then
-    local captions = "centroid >=:"
-    local caption_defaults = "500"
-    local confirm, user_inputs = reaper.GetUserInputs("centroid", 1, captions, caption_defaults)
+    local captions = "operator,centroid,fftsettings"
+    local caption_defaults = ">,500,2048 -1 -1"
+    local confirm, user_inputs = reaper.GetUserInputs("Configuration", 3, captions, caption_defaults)
     if confirm then 
         reaper.Undo_BeginBlock()
         -- Algorithm Parameters
         local params = commasplit(user_inputs)
-        local centroid = tonumber(params[1])
-        local fftsettings = "1024 -1 -1"
+        local operator = params[1]
+        local centroid = tonumber(params[2])
+        local fftsettings = params[3]
 
         -- Create storage --
         local item_t = {} -- table of selected items
         local ss_cmd_t = {} -- command line arguments for spectralshape
         local st_cmd_t = {} -- command line arguments for stats
-        chans_t = {}
-        centroid_t = {} -- centroid data   
+        local chans_t = {}
+        local centroid_t = {} -- centroid data   
         local string_data_t = {} -- all the output data as raw strings   
         local tmp_file_t = {} -- annoying tmp files made by os.tmpname()
         local tmp_anal_t = {} -- analysis files made by processor (spectralshape, loudness)
@@ -84,7 +84,6 @@ if num_selected_items ~= 0 then
             os.execute(st_cmd_t[i])
         end
         
-
         -- Convert the CSV into a table --
         for i=1, num_selected_items do
             temporary_stats = {}
@@ -106,10 +105,8 @@ if num_selected_items ~= 0 then
 
         -- Selection logic --
         for i=1, num_selected_items do
-            if centroid_t[i] >= centroid then reaper.SetMediaItemSelected(item_t[i], true) end
-            if centroid_t[i] < centroid then reaper.SetMediaItemSelected(item_t[i], false) end
+            reaper.SetMediaItemSelected(item_t[i], matchers[operator](centroid_t[i], centroid))
         end
-
 
         -- Cleanup --
         for i=1, num_selected_items do
@@ -117,7 +114,6 @@ if num_selected_items ~= 0 then
             remove_file(tmp_anal_t[i])
             remove_file(tmp_stat_t[i])
         end
-
 
         reaper.UpdateArrange()
         reaper.Undo_EndBlock("CentroidSelect", 0)
