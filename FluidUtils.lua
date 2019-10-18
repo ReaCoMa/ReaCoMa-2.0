@@ -1,3 +1,7 @@
+function DEBUG(string)
+    reaper.ShowConsoleMsg(string)
+end
+
 function sampstos(samps_in, sr)
     return samps_in / sr
 end
@@ -56,6 +60,14 @@ function commasplit(input_string)
     return t
 end
 
+function statstotable(string)
+    local t = {}
+    for word in string:gmatch('([^,]+)') do
+        table.insert(t, tonumber(word))
+    end
+    return t
+end
+
 function spacesplit(input_string)
     local t = {}
     for word in input_string:gmatch("%w+") do table.insert(t, word) end
@@ -77,6 +89,15 @@ end
 function doublequote(input_string)
   return '"'..input_string..'"'
 end
+---------- Custom operators ----------
+
+matchers = {
+    ['>'] = function (x, y) return x > y end,
+    ['<'] = function (x, y) return x < y end,
+    ['>='] = function (x, y) return x >= y end,
+    ['<='] = function (x, y) return x <= y end
+}
+
 
 ---------- Functions for to setting state ----------
 
