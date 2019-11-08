@@ -72,18 +72,14 @@ I would recommend you become familiar with two actions:
 
 Again, these can be found in the action menu **(`Shift + /`)**. This will allow you to explode the output of a FluCoMa process to new tracks for more fine tuned manipulation.
 
-# TO-DO
+# TODO
 
 I have not yet implemented the amplitude slicing object because a) I don't understand it and b) I am led to believe there are issues with digital silence with it.
 
+Threading! I'd like to make it so these processes can work in the background rather than locking out REAPER entirely. In so far, my research into making this happen has been discouraging as calling the shell from Lua is a blocking process and to make it non-blocking I would have to set up some additional logic that waits for processes to be finished and returns that information to REAPER.
+
 # Acknowledgements
 
-Thank you to Pierre-Alexandre Tremblay for guiding me on the interface of these scripts and how they should work for the user. The tools themselves are not my own work, but a product of the FluCoMa project which can be found here. 
+Thank you to Pierre Alexandre Tremblay for guiding me on the interface of these scripts and how they should work for the user. The tools themselves are not my own work, but a product of the FluCoMa project which can be found here. 
 
 http://www.flucoma.org
-
-
-
-
-
-
