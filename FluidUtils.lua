@@ -89,8 +89,8 @@ end
 function doublequote(input_string)
   return '"'..input_string..'"'
 end
----------- Custom operators ----------
 
+---------- Custom operators ----------
 matchers = {
     ['>'] = function (x, y) return x > y end,
     ['<'] = function (x, y) return x < y end,
@@ -100,7 +100,6 @@ matchers = {
 
 
 ---------- Functions for to setting state ----------
-
 function get_fluid_path()
     return reaper.GetExtState("flucoma", "exepath")
 end
@@ -110,7 +109,9 @@ function file_exists(name)
     if f~=nil then io.close(f) return true else return false end
 end
 
+---------- FluidPath setting ----------
 function is_path_valid(input_string)
+    -- Checks to 
     local operating_system = reaper.GetOS()
     local check_table = {}
     check_table["Win64"] = "/fluid-noveltyslice.exe"
@@ -148,6 +149,7 @@ function set_fluid_path()
 end
 
 function check_state()
+    -- Check that the reaper Key "exepath" has been set
     return reaper.HasExtState("flucoma", "exepath")
 end
 
@@ -157,5 +159,8 @@ function sanity_check()
         if set_fluid_path() == true then return true else return false end
     end
 
-    if check_state() == true then return true end
+    if check_state() == true then 
+        local possible_path = reaper.GetExtState("flucoma", "exepath")
+        if is_path_valid(possible_path) == true then return true else return false end -- make sure the path is still okay, perhaps its moved...
+    end
 end
