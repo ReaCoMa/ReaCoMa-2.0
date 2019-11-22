@@ -130,6 +130,26 @@ function is_path_valid(input_string)
     end
 end
 
+--- A soft version of is_path_valid
+function is_path_valid_soft(input_string)
+    -- Checks to 
+    local operating_system = reaper.GetOS()
+    local check_table = {}
+    check_table["Win64"] = "/fluid-noveltyslice.exe"
+    check_table["OSX64"] = "/fluid-noveltyslice"
+
+    local ns_path = input_string .. check_table[operating_system]
+
+    if file_exists(ns_path) then
+        reaper.SetExtState("flucoma", "exepath", input_string, 1)
+        return true
+    else
+        reaper.ShowMessageBox("The path you set doesn't seem to contain the FluCoMa tools. Please try again.", "Path Configuration", 0)
+        reaper.DeleteExtState("flucoma", "exepath", 1)
+        path_setter()
+    end
+end
+
 function path_setter()
     local cancel, input = reaper.GetUserInputs("Set path to FluCoMa Executables", 1, "Path:, extrawidth=100", "/usr/local/bin")
     if cancel ~= false then
@@ -141,7 +161,6 @@ function path_setter()
         reaper.DeleteExtState("flucoma", "exepath", 1)
         return false
     end
-    
 end
 
 function set_fluid_path()
@@ -161,6 +180,6 @@ function sanity_check()
 
     if check_state() == true then 
         local possible_path = reaper.GetExtState("flucoma", "exepath")
-        if is_path_valid(possible_path) == true then return true else return false end -- make sure the path is still okay, perhaps its moved...
+        if is_path_valid_soft(possible_path) == true then return true else return false end -- make sure the path is still okay, perhaps its moved...
     end
 end
