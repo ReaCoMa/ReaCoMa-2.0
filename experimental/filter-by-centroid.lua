@@ -39,7 +39,7 @@ if num_selected_items ~= 0 then
         local tmp_anal_t = {} -- analysis files made by processor (spectralshape, loudness)
         local tmp_stat_t = {} -- stats files made by fluid.bufstats~
         local full_path_t = {} -- full paths to media items
-        shape_t = {}
+        local shape_t = {}
 
         for i=1, num_selected_items do
             local tmp_file = os.tmpname()
@@ -60,7 +60,6 @@ if num_selected_items ~= 0 then
             table.insert(full_path_t, full_path)
 
             local take_ofs = stosamps(reaper.GetMediaItemTakeInfo_Value(take, "D_STARTOFFS"), sr)
-            -- local item_pos = stosamps(reaper.GetMediaItemInfo_Value(item, "D_POSITION"))
             local item_len = stosamps(reaper.GetMediaItemInfo_Value(item, "D_LENGTH"), sr)
 
             local ss_cmd = ss_exe .. 
