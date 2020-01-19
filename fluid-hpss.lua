@@ -30,7 +30,6 @@ if num_selected_items > 0 then
 
         local item_t = {}
         local sr_t = {}
-        local full_path_t = {}
         local take_ofs_t = {}
         local take_ofs_samples_t = {}
         local item_pos_t = {}
@@ -50,7 +49,6 @@ if num_selected_items > 0 then
             local full_path = reaper.GetMediaSourceFileName(src, '')
             table.insert(item_t, item)
             table.insert(sr_t, sr)
-            table.insert(full_path_t, full_path)
         
             local take_ofs = reaper.GetMediaItemTakeInfo_Value(take, "D_STARTOFFS")
             local item_pos = reaper.GetMediaItemInfo_Value(item, "D_POSITION")
@@ -105,7 +103,7 @@ if num_selected_items > 0 then
         end
         -- Execute NMF Process
         for i=1, num_selected_items do
-            os.execute(hpss_cmd_t[i])
+            reaper.ExecProcess(hpss_cmd_t[i], 0)
         end
         reaper.SelectAllMediaItems(0, 0)
         for i=1, num_selected_items do

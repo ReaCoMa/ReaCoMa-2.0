@@ -31,7 +31,6 @@ if num_selected_items > 0 then
         local clumplength = params[8]
         local minslicelength = params[9]
 
-        local full_path_t = {}
         local item_pts_t = {}
         local item_len_t = {}
         local item_pts_samples_t = {}
@@ -46,10 +45,6 @@ if num_selected_items > 0 then
         local take_ofs_samples_t = {}
 
         for i=1, num_selected_items do
-            local tmp_file = os.tmpname()
-            local tmp_idx = tmp_file .. ".csv"
-            table.insert(tmp_file_t, tmp_file)
-            table.insert(tmp_idx_t, tmp_idx)
 
             local item = reaper.GetSelectedMediaItem(0, i-1)
             local take = reaper.GetActiveTake(item)
@@ -58,7 +53,9 @@ if num_selected_items > 0 then
             local full_path = reaper.GetMediaSourceFileName(src, '')
             table.insert(item_t, item)
             table.insert(sr_t, sr)
-            table.insert(full_path_t, full_path)
+
+            local tmp_idx = full_path .. i .. "reacoma_tmp.csv"
+            table.insert(tmp_idx_t, tmp_idx)
             
             local take_ofs = reaper.GetMediaItemTakeInfo_Value(take, "D_STARTOFFS")
             local item_pts = reaper.GetMediaItemInfo_Value(item, "D_POSITION")
@@ -87,7 +84,7 @@ if num_selected_items > 0 then
 
         -- Fill the table with slice points
         for i=1, num_selected_items do
-            os.execute(ts_cmd_t[i])
+            reaper.ExecProcess(ts_cmd_t[i], 0)
             table.insert(slice_points_string_t, readfile(tmp_idx_t[i]))
         end
         -- Execution
@@ -102,10 +99,7 @@ if num_selected_items > 0 then
         end
         reaper.UpdateArrange()
         reaper.Undo_EndBlock("transientslice", 0)
-        for i=1, num_selected_items do
-            remove_file(tmp_idx_t[i])
-            remove_file(tmp_file_t[i])
-        end
+        cleanup(tmp_file_t)
     end
 end
 ::exit::

@@ -1,5 +1,6 @@
 function DEBUG(string)
     reaper.ShowConsoleMsg(string)
+    reaper.ShowConsoleMsg("\n")
 end
 
 function sampstos(samps_in, sr)
@@ -8,11 +9,6 @@ end
 
 function stosamps(secs_in, sr) 
     return math.floor((secs_in * sr) + 0.5)
-end
-
-function remove_file(file_name)
-    local cmd = "rm -rf " .. file_name
-    os.execute(cmd)
 end
 
 function basedir(str,sep)
@@ -25,9 +21,15 @@ function basename(input_string)
 end
 
 function rm_trailing_slash(s)
-    -- Remove trailing slash from string. Will not remove slash if it is the
-    -- only character in the string.
+    -- Remove trailing slash from string. 
+    -- Will not remove slash if it is the only character.
     return s:gsub('(.)%/$', '%1')
+end
+
+function cleanup(path_table)
+    for i=1, #path_table do
+        os.remove(path_table[i])
+    end
 end
 
 function capture(cmd, raw)
@@ -87,8 +89,8 @@ function tablelen(t)
 end
 
 function doublequote(input_string)
-  return '"'..input_string..'"'
-end
+    return '"'..input_string..'"'
+  end
 
 ---------- Custom operators ----------
 matchers = {
@@ -105,8 +107,12 @@ function get_fluid_path()
 end
 
 function file_exists(name)
-    local f=io.open(name,"r")
-    if f~=nil then io.close(f) return true else return false end
+    local f=reaper.file_exists(name)
+    if f~=nil then 
+        return true 
+    else
+        return false 
+    end
 end
 
 ---------- FluidPath setting ----------

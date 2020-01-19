@@ -28,7 +28,6 @@ if num_selected_items > 0 then
         local nmf_cmd_t = {}
         local item_pos_t = {}
         local item_len_t = {}
-        local full_path_t = {}
         local components_t = {}
         local item_pos_samples_t = {}
         local item_len_samples_t = {}
@@ -45,7 +44,6 @@ if num_selected_items > 0 then
             local full_path = reaper.GetMediaSourceFileName(src, '')
             table.insert(item_t, item)
             table.insert(sr_t, sr)
-            table.insert(full_path_t, full_path)
             
 
             local take_ofs = reaper.GetMediaItemTakeInfo_Value(take, "D_STARTOFFS")
@@ -66,16 +64,18 @@ if num_selected_items > 0 then
             table.insert(item_pos_samples_t, item_pos_samples)
             table.insert(item_len_samples_t, item_len_samples)
 
-            table.insert(nmf_cmd_t, 
-                            nmf_exe .. 
-                            " -source " .. doublequote(full_path) .. " -resynth " .. doublequote(components_t[i]) ..  
-                            " -numframes " .. item_len_samples .. " -startframe " .. take_ofs_samples .. 
-                            " -components " .. components .. " -fftsettings " .. fftsettings)
+            table.insert(
+                nmf_cmd_t, 
+                nmf_exe .. 
+                " -source " .. doublequote(full_path) .. " -resynth " .. doublequote(components_t[i]) ..  
+                " -numframes " .. item_len_samples .. " -startframe " .. take_ofs_samples .. 
+                " -components " .. components .. " -fftsettings " .. fftsettings
+            )
         end
 
         -- Execute NMF Process
         for i=1, num_selected_items do
-            os.execute(nmf_cmd_t[i])
+            reaper.ExecProcess(nmf_cmd_t[i], 0)
         end
         reaper.SelectAllMediaItems(0, 0)
         for i=1, num_selected_items do
