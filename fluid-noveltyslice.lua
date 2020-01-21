@@ -80,7 +80,7 @@ if num_selected_items > 0 then
 
         -- Fill the table with slice points
         for i=1, num_selected_items do
-            reaper.ExecProcess(ns_cmd_t[i])
+            os.execute(ns_cmd_t[i])
             table.insert(slice_points_string_t, readfile(tmp_idx_t[i]))
         end
 

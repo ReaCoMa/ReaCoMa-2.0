@@ -1,6 +1,7 @@
 local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
 dofile(script_path .. "FluidUtils.lua")
+dofile(script_path .. "FluidParams.lua")
 
 ------------------------------------------------------------------------------------
 --   Each user MUST point this to their folder containing FluCoMa CLI executables --
@@ -13,10 +14,17 @@ local hpss_exe = doublequote(hpss_suf)
 
 local num_selected_items = reaper.CountSelectedMediaItems(0)
 if num_selected_items > 0 then
-    local captions = "harmfiltersize,percfiltersize,maskingmode,fftsettings,harmthresh,percthresh"
-    local caption_defaults = "17,31,0,1024 512 1024,0.0 1.0 1.0 1.0,0.0 1.0 1.0 1.0"
-    local confirm, user_inputs = reaper.GetUserInputs("HPSS Parameters", 6, captions, caption_defaults)
+
+    -- Parameter Get/Set/Prep
+    local processor = fluid_archetype.hpss
+    check_params(processor)
+    local param_names = "harmfiltersize,percfiltersize,maskingmode,fftsettings,harmthresh,percthresh"
+    local param_values = parse_params(param_names, processor)
+    
+    local confirm, user_inputs = reaper.GetUserInputs("HPSS Parameters", 6, param_names, param_values)
     if confirm then 
+        store_params(processor, param_names, user_inputs)
+
         reaper.Undo_BeginBlock()
         -- Algorithm Parameters
         local params = commasplit(user_inputs)
