@@ -53,7 +53,7 @@ fluid_archetype = {
         skew = "0.0",
         threshback = "1.1",
         threshfwd = "2.0",
-        windowsize = "1.4"
+        windowsize = "14"
     },
 
     onsetslice = {
