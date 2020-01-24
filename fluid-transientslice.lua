@@ -44,7 +44,6 @@ if num_selected_items > 0 then
         local item_len_samples_t = {}
         local ts_cmd_t = {}
         local slice_points_string_t = {}
-        local tmp_file_t = {}
         local tmp_idx_t = {}
         local item_t = {}
         local sr_t = {}
@@ -106,7 +105,7 @@ if num_selected_items > 0 then
         end
         reaper.UpdateArrange()
         reaper.Undo_EndBlock("transientslice", 0)
-        cleanup(tmp_file_t)
+        cleanup(tmp_idx_t)
     end
 end
 ::exit::
