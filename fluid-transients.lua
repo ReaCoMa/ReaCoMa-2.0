@@ -91,7 +91,7 @@ if num_selected_items > 0 then
 
         -- Execute NMF Process
         for i=1, num_selected_items do
-            os.execute(transients_cmd_t[i], 0)
+            cmdline(transients_cmd_t[i])
         end
         reaper.SelectAllMediaItems(0, 0)
         for i=1, num_selected_items do
