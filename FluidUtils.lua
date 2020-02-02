@@ -3,6 +3,12 @@ function DEBUG(string)
     reaper.ShowConsoleMsg("\n")
 end
 
+function cmdline(string)
+    local opsys = reaper.GetOS()
+    if opsys == "Win64" then reaper.ExecProcess(string, 0) end
+    if opsys == "OSX64" or opsys == "Other" then os.execute(string) end
+end
+
 function sampstos(samps_in, sr)
     return samps_in / sr
 end
