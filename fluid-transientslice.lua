@@ -1,6 +1,7 @@
 local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
 dofile(script_path .. "FluidUtils.lua")
+dofile(script_path .. "FluidParams.lua")
 
 ------------------------------------------------------------------------------------
 --   Each user MUST point this to their folder containing FluCoMa CLI executables --
@@ -13,11 +14,17 @@ local ts_exe = doublequote(ts_suf)
 
 local num_selected_items = reaper.CountSelectedMediaItems(0)
 if num_selected_items > 0 then
-    local captions = "order,blocksize,padsize,skew,threshfwd,threshback,windowsize,clumplength,minslicelength"
-    local caption_defaults = "20, 256, 128, 0.0, 2.0, 1.1, 14, 25, 1000"
-    local confirm, user_inputs = reaper.GetUserInputs("Transient Slice Parameters", 9, captions, caption_defaults)
 
+    -- Parameter Get/Set/Prep
+    local processor = fluid_archetype.transientslice
+    check_params(processor)
+    local param_names = "order,blocksize,padsize,skew,threshfwd,threshback,windowsize,clumplength,minslicelength"
+    local param_values = parse_params(param_names, processor)
+
+    local confirm, user_inputs = reaper.GetUserInputs("Transient Slice Parameters", 9, param_names, param_values)
     if confirm then
+        store_params(processor, param_names, user_inputs)
+        
         reaper.Undo_BeginBlock()
         -- Algorithm Parameters
         local params = commasplit(user_inputs)
@@ -37,7 +44,6 @@ if num_selected_items > 0 then
         local item_len_samples_t = {}
         local ts_cmd_t = {}
         local slice_points_string_t = {}
-        local tmp_file_t = {}
         local tmp_idx_t = {}
         local item_t = {}
         local sr_t = {}
@@ -84,7 +90,7 @@ if num_selected_items > 0 then
 
         -- Fill the table with slice points
         for i=1, num_selected_items do
-            reaper.ExecProcess(ts_cmd_t[i], 0)
+            cmdline(ts_cmd_t[i])
             table.insert(slice_points_string_t, readfile(tmp_idx_t[i]))
         end
         -- Execution
@@ -99,7 +105,7 @@ if num_selected_items > 0 then
         end
         reaper.UpdateArrange()
         reaper.Undo_EndBlock("transientslice", 0)
-        cleanup(tmp_file_t)
+        cleanup(tmp_idx_t)
     end
 end
 ::exit::

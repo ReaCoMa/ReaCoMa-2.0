@@ -13,11 +13,17 @@ local os_exe = doublequote(os_suf)
 
 local num_selected_items = reaper.CountSelectedMediaItems(0)
 if num_selected_items > 0 then
-    local captions = "metric,threshold,minslicelength,filtersize,framedelta,fftsettings"
-    local caption_defaults = "0,0.5,2,5,0,1024 512 1024"
-    local confirm, user_inputs = reaper.GetUserInputs("Onset Slice Parameters", 6, captions, caption_defaults)
 
+    -- Parameter Get/Set/Prep
+    local processor = fluid_archetype.onsetslice
+    check_params(processor)
+    local param_names = "metric,threshold,minslicelength,filtersize,framedelta,fftsettings"
+    local param_values = parse_params(param_names, processor)
+
+    local confirm, user_inputs = reaper.GetUserInputs("Onset Slice Parameters", 6, param_names, param_values)
     if confirm then
+        store_params(processor, param_names, param_values)
+
         reaper.Undo_BeginBlock()
         -- Algorithm Parameters
         local params = commasplit(user_inputs)
@@ -79,7 +85,7 @@ if num_selected_items > 0 then
 
         -- Fill the table with slice points
         for i=1, num_selected_items do
-            reaper.ExecProcess(os_cmd_t[i], 0)
+            cmdline(os_cmd_t[i])
             table.insert(slice_points_string_t, readfile(tmp_idx_t[i]))
         end
 

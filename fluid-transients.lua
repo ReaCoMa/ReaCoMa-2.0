@@ -1,6 +1,7 @@
 local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
 dofile(script_path .. "FluidUtils.lua")
+dofile(script_path .. "FluidParams.lua")
 
 ------------------------------------------------------------------------------------
 --   Each user MUST point this to their folder containing FluCoMa CLI executables --
@@ -13,11 +14,16 @@ local transients_exe = doublequote(transients_suf)
 
 local num_selected_items = reaper.CountSelectedMediaItems(0)
 if num_selected_items > 0 then
-    local captions = "order,blocksize,padsize,skew,threshfwd,threshback,windowsize,clumplength"
-    local caption_defaults = "20, 256, 128, 0.0, 2.0, 1.1, 14, 25"
-    local confirm, user_inputs = reaper.GetUserInputs("Transients Parameters", 8, captions, caption_defaults)
+    local processor = fluid_archetype.transients
+    check_params(processor)
+    local param_names = "order,blocksize,padsize,skew,threshfwd,threshback,windowsize,clumplength"
+    local param_values = parse_params(param_names, processor)
+
+    local confirm, user_inputs = reaper.GetUserInputs("Transients Parameters", 8, param_names, param_values)
     if confirm then 
+        store_params(processor, param_names, user_inputs)
         reaper.Undo_BeginBlock()
+
         -- Algorithm Parameters
         local params = commasplit(user_inputs)
         local order = params[1]
@@ -85,7 +91,7 @@ if num_selected_items > 0 then
 
         -- Execute NMF Process
         for i=1, num_selected_items do
-            reaper.ExecProcess(transients_cmd_t[i], 0)
+            cmdline(transients_cmd_t[i])
         end
         reaper.SelectAllMediaItems(0, 0)
         for i=1, num_selected_items do

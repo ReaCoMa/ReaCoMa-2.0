@@ -1,6 +1,7 @@
 local info = debug.getinfo(1,'S');
 script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
 dofile(script_path .. "FluidUtils.lua")
+dofile(script_path .. "FluidParams.lua")
 
 ------------------------------------------------------------------------------------
 --   Each user MUST point this to their folder containing FluCoMa CLI executables --
@@ -13,8 +14,17 @@ local nmf_exe = doublequote(nmf_suf)
 
 local num_selected_items = reaper.CountSelectedMediaItems(0)
 if num_selected_items > 0 then
-    local confirm, user_inputs = reaper.GetUserInputs("NMF Parameters", 3, "components,iterations,fftsettings", "2, 100, 1024 512 1024")
+
+    -- Parameter Get/Set/Prep
+    local processor = fluid_archetype.nmf
+    check_params(processor)
+    local param_names = "components,iterations,fftsettings"
+    local param_values = parse_params(param_names, processor)
+    
+    local confirm, user_inputs = reaper.GetUserInputs("NMF Parameters", 3, param_names, param_values)
     if confirm then
+        store_params(processor, param_names, user_inputs)
+
         reaper.Undo_BeginBlock()
         -- Algorithm Parameters
         local params = commasplit(user_inputs)
@@ -33,7 +43,6 @@ if num_selected_items > 0 then
         local item_len_samples_t = {}
         local take_ofs_t = {}
         local take_ofs_samples_t = {}
-
 
         for i=1, num_selected_items do
 
@@ -75,7 +84,7 @@ if num_selected_items > 0 then
 
         -- Execute NMF Process
         for i=1, num_selected_items do
-            reaper.ExecProcess(nmf_cmd_t[i], 0)
+            cmdline(nmf_cmd_t[i])
         end
         reaper.SelectAllMediaItems(0, 0)
         for i=1, num_selected_items do

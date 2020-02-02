@@ -1,6 +1,7 @@
 local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
 dofile(script_path .. "FluidUtils.lua")
+dofile(script_path .. "FluidParams.lua")
 
 ------------------------------------------------------------------------------------
 --   Each user MUST point this to their folder containing FluCoMa CLI executables --
@@ -13,8 +14,17 @@ local ns_exe = doublequote(ns_suf)
 
 local num_selected_items = reaper.CountSelectedMediaItems(0)
 if num_selected_items > 0 then
-    local confirm, user_inputs = reaper.GetUserInputs("Novelty Slice Parameters", 5, "feature,threshold,kernelsize,filtersize,fftsettings", "0,0.5,3,1,1024 512 1024")
+
+    -- Parameter Get/Set/Prep
+    local processor = fluid_archetype.noveltyslice
+    check_params(processor)
+    local param_names = "feature,threshold,kernelsize,filtersize,fftsettings"
+    local param_values = parse_params(param_names, processor)
+
+    local confirm, user_inputs = reaper.GetUserInputs("Novelty Slice Parameters", 5, param_names, param_values)
     if confirm then
+        store_params(processor, param_names, user_inputs)
+
         reaper.Undo_BeginBlock()
         -- Algorithm Parameters
         local params = commasplit(user_inputs)
@@ -80,7 +90,7 @@ if num_selected_items > 0 then
 
         -- Fill the table with slice points
         for i=1, num_selected_items do
-            reaper.ExecProcess(ns_cmd_t[i])
+            cmdline(ns_cmd_t[i])
             table.insert(slice_points_string_t, readfile(tmp_idx_t[i]))
         end
 
