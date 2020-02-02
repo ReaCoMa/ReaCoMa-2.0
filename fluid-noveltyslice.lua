@@ -40,7 +40,6 @@ if num_selected_items > 0 then
         local item_len_samples_t = {}
         local ns_cmd_t = {}
         local slice_points_string_t = {}
-        local tmp_file_t = {}
         local tmp_idx_t = {}
         local item_t = {}
         local sr_t = {}
