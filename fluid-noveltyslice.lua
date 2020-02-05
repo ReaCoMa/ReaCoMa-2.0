@@ -49,7 +49,6 @@ if num_selected_items > 0 then
             local sr = reaper.GetMediaSourceSampleRate(src)
             local full_path = reaper.GetMediaSourceFileName(src, '')
             table.insert(item_t, item)
-            table.insert(sr_t, sr)
 
             local tmp_idx = full_path .. i .. "reacoma_tmp.csv"
             table.insert(tmp_idx_t, tmp_idx)
