@@ -46,7 +46,6 @@ if num_selected_items > 0 then
             local full_path = reaper.GetMediaSourceFileName(src, '')
             table.insert(item_t, item)
             
-
             local take_ofs = reaper.GetMediaItemTakeInfo_Value(take, "D_STARTOFFS")
             local item_pos = reaper.GetMediaItemInfo_Value(item, "D_POSITION")
             local item_len = reaper.GetMediaItemInfo_Value(item, "D_LENGTH")

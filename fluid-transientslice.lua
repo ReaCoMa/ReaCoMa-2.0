@@ -44,6 +44,7 @@ if num_selected_items > 0 then
         local slice_points_string_t = {}
         local tmp_idx_t = {}
         local item_t = {}
+        local sr_t = {}
 
         for i=1, num_selected_items do
 
