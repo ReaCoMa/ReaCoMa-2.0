@@ -56,7 +56,7 @@ if num_selected_items > 0 then
             table.insert(item_t, item)
             table.insert(sr_t, sr)
 
-            local tmp_idx = full_path .. i .. "reacoma_tmp.csv"
+            local tmp_idx = full_path .. uuid(i) .. "reacoma_tmp.csv"
             table.insert(tmp_idx_t, tmp_idx)
             
             local take_ofs = reaper.GetMediaItemTakeInfo_Value(take, "D_STARTOFFS")

@@ -34,7 +34,6 @@ if num_selected_items > 0 then
         local magweight = params[4]
         local freqweight = params[5]
         local fftsettings = params[6]
-        local identifier = rmdelim(bandwidth .. threshold .. mintracklen .. magweight .. freqweight .. fftsettings)
 
         local item_t = {}
         local sines_cmd_t = {}
@@ -55,8 +54,8 @@ if num_selected_items > 0 then
 
             -- Now make the name for the separated parts using the offset to create a unique id --
             -- Using the offset means that slices won't share names at the output in the situation where you nmf on segments --
-            table.insert(sines_t, basename(full_path) .. "_sines-s_" .. tostring(take_ofs) .. identifier .. ".wav")
-            table.insert(resid_t, basename(full_path) .. "_sines-r_" .. tostring(take_ofs) .. identifier .. ".wav")
+            table.insert(sines_t, basename(full_path) .. "_sines-s_" .. tostring(take_ofs) .. uuid(i) .. ".wav")
+            table.insert(resid_t, basename(full_path) .. "_sines-r_" .. tostring(take_ofs) .. uuid(i) .. ".wav")
 
             local take_ofs_samples = stosamps(take_ofs, sr)
             local item_pos_samples = stosamps(item_pos, sr)
