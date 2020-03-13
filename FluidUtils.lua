@@ -3,9 +3,8 @@ function DEBUG(string)
     reaper.ShowConsoleMsg("\n")
 end
 
-function uniquecode(idx)
+function uuid(idx)
     local time = tostring(reaper.time_precise()):gsub("%.+", "")
-    
     return time .. idx
 end
 
