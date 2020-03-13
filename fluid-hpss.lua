@@ -34,7 +34,6 @@ if num_selected_items > 0 then
         local fftsettings = params[4]
         local hthresh = params[5]
         local pthresh = params[6]
-        local identifier = rmdelim(hfs .. pfs .. maskingmode .. fftsettings .. hthresh .. pthresh)
 
         local item_t = {}
         local hpss_cmd_t = {}
