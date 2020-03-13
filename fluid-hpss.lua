@@ -56,9 +56,9 @@ if num_selected_items > 0 then
 
             -- Now make the name for the separated parts using the offset to create a unique id --
             -- Using the offset means that slices won't share names at the output in the situation where you process segments --
-            table.insert(harm_t, basename(full_path) .. "_hpss-h_" .. tostring(take_ofs) .. identifier .. ".wav")
-            table.insert(perc_t, basename(full_path) .. "_hpss-p_" .. tostring(take_ofs) .. identifier .. ".wav")
-            if maskingmode == "2" then table.insert(resi_t, basename(full_path) .. "_hpss-r_" .. tostring(take_ofs) .. identifier .. ".wav") end
+            table.insert(harm_t, basename(full_path) .. "_hpss-h_" .. uuid(i) .. ".wav")
+            table.insert(perc_t, basename(full_path) .. "_hpss-p_" .. uuid(i) .. ".wav")
+            if maskingmode == "2" then table.insert(resi_t, basename(full_path) .. "_hpss-r_" .. uuid(i) .. ".wav") end
 
             local take_ofs_samples = stosamps(take_ofs, sr)
             local item_pos_samples = stosamps(item_pos, sr)
