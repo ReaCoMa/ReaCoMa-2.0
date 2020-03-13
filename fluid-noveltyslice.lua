@@ -35,17 +35,12 @@ if num_selected_items > 0 then
         local fftsettings = params[5]
 
         local item_pos_t = {}
-        local item_len_t = {}
-        local item_pos_samples_t = {}
-        local item_len_samples_t = {}
+        local take_ofs_t = {}
         local ns_cmd_t = {}
         local slice_points_string_t = {}
-        local tmp_file_t = {}
         local tmp_idx_t = {}
         local item_t = {}
         local sr_t = {}
-        local take_ofs_t = {}
-        local take_ofs_samples_t = {}
 
         for i=1, num_selected_items do
 
@@ -65,15 +60,11 @@ if num_selected_items > 0 then
             local item_len = reaper.GetMediaItemInfo_Value(item, "D_LENGTH")
             table.insert(take_ofs_t, take_ofs)
             table.insert(item_pos_t, item_pos)
-            table.insert(item_len_t, item_len)
         
             -- Convert everything to samples for CLI --
             local take_ofs_samples = stosamps(take_ofs, sr)
             local item_pos_samples = stosamps(item_pos, sr)
             local item_len_samples = stosamps(item_len, sr)
-            table.insert(take_ofs_samples_t, take_ofs_samples)
-            table.insert(item_pos_samples_t, item_pos_samples)
-            table.insert(item_len_samples_t, item_len_samples)
 
             local ns_cmd = ns_exe .. 
             " -source " .. doublequote(full_path) .. 
