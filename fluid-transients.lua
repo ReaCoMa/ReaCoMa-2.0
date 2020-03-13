@@ -34,7 +34,6 @@ if num_selected_items > 0 then
         local threshback = params[6]
         local windowsize = params[7]
         local clumplength = params[8]
-        local identifier = rmdelim(order .. blocksize .. padsize .. skew .. threshfwd .. threshback .. windowsize .. clumplength)
 
         local item_t = {}
         local transients_cmd_t = {}
@@ -55,8 +54,8 @@ if num_selected_items > 0 then
 
             -- Now make the name for the separated parts using the offset to create a unique id --
             -- Using the offset means that slices won't share names at the output in the situation where you nmf on segments --
-            table.insert(trans_t, basename(full_path) .. "_ts-tra_" .. tostring(take_ofs) .. identifier .. ".wav")
-            table.insert(resid_t, basename(full_path) .. "_ts-res_" .. tostring(take_ofs) .. identifier .. ".wav")
+            table.insert(trans_t, basename(full_path) .. "_ts-tra_" .. tostring(take_ofs) .. uuid(i) .. ".wav")
+            table.insert(resid_t, basename(full_path) .. "_ts-res_" .. tostring(take_ofs) .. uuid(i) .. ".wav")
 
             local take_ofs_samples = stosamps(take_ofs, sr)
             local item_pos_samples = stosamps(item_pos, sr)
