@@ -3,6 +3,12 @@ function DEBUG(string)
     reaper.ShowConsoleMsg("\n")
 end
 
+function uniquecode(idx)
+    local time = tostring(reaper.time_precise()):gsub("%.+", "")
+    
+    return time .. idx
+end
+
 function cmdline(string)
     local opsys = reaper.GetOS()
     if opsys == "Win64" then reaper.ExecProcess(string, 0) end
