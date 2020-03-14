@@ -82,6 +82,17 @@ fluid_archetype = {
         truepeak = "1",
     },
 }
+
+fluid_multitype = {
+    loudness_filter = {
+        name = "FluidMultiTypeLoudnessFilter",
+        operator = ">",
+        threshold = "-24",
+        hopsize = "4410",
+        windowsize = "17640",
+        kweighting = "1",
+        truepeak = "1",
+    },
 }
 
 function check_params(param_table)
