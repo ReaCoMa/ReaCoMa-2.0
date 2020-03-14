@@ -73,7 +73,8 @@ fluid_archetype = {
         filtersize = "1",
         kernelsize = "3",
         threshold = "0.5"
-    }
+    },
+
     loudness = {
         name = "FluidParamLoudness",
         hopsize = "4410",
