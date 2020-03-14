@@ -74,6 +74,14 @@ fluid_archetype = {
         kernelsize = "3",
         threshold = "0.5"
     }
+    loudness = {
+        name = "FluidParamLoudness",
+        hopsize = "4410",
+        windowsize = "17640",
+        kweighting = "1",
+        truepeak = "1",
+    },
+}
 }
 
 function check_params(param_table)
