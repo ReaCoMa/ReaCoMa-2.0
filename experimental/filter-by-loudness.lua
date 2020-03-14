@@ -24,7 +24,6 @@ if num_selected_items > 0 then
     local param_values = parse_params(param_names, processor)
     local confirm, user_inputs = reaper.GetUserInputs("Filter by Loudness", 6, param_names, param_values)
 
-
     if confirm then 
         store_params(processor, param_names, user_inputs)
         reaper.Undo_BeginBlock()
@@ -47,8 +46,6 @@ if num_selected_items > 0 then
         local tmp_file_t = {} -- annoying tmp files made by os.tmpname()
         local tmp_anal_t = {} -- analysis files made by processor
         local tmp_stat_t = {} -- stats files made by fluid.bufstats~
-        local full_path_t = {} -- full paths to media items
-        shape_t = {}
 
         for i=1, num_selected_items do
             local tmp_file = os.tmpname()
@@ -66,7 +63,6 @@ if num_selected_items > 0 then
             
             table.insert(chans_t, reaper.GetMediaSourceNumChannels(src))
             table.insert(item_t, item)
-            table.insert(full_path_t, full_path)
 
             local take_ofs = stosamps(reaper.GetMediaItemTakeInfo_Value(take, "D_STARTOFFS"), sr)
             local item_len = stosamps(reaper.GetMediaItemInfo_Value(item, "D_LENGTH"), sr)
