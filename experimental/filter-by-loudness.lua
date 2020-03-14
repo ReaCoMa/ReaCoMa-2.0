@@ -1,6 +1,7 @@
 local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
-dofile(script_path .. "FluidUtils.lua")
+dofile(script_path .. "../" .. "FluidUtils.lua")
+dofile(script_path .. "../" .. "FluidParams.lua")
 
 --------------------------------------------------------------------------------------------------------------
 
@@ -14,13 +15,18 @@ local fl_exe = doublequote(fl_suf)
 local st_suf = cli_path .. "/fluid-stats"
 local st_exe = doublequote(st_suf)
 ------------------------------------------------------------------------------------
-
 local num_selected_items = reaper.CountSelectedMediaItems(0)
-if num_selected_items ~= 0 then
-    local captions = "operator,amp (dB),windowsize,hopsize,kweighting,truepeak"
-    local caption_defaults = ">,-24,1024,512,1,1"
-    local confirm, user_inputs = reaper.GetUserInputs("Configuration", 6, captions, caption_defaults)
+if num_selected_items > 0 then
+
+    local processor = fluid_multitype.loudness_filter
+    check_params(processor)
+    local param_names = "operator,threshold,hopsize,windowsize,kweighting,truepeak"
+    local param_values = parse_params(param_names, processor)
+    local confirm, user_inputs = reaper.GetUserInputs("Filter by Loudness", 6, param_names, param_values)
+
+
     if confirm then 
+        store_params(processor, param_names, user_inputs)
         reaper.Undo_BeginBlock()
         -- Algorithm Parameters
         local params = commasplit(user_inputs)
@@ -35,8 +41,8 @@ if num_selected_items ~= 0 then
         local item_t = {} -- table of selected items
         local fl_cmd_t = {} -- command line arguments for spectralshape
         local st_cmd_t = {} -- command line arguments for stats
-        chans_t = {}
-        loudness_t = {} -- centroid data   
+        local chans_t = {}
+        local loudness_t = {} -- centroid data   
         local string_data_t = {} -- all the output data as raw strings   
         local tmp_file_t = {} -- annoying tmp files made by os.tmpname()
         local tmp_anal_t = {} -- analysis files made by processor
@@ -46,8 +52,8 @@ if num_selected_items ~= 0 then
 
         for i=1, num_selected_items do
             local tmp_file = os.tmpname()
-            local tmp_anal = tmp_file .. "anal" .. ".wav"
-            local tmp_stat = tmp_file .. "stat" .. ".csv"
+            local tmp_anal = tmp_file .. uuid(i) .. "anal" .. ".wav"
+            local tmp_stat = tmp_file .. uuid(i) .. "stat" .. ".csv"
             table.insert(tmp_file_t, tmp_file)
             table.insert(tmp_anal_t, tmp_anal)
             table.insert(tmp_stat_t, tmp_stat)
@@ -55,7 +61,7 @@ if num_selected_items ~= 0 then
             local item = reaper.GetSelectedMediaItem(0, i-1)
             local take = reaper.GetActiveTake(item)
             local src = reaper.GetMediaItemTake_Source(take)
-            local full_path = reaper.GetMediaSourceFileName(src, '')
+            local full_path = reaper.GetMediaSourceFileName(src, "")
             local sr = reaper.GetMediaSourceSampleRate(src)
             
             table.insert(chans_t, reaper.GetMediaSourceNumChannels(src))
@@ -83,8 +89,8 @@ if num_selected_items ~= 0 then
 
         -- Fill the table with data --
         for i=1, num_selected_items do
-            os.execute(fl_cmd_t[i])
-            os.execute(st_cmd_t[i])
+            cmdline(fl_cmd_t[i])
+            cmdline(st_cmd_t[i])
         end
         
         -- Convert the CSV into a table --
@@ -109,11 +115,9 @@ if num_selected_items ~= 0 then
         end
 
         -- Cleanup --
-        for i=1, num_selected_items do
-            remove_file(tmp_file_t[i])
-            remove_file(tmp_anal_t[i])
-            remove_file(tmp_stat_t[i])
-        end
+        cleanup(tmp_file_t)
+        cleanup(tmp_anal_t)
+        cleanup(tmp_stat_t)
 
         reaper.UpdateArrange()
         reaper.Undo_EndBlock("LoudnessSelect", 0)
