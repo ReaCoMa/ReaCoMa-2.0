@@ -96,9 +96,9 @@ fluid_multitype = {
 }
 
 function check_params(param_table)
-    -- This should only really once per REAPER install
-    -- Otherwise most of this will just run and pass over every check...
-    -- ... deferring to a getter that retrieves what we need
+    -- This should only really run once per REAPER install
+    -- But we do have to do it everytime to ensure each 'type' has defaults ..
+    -- .. and a named place to get/set them from
     local name = param_table.name
     for parameter, value in pairs(param_table) do
         if not reaper.HasExtState(name, parameter) then
