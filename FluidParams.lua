@@ -82,6 +82,11 @@ fluid_archetype = {
         kweighting = "1",
         truepeak = "1",
     },
+
+    shape = {
+        name = "FluidParamShape",
+        fftsettings = "1024 -1 -1",
+    }
 }
 
 fluid_multitype = {
