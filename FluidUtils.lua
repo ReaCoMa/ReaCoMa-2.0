@@ -1,9 +1,9 @@
+Fluid = {}
+
 function DEBUG(string)
     reaper.ShowConsoleMsg(string)
     reaper.ShowConsoleMsg("\n")
 end
-
-Fluid = {}
 
 function uuid(idx)
     local time = tostring(reaper.time_precise()):gsub("%.+", "")
