@@ -38,8 +38,9 @@ if num_selected_items > 0 then
         local item_t = {} -- table of selected items
         local fl_cmd_t = {} -- command line arguments for spectralshape
         local st_cmd_t = {} -- command line arguments for stats
-        take_ofs_t = {}
-        item_len_t = {}
+        local take_ofs_t = {}
+        local item_len_t = {}
+        local item_pos_t = {}
         local chans_t = {}
         local loudness_t = {} -- centroid data   
         local string_data_t = {} -- all the output data as raw strings   
@@ -49,13 +50,7 @@ if num_selected_items > 0 then
         local sorted_items = {}
 
         for i=1, num_selected_items do
-            local tmp_file = os.tmpname()
-            local tmp_anal = tmp_file .. uuid(i) .. "anal" .. ".wav"
-            local tmp_stat = tmp_file .. uuid(i) .. "stat" .. ".csv"
-            table.insert(tmp_file_t, tmp_file)
-            table.insert(tmp_anal_t, tmp_anal)
-            table.insert(tmp_stat_t, tmp_stat)
-
+            
             local item = reaper.GetSelectedMediaItem(0, i-1)
             local take = reaper.GetActiveTake(item)
             local src = reaper.GetMediaItemTake_Source(take)
@@ -65,10 +60,17 @@ if num_selected_items > 0 then
             table.insert(chans_t, reaper.GetMediaSourceNumChannels(src))
             table.insert(item_t, item)
 
+            local tmp_anal = full_path .. uuid(i) .. "loudness" .. ".wav"
+            local tmp_stat = full_path .. uuid(i) .. "stat" .. ".csv"
+            table.insert(tmp_anal_t, tmp_anal)
+            table.insert(tmp_stat_t, tmp_stat)
+            
             local take_ofs = stosamps(reaper.GetMediaItemTakeInfo_Value(take, "D_STARTOFFS"), sr)
             local item_len = stosamps(reaper.GetMediaItemInfo_Value(item, "D_LENGTH"), sr)
+            local item_pos = reaper.GetMediaItemInfo_Value(item, "D_POSITION")
             table.insert(take_ofs_t, take_ofs)
             table.insert(item_len_t, item_len)
+            table.insert(item_pos_t, item_pos)
 
             local fl_cmd = fl_exe .. 
             " -source " .. doublequote(full_path) .. 
@@ -115,15 +117,30 @@ if num_selected_items > 0 then
             table.insert(sorted_items, k)
         end
 
+        -- CONTIGUOUS ITEMS MODE --
         -- This can eventually just be merged with the above function
-        accum_offset = 0
+        -- accum_offset = item_pos_t[1]
+        
+        -- for i=1, #sorted_items do
+            
+        --     local index = sorted_items[i]
+        --     local item = item_t[index]
+        --     local len = reaper.GetMediaItemInfo_Value(item, "D_LENGTH")
+            
+        --     reaper.SetMediaItemInfo_Value(item, "D_POSITION", accum_offset)
+        --     accum_offset = accum_offset + len
+        -- end
+
+        -- POSITION REPLACEMENT MODE --
         for i=1, #sorted_items do
             
             local index = sorted_items[i]
-            local offset = take_ofs_t[index]
-            DEBUG(offset)
-
+            local item = item_t[index]
+            local unordered_pos = item_pos_t[i]
+            
+            reaper.SetMediaItemInfo_Value(item, "D_POSITION", unordered_pos)
         end
+
 
         cleanup(tmp_file_t)
         cleanup(tmp_anal_t)
