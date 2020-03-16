@@ -5,6 +5,14 @@ function DEBUG(string)
     reaper.ShowConsoleMsg("\n")
 end
 
+function Fluid.descending(t, a, b)
+    return t[b] < t[a] 
+end
+
+function Fluid.ascending(t, a, b)
+    return t[a] < t[b] 
+end
+
 function uuid(idx)
     local time = tostring(reaper.time_precise()):gsub("%.+", "")
     return time .. idx

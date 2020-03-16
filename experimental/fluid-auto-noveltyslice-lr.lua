@@ -1,6 +1,7 @@
 local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
-dofile(script_path .. "FluidUtils.lua")
+dofile(script_path .. "../" .. "FluidUtils.lua")
+dofile(script_path .. "../" .. "FluidParams.lua")
 
 ------------------------------------------------------------------------------------
 if sanity_check() == false then goto exit; end
@@ -14,7 +15,7 @@ local ns_exe = doublequote(ns_suf)
 ------------------------------------------------------------------------------------
 -- Some scripts specific to this kind of automatic processing --
 function noveltyslice(source, indices, feature, threshold, kernelsize, filtersize, fftsettings)
-    os.execute(
+    cmdline(
         ns_exe ..
         " -source " .. source ..
         " -indices " .. indices ..
