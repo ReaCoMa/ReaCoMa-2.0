@@ -114,14 +114,16 @@ if num_selected_items > 0 then
             table.insert(loudness_t, tonumber(lookup))
         end
 
-        for k, v in Fluid.spairs(loudness_t, function(t,a,b) return t[a] < t[b] end) do
+        -- sortfunc = function(t, a, b) return t[a] < t[b] end
+        sortfunc = Fluid.ascending
+        for k, v in Fluid.spairs(loudness_t, sortfunc) do
             table.insert(sorted_items, k)
         end
-
+        
         -- CONTIGUOUS ITEMS MODE --
         -- This can eventually just be merged with the above function
-        accum_offset = item_pos_t[1]
         
+        accum_offset = item_pos_t[1]
         for i=1, #sorted_items do
             
             local index = sorted_items[i]
