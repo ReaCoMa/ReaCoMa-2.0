@@ -13,6 +13,7 @@ SlicingContainer = {
     slice_points_string = {},
     tmp = {},
     item = {},
+    reverse = {},
     sr = {},
     playrate = {}
 }
@@ -25,10 +26,23 @@ function get_slice_data(item_index, data)
     local item = reaper.GetSelectedMediaItem(0, item_index-1)
     local take = reaper.GetActiveTake(item)
     local src = reaper.GetMediaItemTake_Source(take)
-    local sr = reaper.GetMediaSourceSampleRate(src)
-    local full_path = reaper.GetMediaSourceFileName(src, "")
+    local src_parent = reaper.GetMediaSourceParent(src)
+    local sr = nil
+    local full_path = nil
     
-    local tmp_idx = full_path .. uuid(item_index) .. "fs.csv"
+
+    -- This accounts for reversed samples
+    if src_parent ~= nil then
+        sr = reaper.GetMediaSourceSampleRate(src_parent)
+        full_path = reaper.GetMediaSourceFileName(src_parent, "")
+        table.insert(data.reverse, true)
+    else
+        sr = reaper.GetMediaSourceSampleRate(src)
+        full_path = reaper.GetMediaSourceFileName(src, "")
+        table.insert(data.reverse, false)
+    end
+    
+    local tmp = full_path .. uuid(item_index) .. "fs.csv"
 
     local take_ofs = reaper.GetMediaItemTakeInfo_Value(take, "D_STARTOFFS")
     local item_pos = reaper.GetMediaItemInfo_Value(item, "D_POSITION")
@@ -52,17 +66,35 @@ function get_slice_data(item_index, data)
     table.insert(data.item_pos, item_pos)
     table.insert(data.item_pos_samples, item_pos_samples)
     table.insert(data.item_len_samples, item_len_samples)
-    table.insert(data.tmp, tmp_idx)
+    table.insert(data.tmp, tmp)
     table.insert(data.playrate, playrate)
 end
 
 function perform_splitting(item_index, data)
-    local slice_points = commasplit(data.slice_points_string[item_index])
+    slice_points = commasplit(data.slice_points_string[item_index])
+    if data.reverse[item_index] then
+        for i=1, #slice_points do
+            slice_points[i] = data.item_len_samples[item_index] - slice_points[i]
+        end
+    end
     for j=2, #slice_points do
-        slice_pos = sampstos(tonumber(slice_points[j]), data.sr[item_index])
+        local slice_index = nil
+        if data.reverse[item_index] then 
+            slice_index = (#slice_points+1) - (j-1)
+        else
+            slice_index = j
+        end
+        slice_pos = sampstos(
+            tonumber(slice_points[slice_index]), 
+            data.sr[item_index]
+        )
+
         slice_pos = slice_pos * (1.0 / data.playrate[item_index]) -- account for playback rate
+        DEBUG(slice_pos)
+
         data.item[item_index] = reaper.SplitMediaItem(
-            data.item[item_index], data.item_pos[item_index] + (slice_pos - data.take_ofs[item_index])
+            data.item[item_index], 
+            data.item_pos[item_index] + (slice_pos - data.take_ofs[item_index])
         )
     end
 end
