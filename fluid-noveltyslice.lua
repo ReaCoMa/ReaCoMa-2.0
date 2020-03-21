@@ -49,12 +49,15 @@ if num_selected_items > 0 then
             " -fftsettings " .. fftsettings .. 
             " -numframes " .. data.item_len_samples[i] .. 
             " -startframe " .. data.take_ofs_samples[i]
-
             table.insert(data.cmd, cmd)
+        end
+
+        for i=1, num_selected_items do
             cmdline(data.cmd[i])
             table.insert(data.slice_points_string, readfile(data.tmp[i]))
             perform_splitting(i, data)
         end
+
         reaper.UpdateArrange()
         reaper.Undo_EndBlock("noveltyslice", 0)
         cleanup(data.tmp)
