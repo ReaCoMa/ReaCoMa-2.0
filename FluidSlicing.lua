@@ -17,7 +17,7 @@ SlicingContainer = {
     playrate = {}
 }
 
-function get_data(item_index, data)
+function get_slice_data(item_index, data)
     -- Function to grab all essential information from media item --
     -- item_index is passed from num_selected_items
     -- data_table is a container for the tables of data

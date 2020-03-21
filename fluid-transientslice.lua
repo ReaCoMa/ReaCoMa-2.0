@@ -42,7 +42,7 @@ if num_selected_items > 0 then
         data = SlicingContainer
 
         for i=1, num_selected_items do
-            get_data(i, data)
+            get_slice_data(i, data)
 
             local cmd = exe .. 
             " -source " .. doublequote(data.full_path[i]) .. 
@@ -66,7 +66,7 @@ if num_selected_items > 0 then
             table.insert(data.slice_points_string, readfile(data.tmp[i]))
             perform_splitting(i, data)
         end
-        
+
         reaper.UpdateArrange()
         reaper.Undo_EndBlock("transientslice", 0)
         cleanup(data.tmp)

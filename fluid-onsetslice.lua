@@ -39,7 +39,7 @@ if num_selected_items > 0 then
         data = SlicingContainer
 
         for i=1, num_selected_items do
-            get_data(i, data)
+            get_slice_data(i, data)
 
             local cmd = exe .. 
             " -source " .. doublequote(data.full_path[i]) .. 
