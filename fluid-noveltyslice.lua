@@ -75,7 +75,7 @@ if num_selected_items > 0 then
             -- Convert everything to samples for CLI --
             local take_ofs_samples = stosamps(take_ofs, sr)
             local item_pos_samples = stosamps(item_pos, sr)
-            local item_len_samples = stosamps(item_len, sr) * playback_rate
+            local item_len_samples = math.floor(stosamps(item_len, sr) * playback_rate)
 
             local ns_cmd = ns_exe .. 
             " -source " .. doublequote(full_path) .. 
