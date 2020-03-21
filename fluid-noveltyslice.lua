@@ -41,6 +41,7 @@ if num_selected_items > 0 then
         local tmp_idx_t = {}
         local item_t = {}
         local sr_t = {}
+        local pr_t = {}
 
         for i=1, num_selected_items do
 
@@ -51,15 +52,30 @@ if num_selected_items > 0 then
             local full_path = reaper.GetMediaSourceFileName(src, '')
             table.insert(item_t, item)
             table.insert(sr_t, sr)
-
-            local tmp_idx = full_path .. uuid(i) .. "reacoma_tmp.csv"
-            table.insert(tmp_idx_t, tmp_idx)
             
+            local tmp_idx = full_path .. uuid(i) .. "ns.csv"
+            table.insert(tmp_idx_t, tmp_idx)
+             
             local take_ofs = reaper.GetMediaItemTakeInfo_Value(take, "D_STARTOFFS")
             local item_pos = reaper.GetMediaItemInfo_Value(item, "D_POSITION")
             local item_len = reaper.GetMediaItemInfo_Value(item, "D_LENGTH")
+            local src_len = reaper.GetMediaSourceLength(src)
+            local playback_rate = reaper.GetMediaItemTakeInfo_Value(take, "D_PLAYRATE")
+            table.insert(pr_t, playback_rate)
+
+            -- MULTIPLY THE NUMFRAMES and the STARTFRAMES(?) by the playback rate
+
+            if (item_len + take_ofs) > src_len then item_len = src_len end
+
             table.insert(take_ofs_t, take_ofs)
             table.insert(item_pos_t, item_pos)
+
+        
+            -- if (item_len + take_ofs) > src_len then
+            --     DEBUG('1')
+            -- else
+            --     DEBUG('0')
+            -- end
         
             -- Convert everything to samples for CLI --
             local take_ofs_samples = stosamps(take_ofs, sr)
@@ -76,6 +92,8 @@ if num_selected_items > 0 then
             " -fftsettings " .. fftsettings .. 
             " -numframes " .. item_len_samples .. 
             " -startframe " .. take_ofs_samples
+            DEBUG(take_ofs_samples)
+
             table.insert(ns_cmd_t, ns_cmd)
         end
 
@@ -89,15 +107,15 @@ if num_selected_items > 0 then
         for i=1, num_selected_items do
             local slice_points = commasplit(slice_points_string_t[i])
             for j=2, #slice_points do
-                slice_pos = sampstos(
-                    tonumber(slice_points[j]), sr_t[i]
-                )
+                slice_pos = sampstos(tonumber(slice_points[j]), sr_t[i])
+                slice_pos = slice_pos * (1.0 / pr_t[i]) -- account for playback rate
+                -- Dont send out of bounds slices...
                 item_t[i] = reaper.SplitMediaItem(item_t[i], item_pos_t[i] + (slice_pos - take_ofs_t[i]))
             end
         end
         reaper.UpdateArrange()
         reaper.Undo_EndBlock("noveltyslice", 0)
-        cleanup(tmp_idx_t)
+        -- cleanup(tmp_idx_t)
     end
 end
 ::exit::
