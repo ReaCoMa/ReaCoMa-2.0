@@ -16,6 +16,7 @@ LayersContainer = {
     sr = {},
     playrate = {},
     playtype = {},
+    reverse = {},
     outputs = {},
 }
 
@@ -27,8 +28,19 @@ function get_layers_data(item_index, data)
     local item = reaper.GetSelectedMediaItem(0, item_index-1)
     local take = reaper.GetActiveTake(item)
     local src = reaper.GetMediaItemTake_Source(take)
-    local sr = reaper.GetMediaSourceSampleRate(src)
-    local full_path = reaper.GetMediaSourceFileName(src, "")
+    local src_parent = reaper.GetMediaSourceParent(src)
+    local sr = nil
+    local full_path = nil
+    
+    if src_parent ~= nil then
+        sr = reaper.GetMediaSourceSampleRate(src_parent)
+        full_path = reaper.GetMediaSourceFileName(src_parent, "")
+        table.insert(data.reverse, true)
+    else
+        sr = reaper.GetMediaSourceSampleRate(src)
+        full_path = reaper.GetMediaSourceFileName(src, "")
+        table.insert(data.reverse, false)
+    end
 
     local take_ofs = reaper.GetMediaItemTakeInfo_Value(take, "D_STARTOFFS")
     local item_pos = reaper.GetMediaItemInfo_Value(item, "D_POSITION")
