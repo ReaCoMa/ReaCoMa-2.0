@@ -61,7 +61,6 @@ if num_selected_items > 0 then
             local item_len = reaper.GetMediaItemInfo_Value(item, "D_LENGTH")
             table.insert(take_ofs_t, take_ofs)
             table.insert(item_pos_t, item_pos)
-
         
             -- Convert everything to samples for CLI --
             local take_ofs_samples = stosamps(take_ofs, sr)
