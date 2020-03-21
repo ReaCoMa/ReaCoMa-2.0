@@ -9,8 +9,8 @@ dofile(script_path .. "FluidSlicing.lua")
 if sanity_check() == false then goto exit; end
 local cli_path = get_fluid_path()
 --   Then we form some calls to the tools that will live in that folder --
-local ns_suf = cli_path .. "/fluid-noveltyslice"
-local ns_exe = doublequote(ns_suf)
+local suf = cli_path .. "/fluid-noveltyslice"
+local exe = doublequote(suf)
 ------------------------------------------------------------------------------------
 
 local num_selected_items = reaper.CountSelectedMediaItems(0)
@@ -27,22 +27,19 @@ if num_selected_items > 0 then
         store_params(processor, param_names, user_inputs)
 
         reaper.Undo_BeginBlock()
-        -- Algorithm Parameters
         local params = commasplit(user_inputs)
         local feature = params[1]
         local threshold = params[2]
         local kernelsize = params[3]
         local filtersize = params[4]
         local fftsettings = params[5]
-
+        
         data = SlicingContainer
 
         for i=1, num_selected_items do
-            -- Get
             get_data(i, data)
             
-            -- Define the call to the command line from info
-            local cmd = ns_exe .. 
+            local cmd = exe .. 
             " -source " .. doublequote(data.full_path[i]) .. 
             " -indices " .. doublequote(data.tmp[i]) .. 
             " -feature " .. feature .. 
