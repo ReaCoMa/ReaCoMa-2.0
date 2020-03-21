@@ -44,8 +44,7 @@ function cleanup(path_table)
 end
 
 function capture(cmd, raw)
-    -- How to use
-    -- local output = capture("ls", false)
+    -- usage: local output = capture("ls", false)
     local f = assert(io.popen(cmd, 'r'))
     local s = assert(f:read('*a'))
     f:close()
@@ -56,7 +55,6 @@ function capture(cmd, raw)
     return s
 end
 
--- Used for reading CSV files into a variable --
 function readfile(file)
     local f = assert(io.open(file, "r"))
     local content = f:read("*all")
@@ -101,7 +99,7 @@ end
 
 function doublequote(input_string)
     return '"'..input_string..'"'
-  end
+end
 
 ---------- Custom operators ----------
 matchers = {
