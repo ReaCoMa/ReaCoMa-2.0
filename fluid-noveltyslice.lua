@@ -65,22 +65,17 @@ if num_selected_items > 0 then
 
             -- MULTIPLY THE NUMFRAMES and the STARTFRAMES(?) by the playback rate
 
+            -- This line caps the analysis at one loop
             if (item_len + take_ofs) > src_len then item_len = src_len end
 
             table.insert(take_ofs_t, take_ofs)
             table.insert(item_pos_t, item_pos)
 
         
-            -- if (item_len + take_ofs) > src_len then
-            --     DEBUG('1')
-            -- else
-            --     DEBUG('0')
-            -- end
-        
             -- Convert everything to samples for CLI --
             local take_ofs_samples = stosamps(take_ofs, sr)
             local item_pos_samples = stosamps(item_pos, sr)
-            local item_len_samples = stosamps(item_len, sr)
+            local item_len_samples = stosamps(item_len, sr) * playback_rate
 
             local ns_cmd = ns_exe .. 
             " -source " .. doublequote(full_path) .. 
@@ -92,7 +87,8 @@ if num_selected_items > 0 then
             " -fftsettings " .. fftsettings .. 
             " -numframes " .. item_len_samples .. 
             " -startframe " .. take_ofs_samples
-            DEBUG(take_ofs_samples)
+
+            DEBUG(ns_cmd)
 
             table.insert(ns_cmd_t, ns_cmd)
         end
