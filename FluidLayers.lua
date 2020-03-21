@@ -29,7 +29,6 @@ function get_layers_data(item_index, data)
     local src = reaper.GetMediaItemTake_Source(take)
     local sr = reaper.GetMediaSourceSampleRate(src)
     local full_path = reaper.GetMediaSourceFileName(src, "")
-    
 
     local take_ofs = reaper.GetMediaItemTakeInfo_Value(take, "D_STARTOFFS")
     local item_pos = reaper.GetMediaItemInfo_Value(item, "D_POSITION")
@@ -58,6 +57,7 @@ function get_layers_data(item_index, data)
     table.insert(data.playrate, playrate)
     table.insert(data.playtype, playtype)
 end
+
 
 function perform_layers(item_index, data)
     if item_index > 1 then reaper.SetMediaItemSelected(data.item[item_index-1], false) end
