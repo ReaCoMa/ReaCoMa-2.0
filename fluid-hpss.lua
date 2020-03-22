@@ -3,7 +3,6 @@ local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
 dofile(script_path .. "/FluidPlumbing/" .. "FluidUtils.lua")
 dofile(script_path .. "/FluidPlumbing/" .. "FluidParams.lua")
 dofile(script_path .. "/FluidPlumbing/" .. "FluidLayers.lua")
-dofile(script_path .. "/FluidPlumbing/" .. "OrderedTables.lua")
 
 ------------------------------------------------------------------------------------
 --   Each user MUST point this to their folder containing FluCoMa CLI executables --
