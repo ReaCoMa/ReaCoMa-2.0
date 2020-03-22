@@ -77,9 +77,9 @@ if num_selected_items > 0 then
                 table.insert(
                     data.cmd, 
                     exe .. 
-                    " -source " .. data.full_path[i] .. 
-                    " -harmonic " .. data.outputs.harmonic[i] .. 
-                    " -percussive " .. data.outputs.percussive[i] ..  
+                    " -source " .. doublequote(data.full_path[i]) .. 
+                    " -harmonic " .. doublequote(data.outputs.harmonic[i]) .. 
+                    " -percussive " .. doublequote(data.outputs.percussive[i]) ..  
                     " -harmfiltersize " .. hfs .. 
                     " -percfiltersize " .. pfs .. 
                     " -maskingmode " .. maskingmode ..
