@@ -21,10 +21,6 @@ LayersContainer = {
 }
 
 function get_layers_data(item_index, data)
-    -- Function to grab all essential information from media item --
-    -- item_index is passed from num_selected_items
-    -- data_table is a container for the tables of data
-
     local item = reaper.GetSelectedMediaItem(0, item_index-1)
     local take = reaper.GetActiveTake(item)
     local src = reaper.GetMediaItemTake_Source(take)
@@ -50,7 +46,7 @@ function get_layers_data(item_index, data)
     local playtype  = reaper.GetMediaItemTakeInfo_Value(take, "I_PITCHMODE")
     
     if data.reverse[item_index] then
-        take_ofs = math.abs(src_len - (item_len + take_ofs))
+        take_ofs = math.abs((src_len - (item_len * playrate)) + take_ofs)
     end
 
     -- This line caps the analysis at one loop
