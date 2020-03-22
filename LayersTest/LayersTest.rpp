@@ -1,4 +1,4 @@
-<REAPER_PROJECT 0.1 "6.03/x64" 1584896560
+<REAPER_PROJECT 0.1 "6.03/x64" 1584902867
   RIPPLE 0
   GROUPOVERRIDE 0 0 0
   AUTOXFADE 1
@@ -10,12 +10,12 @@
   PANLAW 1
   PROJOFFS 0 0 0
   MAXPROJLEN 0 600
-  GRID 5503 8 1 8 1 0 0 0
+  GRID 5247 8 1 8 1 0 0 0
   TIMEMODE 1 5 -1 30 0 0 -1
   VIDEO_CONFIG 0 0 256
   PANMODE 3
-  CURSOR 3.24
-  ZOOM 100.00000000000026 0 0
+  CURSOR 20
+  ZOOM 35.85960413809076 0 0
   VZOOMEX 4
   USE_REC_CFG 0
   RECMODE 1
@@ -60,7 +60,7 @@
   MASTERAUTOMODE 0
   MASTERTRACKHEIGHT 0 0
   MASTERPEAKCOL 16576
-  MASTERMUTESOLO 0
+  MASTERMUTESOLO 1
   MASTERTRACKVIEW 0 0.6667 0.5 0.5 0 0 0 0 0 0
   MASTERHWOUT 0 0 1 0 0 0 0 -1
   MASTER_NCH 2 2
@@ -75,7 +75,7 @@
     DEFSHAPE 0 -1 -1
   >
   <TEMPOENVEX
-    ACT 1 -1
+    ACT 0 -1
     VIS 1 0 1
     LANEHEIGHT 0 0
     ARM 0
@@ -99,7 +99,7 @@
     SEL 0
     REC 0 0 1 0 0 0 0
     VU 2
-    TRACKHEIGHT 68 0 0
+    TRACKHEIGHT 67 0 0
     INQ 0 0 0 0.5 100 0 0 100
     NCHAN 2
     FX 1
@@ -108,25 +108,25 @@
     MIDIOUT -1
     MAINSEND 1 0
     <ITEM
-      POSITION 4.01000000000931
+      POSITION 3.5
       SNAPOFFS 0
-      LENGTH 9.92673880806015
+      LENGTH 4
       LOOP 1
       ALLTAKES 0
       FADEIN 1 0.01 0 1 0 0
-      FADEOUT 1 0.01 0 1 0 0
+      FADEOUT 1 0 0 1 0 0
       MUTE 0
       SEL 0
-      IGUID {857D2630-AE56-49CF-958F-272DE519AA43}
-      IID 214
-      NAME untitled.wav
+      IGUID {AF5F4F8C-6354-4A4F-8DD8-CD6F3F6C9F4E}
+      IID 285
+      NAME LayersTestSrc.wav
       VOLPAN 1 0 1 -1
       SOFFS 0
       PLAYRATE 1 1 0 -1 0 0.0025
       CHANMODE 0
-      GUID {54C80C3D-6C7F-4394-9094-ABDF86FC2088}
+      GUID {484BB970-D179-4867-B257-0A3D7D71497F}
       <SOURCE WAVE
-        FILE "untitled.wav"
+        FILE "LayersTestSrc.wav"
       >
     >
   >
@@ -146,7 +146,7 @@
     SEL 0
     REC 0 0 1 0 0 0 0
     VU 2
-    TRACKHEIGHT 68 0 0
+    TRACKHEIGHT 67 0 0
     INQ 0 0 0 0.5 100 0 0 100
     NCHAN 2
     FX 1
@@ -155,25 +155,25 @@
     MIDIOUT -1
     MAINSEND 1 0
     <ITEM
-      POSITION 4.88
+      POSITION 4
       SNAPOFFS 0
-      LENGTH 9.05673880806951
+      LENGTH 3.5
       LOOP 1
       ALLTAKES 0
       FADEIN 1 0.01 0 1 0 0
-      FADEOUT 1 0.01 0 1 0 0
+      FADEOUT 1 0 0 1 0 0
       MUTE 0
       SEL 0
-      IGUID {34B09037-F91A-480A-9610-AA20F350C9EC}
-      IID 214
-      NAME untitled.wav
+      IGUID {0E90F8A0-9E29-4D96-95B2-4441536337BD}
+      IID 286
+      NAME LayersTestSrc.wav
       VOLPAN 1 0 1 -1
-      SOFFS 0.86999999999068
+      SOFFS 0.5
       PLAYRATE 1 1 0 -1 0 0.0025
       CHANMODE 0
-      GUID {D271AC2F-028F-4A06-8CA3-9613FF14E2C3}
+      GUID {9442F5C8-E26A-4298-9A3D-7D0452322148}
       <SOURCE WAVE
-        FILE "untitled.wav"
+        FILE "LayersTestSrc.wav"
       >
     >
   >
@@ -193,7 +193,7 @@
     SEL 0
     REC 0 0 1 0 0 0 0
     VU 2
-    TRACKHEIGHT 68 0 0
+    TRACKHEIGHT 67 0 0
     INQ 0 0 0 0.5 100 0 0 100
     NCHAN 2
     FX 1
@@ -202,25 +202,25 @@
     MIDIOUT -1
     MAINSEND 1 0
     <ITEM
-      POSITION 4.01000000000932
+      POSITION 3.5
       SNAPOFFS 0
-      LENGTH 8.79340547471749
+      LENGTH 3.5
       LOOP 1
       ALLTAKES 0
       FADEIN 1 0.01 0 1 0 0
       FADEOUT 1 0.01 0 1 0 0
       MUTE 0
       SEL 0
-      IGUID {E12378D8-9039-4CAA-BD8F-6E4C92B9CE3A}
-      IID 214
-      NAME untitled.wav
+      IGUID {916CF3E0-AAE2-4686-8D76-E47DF448CC41}
+      IID 287
+      NAME LayersTestSrc.wav
       VOLPAN 1 0 1 -1
       SOFFS 0
       PLAYRATE 1 1 0 -1 0 0.0025
       CHANMODE 0
-      GUID {EC655590-E53B-43D0-9C21-10F3509D8B1A}
+      GUID {DE162184-F065-4CE4-9704-46075A071221}
       <SOURCE WAVE
-        FILE "untitled.wav"
+        FILE "LayersTestSrc.wav"
       >
     >
   >
@@ -240,7 +240,7 @@
     SEL 0
     REC 0 0 1 0 0 0 0
     VU 2
-    TRACKHEIGHT 68 0 0
+    TRACKHEIGHT 67 0 0
     INQ 0 0 0 0.5 100 0 0 100
     NCHAN 2
     FX 1
@@ -249,25 +249,25 @@
     MIDIOUT -1
     MAINSEND 1 0
     <ITEM
-      POSITION 5.65
+      POSITION 4
       SNAPOFFS 0
-      LENGTH 6.54340547472682
+      LENGTH 3
       LOOP 1
       ALLTAKES 0
       FADEIN 1 0.01 0 1 0 0
       FADEOUT 1 0.01 0 1 0 0
       MUTE 0
       SEL 0
-      IGUID {5969EA09-59FA-4281-BFA3-1AF88FC8A65E}
-      IID 214
-      NAME untitled.wav
+      IGUID {432C1BB2-96F1-4F36-A0C6-80B80D62C523}
+      IID 288
+      NAME LayersTestSrc.wav
       VOLPAN 1 0 1 -1
-      SOFFS 1.63999999999067
+      SOFFS 0.5
       PLAYRATE 1 1 0 -1 0 0.0025
       CHANMODE 0
-      GUID {1495FB5D-96C0-46D8-8572-23CB761C31AE}
+      GUID {921008BA-9CA4-4879-963A-3FA97C692BFB}
       <SOURCE WAVE
-        FILE "untitled.wav"
+        FILE "LayersTestSrc.wav"
       >
     >
   >
@@ -277,7 +277,7 @@
     BEAT -1
     AUTOMODE 0
     VOLPAN 1 0 -1 -1 1
-    MUTESOLO 0 0 0
+    MUTESOLO 0 2 0
     IPHASE 0
     PLAYOFFS 0 1
     ISBUS 0 0
@@ -287,7 +287,7 @@
     SEL 0
     REC 0 0 1 0 0 0 0
     VU 2
-    TRACKHEIGHT 68 0 0
+    TRACKHEIGHT 82 0 0
     INQ 0 0 0 0.5 100 0 0 100
     NCHAN 2
     FX 1
@@ -296,25 +296,25 @@
     MIDIOUT -1
     MAINSEND 1 0
     <ITEM
-      POSITION 4.01000000000932
+      POSITION 3.5
       SNAPOFFS 0
-      LENGTH 9.92673880806015
+      LENGTH 8
       LOOP 1
       ALLTAKES 0
       FADEIN 1 0.01 0 1 0 0
-      FADEOUT 1 0.01 0 1 0 0
+      FADEOUT 1 0 0 1 0 0
       MUTE 0
       SEL 0
-      IGUID {5EE00D64-B5B3-451D-AEA6-7AF7DB0B1C30}
-      IID 214
-      NAME untitled.wav
+      IGUID {2712401D-8BED-4FCB-A0D2-1701C930FA2B}
+      IID 289
+      NAME LayersTestSrc.wav
       VOLPAN 1 0 1 -1
       SOFFS 0
-      PLAYRATE 0.8 1 0 -1 0 0.0025
+      PLAYRATE 0.5 1 0 -1 0 0.0025
       CHANMODE 0
-      GUID {E3914E56-17F0-4597-8C53-84832532D71B}
+      GUID {B3371CA9-75FF-4887-AD77-1BD7486E97BA}
       <SOURCE WAVE
-        FILE "untitled.wav"
+        FILE "LayersTestSrc.wav"
       >
     >
   >
@@ -331,10 +331,10 @@
     BUSCOMP 0 0 0 0 0
     SHOWINMIX 1 0.6667 0.5 1 0.5 0 0 0
     FREEMODE 0
-    SEL 0
+    SEL 1
     REC 0 0 1 0 0 0 0
     VU 2
-    TRACKHEIGHT 68 0 0
+    TRACKHEIGHT 67 0 0
     INQ 0 0 0 0.5 100 0 0 100
     NCHAN 2
     FX 1
@@ -343,25 +343,25 @@
     MIDIOUT -1
     MAINSEND 1 0
     <ITEM
-      POSITION 4.88
+      POSITION 4
       SNAPOFFS 0
-      LENGTH 9.05673880806951
+      LENGTH 7.5
       LOOP 1
       ALLTAKES 0
       FADEIN 1 0.01 0 1 0 0
-      FADEOUT 1 0.01 0 1 0 0
+      FADEOUT 1 0 0 1 0 0
       MUTE 0
       SEL 0
-      IGUID {3AE1AA26-9AA9-4558-A110-3AAA4175A8B2}
-      IID 214
-      NAME untitled.wav
+      IGUID {EEB7C77E-5A63-4C7B-B9B7-E587D9BC0D35}
+      IID 290
+      NAME LayersTestSrc.wav
       VOLPAN 1 0 1 -1
-      SOFFS 0.86999999999068
-      PLAYRATE 0.8 1 0 -1 0 0.0025
+      SOFFS 0.25
+      PLAYRATE 0.5 1 0 -1 0 0.0025
       CHANMODE 0
-      GUID {3A762472-A81A-4BE1-A269-E3EAB6FB5B74}
+      GUID {012795E6-A4ED-46B2-8357-DCB6C0AC6761}
       <SOURCE WAVE
-        FILE "untitled.wav"
+        FILE "LayersTestSrc.wav"
       >
     >
   >
@@ -381,7 +381,7 @@
     SEL 0
     REC 0 0 1 0 0 0 0
     VU 2
-    TRACKHEIGHT 68 0 0
+    TRACKHEIGHT 67 0 0
     INQ 0 0 0 0.5 100 0 0 100
     NCHAN 2
     FX 1
@@ -390,25 +390,25 @@
     MIDIOUT -1
     MAINSEND 1 0
     <ITEM
-      POSITION 4.01000000000932
+      POSITION 3.5
       SNAPOFFS 0
-      LENGTH 8.79340547471748
+      LENGTH 7.5
       LOOP 1
       ALLTAKES 0
       FADEIN 1 0.01 0 1 0 0
       FADEOUT 1 0.01 0 1 0 0
       MUTE 0
       SEL 0
-      IGUID {DE01950B-32B0-4C0E-B8D7-4F7E4498F62A}
-      IID 214
-      NAME untitled.wav
+      IGUID {D09D01C6-8EBC-498D-8FAE-83163F876CEA}
+      IID 291
+      NAME LayersTestSrc.wav
       VOLPAN 1 0 1 -1
       SOFFS 0
-      PLAYRATE 0.8 1 0 -1 0 0.0025
+      PLAYRATE 0.5 1 0 -1 0 0.0025
       CHANMODE 0
-      GUID {1C925976-57A4-4F0B-98AF-DBA7C0D20A68}
+      GUID {0E492CDF-F321-49F2-8624-7898B99139D1}
       <SOURCE WAVE
-        FILE "untitled.wav"
+        FILE "LayersTestSrc.wav"
       >
     >
   >
@@ -425,10 +425,10 @@
     BUSCOMP 0 0 0 0 0
     SHOWINMIX 1 0.6667 0.5 1 0.5 0 0 0
     FREEMODE 0
-    SEL 1
+    SEL 0
     REC 0 0 1 0 0 0 0
     VU 2
-    TRACKHEIGHT 68 0 0
+    TRACKHEIGHT 67 0 0
     INQ 0 0 0 0.5 100 0 0 100
     NCHAN 2
     FX 1
@@ -437,25 +437,25 @@
     MIDIOUT -1
     MAINSEND 1 0
     <ITEM
-      POSITION 5.65
+      POSITION 4
       SNAPOFFS 0
-      LENGTH 6.54340547472682
+      LENGTH 7
       LOOP 1
       ALLTAKES 0
       FADEIN 1 0.01 0 1 0 0
       FADEOUT 1 0.01 0 1 0 0
       MUTE 0
       SEL 0
-      IGUID {632302D3-B505-426A-8684-90C29C43B766}
-      IID 214
-      NAME untitled.wav
+      IGUID {A883242D-DCE0-4250-963D-B203A4BBD4C9}
+      IID 292
+      NAME LayersTestSrc.wav
       VOLPAN 1 0 1 -1
-      SOFFS 1.63999999999067
-      PLAYRATE 0.8 1 0 -1 0 0.0025
+      SOFFS 0.25
+      PLAYRATE 0.5 1 0 -1 0 0.0025
       CHANMODE 0
-      GUID {E56D3153-F4CD-44F5-AA70-D6B3F978F30B}
+      GUID {11645472-BF61-4284-A68D-90D01CC63EDA}
       <SOURCE WAVE
-        FILE "untitled.wav"
+        FILE "LayersTestSrc.wav"
       >
     >
   >
@@ -475,7 +475,7 @@
     SEL 0
     REC 0 0 1 0 0 0 0
     VU 2
-    TRACKHEIGHT 68 0 0
+    TRACKHEIGHT 67 0 0
     INQ 0 0 0 0.5 100 0 0 100
     NCHAN 2
     FX 1
@@ -484,30 +484,30 @@
     MIDIOUT -1
     MAINSEND 1 0
     <ITEM
-      POSITION 4.01000000000932
+      POSITION 3.5
       SNAPOFFS 0
-      LENGTH 9.92673880806015
+      LENGTH 4
       LOOP 1
       ALLTAKES 0
       FADEIN 1 0.01 0 1 0 0
       FADEOUT 1 0.01 0 1 0 0
       MUTE 0
       SEL 0
-      IGUID {AF3E9810-EFAF-450B-95A0-F9B0D5AC52B1}
-      IID 214
-      NAME untitled.wav
+      IGUID {324516F8-C6A5-4A40-B84E-ABB6F5942667}
+      IID 301
+      NAME LayersTestSrc.wav
       VOLPAN 1 0 1 -1
       SOFFS 0
       PLAYRATE 1 1 0 -1 0 0.0025
       CHANMODE 0
-      GUID {0AC0A32D-D317-4A73-BE49-6BF64E309C99}
+      GUID {5E47DAED-6627-4618-AE74-461B6FF54060}
       <SOURCE SECTION
-        LENGTH 7.28333333333333
+        LENGTH 4
         MODE 3
         STARTPOS 0
         OVERLAP 0.01
         <SOURCE WAVE
-          FILE "untitled.wav"
+          FILE "LayersTestSrc.wav"
         >
       >
     >
@@ -528,7 +528,7 @@
     SEL 0
     REC 0 0 1 0 0 0 0
     VU 2
-    TRACKHEIGHT 68 0 0
+    TRACKHEIGHT 67 0 0
     INQ 0 0 0 0.5 100 0 0 100
     NCHAN 2
     FX 1
@@ -537,30 +537,30 @@
     MIDIOUT -1
     MAINSEND 1 0
     <ITEM
-      POSITION 4.88
+      POSITION 4
       SNAPOFFS 0
-      LENGTH 9.05673880806951
+      LENGTH 3.5
       LOOP 1
       ALLTAKES 0
       FADEIN 1 0.01 0 1 0 0
       FADEOUT 1 0.01 0 1 0 0
       MUTE 0
       SEL 0
-      IGUID {7904EDD1-7555-402B-A268-B19CBC983E22}
-      IID 214
-      NAME untitled.wav
+      IGUID {85CEDF3D-ECF9-4699-A050-54E6D2B4665C}
+      IID 302
+      NAME LayersTestSrc.wav
       VOLPAN 1 0 1 -1
       SOFFS 0
       PLAYRATE 1 1 0 -1 0 0.0025
       CHANMODE 0
-      GUID {EACD3A03-444C-4230-997B-73D4E18C3517}
+      GUID {0DD19216-5FCF-4E12-9D60-E55DBD8CB3F0}
       <SOURCE SECTION
-        LENGTH 6.41333333334266
+        LENGTH 3.5
         MODE 3
-        STARTPOS 0.86999999999068
+        STARTPOS 0.5
         OVERLAP 0.01
         <SOURCE WAVE
-          FILE "untitled.wav"
+          FILE "LayersTestSrc.wav"
         >
       >
     >
@@ -581,7 +581,7 @@
     SEL 0
     REC 0 0 1 0 0 0 0
     VU 2
-    TRACKHEIGHT 68 0 0
+    TRACKHEIGHT 67 0 0
     INQ 0 0 0 0.5 100 0 0 100
     NCHAN 2
     FX 1
@@ -590,30 +590,30 @@
     MIDIOUT -1
     MAINSEND 1 0
     <ITEM
-      POSITION 4.01000000000932
+      POSITION 3.5
       SNAPOFFS 0
-      LENGTH 8.79340547471748
+      LENGTH 3.5
       LOOP 1
       ALLTAKES 0
       FADEIN 1 0.01 0 1 0 0
       FADEOUT 1 0.01 0 1 0 0
       MUTE 0
       SEL 0
-      IGUID {D9EB8762-BE8D-4A3B-86C6-FF4DD9C08F19}
-      IID 214
-      NAME untitled.wav
+      IGUID {9221AB7F-03D9-44CF-833E-C3EE52FDAB51}
+      IID 303
+      NAME LayersTestSrc.wav
       VOLPAN 1 0 1 -1
       SOFFS 0
       PLAYRATE 1 1 0 -1 0 0.0025
       CHANMODE 0
-      GUID {C7D6BE78-3A7F-4333-931E-099F4D31FA4C}
+      GUID {8373A125-18CE-4E5D-A9C4-CCF84FDC1935}
       <SOURCE SECTION
-        LENGTH 6.14999999999066
+        LENGTH 3.5
         MODE 3
         STARTPOS 0
         OVERLAP 0.01
         <SOURCE WAVE
-          FILE "untitled.wav"
+          FILE "LayersTestSrc.wav"
         >
       >
     >
@@ -634,7 +634,7 @@
     SEL 0
     REC 0 0 1 0 0 0 0
     VU 2
-    TRACKHEIGHT 68 0 0
+    TRACKHEIGHT 67 0 0
     INQ 0 0 0 0.5 100 0 0 100
     NCHAN 2
     FX 1
@@ -643,30 +643,30 @@
     MIDIOUT -1
     MAINSEND 1 0
     <ITEM
-      POSITION 5.65
+      POSITION 4
       SNAPOFFS 0
-      LENGTH 6.54340547472682
+      LENGTH 3
       LOOP 1
       ALLTAKES 0
       FADEIN 1 0.01 0 1 0 0
       FADEOUT 1 0.01 0 1 0 0
       MUTE 0
       SEL 0
-      IGUID {934E2D22-B93F-4F0B-BF7C-FF8929A7532A}
-      IID 214
-      NAME untitled.wav
+      IGUID {1E65B956-CDB6-42E0-89F2-DC5920B53614}
+      IID 304
+      NAME LayersTestSrc.wav
       VOLPAN 1 0 1 -1
       SOFFS 0
       PLAYRATE 1 1 0 -1 0 0.0025
       CHANMODE 0
-      GUID {EA950E92-643B-409B-8DCF-1A0468C8036A}
+      GUID {5208377F-5743-4772-BCBB-210ECED61A4D}
       <SOURCE SECTION
-        LENGTH 3.9
+        LENGTH 3
         MODE 3
-        STARTPOS 1.63999999999067
+        STARTPOS 0.5
         OVERLAP 0.01
         <SOURCE WAVE
-          FILE "untitled.wav"
+          FILE "LayersTestSrc.wav"
         >
       >
     >
@@ -687,7 +687,7 @@
     SEL 0
     REC 0 0 1 0 0 0 0
     VU 2
-    TRACKHEIGHT 68 0 0
+    TRACKHEIGHT 67 0 0
     INQ 0 0 0 0.5 100 0 0 100
     NCHAN 2
     FX 1
@@ -696,30 +696,30 @@
     MIDIOUT -1
     MAINSEND 1 0
     <ITEM
-      POSITION 4.01000000000932
+      POSITION 3.5
       SNAPOFFS 0
-      LENGTH 9.92673880806015
+      LENGTH 8
       LOOP 1
       ALLTAKES 0
       FADEIN 1 0.01 0 1 0 0
-      FADEOUT 1 0.01 0 1 0 0
+      FADEOUT 1 0 0 1 0 0
       MUTE 0
       SEL 0
-      IGUID {1F3AC7E8-1D2B-4638-886A-EFA47614A60A}
-      IID 214
-      NAME untitled.wav
+      IGUID {D7DBA114-E2DF-4A9D-99B7-4399EC27EED9}
+      IID 305
+      NAME LayersTestSrc.wav
       VOLPAN 1 0 1 -1
       SOFFS 0
-      PLAYRATE 0.8 1 0 -1 0 0.0025
+      PLAYRATE 0.5 1 0 -1 0 0.0025
       CHANMODE 0
-      GUID {9B685376-63E4-4B39-ABA5-7A5BC47CB84F}
+      GUID {28F4D90B-BE53-4A8D-9CCF-5D8FF59B7F1F}
       <SOURCE SECTION
-        LENGTH 5.82666666666666
+        LENGTH 4
         MODE 3
         STARTPOS 0
         OVERLAP 0.01
         <SOURCE WAVE
-          FILE "untitled.wav"
+          FILE "LayersTestSrc.wav"
         >
       >
     >
@@ -740,7 +740,7 @@
     SEL 0
     REC 0 0 1 0 0 0 0
     VU 2
-    TRACKHEIGHT 68 0 0
+    TRACKHEIGHT 67 0 0
     INQ 0 0 0 0.5 100 0 0 100
     NCHAN 2
     FX 1
@@ -749,30 +749,30 @@
     MIDIOUT -1
     MAINSEND 1 0
     <ITEM
-      POSITION 4.88
+      POSITION 4
       SNAPOFFS 0
-      LENGTH 9.05673880806951
+      LENGTH 7.5
       LOOP 1
       ALLTAKES 0
       FADEIN 1 0.01 0 1 0 0
-      FADEOUT 1 0.01 0 1 0 0
+      FADEOUT 1 0 0 1 0 0
       MUTE 0
       SEL 0
-      IGUID {689C88DD-5F6B-423E-84B0-185ACFD85A9B}
-      IID 214
-      NAME untitled.wav
+      IGUID {0E9E2830-C2D9-41FA-9698-5E295AECC0B8}
+      IID 306
+      NAME LayersTestSrc.wav
       VOLPAN 1 0 1 -1
       SOFFS 0
-      PLAYRATE 0.8 1 0 -1 0 0.0025
+      PLAYRATE 0.5 1 0 -1 0 0.0025
       CHANMODE 0
-      GUID {43E26A54-7697-4B6B-9062-5C5A4879AC84}
+      GUID {9BD31B41-B332-46A6-B4C4-BDE7EBF9B95E}
       <SOURCE SECTION
-        LENGTH 5.13066666667413
+        LENGTH 3.75
         MODE 3
-        STARTPOS 0.86999999999068
+        STARTPOS 0.25
         OVERLAP 0.01
         <SOURCE WAVE
-          FILE "untitled.wav"
+          FILE "LayersTestSrc.wav"
         >
       >
     >
@@ -793,7 +793,7 @@
     SEL 0
     REC 0 0 1 0 0 0 0
     VU 2
-    TRACKHEIGHT 68 0 0
+    TRACKHEIGHT 67 0 0
     INQ 0 0 0 0.5 100 0 0 100
     NCHAN 2
     FX 1
@@ -802,30 +802,30 @@
     MIDIOUT -1
     MAINSEND 1 0
     <ITEM
-      POSITION 4.01000000000932
+      POSITION 3.5
       SNAPOFFS 0
-      LENGTH 8.79340547471748
+      LENGTH 7.5
       LOOP 1
       ALLTAKES 0
       FADEIN 1 0.01 0 1 0 0
       FADEOUT 1 0.01 0 1 0 0
       MUTE 0
       SEL 0
-      IGUID {21ED3213-159A-4487-AA2C-FEC6B2DF62E8}
-      IID 214
-      NAME untitled.wav
+      IGUID {A8254895-0B2A-443E-B54D-32A96367B1F8}
+      IID 307
+      NAME LayersTestSrc.wav
       VOLPAN 1 0 1 -1
       SOFFS 0
-      PLAYRATE 0.8 1 0 -1 0 0.0025
+      PLAYRATE 0.5 1 0 -1 0 0.0025
       CHANMODE 0
-      GUID {7750569F-B572-4D0A-9DCB-B1A946C5821A}
+      GUID {E9AE9743-EC23-4D95-8E94-0A89A193E3EF}
       <SOURCE SECTION
-        LENGTH 4.91999999999253
+        LENGTH 3.75
         MODE 3
         STARTPOS 0
         OVERLAP 0.01
         <SOURCE WAVE
-          FILE "untitled.wav"
+          FILE "LayersTestSrc.wav"
         >
       >
     >
@@ -836,7 +836,7 @@
     BEAT -1
     AUTOMODE 0
     VOLPAN 1 0 -1 -1 1
-    MUTESOLO 0 2 0
+    MUTESOLO 0 0 0
     IPHASE 0
     PLAYOFFS 0 1
     ISBUS 0 0
@@ -846,7 +846,7 @@
     SEL 0
     REC 0 0 1 0 0 0 0
     VU 2
-    TRACKHEIGHT 68 0 0
+    TRACKHEIGHT 67 0 0
     INQ 0 0 0 0.5 100 0 0 100
     NCHAN 2
     FX 1
@@ -855,30 +855,30 @@
     MIDIOUT -1
     MAINSEND 1 0
     <ITEM
-      POSITION 5.65
+      POSITION 4
       SNAPOFFS 0
-      LENGTH 9.54
+      LENGTH 7
       LOOP 1
       ALLTAKES 0
       FADEIN 1 0.01 0 1 0 0
       FADEOUT 1 0.01 0 1 0 0
       MUTE 0
       SEL 0
-      IGUID {F3F14FEB-C4BB-4227-B09E-6BF0DBA5436E}
-      IID 214
-      NAME untitled.wav
+      IGUID {7E80DB8D-6D38-4122-A354-DB2CB539A277}
+      IID 308
+      NAME LayersTestSrc.wav
       VOLPAN 1 0 1 -1
       SOFFS 0
-      PLAYRATE 0.8 1 0 -1 0 0.0025
+      PLAYRATE 0.5 1 0 -1 0 0.0025
       CHANMODE 0
-      GUID {B8916836-84F0-49F8-949E-E98B6302DFDA}
+      GUID {5C030A20-3A43-49A4-A702-4D66427FC926}
       <SOURCE SECTION
-        LENGTH 3.12
+        LENGTH 3.5
         MODE 3
-        STARTPOS 1.63999999999067
+        STARTPOS 0.25
         OVERLAP 0.01
         <SOURCE WAVE
-          FILE "untitled.wav"
+          FILE "LayersTestSrc.wav"
         >
       >
     >
