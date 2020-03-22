@@ -1,15 +1,16 @@
 local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
-dofile(script_path .. "FluidUtils.lua")
-dofile(script_path .. "FluidParams.lua")
+dofile(script_path .. "/FluidPlumbing/" .. "FluidUtils.lua")
+dofile(script_path .. "/FluidPlumbing/" .. "FluidParams.lua")
+dofile(script_path .. "/FluidPlumbing/" .. "FluidSlicing.lua")
 
 ------------------------------------------------------------------------------------
 --   Each user MUST point this to their folder containing FluCoMa CLI executables --
 if sanity_check() == false then goto exit; end
 local cli_path = get_fluid_path()
 --   Then we form some calls to the tools that will live in that folder --
-local ts_suf = cli_path .. "/fluid-transientslice"
-local ts_exe = doublequote(ts_suf)
+local suf = cli_path .. "/fluid-transientslice"
+local exe = doublequote(suf)
 ------------------------------------------------------------------------------------
 
 local num_selected_items = reaper.CountSelectedMediaItems(0)
@@ -38,65 +39,37 @@ if num_selected_items > 0 then
         local clumplength = params[8]
         local minslicelength = params[9]
 
-        local item_pts_t = {}
-        local take_ofs_t = {}
-        local ts_cmd_t = {}
-        local slice_points_string_t = {}
-        local tmp_idx_t = {}
-        local item_t = {}
-        local sr_t = {}
+        data = SlicingContainer
 
         for i=1, num_selected_items do
+            get_slice_data(i, data)
 
-            local item = reaper.GetSelectedMediaItem(0, i-1)
-            local take = reaper.GetActiveTake(item)
-            local src = reaper.GetMediaItemTake_Source(take)
-            local sr = reaper.GetMediaSourceSampleRate(src)
-            local full_path = reaper.GetMediaSourceFileName(src, '')
-            table.insert(item_t, item)
-            table.insert(sr_t, sr)
-
-            local tmp_idx = full_path .. uuid(i) .. "reacoma_tmp.csv"
-            table.insert(tmp_idx_t, tmp_idx)
-            
-            local take_ofs = reaper.GetMediaItemTakeInfo_Value(take, "D_STARTOFFS")
-            local item_pts = reaper.GetMediaItemInfo_Value(item, "D_POSITION")
-            local item_len = reaper.GetMediaItemInfo_Value(item, "D_LENGTH")
-            table.insert(take_ofs_t, take_ofs)
-            table.insert(item_pts_t, item_pts)
+            local cmd = exe .. 
+            " -source " .. doublequote(data.full_path[i]) .. 
+            " -indices " .. doublequote(data.tmp[i]) .. 
+            " -order " .. order .. 
+            " -blocksize " .. blocksize .. 
+            " -padsize " .. padsize .. 
+            " -skew " .. skew .. 
+            " -threshfwd " .. threshfwd .. 
+            " -threshback " .. threshback ..
+            " -windowsize " .. windowsize .. 
+            " -clumplength " .. clumplength .. 
+            " -minslicelength " .. minslicelength ..
+            " -numframes " .. data.item_len_samples[i] .. 
+            " -startframe " .. data.take_ofs_samples[i]
+            table.insert(data.cmd, cmd)
+        end
         
-            -- Convert everything to samples for CLI --
-            local take_ofs_samples = stosamps(take_ofs, sr)
-            local item_len_samples = stosamps(item_len, sr)
-
-            local ts_cmd = ts_exe .. " -source " .. doublequote(full_path) .. " -indices " .. doublequote(tmp_idx) .. 
-            " -order " .. order .. " -blocksize " .. blocksize .. 
-            " -padsize " .. padsize .. " -skew " .. skew .. 
-            " -threshfwd " .. threshfwd .. " -threshback " .. threshback ..
-            " -windowsize " .. windowsize .. " -clumplength " .. clumplength .. " -minslicelength " .. minslicelength ..
-            " -numframes " .. item_len_samples .. " -startframe " .. take_ofs_samples
-
-            table.insert(ts_cmd_t, ts_cmd)
-        end
-
-        -- Fill the table with slice points
         for i=1, num_selected_items do
-            cmdline(ts_cmd_t[i])
-            table.insert(slice_points_string_t, readfile(tmp_idx_t[i]))
+            cmdline(data.cmd[i])
+            table.insert(data.slice_points_string, readfile(data.tmp[i]))
+            perform_splitting(i, data)
         end
-        -- Execution
-        for i=1, num_selected_items do
-            slice_points = commasplit(slice_points_string_t[i])
-            for j=2, #slice_points do
-                local slice_pts = sampstos(
-                    tonumber(slice_points[j]), sr_t[i]
-                )
-                item_t[i] = reaper.SplitMediaItem(item_t[i], item_pts_t[i] + (slice_pts - take_ofs_t[i]))
-            end
-        end
+
         reaper.UpdateArrange()
         reaper.Undo_EndBlock("transientslice", 0)
-        cleanup(tmp_idx_t)
+        cleanup(data.tmp)
     end
 end
 ::exit::

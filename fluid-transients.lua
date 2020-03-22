@@ -1,15 +1,16 @@
 local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
-dofile(script_path .. "FluidUtils.lua")
-dofile(script_path .. "FluidParams.lua")
+dofile(script_path .. "/FluidPlumbing/" .. "FluidUtils.lua")
+dofile(script_path .. "/FluidPlumbing/" .. "FluidParams.lua")
+dofile(script_path .. "/FluidPlumbing/" .. "FluidLayers.lua")
 
 ------------------------------------------------------------------------------------
 --   Each user MUST point this to their folder containing FluCoMa CLI executables --
 if sanity_check() == false then goto exit; end
 local cli_path = get_fluid_path()
 --   Then we form some calls to the tools that will live in that folder --
-local transients_suf = cli_path .. "/fluid-transients"
-local transients_exe = doublequote(transients_suf)
+local suf = cli_path .. "/fluid-transients"
+local exe = doublequote(suf)
 ------------------------------------------------------------------------------------
 
 local num_selected_items = reaper.CountSelectedMediaItems(0)
@@ -35,54 +36,56 @@ if num_selected_items > 0 then
         local windowsize = params[7]
         local clumplength = params[8]
 
-        local item_t = {}
-        local transients_cmd_t = {}
-        local trans_t = {}
-        local resid_t = {}
+        data = LayersContainer
+
+        data.outputs = {
+            transients = {},
+            residual = {}
+        }
 
         for i=1, num_selected_items do
-            local item = reaper.GetSelectedMediaItem(0, i-1)
-            local take = reaper.GetActiveTake(item)
-            local src = reaper.GetMediaItemTake_Source(take)
-            local sr = reaper.GetMediaSourceSampleRate(src)
-            local full_path = reaper.GetMediaSourceFileName(src, '')
-            table.insert(item_t, item)
-        
-            local take_ofs = reaper.GetMediaItemTakeInfo_Value(take, "D_STARTOFFS")
-            local item_pos = reaper.GetMediaItemInfo_Value(item, "D_POSITION")
-            local item_len = reaper.GetMediaItemInfo_Value(item, "D_LENGTH")
 
-            -- Now make the name for the separated parts using the offset to create a unique id --
-            -- Using the offset means that slices won't share names at the output in the situation where you nmf on segments --
-            table.insert(trans_t, basename(full_path) .. "_ts-tra_" .. tostring(take_ofs) .. uuid(i) .. ".wav")
-            table.insert(resid_t, basename(full_path) .. "_ts-res_" .. tostring(take_ofs) .. uuid(i) .. ".wav")
+            get_layers_data(i, data)
 
-            local take_ofs_samples = stosamps(take_ofs, sr)
-            local item_pos_samples = stosamps(item_pos, sr)
-            local item_len_samples = stosamps(item_len, sr)
-            
-            -- Form the commands to shell and store in a table --
-            table.insert(transients_cmd_t, transients_exe .. " -source " .. doublequote(full_path) .. 
-                " -transients " .. doublequote(trans_t[i]) .. 
-                " -residual " .. doublequote(resid_t[i]) .. 
-                " -order " .. order .. " -blocksize " .. blocksize .. 
-                " -padsize " .. padsize .. " -skew " .. skew .. 
-                " -threshfwd " .. threshfwd .. " -threshback " .. threshback ..
-                " -windowsize " .. windowsize .. " -clumplength " .. clumplength ..
-                " -numframes " .. item_len_samples .. " -startframe " .. take_ofs_samples)
+            table.insert(
+                data.outputs.transients,
+                basename(data.full_path[i]) .. "_ts-t_" .. uuid(i) .. ".wav"
+            )
+
+            table.insert(
+                data.outputs.residual,
+                basename(data.full_path[i]) .. "_ts-r_" .. uuid(i) .. ".wav"
+            )
+
+            table.insert(
+                data.cmd, 
+                exe .. 
+                " -source " .. doublequote(data.full_path[i]) .. 
+                " -transients " .. doublequote(data.outputs.transients[i]) .. 
+                " -residual " .. doublequote(data.outputs.residual[i]) .. 
+                " -order " .. order .. 
+                " -blocksize " .. blocksize .. 
+                " -padsize " .. padsize .. 
+                " -skew " .. skew .. 
+                " -threshfwd " .. threshfwd .. 
+                " -threshback " .. threshback ..
+                " -windowsize " .. windowsize .. 
+                " -clumplength " .. clumplength ..
+                " -numframes " .. data.item_len_samples[i] .. 
+                " -startframe " .. data.take_ofs_samples[i]
+            )
         end
 
         -- Execute NMF Process
         for i=1, num_selected_items do
-            cmdline(transients_cmd_t[i])
+            cmdline(data.cmd[i])
         end
+
         reaper.SelectAllMediaItems(0, 0)
-        for i=1, num_selected_items do
-            if i > 1 then reaper.SetMediaItemSelected(item_t[i-1], false) end
-            reaper.SetMediaItemSelected(item_t[i], true)
-            reaper.InsertMedia(trans_t[i],3)
-            reaper.InsertMedia(resid_t[i],3)     
+        for i=1, num_selected_items do  
+            perform_layers(i, data)
         end
+
         reaper.UpdateArrange()
         reaper.Undo_EndBlock("transients", 0)
     end
