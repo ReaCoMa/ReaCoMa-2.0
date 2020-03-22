@@ -1,4 +1,4 @@
-<REAPER_PROJECT 0.1 "6.03/x64" 1584902805
+<REAPER_PROJECT 0.1 "6.03/x64" 1584902867
   RIPPLE 0
   GROUPOVERRIDE 0 0 0
   AUTOXFADE 1
@@ -14,7 +14,7 @@
   TIMEMODE 1 5 -1 30 0 0 -1
   VIDEO_CONFIG 0 0 256
   PANMODE 3
-  CURSOR 10.5
+  CURSOR 20
   ZOOM 35.85960413809076 0 0
   VZOOMEX 4
   USE_REC_CFG 0
@@ -128,26 +128,6 @@
       <SOURCE WAVE
         FILE "LayersTestSrc.wav"
       >
-      TAKE
-      NAME LayersTestSrc_hpss-h_15814776227171.wav
-      TAKEVOLPAN 0 1 -1
-      SOFFS 0
-      PLAYRATE 1 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {E3731B31-E47C-4657-9462-B9FD6E022CF5}
-      <SOURCE WAVE
-        FILE "LayersTestSrc_hpss-h_15814776227171.wav"
-      >
-      TAKE SEL
-      NAME LayersTestSrc_hpss-p_15814776228251.wav
-      TAKEVOLPAN 0 1 -1
-      SOFFS 0
-      PLAYRATE 1 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {0A5AADA6-EE60-4E60-86AF-046C2FCCE5F4}
-      <SOURCE WAVE
-        FILE "LayersTestSrc_hpss-p_15814776228251.wav"
-      >
     >
   >
   <TRACK {11F6B4DC-7C2A-4864-9441-B9A6FEFA90F3}
@@ -194,26 +174,6 @@
       GUID {9442F5C8-E26A-4298-9A3D-7D0452322148}
       <SOURCE WAVE
         FILE "LayersTestSrc.wav"
-      >
-      TAKE
-      NAME LayersTestSrc_hpss-h_15814776417082.wav
-      TAKEVOLPAN 0 1 -1
-      SOFFS 0
-      PLAYRATE 1 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {94DF71AF-D7C6-44F4-88CC-943042F1B0A5}
-      <SOURCE WAVE
-        FILE "LayersTestSrc_hpss-h_15814776417082.wav"
-      >
-      TAKE SEL
-      NAME LayersTestSrc_hpss-p_15814776417932.wav
-      TAKEVOLPAN 0 1 -1
-      SOFFS 0
-      PLAYRATE 1 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {FC74279B-ACD2-478C-9DD6-00141C7BBCA9}
-      <SOURCE WAVE
-        FILE "LayersTestSrc_hpss-p_15814776417932.wav"
       >
     >
   >
@@ -262,26 +222,6 @@
       <SOURCE WAVE
         FILE "LayersTestSrc.wav"
       >
-      TAKE
-      NAME LayersTestSrc_hpss-h_15814776613283.wav
-      TAKEVOLPAN 0 1 -1
-      SOFFS 0
-      PLAYRATE 1 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {F053758A-8FCB-4EE3-BE56-C4563620DC2A}
-      <SOURCE WAVE
-        FILE "LayersTestSrc_hpss-h_15814776613283.wav"
-      >
-      TAKE SEL
-      NAME LayersTestSrc_hpss-p_15814776614513.wav
-      TAKEVOLPAN 0 1 -1
-      SOFFS 0
-      PLAYRATE 1 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {51C49EB1-8CF3-4CED-A6A6-96614BF68F1F}
-      <SOURCE WAVE
-        FILE "LayersTestSrc_hpss-p_15814776614513.wav"
-      >
     >
   >
   <TRACK {07F05303-3471-4828-8444-5644AFC50A45}
@@ -328,26 +268,6 @@
       GUID {921008BA-9CA4-4879-963A-3FA97C692BFB}
       <SOURCE WAVE
         FILE "LayersTestSrc.wav"
-      >
-      TAKE
-      NAME LayersTestSrc_hpss-h_15814776824994.wav
-      TAKEVOLPAN 0 1 -1
-      SOFFS 0
-      PLAYRATE 1 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {199D24DD-2DC8-4016-BC2F-A3E5C6172596}
-      <SOURCE WAVE
-        FILE "LayersTestSrc_hpss-h_15814776824994.wav"
-      >
-      TAKE SEL
-      NAME LayersTestSrc_hpss-p_15814776825854.wav
-      TAKEVOLPAN 0 1 -1
-      SOFFS 0
-      PLAYRATE 1 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {FDCE15AC-E8EB-4875-9DB9-8682D65856B4}
-      <SOURCE WAVE
-        FILE "LayersTestSrc_hpss-p_15814776825854.wav"
       >
     >
   >
@@ -396,26 +316,6 @@
       <SOURCE WAVE
         FILE "LayersTestSrc.wav"
       >
-      TAKE
-      NAME LayersTestSrc_hpss-h_15814777027395.wav
-      TAKEVOLPAN 0 1 -1
-      SOFFS 0
-      PLAYRATE 0.5 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {4DBDC234-E7D4-463B-8028-8F8CD267AACC}
-      <SOURCE WAVE
-        FILE "LayersTestSrc_hpss-h_15814777027395.wav"
-      >
-      TAKE SEL
-      NAME LayersTestSrc_hpss-p_15814777033165.wav
-      TAKEVOLPAN 0 1 -1
-      SOFFS 0
-      PLAYRATE 0.5 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {0BDD82EC-D68D-493E-88D4-EABF0F0AC49A}
-      <SOURCE WAVE
-        FILE "LayersTestSrc_hpss-p_15814777033165.wav"
-      >
     >
   >
   <TRACK {58EA1DA0-0113-4EFD-929A-11DAAF80FA43}
@@ -431,7 +331,7 @@
     BUSCOMP 0 0 0 0 0
     SHOWINMIX 1 0.6667 0.5 1 0.5 0 0 0
     FREEMODE 0
-    SEL 0
+    SEL 1
     REC 0 0 1 0 0 0 0
     VU 2
     TRACKHEIGHT 67 0 0
@@ -462,26 +362,6 @@
       GUID {012795E6-A4ED-46B2-8357-DCB6C0AC6761}
       <SOURCE WAVE
         FILE "LayersTestSrc.wav"
-      >
-      TAKE
-      NAME LayersTestSrc_hpss-h_15814777249616.wav
-      TAKEVOLPAN 0 1 -1
-      SOFFS 0
-      PLAYRATE 0.5 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {CCEEE88B-60FC-4167-820F-93D5E70F91DD}
-      <SOURCE WAVE
-        FILE "LayersTestSrc_hpss-h_15814777249616.wav"
-      >
-      TAKE SEL
-      NAME LayersTestSrc_hpss-p_15814777250666.wav
-      TAKEVOLPAN 0 1 -1
-      SOFFS 0
-      PLAYRATE 0.5 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {77C60F87-521F-4F2A-8FD1-BB6B499F369C}
-      <SOURCE WAVE
-        FILE "LayersTestSrc_hpss-p_15814777250666.wav"
       >
     >
   >
@@ -530,26 +410,6 @@
       <SOURCE WAVE
         FILE "LayersTestSrc.wav"
       >
-      TAKE
-      NAME LayersTestSrc_hpss-h_15814777470927.wav
-      TAKEVOLPAN 0 1 -1
-      SOFFS 0
-      PLAYRATE 0.5 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {05A9ACFE-27A1-4E24-B000-02E0E29E04AE}
-      <SOURCE WAVE
-        FILE "LayersTestSrc_hpss-h_15814777470927.wav"
-      >
-      TAKE SEL
-      NAME LayersTestSrc_hpss-p_15814777471667.wav
-      TAKEVOLPAN 0 1 -1
-      SOFFS 0
-      PLAYRATE 0.5 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {AC53C7C5-EBBA-4645-8F62-BE2C952550C5}
-      <SOURCE WAVE
-        FILE "LayersTestSrc_hpss-p_15814777471667.wav"
-      >
     >
   >
   <TRACK {6B99EBCB-0555-4E8E-BFF3-15CCCEA2472D}
@@ -596,26 +456,6 @@
       GUID {11645472-BF61-4284-A68D-90D01CC63EDA}
       <SOURCE WAVE
         FILE "LayersTestSrc.wav"
-      >
-      TAKE
-      NAME LayersTestSrc_hpss-h_15814777727418.wav
-      TAKEVOLPAN 0 1 -1
-      SOFFS 0
-      PLAYRATE 0.5 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {F3AE57DD-0FF2-4267-9899-C4964179FB0D}
-      <SOURCE WAVE
-        FILE "LayersTestSrc_hpss-h_15814777727418.wav"
-      >
-      TAKE
-      NAME LayersTestSrc_hpss-p_15814777728138.wav
-      TAKEVOLPAN 0 1 -1
-      SOFFS 0
-      PLAYRATE 0.5 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {84D4C190-2244-4F48-B80D-A06BEC55D4EE}
-      <SOURCE WAVE
-        FILE "LayersTestSrc_hpss-p_15814777728138.wav"
       >
     >
   >
@@ -670,38 +510,6 @@
           FILE "LayersTestSrc.wav"
         >
       >
-      TAKE
-      NAME LayersTestSrc_hpss-h_15814778009319.wav
-      TAKEVOLPAN 0 1 -1
-      SOFFS 0
-      PLAYRATE 1 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {9A5E217B-D3AC-47EA-9C54-AAF28373964C}
-      <SOURCE SECTION
-        LENGTH 0
-        MODE 3
-        STARTPOS 0
-        OVERLAP 0.01
-        <SOURCE WAVE
-          FILE "LayersTestSrc_hpss-h_15814778009319.wav"
-        >
-      >
-      TAKE SEL
-      NAME LayersTestSrc_hpss-p_15814778010119.wav
-      TAKEVOLPAN 0 1 -1
-      SOFFS 0
-      PLAYRATE 1 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {3E985E1E-EAC0-495B-9991-9434322BD807}
-      <SOURCE SECTION
-        LENGTH 0
-        MODE 3
-        STARTPOS 0
-        OVERLAP 0.01
-        <SOURCE WAVE
-          FILE "LayersTestSrc_hpss-p_15814778010119.wav"
-        >
-      >
     >
   >
   <TRACK {3BEB3B33-559C-42D1-A6F4-A17FA390FBD7}
@@ -717,7 +525,7 @@
     BUSCOMP 0 0 0 0 0
     SHOWINMIX 1 0.6667 0.5 1 0.5 0 0 0
     FREEMODE 0
-    SEL 1
+    SEL 0
     REC 0 0 1 0 0 0 0
     VU 2
     TRACKHEIGHT 67 0 0
@@ -753,38 +561,6 @@
         OVERLAP 0.01
         <SOURCE WAVE
           FILE "LayersTestSrc.wav"
-        >
-      >
-      TAKE
-      NAME LayersTestSrc_hpss-h_158147782678910.wav
-      TAKEVOLPAN 0 1 -1
-      SOFFS 0
-      PLAYRATE 1 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {4A1A7DE2-2D0A-4DDD-AEBB-2D134141B1E3}
-      <SOURCE SECTION
-        LENGTH 0
-        MODE 3
-        STARTPOS 0
-        OVERLAP 0.01
-        <SOURCE WAVE
-          FILE "LayersTestSrc_hpss-h_158147782678910.wav"
-        >
-      >
-      TAKE SEL
-      NAME LayersTestSrc_hpss-p_15814778268610.wav
-      TAKEVOLPAN 0 1 -1
-      SOFFS 0
-      PLAYRATE 1 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {D1A34780-A121-4A60-ACB5-7E97D1DE4007}
-      <SOURCE SECTION
-        LENGTH 0
-        MODE 3
-        STARTPOS 0
-        OVERLAP 0.01
-        <SOURCE WAVE
-          FILE "LayersTestSrc_hpss-p_15814778268610.wav"
         >
       >
     >
@@ -840,38 +616,6 @@
           FILE "LayersTestSrc.wav"
         >
       >
-      TAKE
-      NAME LayersTestSrc_hpss-h_158147785347311.wav
-      TAKEVOLPAN 0 1 -1
-      SOFFS 0
-      PLAYRATE 1 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {2868413C-1C25-4106-9B01-7FBE89FE0680}
-      <SOURCE SECTION
-        LENGTH 0
-        MODE 3
-        STARTPOS 0
-        OVERLAP 0.01
-        <SOURCE WAVE
-          FILE "LayersTestSrc_hpss-h_158147785347311.wav"
-        >
-      >
-      TAKE SEL
-      NAME LayersTestSrc_hpss-p_158147785358511.wav
-      TAKEVOLPAN 0 1 -1
-      SOFFS 0
-      PLAYRATE 1 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {CF361228-AE76-4AB3-BCBF-438B435EEE1C}
-      <SOURCE SECTION
-        LENGTH 0
-        MODE 3
-        STARTPOS 0
-        OVERLAP 0.01
-        <SOURCE WAVE
-          FILE "LayersTestSrc_hpss-p_158147785358511.wav"
-        >
-      >
     >
   >
   <TRACK {48758F2F-95C9-4B87-A802-C8D551A6230B}
@@ -923,38 +667,6 @@
         OVERLAP 0.01
         <SOURCE WAVE
           FILE "LayersTestSrc.wav"
-        >
-      >
-      TAKE
-      NAME LayersTestSrc_hpss-h_158147788119512.wav
-      TAKEVOLPAN 0 1 -1
-      SOFFS 0
-      PLAYRATE 1 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {E54CC27D-60BE-4BB0-860A-A5822226EFE3}
-      <SOURCE SECTION
-        LENGTH 0
-        MODE 3
-        STARTPOS 0
-        OVERLAP 0.01
-        <SOURCE WAVE
-          FILE "LayersTestSrc_hpss-h_158147788119512.wav"
-        >
-      >
-      TAKE SEL
-      NAME LayersTestSrc_hpss-p_158147788126512.wav
-      TAKEVOLPAN 0 1 -1
-      SOFFS 0
-      PLAYRATE 1 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {CBFFFD8C-58A4-4D17-A543-E82ABE075FFC}
-      <SOURCE SECTION
-        LENGTH 0
-        MODE 3
-        STARTPOS 0
-        OVERLAP 0.01
-        <SOURCE WAVE
-          FILE "LayersTestSrc_hpss-p_158147788126512.wav"
         >
       >
     >
@@ -1010,38 +722,6 @@
           FILE "LayersTestSrc.wav"
         >
       >
-      TAKE
-      NAME LayersTestSrc_hpss-h_158147791066513.wav
-      TAKEVOLPAN 0 1 -1
-      SOFFS 0
-      PLAYRATE 0.5 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {CB98D077-CC08-49F4-A538-743CD6B54B17}
-      <SOURCE SECTION
-        LENGTH 0
-        MODE 3
-        STARTPOS 0
-        OVERLAP 0.01
-        <SOURCE WAVE
-          FILE "LayersTestSrc_hpss-h_158147791066513.wav"
-        >
-      >
-      TAKE SEL
-      NAME LayersTestSrc_hpss-p_158147791077613.wav
-      TAKEVOLPAN 0 1 -1
-      SOFFS 0
-      PLAYRATE 0.5 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {1817E3EC-7F91-4919-BC1F-FB98E7FFD902}
-      <SOURCE SECTION
-        LENGTH 0
-        MODE 3
-        STARTPOS 0
-        OVERLAP 0.01
-        <SOURCE WAVE
-          FILE "LayersTestSrc_hpss-p_158147791077613.wav"
-        >
-      >
     >
   >
   <TRACK {877FB7BC-FFD9-4C9F-A246-7C9ACDFFAFBA}
@@ -1093,38 +773,6 @@
         OVERLAP 0.01
         <SOURCE WAVE
           FILE "LayersTestSrc.wav"
-        >
-      >
-      TAKE
-      NAME LayersTestSrc_hpss-h_158147794222214.wav
-      TAKEVOLPAN 0 1 -1
-      SOFFS 0.25
-      PLAYRATE 0.5 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {1F9002FA-81AE-4DD1-9EF3-39586F7F2B60}
-      <SOURCE SECTION
-        LENGTH 0
-        MODE 3
-        STARTPOS 0
-        OVERLAP 0.01
-        <SOURCE WAVE
-          FILE "LayersTestSrc_hpss-h_158147794222214.wav"
-        >
-      >
-      TAKE SEL
-      NAME LayersTestSrc_hpss-p_158147794230414.wav
-      TAKEVOLPAN 0 1 -1
-      SOFFS 0.25
-      PLAYRATE 0.5 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {AFB79C46-5098-4BE5-80E0-B935C97CBAD8}
-      <SOURCE SECTION
-        LENGTH 0
-        MODE 3
-        STARTPOS 0
-        OVERLAP 0.01
-        <SOURCE WAVE
-          FILE "LayersTestSrc_hpss-p_158147794230414.wav"
         >
       >
     >
@@ -1180,38 +828,6 @@
           FILE "LayersTestSrc.wav"
         >
       >
-      TAKE
-      NAME LayersTestSrc_hpss-h_158147797595315.wav
-      TAKEVOLPAN 0 1 -1
-      SOFFS 0.25
-      PLAYRATE 0.5 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {5B2F399E-7851-4673-A226-F9AC5F5D51E3}
-      <SOURCE SECTION
-        LENGTH 0
-        MODE 3
-        STARTPOS 0
-        OVERLAP 0.01
-        <SOURCE WAVE
-          FILE "LayersTestSrc_hpss-h_158147797595315.wav"
-        >
-      >
-      TAKE SEL
-      NAME LayersTestSrc_hpss-p_158147797603715.wav
-      TAKEVOLPAN 0 1 -1
-      SOFFS 0.25
-      PLAYRATE 0.5 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {598DDA00-6268-4601-9B3E-D4F843DA5DA1}
-      <SOURCE SECTION
-        LENGTH 0
-        MODE 3
-        STARTPOS 0
-        OVERLAP 0.01
-        <SOURCE WAVE
-          FILE "LayersTestSrc_hpss-p_158147797603715.wav"
-        >
-      >
     >
   >
   <TRACK {94692B52-6E3D-4660-B55D-E0EC7FF4CC95}
@@ -1263,38 +879,6 @@
         OVERLAP 0.01
         <SOURCE WAVE
           FILE "LayersTestSrc.wav"
-        >
-      >
-      TAKE
-      NAME LayersTestSrc_hpss-h_158147801287516.wav
-      TAKEVOLPAN 0 1 -1
-      SOFFS 0.5
-      PLAYRATE 0.5 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {5FA51079-2E22-40F5-B860-1DCFEF8806C6}
-      <SOURCE SECTION
-        LENGTH 0
-        MODE 3
-        STARTPOS 0
-        OVERLAP 0.01
-        <SOURCE WAVE
-          FILE "LayersTestSrc_hpss-h_158147801287516.wav"
-        >
-      >
-      TAKE SEL
-      NAME LayersTestSrc_hpss-p_158147801295216.wav
-      TAKEVOLPAN 0 1 -1
-      SOFFS 0.5
-      PLAYRATE 0.5 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {BD709D53-8BCF-4A55-BFC9-34CEA453BA41}
-      <SOURCE SECTION
-        LENGTH 0
-        MODE 3
-        STARTPOS 0
-        OVERLAP 0.01
-        <SOURCE WAVE
-          FILE "LayersTestSrc_hpss-p_158147801295216.wav"
         >
       >
     >
