@@ -3,7 +3,6 @@ script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
 dofile(script_path .. "/FluidPlumbing/" .. "FluidUtils.lua")
 dofile(script_path .. "/FluidPlumbing/" .. "FluidParams.lua")
 dofile(script_path .. "/FluidPlumbing/" .. "FluidLayers.lua")
-dofile(script_path .. "/FluidPlumbing/" .. "OrderedTables.lua")
 
 ------------------------------------------------------------------------------------
 --   Each user MUST point this to their folder containing FluCoMa CLI executables --
@@ -70,6 +69,7 @@ if num_selected_items > 0 then
         for i=1, num_selected_items do
             perform_layers(i, data)
         end
+        
         reaper.UpdateArrange()
         reaper.Undo_EndBlock("NMF", 0)
     end

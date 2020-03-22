@@ -7,3 +7,5 @@ This may be just the same as using item length
 
 All of this needs to occur PRE command line so that the correct window is analysed
 
+
+Reduce the executable LOC
