@@ -2,3 +2,4 @@
 /SlicingTest/*.csv
 SlicingTest/*_nmf_*.wav
 test.lua
+*.rpp-bak
