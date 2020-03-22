@@ -19,10 +19,6 @@ SlicingContainer = {
 }
 
 function get_slice_data(item_index, data)
-    -- Function to grab all essential information from media item --
-    -- item_index is passed from num_selected_items
-    -- data_table is a container for the tables of data
-
     local item = reaper.GetSelectedMediaItem(0, item_index-1)
     local take = reaper.GetActiveTake(item)
     local src = reaper.GetMediaItemTake_Source(take)
@@ -30,8 +26,6 @@ function get_slice_data(item_index, data)
     local sr = nil
     local full_path = nil
     
-
-    -- This accounts for reversed samples
     if src_parent ~= nil then
         sr = reaper.GetMediaSourceSampleRate(src_parent)
         full_path = reaper.GetMediaSourceFileName(src_parent, "")
@@ -43,17 +37,22 @@ function get_slice_data(item_index, data)
     end
     
     local tmp = full_path .. uuid(item_index) .. "fs.csv"
-
     local take_ofs = reaper.GetMediaItemTakeInfo_Value(take, "D_STARTOFFS")
     local item_pos = reaper.GetMediaItemInfo_Value(item, "D_POSITION")
     local item_len = reaper.GetMediaItemInfo_Value(item, "D_LENGTH")
     local src_len = reaper.GetMediaSourceLength(src)
     local playrate = reaper.GetMediaItemTakeInfo_Value(take, "D_PLAYRATE")
 
+    
+    if data.reverse[item_index] then
+        take_ofs = math.abs((src_len - (item_len * playrate)) + take_ofs)
+    end
+    
     -- This line caps the analysis at one loop
-    if (item_len + take_ofs) > src_len then item_len = src_len end
+    if (item_len + take_ofs) > src_len then 
+        item_len = src_len 
+    end
 
-    -- Convert everything to samples for CLI --
     local take_ofs_samples = stosamps(take_ofs, sr)
     local item_pos_samples = stosamps(item_pos, sr)
     local item_len_samples = math.floor(stosamps(item_len, sr) * playrate)
@@ -90,7 +89,6 @@ function perform_splitting(item_index, data)
         )
 
         slice_pos = slice_pos * (1.0 / data.playrate[item_index]) -- account for playback rate
-        DEBUG(slice_pos)
 
         data.item[item_index] = reaper.SplitMediaItem(
             data.item[item_index], 
