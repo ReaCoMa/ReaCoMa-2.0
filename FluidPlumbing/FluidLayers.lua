@@ -57,7 +57,7 @@ function get_layers_data(item_index, data)
     -- Convert everything to samples for CLI --
     local take_ofs_samples = stosamps(take_ofs, sr)
     local item_pos_samples = stosamps(item_pos, sr)
-    local item_len_samples = math.floor(stosamps(item_len, sr) * playrate)
+    local item_len_samples = math.floor(stosamps(item_len, sr))
 
     table.insert(data.item, item)
     table.insert(data.take, take)
