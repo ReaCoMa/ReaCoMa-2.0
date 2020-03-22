@@ -69,6 +69,7 @@ if num_selected_items > 0 then
         for i=1, num_selected_items do
             perform_layers(i, data)
         end
+        
         reaper.UpdateArrange()
         reaper.Undo_EndBlock("NMF", 0)
     end
