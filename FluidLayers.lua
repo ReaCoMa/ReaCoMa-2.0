@@ -31,7 +31,7 @@ function get_layers_data(item_index, data)
     local src_parent = reaper.GetMediaSourceParent(src)
     local sr = nil
     local full_path = nil
-    
+
     if src_parent ~= nil then
         sr = reaper.GetMediaSourceSampleRate(src_parent)
         full_path = reaper.GetMediaSourceFileName(src_parent, "")
@@ -48,9 +48,15 @@ function get_layers_data(item_index, data)
     local src_len = reaper.GetMediaSourceLength(src)
     local playrate = reaper.GetMediaItemTakeInfo_Value(take, "D_PLAYRATE")
     local playtype  = reaper.GetMediaItemTakeInfo_Value(take, "I_PITCHMODE")
+    
+    if data.reverse[item_index] then
+        take_ofs = math.abs(src_len - (item_len + take_ofs))
+    end
 
     -- This line caps the analysis at one loop
-    if (item_len + take_ofs) > src_len then item_len = src_len end
+    if (item_len + take_ofs) > src_len then 
+        item_len = src_len 
+    end
 
     -- Convert everything to samples for CLI --
     local take_ofs_samples = stosamps(take_ofs, sr)
@@ -78,7 +84,9 @@ function perform_layers(item_index, data)
         reaper.InsertMedia(data.outputs[k][item_index], 3)
         local item = reaper.GetSelectedMediaItem(0, 0)
         local take = reaper.GetActiveTake(item)
+        local src = reaper.GetMediaItemTake_Source(take)
         reaper.SetMediaItemTakeInfo_Value(take, "D_PLAYRATE", data.playrate[item_index])
         reaper.SetMediaItemTakeInfo_Value(take, "I_PITCHMODE", data.playtype[item_index])
+        if data.reverse[item_index] then reaper.Main_OnCommand(41051, 0) end
     end
 end
