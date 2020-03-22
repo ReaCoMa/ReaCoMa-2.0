@@ -1,9 +1,9 @@
 local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
-dofile(script_path .. "FluidUtils.lua")
-dofile(script_path .. "FluidParams.lua")
-dofile(script_path .. "FluidLayers.lua")
-dofile(script_path .. "OrderedTables.lua")
+dofile(script_path .. "/FluidPlumbing/" .. "FluidUtils.lua")
+dofile(script_path .. "/FluidPlumbing/" .. "FluidParams.lua")
+dofile(script_path .. "/FluidPlumbing/" .. "FluidLayers.lua")
+dofile(script_path .. "/FluidPlumbing/" .. "OrderedTables.lua")
 
 ------------------------------------------------------------------------------------
 --   Each user MUST point this to their folder containing FluCoMa CLI executables --
@@ -77,9 +77,9 @@ if num_selected_items > 0 then
                 table.insert(
                     data.cmd, 
                     exe .. 
-                    " -source " .. data.full_path[i] .. 
-                    " -harmonic " .. data.outputs.harmonic[i] .. 
-                    " -percussive " .. data.outputs.percussive[i] ..  
+                    " -source " .. doublequote(data.full_path[i]) .. 
+                    " -harmonic " .. doublequote(data.outputs.harmonic[i]) .. 
+                    " -percussive " .. doublequote(data.outputs.percussive[i]) ..  
                     " -harmfiltersize " .. hfs .. 
                     " -percfiltersize " .. pfs .. 
                     " -maskingmode " .. maskingmode ..

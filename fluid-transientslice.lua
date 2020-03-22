@@ -1,8 +1,8 @@
 local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
-dofile(script_path .. "FluidUtils.lua")
-dofile(script_path .. "FluidParams.lua")
-dofile(script_path .. "FluidSlicing.lua")
+dofile(script_path .. "/FluidPlumbing/" .. "FluidUtils.lua")
+dofile(script_path .. "/FluidPlumbing/" .. "FluidParams.lua")
+dofile(script_path .. "/FluidPlumbing/" .. "FluidSlicing.lua")
 
 ------------------------------------------------------------------------------------
 --   Each user MUST point this to their folder containing FluCoMa CLI executables --
