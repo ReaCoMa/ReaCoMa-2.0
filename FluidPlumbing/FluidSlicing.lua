@@ -71,28 +71,24 @@ end
 
 function perform_splitting(item_index, data)
     slice_points = commasplit(data.slice_points_string[item_index])
-    if data.reverse[item_index] then
-        for i=1, #slice_points do
-            slice_points[i] = data.item_len_samples[item_index] - slice_points[i]
-        end
-    end
+    -- Invert the points if they are reverse
+    -- Containerise this into a function
+
+    
+
     for j=2, #slice_points do
-        local slice_index = nil
-        if data.reverse[item_index] then 
-            slice_index = (#slice_points+1) - (j-1)
-        else
-            slice_index = j
-        end
+        local slice_index = j
         slice_pos = sampstos(
             tonumber(slice_points[slice_index]), 
             data.sr[item_index]
         )
 
-        slice_pos = slice_pos * (1.0 / data.playrate[item_index]) -- account for playback rate
+        -- slice_pos = slice_pos * (1.0 / data.playrate[item_index]) - data.take_ofs[item_index] -- account for playback rate
+        slice_pos = (slice_pos - data.take_ofs[item_index]) * (1 / data.playrate[item_index]) -- account for playback rate
 
         data.item[item_index] = reaper.SplitMediaItem(
             data.item[item_index], 
-            data.item_pos[item_index] + (slice_pos - data.take_ofs[item_index])
+            data.item_pos[item_index] + (slice_pos - (data.take_ofs[item_index] * (1 / data.playrate[item_index])))
         )
     end
 end
