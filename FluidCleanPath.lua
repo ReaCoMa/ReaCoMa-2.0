@@ -1,0 +1,1 @@
+reaper.DeleteExtState("flucoma", "exepath", true)
