@@ -10,6 +10,7 @@ LayersContainer = {
     item_pos_samples = {},
     take_ofs = {},
     take_ofs_samples = {},
+    item_len = {},
     item_len_samples = {},
     cmd = {},
     item = {},
@@ -39,14 +40,13 @@ function get_layers_data(item_index, data)
     end
 
     local take_ofs = reaper.GetMediaItemTakeInfo_Value(take, "D_STARTOFFS")
-    local item_pos = reaper.GetMediaItemInfo_Value(item, "D_POSITION")
-    local item_len = reaper.GetMediaItemInfo_Value(item, "D_LENGTH")
-    local src_len = reaper.GetMediaSourceLength(src)
     local playrate = reaper.GetMediaItemTakeInfo_Value(take, "D_PLAYRATE")
+    local item_len = reaper.GetMediaItemInfo_Value(item, "D_LENGTH") * playrate
+    local src_len = reaper.GetMediaSourceLength(src)
     local playtype  = reaper.GetMediaItemTakeInfo_Value(take, "I_PITCHMODE")
     
     if data.reverse[item_index] then
-        take_ofs = math.abs((src_len - (item_len * playrate)) + take_ofs)
+        take_ofs = math.abs(src_len - (item_len + take_ofs))
     end
 
     -- This line caps the analysis at one loop
@@ -54,19 +54,16 @@ function get_layers_data(item_index, data)
         item_len = src_len 
     end
 
-    -- Convert everything to samples for CLI --
     local take_ofs_samples = stosamps(take_ofs, sr)
-    local item_pos_samples = stosamps(item_pos, sr)
     local item_len_samples = math.floor(stosamps(item_len, sr))
-
+    
     table.insert(data.item, item)
     table.insert(data.take, take)
     table.insert(data.sr, sr)
     table.insert(data.full_path, full_path)
     table.insert(data.take_ofs, take_ofs)
     table.insert(data.take_ofs_samples, take_ofs_samples)
-    table.insert(data.item_pos, item_pos)
-    table.insert(data.item_pos_samples, item_pos_samples)
+    table.insert(data.item_len, item_len)
     table.insert(data.item_len_samples, item_len_samples)
     table.insert(data.playrate, playrate)
     table.insert(data.playtype, playtype)
