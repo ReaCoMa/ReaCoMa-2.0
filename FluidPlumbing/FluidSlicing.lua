@@ -39,13 +39,13 @@ function get_slice_data(item_index, data)
     local tmp = full_path .. uuid(item_index) .. "fs.csv"
     local take_ofs = reaper.GetMediaItemTakeInfo_Value(take, "D_STARTOFFS")
     local item_pos = reaper.GetMediaItemInfo_Value(item, "D_POSITION")
-    local item_len = reaper.GetMediaItemInfo_Value(item, "D_LENGTH")
-    local src_len = reaper.GetMediaSourceLength(src)
     local playrate = reaper.GetMediaItemTakeInfo_Value(take, "D_PLAYRATE")
+    local item_len = reaper.GetMediaItemInfo_Value(item, "D_LENGTH") * playrate
+    local src_len = reaper.GetMediaSourceLength(src)
 
     
     if data.reverse[item_index] then
-        take_ofs = math.abs((src_len - (item_len * playrate)) + take_ofs)
+        take_ofs = math.abs(src_len - (item_len + take_ofs))
     end
     
     -- This line caps the analysis at one loop
@@ -55,7 +55,7 @@ function get_slice_data(item_index, data)
 
     local take_ofs_samples = stosamps(take_ofs, sr)
     local item_pos_samples = stosamps(item_pos, sr)
-    local item_len_samples = math.floor(stosamps(item_len, sr) * playrate)
+    local item_len_samples = math.floor(stosamps(item_len, sr))
 
     table.insert(data.item, item)
     table.insert(data.sr, sr)
@@ -73,8 +73,6 @@ function perform_splitting(item_index, data)
     slice_points = commasplit(data.slice_points_string[item_index])
     -- Invert the points if they are reverse
     -- Containerise this into a function
-
-    
 
     for j=2, #slice_points do
         local slice_index = j
