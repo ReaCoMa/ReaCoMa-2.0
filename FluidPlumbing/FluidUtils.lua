@@ -3,6 +3,22 @@ function DEBUG(string)
     reaper.ShowConsoleMsg("\n")
 end
 
+function normalise(value, min_in, max_in, min_out, max_out)
+    -- Go to 0 > 1
+    value = tonumber(value)
+    if value > max_in then value = max_in end
+    if value < min_in then value = min_in end
+
+    denom = max_in - min_in
+    numer = tonumber(value) - min_in
+    norm = numer / denom
+
+    -- Scale to output
+    out_range = max_out - min_out
+    norm = (norm * out_range) + min_out
+    return norm
+end
+
 function uuid(idx)
     local time = tostring(reaper.time_precise()):gsub("%.+", "")
     return time .. idx
