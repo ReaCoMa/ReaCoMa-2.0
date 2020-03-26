@@ -5,7 +5,7 @@ dofile(script_path .. "../FluidPlumbing/" .. "FluidParams.lua")
 dofile(script_path .. "../FluidPlumbing/" .. "FluidTagging.lua")
 
 if sanity_check() == false then goto exit; end
-local anal_exe = doublequote(get_fluid_path() .. "/fluid-loudness")
+local loudness_exe = doublequote(get_fluid_path() .. "/fluid-spectralshape")
 local stats_exe = doublequote(get_fluid_path() .. "/fluid-stats")
 
 local num_selected_items = reaper.CountSelectedMediaItems(0)
@@ -15,11 +15,10 @@ local num_selected_items = reaper.CountSelectedMediaItems(0)
         for i=1, num_selected_items do
             get_tag_data(i, data)
             
-            local analcmd = anal_exe ..
+            local analcmd = loudness_exe ..
             " -source " .. doublequote(data.full_path[i]) ..
             " -features " .. doublequote(data.analtmp[i]) ..
-            " -windowsize " .. "17640" ..
-            " -hopsize " .. "4410"
+            " -fftsettings " .. "4096 1024 4096"
             table.insert(data.analcmd, analcmd)
             
             local statscmd = stats_exe ..
@@ -38,7 +37,7 @@ local num_selected_items = reaper.CountSelectedMediaItems(0)
 
             local analysis_data = commasplit(channel1) -- whatver your numbers are basically
 
-            update_notes(data.item[i], "-- Loudness Analysis --")
+            update_notes(data.item[i], "-- Centroid Analysis --")
             local details = "Average: " .. analysis_data[1] .. "\r\n" ..
             "Min: " .. analysis_data[5] .. "\r\n" ..
             "Max: " .. analysis_data[7] .. "\r\n" ..
