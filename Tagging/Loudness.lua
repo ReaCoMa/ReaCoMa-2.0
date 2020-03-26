@@ -1,8 +1,8 @@
 local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
-dofile(script_path .. "/FluidPlumbing/" .. "FluidUtils.lua")
-dofile(script_path .. "/FluidPlumbing/" .. "FluidParams.lua")
-dofile(script_path .. "/FluidPlumbing/" .. "FluidTagging.lua")
+dofile(script_path .. "../FluidPlumbing/" .. "FluidUtils.lua")
+dofile(script_path .. "../FluidPlumbing/" .. "FluidParams.lua")
+dofile(script_path .. "../FluidPlumbing/" .. "FluidTagging.lua")
 
 if sanity_check() == false then goto exit; end
 local loudness_exe = doublequote(get_fluid_path() .. "/fluid-loudness")
@@ -17,7 +17,9 @@ local num_selected_items = reaper.CountSelectedMediaItems(0)
             
             local analcmd = loudness_exe ..
             " -source " .. doublequote(data.full_path[i]) ..
-            " -features " .. doublequote(data.analtmp[i])
+            " -features " .. doublequote(data.analtmp[i]) ..
+            " -windowsize " .. "17640" ..
+            " -hopsize " .. "4410"
             table.insert(data.analcmd, analcmd)
             
             local statscmd = stats_exe ..
@@ -29,17 +31,23 @@ local num_selected_items = reaper.CountSelectedMediaItems(0)
         for i=1, num_selected_items do
             cmdline(data.analcmd[i])
             cmdline(data.statscmd[i])
-            local loudness = commasplit(
+
+            local channel1 = linesplit(
                 readfile(data.statstmp[i])
-            )
+            )[1]
+
+            local loudness = commasplit(channel1)
+
             update_notes(data.item[i], "-- Loudness Analysis --")
-            local details = 
-            "Average: " .. loudness[1] .. "\r\n" ..
+            local details = "Average: " .. loudness[1] .. "\r\n" ..
             "Min: " .. loudness[5] .. "\r\n" ..
             "Max: " .. loudness[7] .. "\r\n" ..
             "Median: " .. loudness[6]
             update_notes(data.item[i], details)
         end
+        reaper.UpdateArrange()
+        reaper.Undo_EndBlock("TagLoudness", 0)
+        cleanup(data.analtmp)
+        cleanup(data.statstmp)
     end
-
 ::exit::
