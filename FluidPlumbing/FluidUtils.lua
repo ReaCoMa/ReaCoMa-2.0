@@ -71,6 +71,15 @@ function commasplit(input_string)
     return t
 end
 
+function linesplit(input_string)
+    -- splits by line endings
+    local t = {}
+    for word in string.gmatch(input_string,"(.-)\r?\n") do
+        table.insert(t, word)
+    end
+    return t
+end
+
 function statstotable(string)
     local t = {}
     for word in string:gmatch('([^,]+)') do
