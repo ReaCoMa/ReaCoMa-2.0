@@ -139,10 +139,6 @@ function store_params(processor, parameter_names, parameter_values)
     local v = commasplit(parameter_values)
 
     for i=1, #n do
-        DEBUG(n[i])
-        DEBUG(v[i])
-        DEBUG("---")
         reaper.SetExtState(processor.name, n[i], v[i], true)
     end
-
 end
