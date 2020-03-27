@@ -39,7 +39,7 @@ if num_selected_items > 0 then
         local clumplength = params[8]
         local minslicelength = params[9]
 
-        data = SlicingContainer
+        local data = SlicingContainer
 
         for i=1, num_selected_items do
             get_slice_data(i, data)

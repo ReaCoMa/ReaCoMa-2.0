@@ -36,7 +36,7 @@ if num_selected_items > 0 then
         local windowsize = params[7]
         local clumplength = params[8]
 
-        data = LayersContainer
+        local data = LayersContainer
 
         data.outputs = {
             transients = {},

@@ -36,7 +36,7 @@ if num_selected_items > 0 then
         local minslicelength = params[8]
         local highpassfreq = params[9]
 
-        data = SlicingContainer
+        local data = SlicingContainer
 
         for i=1, num_selected_items do
             get_slice_data(i, data)

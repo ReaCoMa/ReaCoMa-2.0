@@ -34,7 +34,7 @@ if num_selected_items > 0 then
         local filtersize = params[4]
         local fftsettings = params[5]
         
-        data = SlicingContainer
+        local data = SlicingContainer
 
         for i=1, num_selected_items do
             get_slice_data(i, data)
