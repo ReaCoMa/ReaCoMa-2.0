@@ -73,7 +73,37 @@ fluid_archetype = {
         filtersize = "1",
         kernelsize = "3",
         threshold = "0.5"
+    },
+
+    ampslice = {
+        name = "FluidParamAmpSlice",
+        fastrampup = "1",
+        fastrampdown = "1",
+        slowrampup = "100",
+        slowrampdown = "100",
+        onthreshold = "144",
+        offthreshold = "-144",
+        floor = "-145",
+        minslicelength = "2",
+        highpassfreq = "85"
+    },
+
+    ampgate = {
+        name = "FluidParamAmpGate",
+        rampup = "100",
+        rampdown = "100",
+        onthreshold = "144",
+        offthreshold = "-144",
+        minslicelength = "2",
+        minsilencelength = "100",
+        minlengthabove = "100",
+        minlengthbelow = "100",
+        lookback = "5",
+        lookahead = "5",
+        highpassfreq = "100",
+        maxsize = "44100",
     }
+
 }
 
 function check_params(param_table)
@@ -96,7 +126,6 @@ function parse_params(parameter_names, processor)
     local param_values = {}
     for i=1, #split_params do
         param_values[#param_values+1] = reaper.GetExtState(processor.name, split_params[i])
-        -- param_values[#param_values+1] = processor_table[split_params[i]]
     end
     return table.concat(param_values, ",")
 end
@@ -110,6 +139,9 @@ function store_params(processor, parameter_names, parameter_values)
     local v = commasplit(parameter_values)
 
     for i=1, #n do
+        DEBUG(n[i])
+        DEBUG(v[i])
+        DEBUG("---")
         reaper.SetExtState(processor.name, n[i], v[i], true)
     end
 
