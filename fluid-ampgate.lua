@@ -66,7 +66,16 @@ if num_selected_items > 0 then
 
         for i=1, num_selected_items do
             cmdline(data.cmd[i])
-            table.insert(data.slice_points_string, readfile(data.tmp[i]))
+            var = readfile(data.tmp[i])
+            channel_split = linesplit(var)
+            onsets = commasplit(channel_split[1])
+            offsets = commasplit(channel_split[2])
+            laced = lacetables(onsets, offsets)
+            dumb_string = ""
+            for i=1, #laced do
+                dumb_string = dumb_string .. laced[i] .. ","
+            end
+            table.insert(data.slice_points_string, dumb_string)
             perform_splitting(i, data)
         end
 
