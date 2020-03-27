@@ -21,7 +21,7 @@ if num_selected_items > 0 then
 
     local confirm, user_inputs = reaper.GetUserInputs("Ampgate Parameters", 12, param_names, param_values)
     if confirm then
-        store_params(processor, param_names, param_values)
+        store_params(processor, param_names, user_inputs)
 
         reaper.Undo_BeginBlock()
         -- Algorithm Parameters
