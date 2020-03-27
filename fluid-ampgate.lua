@@ -71,7 +71,7 @@ if num_selected_items > 0 then
         end
 
         reaper.UpdateArrange()
-        reaper.Undo_EndBlock("ampslice", 0)
+        reaper.Undo_EndBlock("ampgate", 0)
         cleanup(data.tmp)
     end
 end
