@@ -10,6 +10,29 @@ if sanity_check() == false then goto exit; end
 local exe = doublequote(get_fluid_path() .. "/fluid-ampgate")
 ------------------------------------------------------------------------------------
 
+function perform_gate_splitting(item_index, data, init_state)
+    local state = init_state
+    slice_points = commasplit(data.slice_points_string[item_index])
+    for j=2, #slice_points do
+        local slice_index = j
+        slice_pos = sampstos(
+            tonumber(slice_points[slice_index]), 
+            data.sr[item_index]
+        )
+
+        slice_pos = (slice_pos - data.take_ofs[item_index]) * (1 / data.playrate[item_index]) -- account for playback rate
+
+        reaper.SetMediaItemInfo_Value(data.item[item_index], "B_MUTE", state)
+        data.item[item_index] = reaper.SplitMediaItem(
+            data.item[item_index], 
+            data.item_pos[item_index] + (slice_pos - (data.take_ofs[item_index] * (1 / data.playrate[item_index])))
+        )
+        if state == 1 then state = 0 else state = 1 end
+        -- invert the state
+    end
+    reaper.SetMediaItemInfo_Value(data.item[item_index], "B_MUTE", state)
+end
+
 local num_selected_items = reaper.CountSelectedMediaItems(0)
 if num_selected_items > 0 then
 
@@ -71,12 +94,23 @@ if num_selected_items > 0 then
             onsets = commasplit(channel_split[1])
             offsets = commasplit(channel_split[2])
             laced = lacetables(onsets, offsets)
+            if #laced <= 2 then goto exit; end
             dumb_string = ""
+            local state_state = nil
+            if laced[1] == 0 then 
+                start_state = 0 -- if there is a 0 at the start we start 'off/unmuted'
+            else 
+                table.insert(laced, 1, "0")
+                start_state = 1 -- if there is something else at the start we start muted and prepend a 0
+            end
+            -- table.insert(laced, #laced, tostring(data.item_len_samples[i])) -- making an assumption here that the end is the length
             for i=1, #laced do
                 dumb_string = dumb_string .. laced[i] .. ","
             end
             table.insert(data.slice_points_string, dumb_string)
-            perform_splitting(i, data)
+            DEBUG(data.item_len_samples[i])
+            DEBUG(data.slice_points_string[i])
+            perform_gate_splitting(i, data, start_state)
         end
 
         reaper.UpdateArrange()
