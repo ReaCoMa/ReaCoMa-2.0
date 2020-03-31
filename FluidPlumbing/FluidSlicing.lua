@@ -74,8 +74,6 @@ function perform_splitting(item_index, data)
     -- Invert the points if they are reverse
     -- Containerise this into a function
 
-    
-
     for j=2, #slice_points do
         local slice_index = j
         slice_pos = sampstos(
