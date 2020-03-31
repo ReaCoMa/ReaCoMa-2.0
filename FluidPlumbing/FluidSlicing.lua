@@ -2,7 +2,9 @@ local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
 dofile(script_path .. "FluidUtils.lua")
 
-SlicingContainer = {
+FluidSlicing = {}
+
+FluidSlicing.SlicingContainer = {
     full_path = {},
     item_pos = {},
     item_pos_samples = {},
@@ -18,7 +20,7 @@ SlicingContainer = {
     playrate = {}
 }
 
-function get_slice_data(item_index, data)
+FluidSlicing.get_data = function (item_index, data)
     local item = reaper.GetSelectedMediaItem(0, item_index-1)
     local take = reaper.GetActiveTake(item)
     local src = reaper.GetMediaItemTake_Source(take)
@@ -69,7 +71,7 @@ function get_slice_data(item_index, data)
     table.insert(data.playrate, playrate)
 end
 
-function perform_splitting(item_index, data)
+FluidSlicing.perform_splitting = function (item_index, data)
     slice_points = commasplit(data.slice_points_string[item_index])
     -- Invert the points if they are reverse
     -- Containerise this into a function
