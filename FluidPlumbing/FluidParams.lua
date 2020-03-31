@@ -35,12 +35,16 @@ fluid_archetype = {
 
     sines = {
         name = "FluidParamSines",
+        birthhighthreshold = "-60",
+        birthlowthreshold = "-24",
+        detectionthreshold = "-96",
+        trackfreqrange = "50.0",
+        trackingmethod = "0",
+        trackmagrange = "15.0",
+        trackprob = "0.5",
         bandwidth = "76",
         fftsettings = "1024 -1 -1",
-        freqweight = "0.5",
-        magweight = "0.01",
-        mintracklen = "15",
-        threshold = "0.7"
+        mintracklen = "15"
     },
 
     transientslice = {
@@ -72,7 +76,8 @@ fluid_archetype = {
         fftsettings = "1024 -1 -1",
         filtersize = "1",
         kernelsize = "3",
-        threshold = "0.5"
+        threshold = "0.5",
+        minslicelength = 2,
     },
 
     ampslice = {

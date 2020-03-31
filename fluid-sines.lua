@@ -19,22 +19,26 @@ if num_selected_items > 0 then
     -- Parameter Get/Set/Prep
     local processor = fluid_archetype.sines
     check_params(processor)
-    local param_names = "bandwidth,threshold,mintracklen,magweight,freqweight,fftsettings"
+    local param_names = "birthhighthreshold,birthlowthreshold,detectionthreshold,trackfreqrange,trackingmethod,trackmagrange,trackprob,bandwidth,fftsettings,mintracklen"
     local param_values = parse_params(param_names, processor)
 
-    local confirm, user_inputs = reaper.GetUserInputs("Sines Parameters", 6, param_names, param_values)
+    local confirm, user_inputs = reaper.GetUserInputs("Sines Parameters", 10, param_names, param_values)
     if confirm then 
         store_params(processor, param_names, user_inputs)
 
         reaper.Undo_BeginBlock()
         -- Algorithm Parameters
         local params = commasplit(user_inputs)
-        local bandwidth = params[1]
-        local threshold = params[2]
-        local mintracklen = params[3]
-        local magweight = params[4]
-        local freqweight = params[5]
-        local fftsettings = params[6]
+        local bhthresh = params[1]
+        local blthresh = params[2]
+        local dethresh = params[3]
+        local trackfreqrange = params[4]
+        local trackingmethod = params[5]
+        local trackmagrange = params[6]
+        local trackprob = params[7]
+        local bandwidth = params[8]
+        local fftsettings = params[9]
+        local mintracklen = params[10]
 
         local data = LayersContainer
 
@@ -62,12 +66,16 @@ if num_selected_items > 0 then
                 " -source " .. doublequote(data.full_path[i]) .. 
                 " -sines " .. doublequote(data.outputs.sines[i]) .. 
                 " -residual " .. doublequote(data.outputs.residual[i]) .. 
-                " -bandwidth " .. bandwidth .. 
-                " -threshold " .. threshold ..
-                " -mintracklen " .. mintracklen .. 
-                " -magweight " .. magweight .. 
-                " -freqweight " .. freqweight ..
-                " -fftsettings " .. fftsettings .. 
+                " -birthhighthreshold " .. bhthresh ..
+                " -birthlowthreshold " .. blthresh ..
+                " -detectionthreshold " .. dethresh ..
+                " -trackfreqrange " .. trackfreqrange ..
+                " -trackingmethod " .. trackingmethod ..
+                " -trackmagrange " .. trackmagrange ..
+                " -trackprob " .. trackprob ..
+                " -bandwidth " .. bandwidth ..
+                " -fftsettings " .. fftsettings ..
+                " -mintracklen " .. mintracklen ..
                 " -numframes " .. data.item_len_samples[i] .. 
                 " -startframe " .. data.take_ofs_samples[i]
             )
