@@ -34,10 +34,10 @@ if num_selected_items > 0 then
         local filtersize = params[4]
         local fftsettings = params[5]
         
-        local data = SlicingContainer
+        local data = FluidSlicing.SlicingContainer
 
         for i=1, num_selected_items do
-            get_slice_data(i, data)
+            FluidSlicing.get_data(i, data)
             
             local cmd = exe .. 
             " -source " .. doublequote(data.full_path[i]) .. 
@@ -55,7 +55,7 @@ if num_selected_items > 0 then
         for i=1, num_selected_items do
             cmdline(data.cmd[i])
             table.insert(data.slice_points_string, readfile(data.tmp[i]))
-            perform_splitting(i, data)
+            FluidSlicing.perform_splitting(i, data)
         end
 
         reaper.UpdateArrange()
