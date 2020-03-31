@@ -36,7 +36,7 @@ if num_selected_items > 0 then
         local freqweight = params[5]
         local fftsettings = params[6]
 
-        data = LayersContainer
+        local data = LayersContainer
 
         data.outputs = {
             sines = {},

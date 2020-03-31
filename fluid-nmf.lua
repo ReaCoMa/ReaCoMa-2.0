@@ -33,7 +33,7 @@ if num_selected_items > 0 then
         local iterations = params[2]
         local fftsettings = params[3]
 
-        data = LayersContainer
+        local data = LayersContainer
 
         data.outputs = {
             components = {}

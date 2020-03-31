@@ -80,6 +80,15 @@ function linesplit(input_string)
     return t
 end
 
+function lacetables(table1, table2)
+    laced = {}
+    for i=1, #table1 do
+        table.insert(laced, table1[i])
+        table.insert(laced, table2[i])
+    end
+    return laced
+end
+
 function statstotable(string)
     local t = {}
     for word in string:gmatch('([^,]+)') do
