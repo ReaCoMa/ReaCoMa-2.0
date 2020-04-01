@@ -11,7 +11,6 @@ local exe = fluidUtils.doublequote(fluidPaths.get_fluid_path() .. "/fluid-novelt
 local num_selected_items = reaper.CountSelectedMediaItems(0)
 if num_selected_items > 0 then
 
-    -- Parameter Get/Set/Prep
     local processor = fluid_archetype.noveltyslice
     fluidParams.check_params(processor)
     local param_names = "feature,threshold,kernelsize,filtersize,fftsettings,minslicelength"

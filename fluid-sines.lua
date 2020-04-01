@@ -11,7 +11,6 @@ local exe = fluidUtils.doublequote(fluidPaths.get_fluid_path() .. "/fluid-sines"
 local num_selected_items = reaper.CountSelectedMediaItems(0)
 if num_selected_items > 0 then
     
-    -- Parameter Get/Set/Prep
     local processor = fluid_archetype.sines
     fluidParams.check_params(processor)
     local param_names = "birthhighthreshold,birthlowthreshold,detectionthreshold,trackfreqrange,trackingmethod,trackmagrange,trackprob,bandwidth,fftsettings,mintracklen"
@@ -22,7 +21,6 @@ if num_selected_items > 0 then
         fluidParams.store_params(processor, param_names, user_inputs)
 
         reaper.Undo_BeginBlock()
-        -- Algorithm Parameters
         local params = fluidUtils.commasplit(user_inputs)
         local bhthresh = params[1]
         local blthresh = params[2]

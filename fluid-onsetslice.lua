@@ -11,7 +11,6 @@ local exe = fluidUtils.doublequote(fluidPaths.get_fluid_path() .. "/fluid-onsets
 local num_selected_items = reaper.CountSelectedMediaItems(0)
 if num_selected_items > 0 then
 
-    -- Parameter Get/Set/Prep
     local processor = fluid_archetype.onsetslice
     fluidParams.check_params(processor)
     local param_names = "metric,threshold,minslicelength,filtersize,framedelta,fftsettings"
@@ -22,7 +21,6 @@ if num_selected_items > 0 then
         fluidParams.store_params(processor, param_names, param_values)
 
         reaper.Undo_BeginBlock()
-        -- Algorithm Parameters
         local params = fluidUtils.commasplit(user_inputs)
         local metric = params[1]
         local threshold = params[2]

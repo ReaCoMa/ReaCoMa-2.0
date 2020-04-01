@@ -11,7 +11,6 @@ local exe = fluidUtils.doublequote(fluidPaths.get_fluid_path() .. "/fluid-ampsli
 local num_selected_items = reaper.CountSelectedMediaItems(0)
 if num_selected_items > 0 then
 
-    -- Parameter Get/Set/Prep
     local processor = fluid_archetype.ampslice
     fluidParams.check_params(processor)
     local param_names = "fastrampup,fastrampdown,slowrampup,slowrampdown,onthreshold,offthreshold,floor,minslicelength,highpassfreq"
@@ -22,7 +21,6 @@ if num_selected_items > 0 then
         fluidParams.store_params(processor, param_names, user_inputs)
 
         reaper.Undo_BeginBlock()
-        -- Algorithm Parameters
         local params = fluidUtils.commasplit(user_inputs)
         local fastrampup = params[1]
         local fastrampdown = params[2]
