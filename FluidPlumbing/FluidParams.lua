@@ -2,6 +2,9 @@
 -- These mostly act as a way of storing an idenfitier (name)...
 -- ... and the parameters
 -- As a bonus, some defaults are defined in order to initialise the objects at some point
+
+FluidParams = {}
+
 fluid_archetype = {
 
     nmf = {
@@ -127,7 +130,7 @@ FluidParams.parse_params = function(parameter_names, processor)
     -- Provide captions in,
     -- turn this into a string of parameter values to be provided to the user
     -- We do this because iterating tables is not deterministic
-    local split_params = commasplit(parameter_names)
+    local split_params = FluidUtils.commasplit(parameter_names)
     local param_values = {}
     for i=1, #split_params do
         param_values[#param_values+1] = reaper.GetExtState(processor.name, split_params[i])
@@ -140,8 +143,8 @@ FluidParams.store_params = function(processor, parameter_names, parameter_values
     -- This lets you re-use non, hardcoded values to store
     -- Store the numbers in the external state of reaper
     -- Processor tells you what the name of the object is and where to store
-    local n = commasplit(parameter_names)
-    local v = commasplit(parameter_values)
+    local n = FluidUtils.commasplit(parameter_names)
+    local v = FluidUtils.commasplit(parameter_values)
 
     for i=1, #n do
         reaper.SetExtState(processor.name, n[i], v[i], true)
