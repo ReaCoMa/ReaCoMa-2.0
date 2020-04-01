@@ -4,14 +4,8 @@ dofile(script_path .. "/FluidPlumbing/" .. "FluidUtils.lua")
 dofile(script_path .. "/FluidPlumbing/" .. "FluidParams.lua")
 dofile(script_path .. "/FluidPlumbing/" .. "FluidSlicing.lua")
 
-------------------------------------------------------------------------------------
---   Each user MUST point this to their folder containing FluCoMa CLI executables --
 if sanity_check() == false then goto exit; end
-local cli_path = get_fluid_path()
---   Then we form some calls to the tools that will live in that folder --
-local suf = cli_path .. "/fluid-noveltyslice"
-local exe = doublequote(suf)
-------------------------------------------------------------------------------------
+local exe = doublequote(get_fluid_path() .. "/fluid-noveltyslice")
 
 local num_selected_items = reaper.CountSelectedMediaItems(0)
 if num_selected_items > 0 then
@@ -35,7 +29,7 @@ if num_selected_items > 0 then
         local fftsettings = params[5]
         local minslicelength = params[6]
         
-        local data = FluidSlicing.SlicingContainer
+        local data = FluidSlicing.container
 
         for i=1, num_selected_items do
             FluidSlicing.get_data(i, data)

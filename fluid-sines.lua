@@ -4,14 +4,8 @@ dofile(script_path .. "/FluidPlumbing/" .. "FluidUtils.lua")
 dofile(script_path .. "/FluidPlumbing/" .. "FluidParams.lua")
 dofile(script_path .. "/FluidPlumbing/" .. "FluidLayers.lua")
 
-------------------------------------------------------------------------------------
---   Each user MUST point this to their folder containing FluCoMa CLI executables --
 if sanity_check() == false then goto exit; end
-local cli_path = get_fluid_path()
---   Then we form some calls to the tools that will live in that folder --
-local suf = cli_path .. "/fluid-sines"
-local exe = doublequote(suf)
-------------------------------------------------------------------------------------
+local exe = doublequote(get_fluid_path() .. "/fluid-sines")
 
 local num_selected_items = reaper.CountSelectedMediaItems(0)
 if num_selected_items > 0 then
@@ -40,7 +34,7 @@ if num_selected_items > 0 then
         local fftsettings = params[9]
         local mintracklen = params[10]
 
-        local data = LayersContainer
+        local data = FluidLayers.container
 
         data.outputs = {
             sines = {},
@@ -48,7 +42,7 @@ if num_selected_items > 0 then
         }
 
         for i=1, num_selected_items do
-            get_layers_data(i, data)
+            FluidLayers.get_data(i, data)
 
             table.insert(
                 data.outputs.sines,
@@ -88,7 +82,7 @@ if num_selected_items > 0 then
 
         reaper.SelectAllMediaItems(0, 0)
         for i=1, num_selected_items do
-            perform_layers(i, data)
+            FluidLayers.perform_layers(i, data)
         end
 
         reaper.UpdateArrange()

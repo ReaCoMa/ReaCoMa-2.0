@@ -36,10 +36,10 @@ if num_selected_items > 0 then
         local highpassfreq = params[11]
         local maxsize = params[12]
 
-        local data = SlicingContainer
+        local data = FluidSlicing.container
 
         for i=1, num_selected_items do
-            get_slice_data(i, data)
+            FluidSlicing.get_data(i, data)
 
             local cmd = exe .. 
             " -source " .. doublequote(data.full_path[i]) .. 
@@ -77,12 +77,11 @@ if num_selected_items > 0 then
                 table.insert(laced, 1, "0")
                 start_state = 1 -- if there is something else at the start we start muted and prepend a 0
             end
-            -- table.insert(laced, #laced, tostring(data.item_len_samples[i])) -- making an assumption here that the end is the length
             for i=1, #laced do
                 dumb_string = dumb_string .. laced[i] .. ","
             end
             table.insert(data.slice_points_string, dumb_string)
-            perform_gate_splitting(i, data, start_state)
+            FluidSlicing.perform_gate_splitting(i, data, start_state)
         end
 
         reaper.UpdateArrange()
