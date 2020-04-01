@@ -1,8 +1,8 @@
 local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
-dofile(script_path .. "../fluidPlumbing/" .. "fluidUtils.lua")
-dofile(script_path .. "../fluidPlumbing/" .. "fluidParams.lua")
-dofile(script_path .. "../fluidPlumbing/" .. "fluidTagging.lua")
+dofile(script_path .. "../FluidPlumbing/" .. "fluidUtils.lua")
+dofile(script_path .. "../FluidPlumbing/" .. "fluidParams.lua")
+dofile(script_path .. "../FluidPlumbing/" .. "fluidTagging.lua")
 
 if sanity_check() == false then goto exit; end
 local anal_exe = doublequote(get_fluid_path() .. "/fluid-loudness")
