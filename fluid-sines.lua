@@ -1,8 +1,9 @@
 local info = debug.getinfo(1,'S');
 script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
-dofile(script_path .. "/FluidPlumbing/" .. "FluidUtils.lua")
-dofile(script_path .. "/FluidPlumbing/" .. "FluidParams.lua")
-dofile(script_path .. "/FluidPlumbing/" .. "FluidLayers.lua")
+dofile(script_path .. "/FluidPlumbing/FluidUtils.lua")
+dofile(script_path .. "/FluidPlumbing/FluidParams.lua")
+dofile(script_path .. "/FluidPlumbing/FluidPaths.lua")
+dofile(script_path .. "/FluidPlumbing/FluidLayers.lua")
 
 if FluidPaths.sanity_check() == false then goto exit; end
 local exe = FluidUtils.doublequote(FluidPaths.get_fluid_path() .. "/fluid-sines")
