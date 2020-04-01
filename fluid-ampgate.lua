@@ -51,7 +51,7 @@ if num_selected_items > 0 then
             " -minsilencelength " .. minsilencelength ..
             " -minlengthabove " .. minlengthabove ..
             " -minlengthbelow " .. minlengthbelow ..
-            " -lookback " .. lookahead ..
+            " -lookback " .. lookback ..
             " -lookahead " .. lookahead ..
             " -highpassfreq " .. highpassfreq ..
             " -maxsize " .. maxsize ..
