@@ -1,3 +1,5 @@
+FluidUtils = {}
+
 function DEBUG(string)
     reaper.ShowConsoleMsg(string)
     reaper.ShowConsoleMsg("\n")
