@@ -1,34 +1,34 @@
 local info = debug.getinfo(1,'S');
 script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
-dofile(script_path .. "/FluidPlumbing/FluidUtils.lua")
-dofile(script_path .. "/FluidPlumbing/FluidParams.lua")
-dofile(script_path .. "/FluidPlumbing/FluidPaths.lua")
-dofile(script_path .. "/FluidPlumbing/FluidLayers.lua")
+dofile(script_path .. "/fluidPlumbing/fluidUtils.lua")
+dofile(script_path .. "/fluidPlumbing/fluidParams.lua")
+dofile(script_path .. "/fluidPlumbing/fluidPaths.lua")
+dofile(script_path .. "/fluidPlumbing/fluidLayers.lua")
 
-if FluidPaths.sanity_check() == false then goto exit; end
-local exe = FluidUtils.doublequote(FluidPaths.get_fluid_path() .. "/fluid-nmf")
+if fluidPaths.sanity_check() == false then goto exit; end
+local exe = fluidUtils.doublequote(fluidPaths.get_fluid_path() .. "/fluid-nmf")
 
 local num_selected_items = reaper.CountSelectedMediaItems(0)
 if num_selected_items > 0 then
 
     -- Parameter Get/Set/Prep
     local processor = fluid_archetype.nmf
-    FluidParams.check_params(processor)
+    fluidParams.check_params(processor)
     local param_names = "components,iterations,fftsettings"
-    local param_values = FluidParams.parse_params(param_names, processor)
+    local param_values = fluidParams.parse_params(param_names, processor)
     
     local confirm, user_inputs = reaper.GetUserInputs("NMF Parameters", 3, param_names, param_values)
     if confirm then
-        FluidParams.store_params(processor, param_names, user_inputs)
+        fluidParams.store_params(processor, param_names, user_inputs)
 
         reaper.Undo_BeginBlock()
         -- Algorithm Parameters
-        local params = FluidUtils.commasplit(user_inputs)
+        local params = fluidUtils.commasplit(user_inputs)
         local components = params[1]
         local iterations = params[2]
         local fftsettings = params[3]
 
-        local data = FluidLayers.container
+        local data = fluidLayers.container
 
         data.outputs = {
             components = {}
@@ -36,18 +36,18 @@ if num_selected_items > 0 then
 
         for i=1, num_selected_items do
 
-            FluidLayers.get_data(i, data)
+            fluidLayers.get_data(i, data)
 
             table.insert(
                 data.outputs.components,
-                FluidUtils.basename(data.full_path[i]) .. "_nmf_" .. FluidUtils.uuid(i) .. ".wav"
+                fluidUtils.basename(data.full_path[i]) .. "_nmf_" .. fluidUtils.uuid(i) .. ".wav"
             )
 
             table.insert(
                 data.cmd, 
                 exe .. 
-                " -source " .. FluidUtils.doublequote(data.full_path[i]) .. 
-                " -resynth " .. FluidUtils.doublequote(data.outputs.components[i]) ..  
+                " -source " .. fluidUtils.doublequote(data.full_path[i]) .. 
+                " -resynth " .. fluidUtils.doublequote(data.outputs.components[i]) ..  
                 " -components " .. components .. 
                 " -fftsettings " .. fftsettings ..
                 " -numframes " .. data.item_len_samples[i] .. 
@@ -57,12 +57,12 @@ if num_selected_items > 0 then
 
         -- Execute NMF Process
         for i=1, num_selected_items do
-            FluidUtils.cmdline(data.cmd[i])
+            fluidUtils.cmdline(data.cmd[i])
         end
         
         reaper.SelectAllMediaItems(0, 0)
         for i=1, num_selected_items do
-            FluidLayers.perform_layers(i, data)
+            fluidLayers.perform_layers(i, data)
         end
         
         reaper.UpdateArrange()

@@ -1,28 +1,28 @@
 local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
-dofile(script_path .. "/FluidPlumbing/FluidUtils.lua")
-dofile(script_path .. "/FluidPlumbing/FluidParams.lua")
-dofile(script_path .. "/FluidPlumbing/FluidPaths.lua")
-dofile(script_path .. "/FluidPlumbing/FluidSlicing.lua")
+dofile(script_path .. "/fluidPlumbing/fluidUtils.lua")
+dofile(script_path .. "/fluidPlumbing/fluidParams.lua")
+dofile(script_path .. "/fluidPlumbing/fluidPaths.lua")
+dofile(script_path .. "/fluidPlumbing/fluidSlicing.lua")
 
-if FluidPaths.sanity_check() == false then goto exit; end
-local exe = FluidUtils.doublequote(FluidPaths.get_fluid_path() .. "/fluid-noveltyslice")
+if fluidPaths.sanity_check() == false then goto exit; end
+local exe = fluidUtils.doublequote(fluidPaths.get_fluid_path() .. "/fluid-noveltyslice")
 
 local num_selected_items = reaper.CountSelectedMediaItems(0)
 if num_selected_items > 0 then
 
     -- Parameter Get/Set/Prep
     local processor = fluid_archetype.noveltyslice
-    FluidParams.check_params(processor)
+    fluidParams.check_params(processor)
     local param_names = "feature,threshold,kernelsize,filtersize,fftsettings,minslicelength"
-    local param_values = FluidParams.parse_params(param_names, processor)
+    local param_values = fluidParams.parse_params(param_names, processor)
 
     local confirm, user_inputs = reaper.GetUserInputs("Noveltyslice Parameters", 6, param_names, param_values)
     if confirm then
-        FluidParams.store_params(processor, param_names, user_inputs)
+        fluidParams.store_params(processor, param_names, user_inputs)
 
         reaper.Undo_BeginBlock()
-        local params = FluidUtils.commasplit(user_inputs)
+        local params = fluidUtils.commasplit(user_inputs)
         local feature = params[1]
         local threshold = params[2]
         local kernelsize = params[3]
@@ -30,14 +30,14 @@ if num_selected_items > 0 then
         local fftsettings = params[5]
         local minslicelength = params[6]
         
-        local data = FluidSlicing.container
+        local data = fluidSlicing.container
 
         for i=1, num_selected_items do
-            FluidSlicing.get_data(i, data)
+            fluidSlicing.get_data(i, data)
             
             local cmd = exe .. 
-            " -source " .. FluidUtils.doublequote(data.full_path[i]) .. 
-            " -indices " .. FluidUtils.doublequote(data.tmp[i]) .. 
+            " -source " .. fluidUtils.doublequote(data.full_path[i]) .. 
+            " -indices " .. fluidUtils.doublequote(data.tmp[i]) .. 
             " -feature " .. feature .. 
             " -kernelsize " .. kernelsize .. 
             " -threshold " .. threshold .. 
@@ -50,14 +50,14 @@ if num_selected_items > 0 then
         end
 
         for i=1, num_selected_items do
-            FluidUtils.cmdline(data.cmd[i])
-            table.insert(data.slice_points_string, FluidUtils.readfile(data.tmp[i]))
-            FluidSlicing.perform_splitting(i, data)
+            fluidUtils.cmdline(data.cmd[i])
+            table.insert(data.slice_points_string, fluidUtils.readfile(data.tmp[i]))
+            fluidSlicing.perform_splitting(i, data)
         end
 
         reaper.UpdateArrange()
         reaper.Undo_EndBlock("noveltyslice", 0)
-        FluidUtils.cleanup(data.tmp)
+        fluidUtils.cleanup(data.tmp)
     end
 end
 ::exit::

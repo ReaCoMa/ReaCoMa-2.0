@@ -1,29 +1,29 @@
 local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
-dofile(script_path .. "/FluidPlumbing/FluidUtils.lua")
-dofile(script_path .. "/FluidPlumbing/FluidParams.lua")
-dofile(script_path .. "/FluidPlumbing/FluidPaths.lua")
-dofile(script_path .. "/FluidPlumbing/FluidSlicing.lua")
+dofile(script_path .. "/fluidPlumbing/fluidUtils.lua")
+dofile(script_path .. "/fluidPlumbing/fluidParams.lua")
+dofile(script_path .. "/fluidPlumbing/fluidPaths.lua")
+dofile(script_path .. "/fluidPlumbing/fluidSlicing.lua")
 
-if FluidPaths.sanity_check() == false then goto exit; end
-local exe = FluidUtils.doublequote(FluidPaths.get_fluid_path() .. "/fluid-onsetslice")
+if fluidPaths.sanity_check() == false then goto exit; end
+local exe = fluidUtils.doublequote(fluidPaths.get_fluid_path() .. "/fluid-onsetslice")
 
 local num_selected_items = reaper.CountSelectedMediaItems(0)
 if num_selected_items > 0 then
 
     -- Parameter Get/Set/Prep
     local processor = fluid_archetype.onsetslice
-    FluidParams.check_params(processor)
+    fluidParams.check_params(processor)
     local param_names = "metric,threshold,minslicelength,filtersize,framedelta,fftsettings"
-    local param_values = FluidParams.parse_params(param_names, processor)
+    local param_values = fluidParams.parse_params(param_names, processor)
 
     local confirm, user_inputs = reaper.GetUserInputs("Onset Slice Parameters", 6, param_names, param_values)
     if confirm then
-        FluidParams.store_params(processor, param_names, param_values)
+        fluidParams.store_params(processor, param_names, param_values)
 
         reaper.Undo_BeginBlock()
         -- Algorithm Parameters
-        local params = FluidUtils.commasplit(user_inputs)
+        local params = fluidUtils.commasplit(user_inputs)
         local metric = params[1]
         local threshold = params[2]
         local minslicelength = params[3]
@@ -31,14 +31,14 @@ if num_selected_items > 0 then
         local framedelta = params[5]
         local fftsettings = params[6]
 
-        local data = FluidSlicing.container
+        local data = fluidSlicing.container
 
         for i=1, num_selected_items do
-            FluidSlicing.get_data(i, data)
+            fluidSlicing.get_data(i, data)
 
             local cmd = exe .. 
-            " -source " .. FluidUtils.doublequote(data.full_path[i]) .. 
-            " -indices " .. FluidUtils.doublequote(data.tmp[i]) .. 
+            " -source " .. fluidUtils.doublequote(data.full_path[i]) .. 
+            " -indices " .. fluidUtils.doublequote(data.tmp[i]) .. 
             " -metric " .. metric .. 
             " -minslicelength " .. minslicelength .. 
             " -threshold " .. threshold .. 
@@ -52,14 +52,14 @@ if num_selected_items > 0 then
         end
 
         for i=1, num_selected_items do
-            FluidUtils.cmdline(data.cmd[i])
-            table.insert(data.slice_points_string, FluidUtils.readfile(data.tmp[i]))
-            FluidSlicing.perform_splitting(i, data)
+            fluidUtils.cmdline(data.cmd[i])
+            table.insert(data.slice_points_string, fluidUtils.readfile(data.tmp[i]))
+            fluidSlicing.perform_splitting(i, data)
         end
 
         reaper.UpdateArrange()
         reaper.Undo_EndBlock("onsetslice", 0)
-        FluidUtils.cleanup(data.tmp)
+        fluidUtils.cleanup(data.tmp)
     end
 end
 ::exit::
