@@ -2,8 +2,8 @@ local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
 dofile(script_path .. "FluidUtils.lua")
 
-FluidTagging = {}
-FluidTagging.container = {
+fluidTagging = {}
+fluidTagging.container = {
     full_path = {},
     item_pos = {},
     item_pos_samples = {},
@@ -21,7 +21,7 @@ FluidTagging.container = {
     playrate = {}
 }
 
-FluidTagging.get_data = function(item_index, data)
+fluidTagging.get_data = function(item_index, data)
     local item = reaper.GetSelectedMediaItem(0, item_index-1)
     local take = reaper.GetActiveTake(item)
     local src = reaper.GetMediaItemTake_Source(take)
@@ -39,8 +39,8 @@ FluidTagging.get_data = function(item_index, data)
         table.insert(data.reverse, false)
     end
     
-    local analtmp = full_path .. uuid(item_index) .. "ttag.wav"
-    local statstmp = full_path .. uuid(item_index) .. "tstats.csv"
+    local analtmp = full_path .. fluidUtils.uuid(item_index) .. "ttag.wav"
+    local statstmp = full_path .. fluidUtils.uuid(item_index) .. "tstats.csv"
     local take_ofs = reaper.GetMediaItemTakeInfo_Value(take, "D_STARTOFFS")
     local item_pos = reaper.GetMediaItemInfo_Value(item, "D_POSITION")
     local item_len = reaper.GetMediaItemInfo_Value(item, "D_LENGTH")
@@ -57,9 +57,9 @@ FluidTagging.get_data = function(item_index, data)
         item_len = src_len 
     end
 
-    local take_ofs_samples = stosamps(take_ofs, sr)
-    local item_pos_samples = stosamps(item_pos, sr)
-    local item_len_samples = math.floor(stosamps(item_len, sr) * playrate)
+    local take_ofs_samples = fluidUtils.stosamps(take_ofs, sr)
+    local item_pos_samples = fluidUtils.stosamps(item_pos, sr)
+    local item_len_samples = math.floor(fluidUtils.stosamps(item_len, sr) * playrate)
 
     table.insert(data.item, item)
     table.insert(data.sr, sr)
@@ -74,7 +74,7 @@ FluidTagging.get_data = function(item_index, data)
     table.insert(data.statstmp, statstmp)
 end
 
-FluidTagging.update_notes = function(item, text)
+fluidTagging.update_notes = function(item, text)
     _, current_notes = reaper.GetSetMediaItemInfo_String(
         item, 
         "P_NOTES", 

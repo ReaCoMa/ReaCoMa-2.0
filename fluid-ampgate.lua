@@ -5,25 +5,23 @@ dofile(script_path .. "/FluidPlumbing/FluidParams.lua")
 dofile(script_path .. "/FluidPlumbing/FluidPaths.lua")
 dofile(script_path .. "/FluidPlumbing/FluidSlicing.lua")
 
-if FluidPaths.sanity_check() == false then goto exit; end
-local exe = FluidUtils.doublequote(FluidPaths.get_fluid_path() .. "/fluid-ampgate")
+if fluidPaths.sanity_check() == false then goto exit; end
+local exe = fluidUtils.doublequote(fluidPaths.get_fluid_path() .. "/fluid-ampgate")
 
 local num_selected_items = reaper.CountSelectedMediaItems(0)
 if num_selected_items > 0 then
 
-    -- Parameter Get/Set/Prep
     local processor = fluid_archetype.ampgate
-    FluidParams.check_params(processor)
+    fluidParams.check_params(processor)
     local param_names = "rampup,rampdown,onthreshold,offthreshold,minslicelength,minsilencelength,minlengthabove,minlengthbelow,lookback,lookahead,highpassfreq,maxsize"
-    param_values = FluidParams.parse_params(param_names, processor)
+    param_values = fluidParams.parse_params(param_names, processor)
 
     local confirm, user_inputs = reaper.GetUserInputs("Ampgate Parameters", 12, param_names, param_values)
     if confirm then
-        FluidParams.store_params(processor, param_names, user_inputs)
+        fluidParams.store_params(processor, param_names, user_inputs)
 
         reaper.Undo_BeginBlock()
-        -- Algorithm Parameters
-        local params = FluidUtils.commasplit(user_inputs)
+        local params = fluidUtils.commasplit(user_inputs)
         local rampup = params[1]
         local rampdown = params[2]
         local onthreshold = params[3]
@@ -37,14 +35,14 @@ if num_selected_items > 0 then
         local highpassfreq = params[11]
         local maxsize = params[12]
 
-        local data = FluidSlicing.container
+        local data = fluidSlicing.container
 
         for i=1, num_selected_items do
-            FluidSlicing.get_data(i, data)
+            fluidSlicing.get_data(i, data)
 
             local cmd = exe .. 
-            " -source " .. FluidUtils.doublequote(data.full_path[i]) .. 
-            " -indices " .. FluidUtils.doublequote(data.tmp[i]) .. 
+            " -source " .. fluidUtils.doublequote(data.full_path[i]) .. 
+            " -indices " .. fluidUtils.doublequote(data.tmp[i]) .. 
             " -rampup " .. rampup ..
             " -rampdown " .. rampdown ..
             " -onthreshold " .. onthreshold ..
@@ -63,12 +61,12 @@ if num_selected_items > 0 then
         end
 
         for i=1, num_selected_items do
-            FluidUtils.cmdline(data.cmd[i])
-            var = FluidUtils.readfile(data.tmp[i])
-            channel_split = FluidUtils.linesplit(var)
-            onsets = FluidUtils.commasplit(channel_split[1])
-            offsets = FluidUtils.commasplit(channel_split[2])
-            laced = FluidUtils.lacetables(onsets, offsets)
+            fluidUtils.cmdline(data.cmd[i])
+            var = fluidUtils.readfile(data.tmp[i])
+            channel_split = fluidUtils.linesplit(var)
+            onsets = fluidUtils.commasplit(channel_split[1])
+            offsets = fluidUtils.commasplit(channel_split[2])
+            laced = fluidUtils.lacetables(onsets, offsets)
             if #laced <= 2 then goto exit; end
             dumb_string = ""
             local state_state = nil
@@ -82,12 +80,12 @@ if num_selected_items > 0 then
                 dumb_string = dumb_string .. laced[i] .. ","
             end
             table.insert(data.slice_points_string, dumb_string)
-            FluidSlicing.perform_gate_splitting(i, data, start_state)
+            fluidSlicing.perform_gate_splitting(i, data, start_state)
         end
 
         reaper.UpdateArrange()
         reaper.Undo_EndBlock("ampgate", 0)
-        FluidUtils.cleanup(data.tmp)
+        fluidUtils.cleanup(data.tmp)
     end
 end
 ::exit::

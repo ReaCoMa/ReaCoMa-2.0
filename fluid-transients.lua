@@ -3,25 +3,25 @@ local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
 dofile(script_path .. "/FluidPlumbing/FluidUtils.lua")
 dofile(script_path .. "/FluidPlumbing/FluidParams.lua")
 dofile(script_path .. "/FluidPlumbing/FluidPaths.lua")
-dofile(script_path .. "/FluidPlumbing/FluidLayers.lua")
+dofile(script_path .. "/FluidPlumbing/fluidLayers.lua")
 
-if FluidPaths.sanity_check() == false then goto exit; end
-local exe = FluidUtils.doublequote(FluidPaths.get_fluid_path() .. "/fluid-transients")
+if fluidPaths.sanity_check() == false then goto exit; end
+local exe = fluidUtils.doublequote(fluidPaths.get_fluid_path() .. "/fluid-transients")
 
 local num_selected_items = reaper.CountSelectedMediaItems(0)
 if num_selected_items > 0 then
+    
     local processor = fluid_archetype.transients
-    FluidParams.check_params(processor)
+    fluidParams.check_params(processor)
     local param_names = "order,blocksize,padsize,skew,threshfwd,threshback,windowsize,clumplength"
-    local param_values = FluidParams.parse_params(param_names, processor)
+    local param_values = fluidParams.parse_params(param_names, processor)
 
     local confirm, user_inputs = reaper.GetUserInputs("Transients Parameters", 8, param_names, param_values)
     if confirm then 
-        FluidParams.store_params(processor, param_names, user_inputs)
+        fluidParams.store_params(processor, param_names, user_inputs)
+        
         reaper.Undo_BeginBlock()
-
-        -- Algorithm Parameters
-        local params = FluidUtils.commasplit(user_inputs)
+        local params = fluidUtils.commasplit(user_inputs)
         local order = params[1]
         local blocksize = params[2]
         local padsize = params[3]
@@ -31,7 +31,7 @@ if num_selected_items > 0 then
         local windowsize = params[7]
         local clumplength = params[8]
 
-        local data = FluidLayers.container
+        local data = fluidLayers.container
 
         data.outputs = {
             transients = {},
@@ -40,24 +40,24 @@ if num_selected_items > 0 then
 
         for i=1, num_selected_items do
 
-            FluidLayers.get_data(i, data)
+            fluidLayers.get_data(i, data)
 
             table.insert(
                 data.outputs.transients,
-                FluidUtils.basename(data.full_path[i]) .. "_ts-t_" .. FluidUtils.uuid(i) .. ".wav"
+                fluidUtils.basename(data.full_path[i]) .. "_ts-t_" .. fluidUtils.uuid(i) .. ".wav"
             )
 
             table.insert(
                 data.outputs.residual,
-                FluidUtils.basename(data.full_path[i]) .. "_ts-r_" .. FluidUtils.uuid(i) .. ".wav"
+                fluidUtils.basename(data.full_path[i]) .. "_ts-r_" .. fluidUtils.uuid(i) .. ".wav"
             )
 
             table.insert(
                 data.cmd, 
                 exe .. 
-                " -source " .. FluidUtils.doublequote(data.full_path[i]) .. 
-                " -transients " .. FluidUtils.doublequote(data.outputs.transients[i]) .. 
-                " -residual " .. FluidUtils.doublequote(data.outputs.residual[i]) .. 
+                " -source " .. fluidUtils.doublequote(data.full_path[i]) .. 
+                " -transients " .. fluidUtils.doublequote(data.outputs.transients[i]) .. 
+                " -residual " .. fluidUtils.doublequote(data.outputs.residual[i]) .. 
                 " -order " .. order .. 
                 " -blocksize " .. blocksize .. 
                 " -padsize " .. padsize .. 
@@ -73,12 +73,12 @@ if num_selected_items > 0 then
 
         -- Execute NMF Process
         for i=1, num_selected_items do
-            FluidUtils.cmdline(data.cmd[i])
+            fluidUtils.cmdline(data.cmd[i])
         end
 
         reaper.SelectAllMediaItems(0, 0)
         for i=1, num_selected_items do  
-            FluidLayers.perform_layers(i, data)
+            fluidLayers.perform_layers(i, data)
         end
 
         reaper.UpdateArrange()

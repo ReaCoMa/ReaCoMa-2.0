@@ -3,19 +3,19 @@
 -- ... and the parameters
 -- As a bonus, some defaults are defined in order to initialise the objects at some point
 
-FluidParams = {}
+fluidParams = {}
 
 fluid_archetype = {
 
     nmf = {
-        name = "FluidParamNMF",
+        name = "fluidParamNMF",
         fftsettings = "1024 -1 -1",
         components = "2",
         iterations = "100",
     },
 
     transients = {
-        name = "FluidParamTransients",
+        name = "fluidParamTransients",
         blocksize = "256",
         clumplength = "25",
         order = "20",
@@ -27,7 +27,7 @@ fluid_archetype = {
     },
 
     hpss = {
-        name = "FluidParamHPSS",
+        name = "fluidParamHPSS",
         fftsettings = "1024 -1 -1",
         harmfiltersize = "17",
         harmthresh = "0.0 1.0 1.0 1.0",
@@ -37,7 +37,7 @@ fluid_archetype = {
     },
 
     sines = {
-        name = "FluidParamSines",
+        name = "fluidParamSines",
         birthhighthreshold = "-60",
         birthlowthreshold = "-24",
         detectionthreshold = "-96",
@@ -51,7 +51,7 @@ fluid_archetype = {
     },
 
     transientslice = {
-        name = "FluidParamTransientSlice",
+        name = "fluidParamTransientSlice",
         blocksize = "256",
         clumplength = "25",
         minslicelength = "1000",
@@ -64,7 +64,7 @@ fluid_archetype = {
     },
 
     onsetslice = {
-        name = "FluidParamOnsetSlice",
+        name = "fluidParamOnsetSlice",
         fftsettings = "1024 -1 -1",
         filtersize = "5",
         framedelta = "0",
@@ -74,7 +74,7 @@ fluid_archetype = {
     },
 
     noveltyslice = {
-        name = "FluidParamNoveltySlice",
+        name = "fluidParamNoveltySlice",
         feature = "0",
         fftsettings = "1024 -1 -1",
         filtersize = "1",
@@ -84,7 +84,7 @@ fluid_archetype = {
     },
 
     ampslice = {
-        name = "FluidParamAmpSlice",
+        name = "fluidParamAmpSlice",
         fastrampup = "1",
         fastrampdown = "1",
         slowrampup = "100",
@@ -97,7 +97,7 @@ fluid_archetype = {
     },
 
     ampgate = {
-        name = "FluidParamAmpGate",
+        name = "fluidParamAmpGate",
         rampup = "100",
         rampdown = "100",
         onthreshold = "144",
@@ -114,7 +114,7 @@ fluid_archetype = {
 
 }
 
-FluidParams.check_params = function(param_table)
+fluidParams.check_params = function(param_table)
     -- This should only really once per REAPER install
     -- Otherwise most of this will just run and pass over every check...
     -- ... deferring to a getter that retrieves what we need
@@ -126,11 +126,11 @@ FluidParams.check_params = function(param_table)
     end
 end
 
-FluidParams.parse_params = function(parameter_names, processor)
+fluidParams.parse_params = function(parameter_names, processor)
     -- Provide captions in,
     -- turn this into a string of parameter values to be provided to the user
     -- We do this because iterating tables is not deterministic
-    local split_params = FluidUtils.commasplit(parameter_names)
+    local split_params = fluidUtils.commasplit(parameter_names)
     local param_values = {}
     for i=1, #split_params do
         param_values[#param_values+1] = reaper.GetExtState(processor.name, split_params[i])
@@ -138,13 +138,13 @@ FluidParams.parse_params = function(parameter_names, processor)
     return table.concat(param_values, ",")
 end
 
-FluidParams.store_params = function(processor, parameter_names, parameter_values)
+fluidParams.store_params = function(processor, parameter_names, parameter_values)
     -- Taking two strings that are CSV of params and values
     -- This lets you re-use non, hardcoded values to store
     -- Store the numbers in the external state of reaper
     -- Processor tells you what the name of the object is and where to store
-    local n = FluidUtils.commasplit(parameter_names)
-    local v = FluidUtils.commasplit(parameter_values)
+    local n = fluidUtils.commasplit(parameter_names)
+    local v = fluidUtils.commasplit(parameter_values)
 
     for i=1, #n do
         reaper.SetExtState(processor.name, n[i], v[i], true)

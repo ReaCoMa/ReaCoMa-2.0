@@ -1,10 +1,10 @@
 local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
-dofile(script_path .. "FluidUtils.lua")
+dofile(script_path .. "fluidUtils.lua")
 
-FluidSlicing = {}
+fluidSlicing = {}
 
-FluidSlicing.container = {
+fluidSlicing.container = {
     full_path = {},
     item_pos = {},
     item_pos_samples = {},
@@ -20,7 +20,7 @@ FluidSlicing.container = {
     playrate = {}
 }
 
-FluidSlicing.get_data = function (item_index, data)
+fluidSlicing.get_data = function (item_index, data)
     local item = reaper.GetSelectedMediaItem(0, item_index-1)
     local take = reaper.GetActiveTake(item)
     local src = reaper.GetMediaItemTake_Source(take)
@@ -38,7 +38,7 @@ FluidSlicing.get_data = function (item_index, data)
         table.insert(data.reverse, false)
     end
     
-    local tmp = full_path .. FluidUtils.uuid(item_index) .. "fs.csv"
+    local tmp = full_path .. fluidUtils.uuid(item_index) .. "fs.csv"
     local take_ofs = reaper.GetMediaItemTakeInfo_Value(take, "D_STARTOFFS")
     local item_pos = reaper.GetMediaItemInfo_Value(item, "D_POSITION")
     local item_len = reaper.GetMediaItemInfo_Value(item, "D_LENGTH")
@@ -55,9 +55,9 @@ FluidSlicing.get_data = function (item_index, data)
         item_len = src_len 
     end
 
-    local take_ofs_samples = FluidUtils.stosamps(take_ofs, sr)
-    local item_pos_samples = FluidUtils.stosamps(item_pos, sr)
-    local item_len_samples = math.floor(FluidUtils.stosamps(item_len, sr) * playrate)
+    local take_ofs_samples = fluidUtils.stosamps(take_ofs, sr)
+    local item_pos_samples = fluidUtils.stosamps(item_pos, sr)
+    local item_len_samples = math.floor(fluidUtils.stosamps(item_len, sr) * playrate)
 
     table.insert(data.item, item)
     table.insert(data.sr, sr)
@@ -71,14 +71,14 @@ FluidSlicing.get_data = function (item_index, data)
     table.insert(data.playrate, playrate)
 end
 
-FluidSlicing.perform_splitting = function (item_index, data)
-    slice_points = FluidUtils.commasplit(data.slice_points_string[item_index])
+fluidSlicing.perform_splitting = function (item_index, data)
+    slice_points = fluidUtils.commasplit(data.slice_points_string[item_index])
     -- Invert the points if they are reverse
     -- Containerise this into a function
 
     for j=2, #slice_points do
         local slice_index = j
-        slice_pos = FluidUtils.sampstos(
+        slice_pos = fluidUtils.sampstos(
             tonumber(slice_points[slice_index]), 
             data.sr[item_index]
         )
@@ -93,12 +93,12 @@ FluidSlicing.perform_splitting = function (item_index, data)
     end
 end
 
-FluidSlicing.perform_gate_splitting = function(item_index, data, init_state)
+fluidSlicing.perform_gate_splitting = function(item_index, data, init_state)
     local state = init_state
-    slice_points = FluidUtils.commasplit(data.slice_points_string[item_index])
+    slice_points = fluidUtils.commasplit(data.slice_points_string[item_index])
     for j=2, #slice_points do
         local slice_index = j
-        slice_pos = FluidUtils.sampstos(
+        slice_pos = fluidUtils.sampstos(
             tonumber(slice_points[slice_index]), 
             data.sr[item_index]
         )

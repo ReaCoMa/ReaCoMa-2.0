@@ -4,7 +4,7 @@ dofile(script_path .. "FluidUtils.lua")
 
 ------------------------------------------------------------------------------------
 if sanity_check() == false then goto exit; end
-local cli_path = get_fluid_path()
+local cli_path = fluidPaths.get_fluid_path()
 local ie_suf = cli_path .. "/index_extractor"
 local ie_exe = doublequote(ie_suf)
 local ns_suf = cli_path .. "/noveltyslice"
@@ -34,7 +34,7 @@ if num_selected_items > 0 then
     if confirm then
         reaper.Undo_BeginBlock()
         -- Algorithm Parameters
-        local params = commasplit(user_inputs)
+        local params = fluidUtils.commasplit(user_inputs)
         local feature = params[1]
         local threshold = params[2]
         local kernelsize = params[3]

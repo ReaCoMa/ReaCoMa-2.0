@@ -1,29 +1,27 @@
 local info = debug.getinfo(1,'S');
-script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
+local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
 dofile(script_path .. "/FluidPlumbing/FluidUtils.lua")
 dofile(script_path .. "/FluidPlumbing/FluidParams.lua")
 dofile(script_path .. "/FluidPlumbing/FluidPaths.lua")
-dofile(script_path .. "/FluidPlumbing/FluidLayers.lua")
+dofile(script_path .. "/FluidPlumbing/fluidLayers.lua")
 
-if FluidPaths.sanity_check() == false then goto exit; end
-local exe = FluidUtils.doublequote(FluidPaths.get_fluid_path() .. "/fluid-sines")
+if fluidPaths.sanity_check() == false then goto exit; end
+local exe = fluidUtils.doublequote(fluidPaths.get_fluid_path() .. "/fluid-sines")
 
 local num_selected_items = reaper.CountSelectedMediaItems(0)
 if num_selected_items > 0 then
     
-    -- Parameter Get/Set/Prep
     local processor = fluid_archetype.sines
-    FluidParams.check_params(processor)
+    fluidParams.check_params(processor)
     local param_names = "birthhighthreshold,birthlowthreshold,detectionthreshold,trackfreqrange,trackingmethod,trackmagrange,trackprob,bandwidth,fftsettings,mintracklen"
-    local param_values = FluidParams.parse_params(param_names, processor)
+    local param_values = fluidParams.parse_params(param_names, processor)
 
     local confirm, user_inputs = reaper.GetUserInputs("Sines Parameters", 10, param_names, param_values)
     if confirm then 
-        FluidParams.store_params(processor, param_names, user_inputs)
+        fluidParams.store_params(processor, param_names, user_inputs)
 
         reaper.Undo_BeginBlock()
-        -- Algorithm Parameters
-        local params = FluidUtils.commasplit(user_inputs)
+        local params = fluidUtils.commasplit(user_inputs)
         local bhthresh = params[1]
         local blthresh = params[2]
         local dethresh = params[3]
@@ -35,7 +33,7 @@ if num_selected_items > 0 then
         local fftsettings = params[9]
         local mintracklen = params[10]
 
-        local data = FluidLayers.container
+        local data = fluidLayers.container
 
         data.outputs = {
             sines = {},
@@ -43,24 +41,24 @@ if num_selected_items > 0 then
         }
 
         for i=1, num_selected_items do
-            FluidLayers.get_data(i, data)
+            fluidLayers.get_data(i, data)
 
             table.insert(
                 data.outputs.sines,
-                FluidUtils.basename(data.full_path[i]) .. "_sines-s_" .. FluidUtils.uuid(i) .. ".wav"
+                fluidUtils.basename(data.full_path[i]) .. "_sines-s_" .. fluidUtils.uuid(i) .. ".wav"
             )
 
             table.insert(
                 data.outputs.residual,
-                FluidUtils.basename(data.full_path[i]) .. "_sines-r_" .. FluidUtils.uuid(i) .. ".wav"
+                fluidUtils.basename(data.full_path[i]) .. "_sines-r_" .. fluidUtils.uuid(i) .. ".wav"
             )
             
             table.insert(
                 data.cmd, 
                 exe .. 
-                " -source " .. FluidUtils.doublequote(data.full_path[i]) .. 
-                " -sines " .. FluidUtils.doublequote(data.outputs.sines[i]) .. 
-                " -residual " .. FluidUtils.doublequote(data.outputs.residual[i]) .. 
+                " -source " .. fluidUtils.doublequote(data.full_path[i]) .. 
+                " -sines " .. fluidUtils.doublequote(data.outputs.sines[i]) .. 
+                " -residual " .. fluidUtils.doublequote(data.outputs.residual[i]) .. 
                 " -birthhighthreshold " .. bhthresh ..
                 " -birthlowthreshold " .. blthresh ..
                 " -detectionthreshold " .. dethresh ..
@@ -78,16 +76,16 @@ if num_selected_items > 0 then
 
         -- Execute NMF Process
         for i=1, num_selected_items do
-            FluidUtils.cmdline(data.cmd[i])
+            fluidUtils.cmdline(data.cmd[i])
         end
 
         reaper.SelectAllMediaItems(0, 0)
         for i=1, num_selected_items do
-            FluidLayers.perform_layers(i, data)
+            fluidLayers.perform_layers(i, data)
         end
 
         reaper.UpdateArrange()
-        reaper.Undo_EndBlock("FluidSines", 0)
+        reaper.Undo_EndBlock("fluidSines", 0)
     end
 end
 ::exit::
