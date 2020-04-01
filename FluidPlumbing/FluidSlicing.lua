@@ -92,3 +92,26 @@ FluidSlicing.perform_splitting = function (item_index, data)
         )
     end
 end
+
+FluidSlicing.perform_gate_splitting = function(item_index, data, init_state)
+    local state = init_state
+    slice_points = commasplit(data.slice_points_string[item_index])
+    for j=2, #slice_points do
+        local slice_index = j
+        slice_pos = sampstos(
+            tonumber(slice_points[slice_index]), 
+            data.sr[item_index]
+        )
+
+        slice_pos = (slice_pos - data.take_ofs[item_index]) * (1 / data.playrate[item_index]) -- account for playback rate
+
+        reaper.SetMediaItemInfo_Value(data.item[item_index], "B_MUTE", state)
+        data.item[item_index] = reaper.SplitMediaItem(
+            data.item[item_index], 
+            data.item_pos[item_index] + (slice_pos - (data.take_ofs[item_index] * (1 / data.playrate[item_index])))
+        )
+        if state == 1 then state = 0 else state = 1 end
+        -- invert the state
+    end
+    reaper.SetMediaItemInfo_Value(data.item[item_index], "B_MUTE", state)
+end
