@@ -4,7 +4,7 @@ dofile(script_path .. "FluidUtils.lua")
 
 FluidSlicing = {}
 
-FluidSlicing.SlicingContainer = {
+FluidSlicing.container = {
     full_path = {},
     item_pos = {},
     item_pos_samples = {},
