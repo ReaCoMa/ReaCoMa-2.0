@@ -88,7 +88,7 @@ fluidSlicing.perform_splitting = function (item_index, data)
 
         data.item[item_index] = reaper.SplitMediaItem(
             data.item[item_index], 
-            data.item_pos[item_index] + (slice_pos - (data.take_ofs[item_index] * (1 / data.playrate[item_index])))
+            data.item_pos[item_index] + slice_pos
         )
     end
 end
@@ -108,7 +108,7 @@ fluidSlicing.perform_gate_splitting = function(item_index, data, init_state)
         reaper.SetMediaItemInfo_Value(data.item[item_index], "B_MUTE", state)
         data.item[item_index] = reaper.SplitMediaItem(
             data.item[item_index], 
-            data.item_pos[item_index] + (slice_pos - (data.take_ofs[item_index] * (1 / data.playrate[item_index])))
+            data.item_pos[item_index] + (slice_pos)
         )
         if state == 1 then state = 0 else state = 1 end
         -- invert the state
