@@ -111,7 +111,7 @@ fluid_archetype = {
 
 }
 
-function check_params(param_table)
+FluidParams.check_params = function(param_table)
     -- This should only really once per REAPER install
     -- Otherwise most of this will just run and pass over every check...
     -- ... deferring to a getter that retrieves what we need
@@ -123,7 +123,7 @@ function check_params(param_table)
     end
 end
 
-function parse_params(parameter_names, processor)
+FluidParams.parse_params = function(parameter_names, processor)
     -- Provide captions in,
     -- turn this into a string of parameter values to be provided to the user
     -- We do this because iterating tables is not deterministic
@@ -135,7 +135,7 @@ function parse_params(parameter_names, processor)
     return table.concat(param_values, ",")
 end
 
-function store_params(processor, parameter_names, parameter_values)
+FluidParams.store_params = function(processor, parameter_names, parameter_values)
     -- Taking two strings that are CSV of params and values
     -- This lets you re-use non, hardcoded values to store
     -- Store the numbers in the external state of reaper
