@@ -1,9 +1,10 @@
 local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
-dofile(script_path .. "FluidUtils.lua")
+dofile(script_path .. "fluidUtils.lua")
 dofile(script_path .. "OrderedTables.lua")
 
-LayersContainer = {
+fluidLayers = {}
+fluidLayers.container = {
     full_path = {},
     take = {},
     item_pos = {},
@@ -21,7 +22,7 @@ LayersContainer = {
     outputs = {},
 }
 
-function get_layers_data(item_index, data)
+fluidLayers.get_data = function (item_index, data)
     local item = reaper.GetSelectedMediaItem(0, item_index-1)
     local take = reaper.GetActiveTake(item)
     local src = reaper.GetMediaItemTake_Source(take)
@@ -54,8 +55,8 @@ function get_layers_data(item_index, data)
         item_len = src_len 
     end
 
-    local take_ofs_samples = stosamps(take_ofs, sr)
-    local item_len_samples = math.floor(stosamps(item_len, sr))
+    local take_ofs_samples = fluidUtils.stosamps(take_ofs, sr)
+    local item_len_samples = math.floor(fluidUtils.stosamps(item_len, sr))
     
     table.insert(data.item, item)
     table.insert(data.take, take)
@@ -70,7 +71,7 @@ function get_layers_data(item_index, data)
 end
 
 
-function perform_layers(item_index, data)
+fluidLayers.perform_layers = function(item_index, data)
     if item_index > 1 then reaper.SetMediaItemSelected(data.item[item_index-1], false) end
     reaper.SetMediaItemSelected(data.item[item_index], true)
     for k, v in orderedPairs(data.outputs) do

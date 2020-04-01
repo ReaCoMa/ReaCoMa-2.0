@@ -1,8 +1,9 @@
 local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
-dofile(script_path .. "FluidUtils.lua")
+dofile(script_path .. "fluidUtils.lua")
 
-TaggingContainer = {
+fluidTagging = {}
+fluidTagging.container = {
     full_path = {},
     item_pos = {},
     item_pos_samples = {},
@@ -20,7 +21,7 @@ TaggingContainer = {
     playrate = {}
 }
 
-function get_tag_data(item_index, data)
+fluidTagging.get_data = function(item_index, data)
     local item = reaper.GetSelectedMediaItem(0, item_index-1)
     local take = reaper.GetActiveTake(item)
     local src = reaper.GetMediaItemTake_Source(take)
@@ -73,8 +74,7 @@ function get_tag_data(item_index, data)
     table.insert(data.statstmp, statstmp)
 end
 
-function update_notes(item, text)
-
+fluidTagging.update_notes = function(item, text)
     _, current_notes = reaper.GetSetMediaItemInfo_String(
         item, 
         "P_NOTES", 
@@ -89,6 +89,4 @@ function update_notes(item, text)
         concat_string, 
         true
     )
-
 end
-
