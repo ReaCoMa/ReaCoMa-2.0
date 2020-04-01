@@ -55,8 +55,8 @@ FluidLayers.get_data = function (item_index, data)
         item_len = src_len 
     end
 
-    local take_ofs_samples = stosamps(take_ofs, sr)
-    local item_len_samples = math.floor(stosamps(item_len, sr))
+    local take_ofs_samples = FluidUtils.stosamps(take_ofs, sr)
+    local item_len_samples = math.floor(FluidUtils.stosamps(item_len, sr))
     
     table.insert(data.item, item)
     table.insert(data.take, take)
