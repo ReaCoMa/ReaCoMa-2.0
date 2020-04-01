@@ -5,25 +5,25 @@ dofile(script_path .. "/FluidPlumbing/FluidParams.lua")
 dofile(script_path .. "/FluidPlumbing/FluidPaths.lua")
 dofile(script_path .. "/FluidPlumbing/FluidSlicing.lua")
 
-if sanity_check() == false then goto exit; end
-local exe = doublequote(get_fluid_path() .. "/fluid-transientslice")
+if FluidPaths.sanity_check() == false then goto exit; end
+local exe = FluidUtils.doublequote(FluidPaths.get_fluid_path() .. "/fluid-transientslice")
 
 local num_selected_items = reaper.CountSelectedMediaItems(0)
 if num_selected_items > 0 then
 
     -- Parameter Get/Set/Prep
     local processor = fluid_archetype.transientslice
-    check_params(processor)
+    FluidParams.check_params(processor)
     local param_names = "order,blocksize,padsize,skew,threshfwd,threshback,windowsize,clumplength,minslicelength"
-    local param_values = parse_params(param_names, processor)
+    local param_values = FluidParams.parse_params(param_names, processor)
 
     local confirm, user_inputs = reaper.GetUserInputs("Transient Slice Parameters", 9, param_names, param_values)
     if confirm then
-        store_params(processor, param_names, user_inputs)
+        FluidParams.store_params(processor, param_names, user_inputs)
         
         reaper.Undo_BeginBlock()
         -- Algorithm Parameters
-        local params = commasplit(user_inputs)
+        local params = FluidUtils.commasplit(user_inputs)
         local order = params[1]
         local blocksize = params[2]
         local padsize = params[3]
@@ -40,8 +40,8 @@ if num_selected_items > 0 then
             FluidSlicing.get_data(i, data)
 
             local cmd = exe .. 
-            " -source " .. doublequote(data.full_path[i]) .. 
-            " -indices " .. doublequote(data.tmp[i]) .. 
+            " -source " .. FluidUtils.doublequote(data.full_path[i]) .. 
+            " -indices " .. FluidUtils.doublequote(data.tmp[i]) .. 
             " -order " .. order .. 
             " -blocksize " .. blocksize .. 
             " -padsize " .. padsize .. 
@@ -57,14 +57,14 @@ if num_selected_items > 0 then
         end
         
         for i=1, num_selected_items do
-            cmdline(data.cmd[i])
-            table.insert(data.slice_points_string, readfile(data.tmp[i]))
+            FluidUtils.cmdline(data.cmd[i])
+            table.insert(data.slice_points_string, FluidUtils.readfile(data.tmp[i]))
             FluidSlicing.perform_splitting(i, data)
         end
 
         reaper.UpdateArrange()
         reaper.Undo_EndBlock("transientslice", 0)
-        cleanup(data.tmp)
+        FluidUtils.cleanup(data.tmp)
     end
 end
 ::exit::

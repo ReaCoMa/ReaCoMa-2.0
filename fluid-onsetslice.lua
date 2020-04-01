@@ -5,25 +5,25 @@ dofile(script_path .. "/FluidPlumbing/FluidParams.lua")
 dofile(script_path .. "/FluidPlumbing/FluidPaths.lua")
 dofile(script_path .. "/FluidPlumbing/FluidSlicing.lua")
 
-if sanity_check() == false then goto exit; end
-local exe = doublequote(get_fluid_path() .. "/fluid-onsetslice")
+if FluidPaths.sanity_check() == false then goto exit; end
+local exe = FluidUtils.doublequote(FluidPaths.get_fluid_path() .. "/fluid-onsetslice")
 
 local num_selected_items = reaper.CountSelectedMediaItems(0)
 if num_selected_items > 0 then
 
     -- Parameter Get/Set/Prep
     local processor = fluid_archetype.onsetslice
-    check_params(processor)
+    FluidParams.check_params(processor)
     local param_names = "metric,threshold,minslicelength,filtersize,framedelta,fftsettings"
-    local param_values = parse_params(param_names, processor)
+    local param_values = FluidParams.parse_params(param_names, processor)
 
     local confirm, user_inputs = reaper.GetUserInputs("Onset Slice Parameters", 6, param_names, param_values)
     if confirm then
-        store_params(processor, param_names, param_values)
+        FluidParams.store_params(processor, param_names, param_values)
 
         reaper.Undo_BeginBlock()
         -- Algorithm Parameters
-        local params = commasplit(user_inputs)
+        local params = FluidUtils.commasplit(user_inputs)
         local metric = params[1]
         local threshold = params[2]
         local minslicelength = params[3]
@@ -37,8 +37,8 @@ if num_selected_items > 0 then
             FluidSlicing.get_data(i, data)
 
             local cmd = exe .. 
-            " -source " .. doublequote(data.full_path[i]) .. 
-            " -indices " .. doublequote(data.tmp[i]) .. 
+            " -source " .. FluidUtils.doublequote(data.full_path[i]) .. 
+            " -indices " .. FluidUtils.doublequote(data.tmp[i]) .. 
             " -metric " .. metric .. 
             " -minslicelength " .. minslicelength .. 
             " -threshold " .. threshold .. 
@@ -52,14 +52,14 @@ if num_selected_items > 0 then
         end
 
         for i=1, num_selected_items do
-            cmdline(data.cmd[i])
-            table.insert(data.slice_points_string, readfile(data.tmp[i]))
+            FluidUtils.cmdline(data.cmd[i])
+            table.insert(data.slice_points_string, FluidUtils.readfile(data.tmp[i]))
             FluidSlicing.perform_splitting(i, data)
         end
 
         reaper.UpdateArrange()
         reaper.Undo_EndBlock("onsetslice", 0)
-        cleanup(data.tmp)
+        FluidUtils.cleanup(data.tmp)
     end
 end
 ::exit::

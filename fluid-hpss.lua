@@ -1,28 +1,29 @@
 local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
-dofile(script_path .. "/FluidPlumbing/" .. "FluidUtils.lua")
-dofile(script_path .. "/FluidPlumbing/" .. "FluidParams.lua")
-dofile(script_path .. "/FluidPlumbing/" .. "FluidLayers.lua")
+dofile(script_path .. "/FluidPlumbing/FluidUtils.lua")
+dofile(script_path .. "/FluidPlumbing/FluidParams.lua")
+dofile(script_path .. "/FluidPlumbing/FluidPaths.lua")
+dofile(script_path .. "/FluidPlumbing/FluidLayers.lua")
 
-if sanity_check() == false then goto exit; end
-local exe = doublequote(get_fluid_path() .. "/fluid-hpss")
+if FluidPaths.sanity_check() == false then goto exit; end
+local exe = FluidUtils.doublequote(FluidPaths.get_fluid_path() .. "/fluid-hpss")
 
 local num_selected_items = reaper.CountSelectedMediaItems(0)
 if num_selected_items > 0 then
 
     -- Parameter Get/Set/Prep
     local processor = fluid_archetype.hpss
-    check_params(processor)
+    FluidParams.check_params(processor)
     local param_names = "harmfiltersize,percfiltersize,maskingmode,fftsettings,harmthresh,percthresh"
-    local param_values = parse_params(param_names, processor)
+    local param_values = FluidParams.parse_params(param_names, processor)
     
     local confirm, user_inputs = reaper.GetUserInputs("HPSS Parameters", 6, param_names, param_values)
     if confirm then 
-        store_params(processor, param_names, user_inputs)
+        FluidParams.store_params(processor, param_names, user_inputs)
 
         reaper.Undo_BeginBlock()
         -- Algorithm Parameters
-        local params = commasplit(user_inputs)
+        local params = FluidUtils.commasplit(user_inputs)
         local hfs = params[1]
         local pfs = params[2]
         local maskingmode = params[3]
@@ -52,17 +53,17 @@ if num_selected_items > 0 then
 
             table.insert(
                 data.outputs.harmonic,
-                basename(data.full_path[i]) .. "_hpss-h_" .. uuid(i) .. ".wav"
+                FluidUtils.basename(data.full_path[i]) .. "_hpss-h_" .. FluidUtils.uuid(i) .. ".wav"
             )
             table.insert(
                 data.outputs.percussive,
-                basename(data.full_path[i]) .. "_hpss-p_" .. uuid(i) .. ".wav"
+                FluidUtils.basename(data.full_path[i]) .. "_hpss-p_" .. FluidUtils.uuid(i) .. ".wav"
             )
 
             if maskingmode == "2" then 
                 table.insert(
                     data.outputs.residual, 
-                    basename(data.full_path[i]) .. "_hpss-r_" .. uuid(i) .. ".wav"
+                    FluidUtils.basename(data.full_path[i]) .. "_hpss-r_" .. FluidUtils.uuid(i) .. ".wav"
                 ) 
             end
 
@@ -70,9 +71,9 @@ if num_selected_items > 0 then
                 table.insert(
                     data.cmd, 
                     exe .. 
-                    " -source " .. doublequote(data.full_path[i]) .. 
-                    " -harmonic " .. doublequote(data.outputs.harmonic[i]) .. 
-                    " -percussive " .. doublequote(data.outputs.percussive[i]) ..  
+                    " -source " .. FluidUtils.doublequote(data.full_path[i]) .. 
+                    " -harmonic " .. FluidUtils.doublequote(data.outputs.harmonic[i]) .. 
+                    " -percussive " .. FluidUtils.doublequote(data.outputs.percussive[i]) ..  
                     " -harmfiltersize " .. hfs .. 
                     " -percfiltersize " .. pfs .. 
                     " -maskingmode " .. maskingmode ..
@@ -86,9 +87,9 @@ if num_selected_items > 0 then
                 table.insert(
                     data.cmd, 
                     exe .. 
-                    " -source " .. doublequote(data.full_path[i]) .. 
-                    " -harmonic " .. doublequote(data.outputs.harmonic[i]) .. 
-                    " -percussive " .. doublequote(data.outputs.percussive[i]) ..  
+                    " -source " .. FluidUtils.doublequote(data.full_path[i]) .. 
+                    " -harmonic " .. FluidUtils.doublequote(data.outputs.harmonic[i]) .. 
+                    " -percussive " .. FluidUtils.doublequote(data.outputs.percussive[i]) ..  
                     " -harmfiltersize " .. hfs .. 
                     " -percfiltersize " .. pfs .. 
                     " -maskingmode " .. maskingmode .. 
@@ -103,10 +104,10 @@ if num_selected_items > 0 then
                 table.insert(
                     data.cmd, 
                     exe .. 
-                    " -source " .. doublequote(data.full_path[i]) .. 
-                    " -harmonic " .. doublequote(data.outputs.harmonic[i]) .. 
-                    " -percussive " .. doublequote(data.outputs.percussive[i]) .. 
-                    " -residual " .. doublequote(data.outputs.residual[i]) .. 
+                    " -source " .. FluidUtils.doublequote(data.full_path[i]) .. 
+                    " -harmonic " .. FluidUtils.doublequote(data.outputs.harmonic[i]) .. 
+                    " -percussive " .. FluidUtils.doublequote(data.outputs.percussive[i]) .. 
+                    " -residual " .. FluidUtils.doublequote(data.outputs.residual[i]) .. 
                     " -harmfiltersize " .. hfs .. 
                     " -percfiltersize " .. pfs .. 
                     " -maskingmode " .. maskingmode .. 
@@ -120,7 +121,7 @@ if num_selected_items > 0 then
         end
         -- Execute NMF Process
         for i=1, num_selected_items do
-            cmdline(data.cmd[i])
+            FluidUtils.cmdline(data.cmd[i])
         end
 
         reaper.SelectAllMediaItems(0, 0)

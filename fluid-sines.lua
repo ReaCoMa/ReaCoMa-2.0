@@ -4,25 +4,25 @@ dofile(script_path .. "/FluidPlumbing/" .. "FluidUtils.lua")
 dofile(script_path .. "/FluidPlumbing/" .. "FluidParams.lua")
 dofile(script_path .. "/FluidPlumbing/" .. "FluidLayers.lua")
 
-if sanity_check() == false then goto exit; end
-local exe = doublequote(get_fluid_path() .. "/fluid-sines")
+if FluidPaths.sanity_check() == false then goto exit; end
+local exe = FluidUtils.doublequote(FluidPaths.get_fluid_path() .. "/fluid-sines")
 
 local num_selected_items = reaper.CountSelectedMediaItems(0)
 if num_selected_items > 0 then
     
     -- Parameter Get/Set/Prep
     local processor = fluid_archetype.sines
-    check_params(processor)
+    FluidParams.check_params(processor)
     local param_names = "birthhighthreshold,birthlowthreshold,detectionthreshold,trackfreqrange,trackingmethod,trackmagrange,trackprob,bandwidth,fftsettings,mintracklen"
-    local param_values = parse_params(param_names, processor)
+    local param_values = FluidParams.parse_params(param_names, processor)
 
     local confirm, user_inputs = reaper.GetUserInputs("Sines Parameters", 10, param_names, param_values)
     if confirm then 
-        store_params(processor, param_names, user_inputs)
+        FluidParams.store_params(processor, param_names, user_inputs)
 
         reaper.Undo_BeginBlock()
         -- Algorithm Parameters
-        local params = commasplit(user_inputs)
+        local params = FluidUtils.commasplit(user_inputs)
         local bhthresh = params[1]
         local blthresh = params[2]
         local dethresh = params[3]
@@ -46,20 +46,20 @@ if num_selected_items > 0 then
 
             table.insert(
                 data.outputs.sines,
-                basename(data.full_path[i]) .. "_sines-s_" .. uuid(i) .. ".wav"
+                FluidUtils.basename(data.full_path[i]) .. "_sines-s_" .. FluidUtils.uuid(i) .. ".wav"
             )
 
             table.insert(
                 data.outputs.residual,
-                basename(data.full_path[i]) .. "_sines-r_" .. uuid(i) .. ".wav"
+                FluidUtils.basename(data.full_path[i]) .. "_sines-r_" .. FluidUtils.uuid(i) .. ".wav"
             )
             
             table.insert(
                 data.cmd, 
                 exe .. 
-                " -source " .. doublequote(data.full_path[i]) .. 
-                " -sines " .. doublequote(data.outputs.sines[i]) .. 
-                " -residual " .. doublequote(data.outputs.residual[i]) .. 
+                " -source " .. FluidUtils.doublequote(data.full_path[i]) .. 
+                " -sines " .. FluidUtils.doublequote(data.outputs.sines[i]) .. 
+                " -residual " .. FluidUtils.doublequote(data.outputs.residual[i]) .. 
                 " -birthhighthreshold " .. bhthresh ..
                 " -birthlowthreshold " .. blthresh ..
                 " -detectionthreshold " .. dethresh ..
@@ -77,7 +77,7 @@ if num_selected_items > 0 then
 
         -- Execute NMF Process
         for i=1, num_selected_items do
-            cmdline(data.cmd[i])
+            FluidUtils.cmdline(data.cmd[i])
         end
 
         reaper.SelectAllMediaItems(0, 0)
