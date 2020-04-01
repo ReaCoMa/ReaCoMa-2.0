@@ -108,8 +108,6 @@ if num_selected_items > 0 then
                 dumb_string = dumb_string .. laced[i] .. ","
             end
             table.insert(data.slice_points_string, dumb_string)
-            DEBUG(data.item_len_samples[i])
-            DEBUG(data.slice_points_string[i])
             perform_gate_splitting(i, data, start_state)
         end
 
