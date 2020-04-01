@@ -1,6 +1,8 @@
 import os
 
-root = os.path.dirname(os.path.realpath(__file__))
+root = os.path.dirname(
+    os.path.dirname(os.path.realpath(__file__))
+)
 
 files_to_change = [
     'fluid-ampgate.lua',
