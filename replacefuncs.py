@@ -51,16 +51,14 @@ replacements = [
 
 for luafile in files_to_change:
     fp = os.path.join(root, luafile)
-    with open(fp, "r") as file:
-        data = file.read()
+    data = ""
+    with open(fp, "r") as f:
+        data = f.read()
         for replacement in replacements:
             data = data.replace(
                 os.path.splitext(replacement)[1][1:],
                 replacement
             )
-        print(data)
-
-
-
-
-
+    
+    with open(fp, "w") as g:
+        g.write(data)
