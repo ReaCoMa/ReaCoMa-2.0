@@ -1,6 +1,6 @@
 local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
-dofile(script_path .. "fluidUtils.lua")
+dofile(script_path .. "FluidUtils.lua")
 
 fluidTagging = {}
 fluidTagging.container = {
@@ -39,8 +39,8 @@ fluidTagging.get_data = function(item_index, data)
         table.insert(data.reverse, false)
     end
     
-    local analtmp = full_path .. uuid(item_index) .. "ttag.wav"
-    local statstmp = full_path .. uuid(item_index) .. "tstats.csv"
+    local analtmp = full_path .. fluidUtils.uuid(item_index) .. "ttag.wav"
+    local statstmp = full_path .. fluidUtils.uuid(item_index) .. "tstats.csv"
     local take_ofs = reaper.GetMediaItemTakeInfo_Value(take, "D_STARTOFFS")
     local item_pos = reaper.GetMediaItemInfo_Value(item, "D_POSITION")
     local item_len = reaper.GetMediaItemInfo_Value(item, "D_LENGTH")
@@ -57,9 +57,9 @@ fluidTagging.get_data = function(item_index, data)
         item_len = src_len 
     end
 
-    local take_ofs_samples = stosamps(take_ofs, sr)
-    local item_pos_samples = stosamps(item_pos, sr)
-    local item_len_samples = math.floor(stosamps(item_len, sr) * playrate)
+    local take_ofs_samples = fluidUtils.stosamps(take_ofs, sr)
+    local item_pos_samples = fluidUtils.stosamps(item_pos, sr)
+    local item_len_samples = math.floor(fluidUtils.stosamps(item_len, sr) * playrate)
 
     table.insert(data.item, item)
     table.insert(data.sr, sr)

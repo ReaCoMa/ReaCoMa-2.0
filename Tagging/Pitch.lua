@@ -1,8 +1,9 @@
 local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
-dofile(script_path .. "../FluidPlumbing/" .. "fluidUtils.lua")
-dofile(script_path .. "../FluidPlumbing/" .. "fluidParams.lua")
-dofile(script_path .. "../FluidPlumbing/" .. "fluidTagging.lua")
+dofile(script_path .. "../FluidPlumbing/FluidUtils.lua")
+dofile(script_path .. "../FluidPlumbing/FluidParams.lua")
+dofile(script_path .. "../FluidPlumbing/FluidPaths.lua")
+dofile(script_path .. "../FluidPlumbing/FluidTagging.lua")
 
 if fluidPaths.sanity_check() == false then goto exit; end
 local loudness_exe = fluidUtils.doublequote(fluidPaths.get_fluid_path() .. "/fluid-spectralshape")
@@ -18,7 +19,7 @@ local num_selected_items = reaper.CountSelectedMediaItems(0)
             local analcmd = loudness_exe ..
             " -source " .. fluidUtils.doublequote(data.full_path[i]) ..
             " -features " .. fluidUtils.doublequote(data.analtmp[i]) ..
-            " -fftsettings " .. "4096 1024 4096"
+            " -fftsettings " .. "8192 1024 8192"
             table.insert(data.analcmd, analcmd)
             
             local statscmd = stats_exe ..
@@ -28,16 +29,16 @@ local num_selected_items = reaper.CountSelectedMediaItems(0)
         end
 
         for i=1, num_selected_items do
-            cmdline(data.analcmd[i])
-            cmdline(data.statscmd[i])
+            fluidUtils.cmdline(data.analcmd[i])
+            fluidUtils.cmdline(data.statscmd[i])
 
-            local channel1 = linesplit(
+            local channel1 = fluidUtils.linesplit(
                 fluidUtils.readfile(data.statstmp[i])
             )[1]
 
             local analysis_data = fluidUtils.commasplit(channel1) -- whatver your numbers are basically
 
-            fluidTagging.update_notes(data.item[i], "-- Centroid Analysis --")
+            fluidTagging.update_notes(data.item[i], "-- Pitch Analysis --")
             local details = "Average: " .. analysis_data[1] .. "\r\n" ..
             "Min: " .. analysis_data[5] .. "\r\n" ..
             "Max: " .. analysis_data[7] .. "\r\n" ..
