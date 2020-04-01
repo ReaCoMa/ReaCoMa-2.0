@@ -117,7 +117,7 @@ FluidUtils.tablelen = function(t)
   return count
 end
 
-FluidiUtils.doublequote = function(input_string)
+FluidUtils.doublequote = function(input_string)
     return '"'..input_string..'"'
 end
 
