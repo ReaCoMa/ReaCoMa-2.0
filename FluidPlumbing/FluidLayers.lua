@@ -3,7 +3,8 @@ local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
 dofile(script_path .. "FluidUtils.lua")
 dofile(script_path .. "OrderedTables.lua")
 
-LayersContainer = {
+FluidLayers = {}
+FluidLayers.container = {
     full_path = {},
     take = {},
     item_pos = {},
@@ -21,7 +22,7 @@ LayersContainer = {
     outputs = {},
 }
 
-function get_layers_data(item_index, data)
+FluidLayers.get_data = function (item_index, data)
     local item = reaper.GetSelectedMediaItem(0, item_index-1)
     local take = reaper.GetActiveTake(item)
     local src = reaper.GetMediaItemTake_Source(take)
@@ -70,7 +71,7 @@ function get_layers_data(item_index, data)
 end
 
 
-function perform_layers(item_index, data)
+FluidLayers.perform_layers = function(item_index, data)
     if item_index > 1 then reaper.SetMediaItemSelected(data.item[item_index-1], false) end
     reaper.SetMediaItemSelected(data.item[item_index], true)
     for k, v in orderedPairs(data.outputs) do
