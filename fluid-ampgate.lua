@@ -12,10 +12,10 @@ local num_selected_items = reaper.CountSelectedMediaItems(0)
 if num_selected_items > 0 then
     local processor = fluid_archetype.ampgate
     fluidParams.check_params(processor)
-    local param_names = "rampup,rampdown,onthreshold,offthreshold,minslicelength,minsilencelength,minlengthabove,minlengthbelow,lookback,lookahead,highpassfreq,maxsize"
+    local param_names = "rampup,rampdown,onthreshold,offthreshold,minslicelength,minsilencelength,minlengthabove,minlengthbelow,lookback,lookahead,highpassfreq"
     param_values = fluidParams.parse_params(param_names, processor)
 
-    local confirm, user_inputs = reaper.GetUserInputs("Ampgate Parameters", 12, param_names, param_values)
+    local confirm, user_inputs = reaper.GetUserInputs("Ampgate Parameters", 11, param_names, param_values)
     if confirm then
         fluidParams.store_params(processor, param_names, user_inputs)
         
@@ -32,7 +32,6 @@ if num_selected_items > 0 then
         local lookback = params[9]
         local lookahead = params[10]
         local highpassfreq = params[11]
-        local maxsize = params[12]
 
         local data = fluidSlicing.container
 
@@ -41,7 +40,8 @@ if num_selected_items > 0 then
 
             local cmd = exe .. 
             " -source " .. fluidUtils.doublequote(data.full_path[i]) .. 
-            " -indices " .. fluidUtils.doublequote(data.tmp[i]) .. 
+            " -indices " .. fluidUtils.doublequote(data.tmp[i]) ..
+            " -maxsize "  .. math.max(tonumber(minlengthabove) + tonumber(lookback), math.max(tonumber(minlengthbelow),tonumber(lookahead))) ..
             " -rampup " .. rampup ..
             " -rampdown " .. rampdown ..
             " -onthreshold " .. onthreshold ..
@@ -53,7 +53,6 @@ if num_selected_items > 0 then
             " -lookback " .. lookback ..
             " -lookahead " .. lookahead ..
             " -highpassfreq " .. highpassfreq ..
-            " -maxsize " .. maxsize ..
             " -numframes " .. data.item_len_samples[i] .. 
             " -startframe " .. data.take_ofs_samples[i]
             table.insert(data.cmd, cmd)

@@ -109,7 +109,6 @@ fluid_archetype = {
         lookback = "5",
         lookahead = "5",
         highpassfreq = "100",
-        maxsize = "44100",
     }
 
 }
