@@ -46,7 +46,6 @@ if num_selected_items > 0 then
                 exe .. 
                 " -source " .. fluidUtils.doublequote(data.full_path[i]) .. 
                 " -resynth " .. fluidUtils.doublequote(data.outputs.components[i]) ..
-                " -maxfftsize " .. fluidUtils.getmaxfftsize(fftsettings) ..
                 " -components " .. components .. 
                 " -fftsettings " .. fftsettings ..
                 " -numframes " .. data.item_len_samples[i] .. 

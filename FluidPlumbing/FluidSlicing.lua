@@ -42,17 +42,14 @@ fluidSlicing.get_data = function (item_index, data)
     local take_ofs = reaper.GetMediaItemTakeInfo_Value(take, "D_STARTOFFS")
     local item_pos = reaper.GetMediaItemInfo_Value(item, "D_POSITION")
     local playrate = reaper.GetMediaItemTakeInfo_Value(take, "D_PLAYRATE")
-    local item_len = reaper.GetMediaItemInfo_Value(item, "D_LENGTH") * playrate
-    local src_len = reaper.GetMediaSourceLength(src)
-
     
     if data.reverse[item_index] then
         take_ofs = math.abs(src_len - (item_len + take_ofs))
     end
     
     -- This line caps the analysis at one loop
-    if (item_len + take_ofs) > src_len then 
-        item_len = src_len 
+    if (item_len + take_ofs) > (src_len * (1 / playrate)) then 
+        item_len = (src_len * (1 / playrate))
     end
 
     local take_ofs_samples = fluidUtils.stosamps(take_ofs, sr)
@@ -81,7 +78,7 @@ fluidSlicing.perform_splitting = function (item_index, data)
             tonumber(slice_points[slice_index]), 
             data.sr[item_index]
         )
-        slice_pos = (data.item_pos[item_index] + slice_pos - data.take_ofs[item_index]) * (1 / data.playrate[item_index]) -- account for playback rate
+        slice_pos = (data.item_pos[item_index] + ((slice_pos - data.take_ofs[item_index]) * (1 / data.playrate[item_index])))  -- account for playback rate
         data.item[item_index] = reaper.SplitMediaItem(
             data.item[item_index], 
             slice_pos
@@ -103,7 +100,7 @@ fluidSlicing.perform_gate_splitting = function(item_index, data, init_state)
             data.sr[item_index]
         )
         
-        slice_pos = (data.item_pos[item_index] + slice_pos - data.take_ofs[item_index]) * (1 / data.playrate[item_index]) -- account for playback rate
+        slice_pos = (data.item_pos[item_index] + ((slice_pos - data.take_ofs[item_index]) * (1 / data.playrate[item_index])))  -- account for playback rate
         reaper.SetMediaItemInfo_Value(data.item[item_index], "B_MUTE", state)
         data.item[item_index] = reaper.SplitMediaItem(
             data.item[item_index], 
