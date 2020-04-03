@@ -6,46 +6,49 @@ dofile(script_path .. "/FluidPlumbing/FluidPaths.lua")
 dofile(script_path .. "/FluidPlumbing/FluidSlicing.lua")
 
 if fluidPaths.sanity_check() == false then goto exit; end
-local exe = fluidUtils.doublequote(fluidPaths.get_fluid_path() .. "/fluid-noveltyslice")
+local exe = fluidUtils.doublequote(fluidPaths.get_fluid_path() .. "/fluid-ampslice")
 
 local num_selected_items = reaper.CountSelectedMediaItems(0)
 if num_selected_items > 0 then
 
-    local processor = fluid_archetype.noveltyslice
+    local processor = fluid_archetype.ampslice
     fluidParams.check_params(processor)
-    local param_names = "feature,threshold,kernelsize,filtersize,fftsettings,minslicelength"
+    local param_names = "fastrampup,fastrampdown,slowrampup,slowrampdown,onthreshold,offthreshold,floor,minslicelength,highpassfreq"
     local param_values = fluidParams.parse_params(param_names, processor)
 
-    local confirm, user_inputs = reaper.GetUserInputs("Noveltyslice Parameters", 6, param_names, param_values)
+    local confirm, user_inputs = reaper.GetUserInputs("Ampslice Parameters", 9, param_names, param_values)
     if confirm then
         fluidParams.store_params(processor, param_names, user_inputs)
 
         reaper.Undo_BeginBlock()
         local params = fluidUtils.commasplit(user_inputs)
-        local feature = params[1]
-        local threshold = params[2]
-        local kernelsize = params[3]
-        local filtersize = params[4]
-        local fftsettings = params[5]
-        local minslicelength = params[6]
-        
+        local fastrampup = params[1]
+        local fastrampdown = params[2]
+        local slowrampup = params[3]
+        local slowrampdown = params[4]
+        local onthreshold = params[5]
+        local offthreshold = params[6]
+        local floor = params[7]
+        local minslicelength = params[8]
+        local highpassfreq = params[9]
+
         local data = fluidSlicing.container
 
         for i=1, num_selected_items do
             fluidSlicing.get_data(i, data)
-            
+
             local cmd = exe .. 
             " -source " .. fluidUtils.doublequote(data.full_path[i]) .. 
             " -indices " .. fluidUtils.doublequote(data.tmp[i]) .. 
-            " -maxfftsize " .. fluidUtils.getmaxfftsize(fftsettings) ..
-            " -maxkernelsize " .. kernelsize ..
-            " -maxfiltersize " .. filtersize ..
-            " -feature " .. feature .. 
-            " -kernelsize " .. kernelsize .. 
-            " -threshold " .. threshold .. 
-            " -filtersize " .. filtersize .. 
-            " -fftsettings " .. fftsettings .. 
+            " -fastrampup " .. fastrampup ..
+            " -fastrampdown " .. fastrampdown ..
+            " -slowrampup " .. slowrampup ..
+            " -slowrampdown " .. slowrampdown ..
+            " -onthreshold " .. onthreshold ..
+            " -offthreshold " .. offthreshold ..
+            " -floor " .. floor ..
             " -minslicelength " .. minslicelength ..
+            " -highpassfreq " .. highpassfreq ..
             " -numframes " .. data.item_len_samples[i] .. 
             " -startframe " .. data.take_ofs_samples[i]
             table.insert(data.cmd, cmd)
@@ -58,7 +61,7 @@ if num_selected_items > 0 then
         end
 
         reaper.UpdateArrange()
-        reaper.Undo_EndBlock("noveltyslice", 0)
+        reaper.Undo_EndBlock("ampslice", 0)
         fluidUtils.cleanup(data.tmp)
     end
 end

@@ -7,7 +7,7 @@ dofile(script_path .. "FluidUtils.lua")
 ------------------------------------------------------------------------------------
 --   Each user MUST point this to their folder containing FluCoMa CLI executables --
 if sanity_check() == false then goto exit; end
-local cli_path = get_fluid_path()
+local cli_path = fluidPaths.get_fluid_path()
 --   Then we form some calls to the tools that will live in that folder --
 local ss_suf = cli_path .. "/fluid-spectralshape"
 local ss_exe = doublequote(ss_suf)
@@ -23,7 +23,7 @@ if num_selected_items ~= 0 then
     if confirm then 
         reaper.Undo_BeginBlock()
         -- Algorithm Parameters
-        local params = commasplit(user_inputs)
+        local params = fluidUtils.commasplit(user_inputs)
         local operator = params[1]
         local centroid = tonumber(params[2])
         local fftsettings = params[3]
