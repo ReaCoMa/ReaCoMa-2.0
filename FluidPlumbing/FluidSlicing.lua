@@ -72,46 +72,44 @@ fluidSlicing.get_data = function (item_index, data)
 end
 
 fluidSlicing.perform_splitting = function (item_index, data)
-    slice_points = fluidUtils.commasplit(data.slice_points_string[item_index])
-    -- Invert the points if they are reverse
-    -- Containerise this into a function
+    local slice_points = fluidUtils.commasplit(data.slice_points_string[item_index])
+    if tonumber(slice_points[1]) == data.take_ofs_samples[item_index] then table.remove(slice_points, 1) end
 
-    for j=2, #slice_points do
+    for j=1, #slice_points do
         local slice_index = j
         slice_pos = fluidUtils.sampstos(
             tonumber(slice_points[slice_index]), 
             data.sr[item_index]
         )
-
-        -- slice_pos = slice_pos * (1.0 / data.playrate[item_index]) - data.take_ofs[item_index] -- account for playback rate
-        slice_pos = (slice_pos - data.take_ofs[item_index]) * (1 / data.playrate[item_index]) -- account for playback rate
-
+        slice_pos = (data.item_pos[item_index] + slice_pos - data.take_ofs[item_index]) * (1 / data.playrate[item_index]) -- account for playback rate
         data.item[item_index] = reaper.SplitMediaItem(
             data.item[item_index], 
-            data.item_pos[item_index] + slice_pos
+            slice_pos
         )
     end
 end
 
 fluidSlicing.perform_gate_splitting = function(item_index, data, init_state)
     local state = init_state
-    slice_points = fluidUtils.commasplit(data.slice_points_string[item_index])
-    for j=2, #slice_points do
+    local slice_points = fluidUtils.commasplit(data.slice_points_string[item_index])
+
+    for j=1, #slice_points do
+
+        if tonumber(slice_points[1]) == data.take_ofs_samples[item_index] then table.remove(slice_points, 1) end
+
         local slice_index = j
         slice_pos = fluidUtils.sampstos(
             tonumber(slice_points[slice_index]), 
             data.sr[item_index]
         )
-
-        slice_pos = (slice_pos - data.take_ofs[item_index]) * (1 / data.playrate[item_index]) -- account for playback rate
-
+        
+        slice_pos = (data.item_pos[item_index] + slice_pos - data.take_ofs[item_index]) * (1 / data.playrate[item_index]) -- account for playback rate
         reaper.SetMediaItemInfo_Value(data.item[item_index], "B_MUTE", state)
         data.item[item_index] = reaper.SplitMediaItem(
             data.item[item_index], 
-            data.item_pos[item_index] + (slice_pos)
+            slice_pos
         )
         if state == 1 then state = 0 else state = 1 end
-        -- invert the state
     end
     reaper.SetMediaItemInfo_Value(data.item[item_index], "B_MUTE", state)
 end
