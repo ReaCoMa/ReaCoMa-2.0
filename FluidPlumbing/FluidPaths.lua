@@ -40,9 +40,9 @@ end
 fluidPaths.path_setter = function()
     local cancel, input = reaper.GetUserInputs("Set path to FluCoMa Executables", 1, "Path:, extrawidth=100", "/usr/local/bin")
     if cancel ~= false then
-        local input_path = rm_trailing_slash(input)
+        local input_path = fluidUtils.rm_trailing_slash(input)
         -- local sanitised_input_path = doublequote(input_path)
-        if is_path_valid(input_path, true) == true then return true end
+        if fluidPaths.is_path_valid(input_path, true) == true then return true end
     else
         reaper.ShowMessageBox("Your path remains unconfigured. The script will now exit.", "Warning", 0)
         reaper.DeleteExtState("flucoma", "exepath", 1)
