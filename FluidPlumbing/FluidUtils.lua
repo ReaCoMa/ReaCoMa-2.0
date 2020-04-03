@@ -11,6 +11,18 @@ fluidUtils.nextpowstr = function(x)
     )
 end
 
+fluidUtils.reversetable = function(t)
+    -- Reverse a table in place
+	local i, j = 1, #t
+
+	while i < j do
+		t[i], t[j] = t[j], t[i]
+
+		i = i + 1
+		j = j - 1
+	end
+end
+
 fluidUtils.getmaxfftsize = function(fft_string)
     local split_settings = fluidUtils.spacesplit(fft_string)
     local window = split_settings[1] 
