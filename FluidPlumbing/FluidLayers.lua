@@ -51,8 +51,8 @@ fluidLayers.get_data = function (item_index, data)
     end
 
     -- This line caps the analysis at one loop
-    if (item_len + take_ofs) > src_len then 
-        item_len = src_len 
+    if (item_len + take_ofs) > (src_len * (1 / playrate)) then 
+        item_len = (src_len * (1 / playrate))
     end
 
     local take_ofs_samples = fluidUtils.stosamps(take_ofs, sr)
