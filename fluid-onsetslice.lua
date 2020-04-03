@@ -36,9 +36,10 @@ if num_selected_items > 0 then
 
             local cmd = exe .. 
             " -source " .. fluidUtils.doublequote(data.full_path[i]) .. 
-            " -indices " .. fluidUtils.doublequote(data.tmp[i]) .. 
+            " -indices " .. fluidUtils.doublequote(data.tmp[i]) ..
+            " -maxfftsize " .. fluidUtils.getmaxfftsize(fftsettings) .. 
             " -metric " .. metric .. 
-            " -minslicelength " .. minslicelength .. 
+            " -minslicelength " .. minslicelength ..
             " -threshold " .. threshold .. 
             " -filtersize " .. filtersize .. 
             " -framedelta " .. framedelta ..

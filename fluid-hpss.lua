@@ -71,6 +71,9 @@ if num_selected_items > 0 then
                     exe .. 
                     " -source " .. fluidUtils.doublequote(data.full_path[i]) .. 
                     " -harmonic " .. fluidUtils.doublequote(data.outputs.harmonic[i]) .. 
+                    " -maxfftsize " .. fluidUtils.getmaxfftsize(fftsettings) ..
+                    " -maxharmfiltersize " .. hfs ..
+                    " -maxpercfiltersize " .. pfs ..
                     " -percussive " .. fluidUtils.doublequote(data.outputs.percussive[i]) ..  
                     " -harmfiltersize " .. hfs .. 
                     " -percfiltersize " .. pfs .. 
@@ -86,7 +89,10 @@ if num_selected_items > 0 then
                     data.cmd, 
                     exe .. 
                     " -source " .. fluidUtils.doublequote(data.full_path[i]) .. 
-                    " -harmonic " .. fluidUtils.doublequote(data.outputs.harmonic[i]) .. 
+                    " -harmonic " .. fluidUtils.doublequote(data.outputs.harmonic[i]) ..
+                    " -maxfftsize " .. fluidUtils.getmaxfftsize(fftsettings) ..
+                    " -maxharmfiltersize " .. hfs ..
+                    " -maxpercfiltersize " .. pfs .. 
                     " -percussive " .. fluidUtils.doublequote(data.outputs.percussive[i]) ..  
                     " -harmfiltersize " .. hfs .. 
                     " -percfiltersize " .. pfs .. 
@@ -103,7 +109,10 @@ if num_selected_items > 0 then
                     data.cmd, 
                     exe .. 
                     " -source " .. fluidUtils.doublequote(data.full_path[i]) .. 
-                    " -harmonic " .. fluidUtils.doublequote(data.outputs.harmonic[i]) .. 
+                    " -harmonic " .. fluidUtils.doublequote(data.outputs.harmonic[i]) ..
+                    " -maxfftsize " .. fluidUtils.getmaxfftsize(fftsettings) ..
+                    " -maxharmfiltersize " .. hfs ..
+                    " -maxpercfiltersize " .. pfs .. 
                     " -percussive " .. fluidUtils.doublequote(data.outputs.percussive[i]) .. 
                     " -residual " .. fluidUtils.doublequote(data.outputs.residual[i]) .. 
                     " -harmfiltersize " .. hfs .. 

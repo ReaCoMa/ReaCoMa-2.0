@@ -57,7 +57,8 @@ if num_selected_items > 0 then
                 data.cmd, 
                 exe .. 
                 " -source " .. fluidUtils.doublequote(data.full_path[i]) .. 
-                " -sines " .. fluidUtils.doublequote(data.outputs.sines[i]) .. 
+                " -sines " .. fluidUtils.doublequote(data.outputs.sines[i]) ..
+                " -maxfftsize " .. fluidUtils.getmaxfftsize(fftsettings) ..
                 " -residual " .. fluidUtils.doublequote(data.outputs.residual[i]) .. 
                 " -birthhighthreshold " .. bhthresh ..
                 " -birthlowthreshold " .. blthresh ..
