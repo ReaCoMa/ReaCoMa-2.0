@@ -40,10 +40,10 @@ fluidLayers.get_data = function (item_index, data)
         table.insert(data.reverse, false)
     end
 
-    local take_ofs = reaper.GetMediaItemTakeInfo_Value(take, "D_STARTOFFS")
     local playrate = reaper.GetMediaItemTakeInfo_Value(take, "D_PLAYRATE")
-    local item_len = reaper.GetMediaItemInfo_Value(item, "D_LENGTH") * playrate
+    local take_ofs = reaper.GetMediaItemTakeInfo_Value(take, "D_STARTOFFS")
     local src_len = reaper.GetMediaSourceLength(src)
+    local item_len = reaper.GetMediaItemInfo_Value(item, "D_LENGTH") * playrate
     local playtype  = reaper.GetMediaItemTakeInfo_Value(take, "I_PITCHMODE")
     
     if data.reverse[item_index] then
