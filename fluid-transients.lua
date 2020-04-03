@@ -57,11 +57,11 @@ if num_selected_items > 0 then
                 exe .. 
                 " -source " .. fluidUtils.doublequote(data.full_path[i]) .. 
                 " -transients " .. fluidUtils.doublequote(data.outputs.transients[i]) .. 
-                " -residual " .. fluidUtils.doublequote(data.outputs.residual[i]) .. 
-                " -order " .. order .. 
-                " -blocksize " .. blocksize .. 
-                " -padsize " .. padsize .. 
-                " -skew " .. skew .. 
+                " -residual " .. fluidUtils.doublequote(data.outputs.residual[i]) ..
+                " -order " .. order ..
+                " -blocksize " .. blocksize ..
+                " -padsize " .. padsize ..
+                " -skew " .. skew ..
                 " -threshfwd " .. threshfwd .. 
                 " -threshback " .. threshback ..
                 " -windowsize " .. windowsize .. 
