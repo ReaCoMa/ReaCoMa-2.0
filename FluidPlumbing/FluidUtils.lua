@@ -5,6 +5,27 @@ fluidUtils.DEBUG = function(string)
     reaper.ShowConsoleMsg("\n")
 end
 
+fluidUtils.nextpowstr = function(x)
+    return tostring(
+        math.floor(2^math.ceil(math.log(x)/math.log(2)))
+    )
+end
+
+fluidUtils.getmaxfftsize = function(fft_string)
+    local split_settings = fluidUtils.spacesplit(fft_string)
+    local window = split_settings[1] 
+    local fft = split_settings[3]
+    local adjusted_fft = ""
+
+    if fft == "1" then 
+        adjusted_fft = fluidUtils.nextpowstr(tonumber(window)) 
+        return adjusted_fft
+    else
+        return fft
+    end
+end
+
+
 fluidUtils.uuid = function(idx)
     local time = tostring(reaper.time_precise()):gsub("%.+", "")
     return time .. idx
