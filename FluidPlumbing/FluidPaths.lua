@@ -1,6 +1,7 @@
 local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
-dofile(script_path .. "fluidUtils.lua")
+
+dofile(script_path .. "FluidUtils.lua")
 
 fluidPaths = {}
 
@@ -61,7 +62,7 @@ end
 
 fluidPaths.sanity_check = function()
     if fluidPaths.check_state() == false then
-        reaper.ShowMessageBox("The path to the FluCoMa CLI tools is not set. Please follow the next prompt to configure it. Doing so remains persistent across projects and sessions of reaper. If you need to change it please use the fluidEditPath.lua script.", "Warning!", 0)
+        reaper.ShowMessageBox("The path to the FluCoMa CLI tools is not set. Please follow the next prompt to configure it. Doing so remains persistent across projects and sessions of reaper. If you need to change it please use the FluidEditPath.lua script.", "Warning!", 0)
         if fluidPaths.set_fluid_path() == true then return true else return false end
     end
 
