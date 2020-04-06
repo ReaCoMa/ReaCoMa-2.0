@@ -6,5 +6,4 @@
 -- they have a key and a pair and are seperated by commas
 fluidSettings = {
     copyfx = true,
-
 }
