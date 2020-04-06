@@ -112,6 +112,10 @@ end
 fluidSlicing.perform_gate_splitting = function(item_index, data, init_state)
     local state = init_state
     local slice_points = fluidUtils.commasplit(data.slice_points_string[item_index])
+    if slice_points[1] == "-1" or slice_points[2] == "-1" then 
+        reaper.ShowMessageBox("No slices found", "FluCoMa Slicing Error", 0)
+        return 
+    end
 
     -- Invert the table around the middle point (mirror!)
     if data.reverse[item_index] then
