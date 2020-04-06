@@ -3,7 +3,7 @@ local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
 dofile(script_path .. "FluidPlumbing/FluidUtils.lua")
 dofile(script_path .. "FluidPlumbing/FluidParams.lua")
 dofile(script_path .. "FluidPlumbing/FluidPaths.lua")
-dofile(script_path .. "FluidPlumbing/fluidLayers.lua")
+dofile(script_path .. "FluidPlumbing/FluidLayers.lua")
 
 if fluidPaths.sanity_check() == false then goto exit; end
 local exe = fluidUtils.doublequote(fluidPaths.get_fluid_path() .. "/fluid-hpss")
