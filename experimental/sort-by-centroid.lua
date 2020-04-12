@@ -1,125 +1,89 @@
 local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
-dofile(script_path .. "../" .. "FluidUtils.lua")
-dofile(script_path .. "../" .. "FluidParams.lua")
+dofile(script_path .. "../FluidPlumbing/FluidUtils.lua")
+dofile(script_path .. "../FluidPlumbing/FluidParams.lua")
+dofile(script_path .. "../FluidPlumbing/FluidPaths.lua")
+dofile(script_path .. "../FluidPlumbing/FluidSorting.lua")
 
---------------------------------------------------------------------------------------------------------------
 
-------------------------------------------------------------------------------------
---   Each user MUST point this to their folder containing FluCoMa CLI executables --
-if sanity_check() == false then goto exit; end
-local cli_path = get_fluid_path()
---   Then we form some calls to the tools that will live in that folder --
-local fl_suf = cli_path .. "/fluid-spectralshape"
-local fl_exe = doublequote(fl_suf)
-local st_suf = cli_path .. "/fluid-stats"
-local st_exe = doublequote(st_suf)
-------------------------------------------------------------------------------------
+if fluidPaths.sanity_check() == false then goto exit; end
+local cli_path = fluidPaths.get_fluid_path()
+local descr_exe = fluidUtils.doublequote(cli_path .. "/fluid-spectralshape")
+local stats_exe = fluidUtils.doublequote(cli_path .. "/fluid-stats")
+
 local num_selected_items = reaper.CountSelectedMediaItems(0)
 if num_selected_items > 0 then
 
-    local processor = fluid_archetype.shape
-    check_params(processor)
+    local processor = fluid_experimental.centroid_sort
+    fluidParams.check_params(processor)
     local param_names = "fftsettings"
-    local param_values = parse_params(param_names, processor)
+    local param_values = fluidParams.parse_params(param_names, processor)
     local confirm, user_inputs = reaper.GetUserInputs("Sort by Centroid", 1, param_names, param_values)
 
     if confirm then
-        store_params(processor, param_names, user_inputs)
+        fluidParams.store_params(processor, param_names, user_inputs)
         reaper.Undo_BeginBlock()
-        -- Algorithm Parameters
-        local params = commasplit(user_inputs)
+        local params = fluidUtils.commasplit(user_inputs)
         local fftsettings = params[1]
-        
-        -- Create storage --
-        local item_t = {} -- table of selected items
-        local fl_cmd_t = {} -- command line arguments for spectralshape
-        local st_cmd_t = {} -- command line arguments for stats
-        local take_ofs_t = {}
-        local item_len_t = {}
-        local item_pos_t = {}
-        local chans_t = {}
-        local loudness_t = {} -- centroid data   
-        local string_data_t = {} -- all the output data as raw strings   
-        local tmp_file_t = {} -- annoying tmp files made by os.tmpname()
-        local tmp_anal_t = {} -- analysis files made by processor
-        local tmp_stat_t = {} -- stats files made by fluid.bufstats~
-        local sorted_items = {}
+
+        local data = fluidSorting.container
 
         for i=1, num_selected_items do
-            
-            local item = reaper.GetSelectedMediaItem(0, i-1)
-            local take = reaper.GetActiveTake(item)
-            local src = reaper.GetMediaItemTake_Source(take)
-            local full_path = reaper.GetMediaSourceFileName(src, "")
-            local sr = reaper.GetMediaSourceSampleRate(src)
-            
-            table.insert(chans_t, reaper.GetMediaSourceNumChannels(src))
-            table.insert(item_t, item)
+            fluidSorting.get_data(i, data)
 
-            local tmp_anal = full_path .. uuid(i) .. "shape" .. ".wav"
-            local tmp_stat = full_path .. uuid(i) .. "stat" .. ".csv"
-            table.insert(tmp_anal_t, tmp_anal)
-            table.insert(tmp_stat_t, tmp_stat)
-            
-            local take_ofs = stosamps(reaper.GetMediaItemTakeInfo_Value(take, "D_STARTOFFS"), sr)
-            local item_len = stosamps(reaper.GetMediaItemInfo_Value(item, "D_LENGTH"), sr)
-            local item_pos = reaper.GetMediaItemInfo_Value(item, "D_POSITION")
-            table.insert(take_ofs_t, take_ofs)
-            table.insert(item_len_t, item_len)
-            table.insert(item_pos_t, item_pos)
-
-            local fl_cmd = fl_exe .. 
-            " -source " .. doublequote(full_path) .. 
-            " -features " .. doublequote(tmp_anal) .. 
+            local descr_cmd = descr_exe .. 
+            " -source " .. fluidUtils.doublequote(data.full_path[i]) .. 
+            " -features " .. fluidUtils.doublequote(data.tmp_descr[i]) .. 
             " -fftsettings " .. fftsettings ..
-            " -startframe " .. take_ofs ..
-            " -numframes " .. item_len
+            " -startframe " .. data.take_ofs_samples[i] ..
+            " -numframes " .. data.item_len_samples[i]
+            table.insert(data.descr_cmd, descr_cmd)
 
-            local st_cmd = st_exe .. 
-            " -source " .. doublequote(tmp_anal) .. 
-            " -stats " .. doublequote(tmp_stat) ..
-            " -numderivs " .. "0"
+            local stats_cmd = stats_exe .. 
+            " -source " .. fluidUtils.doublequote(data.tmp_descr[i]) .. 
+            " -stats " .. fluidUtils.doublequote(data.tmp_stats[i]) ..
+            " -numderivs 0"
 
-            table.insert(fl_cmd_t, fl_cmd)
-            table.insert(st_cmd_t, st_cmd)
+            table.insert(data.stats_cmd, stats_cmd)
         end
 
-        -- Fill the table with data --
         for i=1, num_selected_items do
-            cmdline(fl_cmd_t[i])
-            cmdline(st_cmd_t[i])
+            fluidUtils.cmdline(data.descr_cmd[i])
+            fluidUtils.cmdline(data.stats_cmd[i])
         end
         
-        -- Convert the CSV into a table --
+        -- Extract descriptor data and store as a table --
+        -- This part here is not generic and can change for each process --
+        -- The extracted data has to end up in the descriptor_data table of the container --
         for i=1, num_selected_items do
             local temporary_stats = {}
 
-            for line in io.lines(tmp_stat_t[i]) do
-                table.insert(temporary_stats, statstotable(line))
+            for line in io.lines(data.tmp_stats[i]) do
+                table.insert(temporary_stats, fluidUtils.statstotable(line))
             end
-
+        
             -- Take the median of every channel --
             -- if there is more than 1 average the medians --
             local accum = 0
             -- local lookup = (1 * 7) - 6
             -- TODO Work on multichannel files by averaging medians
             local lookup = temporary_stats[1][6]
-            table.insert(loudness_t, tonumber(lookup))
+            table.insert(data.descriptor_data, tonumber(lookup))
         end
 
-        for k, v in Fluid.spairs(loudness_t, function(t,a,b) return t[a] < t[b] end) do
-            table.insert(sorted_items, k)
+        -- Sort the table --
+        for k, v in fluidUtils.spairs(data.descriptor_data, function(t,a,b) return t[a] < t[b] end) do
+            table.insert(data.sorted_items, k)
         end
 
         -- CONTIGUOUS ITEMS MODE --
         -- This can eventually just be merged with the above function
-        accum_offset = item_pos_t[1]
+        accum_offset = data.item_pos[1]
         
-        for i=1, #sorted_items do
+        for i=1, #data.sorted_items do
             
-            local index = sorted_items[i]
-            local item = item_t[index]
+            local index = data.sorted_items[i]
+            local item = data.item[index]
             local len = reaper.GetMediaItemInfo_Value(item, "D_LENGTH")
             
             reaper.SetMediaItemInfo_Value(item, "D_POSITION", accum_offset)
@@ -136,13 +100,11 @@ if num_selected_items > 0 then
         --     reaper.SetMediaItemInfo_Value(item, "D_POSITION", unordered_pos)
         -- end
 
-
-        cleanup(tmp_file_t)
-        cleanup(tmp_anal_t)
-        cleanup(tmp_stat_t)
+        fluidUtils.cleanup(data.tmp_descr)
+        fluidUtils.cleanup(data.tmp_stats)
 
         reaper.UpdateArrange()
-        reaper.Undo_EndBlock("LoudnessSort", 0)
+        reaper.Undo_EndBlock("CentroidSort", 0)
     end
 end
 ::exit::
