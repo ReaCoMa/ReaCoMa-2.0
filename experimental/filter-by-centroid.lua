@@ -1,22 +1,15 @@
 local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
-dofile(script_path .. "FluidUtils.lua")
+dofile(script_path .. "../FluidPlumbing/FluidUtils.lua")
 
---------------------------------------------------------------------------------------------------------------
-
-------------------------------------------------------------------------------------
---   Each user MUST point this to their folder containing FluCoMa CLI executables --
 if sanity_check() == false then goto exit; end
 local cli_path = fluidPaths.get_fluid_path()
 --   Then we form some calls to the tools that will live in that folder --
-local ss_suf = cli_path .. "/fluid-spectralshape"
-local ss_exe = doublequote(ss_suf)
-local st_suf = cli_path .. "/fluid-stats"
-local st_exe = doublequote(st_suf)
-------------------------------------------------------------------------------------
+local ss_exe = doublequote(cli_path .. "/fluid-spectralshape")
+local st_exe = doublequote(cli_path .. "/fluid-stats")
 
 local num_selected_items = reaper.CountSelectedMediaItems(0)
-if num_selected_items ~= 0 then
+if num_selected_items > 0 then
     local captions = "operator,centroid,fftsettings"
     local caption_defaults = ">,500,2048 -1 -1"
     local confirm, user_inputs = reaper.GetUserInputs("Configuration", 3, captions, caption_defaults)
