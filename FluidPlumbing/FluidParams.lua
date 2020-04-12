@@ -110,7 +110,18 @@ fluid_archetype = {
         lookahead = "5",
         highpassfreq = "100",
     }
+}
 
+fluid_experimental = {
+    centroid_sort = {
+        name = "fluidCentroidSort",
+        fftsettings = "4096 1024 4096"
+    },
+    loudness_sort = {
+        name = "fluidLoudnessSort",
+        windowsize = "17640",
+        hopsize = "4410"
+    }
 }
 
 fluidParams.check_params = function(param_table)
