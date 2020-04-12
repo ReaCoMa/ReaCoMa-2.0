@@ -1,11 +1,12 @@
 local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
-dofile(script_path .. "../" .. "FluidUtils.lua")
-dofile(script_path .. "../" .. "FluidParams.lua")
+dofile(script_path .. "FluidUtils.lua")
 
 ------------------------------------------------------------------------------------
 if sanity_check() == false then goto exit; end
-local cli_path = get_fluid_path()
+local cli_path = fluidPaths.get_fluid_path()
+local ie_suf = cli_path .. "/index_extractor"
+local ie_exe = doublequote(ie_suf)
 local ns_suf = cli_path .. "/noveltyslice"
 local ns_exe = doublequote(ns_suf)
 ------------------------------------------------------------------------------------
@@ -13,7 +14,7 @@ local ns_exe = doublequote(ns_suf)
 ------------------------------------------------------------------------------------
 -- Some scripts specific to this kind of automatic processing --
 function noveltyslice(source, indices, feature, threshold, kernelsize, filtersize, fftsettings)
-    cmdline(
+    os.execute(
         ns_exe ..
         " -source " .. source ..
         " -indices " .. indices ..
@@ -33,7 +34,7 @@ if num_selected_items > 0 then
     if confirm then
         reaper.Undo_BeginBlock()
         -- Algorithm Parameters
-        local params = commasplit(user_inputs)
+        local params = fluidUtils.commasplit(user_inputs)
         local feature = params[1]
         local threshold = params[2]
         local kernelsize = params[3]
@@ -49,7 +50,6 @@ if num_selected_items > 0 then
         local item_len_samples_t = {}
         local slice_points_string_t = {}
         local item_t = {}
-        local tmp_idx_t = {}
         local sr_t = {}
         local take_ofs_t = {}
         local take_ofs_samples_t = {}
@@ -63,9 +63,6 @@ if num_selected_items > 0 then
             table.insert(item_t, item)
             table.insert(sr_t, sr)
             table.insert(full_path_t, full_path)
-
-            local tmp_idx = full_path .. uuid(1) .. "slices" .. ".csv"
-            table.insert(tmp_idx_t, tmp_idx)
             
             local take_ofs = reaper.GetMediaItemTakeInfo_Value(take, "D_STARTOFFS")
             local item_pos = reaper.GetMediaItemInfo_Value(item, "D_POSITION")
@@ -85,6 +82,9 @@ if num_selected_items > 0 then
 
         -- Optimisation
         -- Generate a temporary idx file and keep it for the duration of the optimisation
+        local tmp_bse = os.tmpname()
+        local tmp_idx = doublequote(tmp_bse .. ".wav")
+        local read_cmd = ie_exe .. " " .. tmp_idx
         for i=1, num_selected_items do
             -- Set up some values in memory
             local max_iter = 1000
@@ -103,7 +103,6 @@ if num_selected_items > 0 then
             noveltyslice(full_path_t[i], tmp_idx, feature, tostring(curr_thresh), kernelsize, filtersize, fftsettings)
             curr_slices = tablelen(spacesplit(capture(read_cmd, false)))
 
-
             -- start searching --
             while iter ~= max_iter do
                 if num_slices == target_slices then -- if it is already solved
@@ -111,14 +110,12 @@ if num_selected_items > 0 then
                     goto finish_search;
                 end
 
+                delta_slices = 
+
                 if num_slices > target_slices then 
                     curr_thresh = curr_thresh * (1.23 + (math.random() * 0.05))
                     noveltyslice(full_path_t[i], tmp_idx, feature, tostring(curr_thresh), kernelsize, filtersize, fftsettings)
                     num_slices = tablelen(spacesplit(capture(read_cmd, false)))
-                    for line in io.lines(tmp_idx) do
-                        DEBUG(line)
-                        table.insert(temporary_stats, statstotable(line))
-                    end
                 end
 
                 if num_slices < target_slices then
