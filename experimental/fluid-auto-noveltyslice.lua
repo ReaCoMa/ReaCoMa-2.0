@@ -3,7 +3,7 @@ local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
 dofile(script_path .. "FluidUtils.lua")
 
 ------------------------------------------------------------------------------------
-if sanity_check() == false then goto exit; end
+if sanity_check() == false then return end
 local cli_path = fluidPaths.get_fluid_path()
 local ie_suf = cli_path .. "/index_extractor"
 local ie_exe = doublequote(ie_suf)

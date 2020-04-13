@@ -2,7 +2,7 @@ local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
 dofile(script_path .. "../FluidPlumbing/FluidUtils.lua")
 
-if sanity_check() == false then goto exit; end
+if sanity_check() == false then return end
 local cli_path = fluidPaths.get_fluid_path()
 --   Then we form some calls to the tools that will live in that folder --
 local ss_exe = doublequote(cli_path .. "/fluid-spectralshape")
