@@ -26,7 +26,7 @@ replacements = [
     "FluidUtils.stosamps",
     "FluidUtils.basedir",
     "FluidUtils.basename",
-    "FluidUtils.rm_trailing_slash",
+    "FluidUtils.rmtrailslash",
     "FluidUtils.cleanup",
     "FluidUtils.capture",
     "FluidUtils.readfile",
