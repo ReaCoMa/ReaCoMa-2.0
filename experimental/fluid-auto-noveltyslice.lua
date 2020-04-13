@@ -5,12 +5,9 @@ dofile(script_path .. "../FluidPlumbing/FluidParams.lua")
 dofile(script_path .. "../FluidPlumbing/FluidPaths.lua")
 dofile(script_path .. "../FluidPlumbing/FluidSlicing.lua")
 
-
 if fluidPaths.sanity_check() == false then return end
 local cli_path = fluidPaths.get_fluid_path()
 local exe = fluidUtils.doublequote(cli_path .. "/fluid-noveltyslice")
-
-math.randomseed(os.clock() * 100000000000) -- random seed
 
 local num_selected_items = reaper.CountSelectedMediaItems(0)
 if num_selected_items > 0 then
@@ -19,7 +16,7 @@ if num_selected_items > 0 then
     fluidParams.check_params(processor)
     local param_names = "feature,threshold,kernelsize,filtersize,fftsettings,minslicelength,target_slices,tolerance,max_iterations"
     local param_values = fluidParams.parse_params(param_names, processor)
-    local confirm, user_inputs = reaper.GetUserInputs("Sort by Centroid", 9, param_names, param_values)
+    local confirm, user_inputs = reaper.GetUserInputs("Auto-threshold noveltyslice", 9, param_names, param_values)
 
     if confirm then
 
@@ -39,17 +36,11 @@ if num_selected_items > 0 then
 
         local data = fluidSlicing.container
 
-        for i=1, num_selected_items do
-            -- Gather data
-            fluidSlicing.get_data(i, data)
-        end
-
-        
-        local temp_idx = data.full_path[1] .. fluidUtils.uuid(1) .. "fs.csv"
         local function form_string(threshold, item_index)
+            local temp_file = data.full_path[item_index] .. fluidUtils.uuid(item_index) .. "fs.csv"
             local cmd_string = exe ..
             " -source " .. fluidUtils.doublequote(data.full_path[item_index]) .. 
-            " -indices " .. fluidUtils.doublequote(temp_idx) .. 
+            " -indices " .. fluidUtils.doublequote(temp_file) .. 
             " -maxfftsize " .. fluidUtils.getmaxfftsize(fftsettings) ..
             " -maxkernelsize " .. kernelsize ..
             " -maxfiltersize " .. filtersize ..
@@ -61,7 +52,11 @@ if num_selected_items > 0 then
             " -minslicelength " .. minslicelength ..
             " -numframes " .. data.item_len_samples[item_index] .. 
             " -startframe " .. data.take_ofs_samples[item_index]
-            return cmd_string
+            return cmd_string, temp_file
+        end
+
+        for i=1, num_selected_items do
+            fluidSlicing.get_data(i, data)
         end
 
         for i=1, num_selected_items do
@@ -76,9 +71,10 @@ if num_selected_items > 0 then
             prev_slices = 0
 
             -- Do an initial pass
-            cmd = form_string(curr_thresh, i)
+            local cmd, temp_file = form_string(curr_thresh, i)
             fluidUtils.cmdline(cmd)
-            prev_slices = #fluidUtils.commasplit(fluidUtils.readfile(temp_idx))
+            prev_slices = #fluidUtils.commasplit(fluidUtils.readfile(temp_file))
+            os.remove(temp_file)
             
             -- start searching --
             while iter ~= tonumber(max_iterations) do
@@ -90,15 +86,19 @@ if num_selected_items > 0 then
                     end
                 end
                 
-                cmd = form_string(curr_thresh, i)
+                local cmd, temp_file = form_string(curr_thresh, i)
                 fluidUtils.cmdline(cmd)
-                num_slices = #fluidUtils.commasplit(fluidUtils.readfile(temp_idx))
+                num_slices = #fluidUtils.commasplit(fluidUtils.readfile(temp_file))
+                
 
-                if math.abs(target_slices - num_slices) <= tolerance then -- if finished within tolerance we win
-                    table.insert(data.slice_points_string, fluidUtils.readfile(temp_idx))
+                if math.abs(target_slices - num_slices) <= tolerance then
+                    --*************************************--
+                    -- if finished within tolerance we win --
+                    --*************************************--
+                    table.insert(data.slice_points_string, fluidUtils.readfile(temp_file))
                     fluidSlicing.perform_splitting(i, data)
+                    os.remove(temp_file)
                     reaper.UpdateArrange()
-                    return
                 else -- do some clever threshold manipulation and slicing
                     local n_thresh = 0.0
                     local d_slices = num_slices - prev_slices
@@ -114,12 +114,11 @@ if num_selected_items > 0 then
                     curr_thresh = n_thresh
                     prev_slices = num_slices
                     iter = iter + 1 -- move forward in our iterations
+                    os.remove(temp_file)
                 end
+                
             end
         end
-
         reaper.Undo_EndBlock("auto_novelty", 0)
-
-        os.remove(temp_idx)
     end
 end
