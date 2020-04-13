@@ -7,16 +7,19 @@ fluidPaths = {}
 
 ---------- Functions for to setting state ----------
 fluidPaths.get_fluid_path = function()
+    -- Returns the current value for the flucoma executable path state
     return reaper.GetExtState("flucoma", "exepath")
 end
 
-fluidPaths.file_exists = function(name)
-    if reaper.file_exists(name) then return true else return false end
+fluidPaths.file_exists = function(path)
+    -- Returns boolean for the existence of a file at <path>
+    if reaper.file_exists(path) then return true else return false end
 end
 
 ---------- fluidPath setting ----------
 fluidPaths.is_path_valid = function(input_string, warning_message)
-    -- Checks to 
+    -- Checks whether or not the <input_string> is a valid FluidPath
+    -- Optionally provide a warning message on success/failure
     local operating_system = reaper.GetOS()
     local check_table = {}
     check_table["Win64"] = "/fluid-noveltyslice.exe"
@@ -39,6 +42,7 @@ fluidPaths.is_path_valid = function(input_string, warning_message)
 end
 
 fluidPaths.path_setter = function()
+    -- Function to give the user a GUI the fluid path as an ExtState in REAPER
     local cancel, input = reaper.GetUserInputs("Set path to FluCoMa Executables", 1, "Path:, extrawidth=100", "/usr/local/bin")
     if cancel ~= false then
         local input_path = fluidUtils.rmtrailslash(input)
@@ -56,11 +60,13 @@ fluidPaths.set_fluid_path = function()
 end
 
 fluidPaths.check_state = function()
-    -- Check that the reaper Key "exepath" has been set
+    -- Check that the REAPER ExtState "exepath" exists (has been set)
     return reaper.HasExtState("flucoma", "exepath")
 end
 
 fluidPaths.sanity_check = function()
+    -- Function to call at the start of every script
+    -- This ensures that the path has been set otherwise it prompts the user to go through the process
     if fluidPaths.check_state() == false then
         reaper.ShowMessageBox("The path to the FluCoMa CLI tools is not set. Please follow the next prompt to configure it. Doing so remains persistent across projects and sessions of reaper. If you need to change it please use the FluidEditPath.lua script.", "Warning!", 0)
         if fluidPaths.set_fluid_path() == true then return true else return false end
