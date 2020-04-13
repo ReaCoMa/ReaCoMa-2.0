@@ -146,4 +146,3 @@ if num_selected_items > 0 then
         end
     end
 end
-::exit::

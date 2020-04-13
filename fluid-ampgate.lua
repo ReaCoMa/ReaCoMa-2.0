@@ -5,7 +5,7 @@ dofile(script_path .. "FluidPlumbing/FluidParams.lua")
 dofile(script_path .. "FluidPlumbing/FluidPaths.lua")
 dofile(script_path .. "FluidPlumbing/FluidSlicing.lua")
 
-if fluidPaths.sanity_check() == false then goto exit; end
+if fluidPaths.sanity_check() == false then return end
 local exe = fluidUtils.doublequote(fluidPaths.get_fluid_path() .. "/fluid-ampgate")
 
 local num_selected_items = reaper.CountSelectedMediaItems(0)
@@ -86,4 +86,4 @@ if num_selected_items > 0 then
         fluidUtils.cleanup(data.tmp)
     end
 end
-::exit::
+

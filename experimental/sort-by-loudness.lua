@@ -6,7 +6,7 @@ dofile(script_path .. "../FluidPlumbing/FluidPaths.lua")
 dofile(script_path .. "../FluidPlumbing/FluidSorting.lua")
 
 
-if fluidPaths.sanity_check() == false then goto exit; end
+if fluidPaths.sanity_check() == false then return end
 local cli_path = fluidPaths.get_fluid_path()
 local descr_exe = fluidUtils.doublequote(cli_path .. "/fluid-loudness")
 local stats_exe = fluidUtils.doublequote(cli_path .. "/fluid-stats")
@@ -109,4 +109,4 @@ if num_selected_items > 0 then
         reaper.Undo_EndBlock("CentroidSort", 0)
     end
 end
-::exit::
+

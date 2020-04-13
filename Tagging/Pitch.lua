@@ -5,7 +5,7 @@ dofile(script_path .. "../FluidPlumbing/FluidParams.lua")
 dofile(script_path .. "../FluidPlumbing/FluidPaths.lua")
 dofile(script_path .. "../FluidPlumbing/FluidTagging.lua")
 
-if fluidPaths.sanity_check() == false then goto exit; end
+if fluidPaths.sanity_check() == false then return end
 local loudness_exe = fluidUtils.doublequote(fluidPaths.get_fluid_path() .. "/fluid-spectralshape")
 local stats_exe = fluidUtils.doublequote(fluidPaths.get_fluid_path() .. "/fluid-stats")
 
@@ -50,4 +50,3 @@ local num_selected_items = reaper.CountSelectedMediaItems(0)
         fluidUtils.cleanup(data.analtmp)
         fluidUtils.cleanup(data.statstmp)
     end
-::exit::

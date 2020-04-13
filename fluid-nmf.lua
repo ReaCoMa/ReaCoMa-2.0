@@ -5,7 +5,7 @@ dofile(script_path .. "FluidPlumbing/FluidParams.lua")
 dofile(script_path .. "FluidPlumbing/FluidPaths.lua")
 dofile(script_path .. "FluidPlumbing/FluidLayers.lua")
 
-if fluidPaths.sanity_check() == false then goto exit; end
+if fluidPaths.sanity_check() == false then return end
 local exe = fluidUtils.doublequote(fluidPaths.get_fluid_path() .. "/fluid-nmf")
 
 local num_selected_items = reaper.CountSelectedMediaItems(0)
@@ -67,4 +67,4 @@ if num_selected_items > 0 then
         reaper.Undo_EndBlock("NMF", 0)
     end
 end
-::exit::
+
