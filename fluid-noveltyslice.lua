@@ -53,7 +53,10 @@ if num_selected_items > 0 then
 
         for i=1, num_selected_items do
             fluidUtils.cmdline(data.cmd[i])
-            table.insert(data.slice_points_string, fluidUtils.readfile(data.tmp[i]))
+            table.insert(
+                data.slice_points_string, 
+                fluidUtils.readfile(data.tmp[i])
+            )
             fluidSlicing.perform_splitting(i, data)
         end
 

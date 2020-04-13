@@ -80,7 +80,7 @@ fluid_archetype = {
         filtersize = "1",
         kernelsize = "3",
         threshold = "0.5",
-        minslicelength = 2,
+        minslicelength = "2",
     },
 
     ampslice = {
@@ -121,6 +121,18 @@ fluid_experimental = {
         name = "fluidLoudnessSort",
         windowsize = "17640",
         hopsize = "4410"
+    },
+    auto_novelty = {
+        name = "fluidAutoNovelty",
+        feature = "0",
+        threshold = "0.5",
+        kernelsize = "3",
+        filtersize = "1",
+        fftsettings = "1024 -1 -1",
+        minslicelength = "2",
+        target_slices = "10",
+        tolerance = "2",
+        max_iterations = "100"
     }
 }
 
