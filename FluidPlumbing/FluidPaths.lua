@@ -41,7 +41,7 @@ end
 fluidPaths.path_setter = function()
     local cancel, input = reaper.GetUserInputs("Set path to FluCoMa Executables", 1, "Path:, extrawidth=100", "/usr/local/bin")
     if cancel ~= false then
-        local input_path = fluidUtils.rm_trailing_slash(input)
+        local input_path = fluidUtils.rmtrailslash(input)
         -- local sanitised_input_path = doublequote(input_path)
         if fluidPaths.is_path_valid(input_path, true) == true then return true end
     else
