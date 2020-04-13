@@ -1,11 +1,15 @@
 fluidUtils = {}
 
 fluidUtils.DEBUG = function(string)
+    -- Handy function for quickly debugging strings
     reaper.ShowConsoleMsg(string)
     reaper.ShowConsoleMsg("\n")
 end
 
 fluidUtils.spairs = function(t, order)
+    -- This function orders a table given a function as <order>
+    -- If no function is passed then it used the default sort function
+
     -- collect the keys
     local keys = {}
     for k in pairs(t) do keys[#keys+1] = k end
@@ -28,25 +32,26 @@ fluidUtils.spairs = function(t, order)
     end
 end
 
-fluidUtils.nextpowstr = function(x)
-    return tostring(
-        math.floor(2^math.ceil(math.log(x)/math.log(2)))
-    )
-end
-
 fluidUtils.reversetable = function(t)
     -- Reverse a table in place
 	local i, j = 1, #t
-
 	while i < j do
 		t[i], t[j] = t[j], t[i]
-
 		i = i + 1
 		j = j - 1
 	end
 end
 
+fluidUtils.nextpowstr = function(x)
+    -- Finds the next power of <x> and returns it as a string
+    return tostring(
+        math.floor(2^math.ceil(math.log(x)/math.log(2)))
+    )
+end
+
 fluidUtils.getmaxfftsize = function(fft_string)
+    -- Given the three fftsettings values find the maximum fft size
+    -- We have to do this because you can pass 1 as a valid argument
     local split_settings = fluidUtils.spacesplit(fft_string)
     local window = split_settings[1] 
     local fft = split_settings[3]
@@ -62,47 +67,60 @@ end
 
 
 fluidUtils.uuid = function(idx)
-    local time = tostring(reaper.time_precise()):gsub("%.+", "")
-    return time .. idx
+    -- Generates a universally unique identifier string
+    -- Increases uniqueness by appending a number <idx>
+    -- <idx> is generally taken as a loop value
+    return tostring(reaper.time_precise()):gsub("%.+", "") .. idx
 end
 
-fluidUtils.cmdline = function(string)
+fluidUtils.cmdline = function(command)
+    -- Calls the <command> at the system's shell
+    -- The implementation slightly differs for each operating system
     local opsys = reaper.GetOS()
-    if opsys == "Win64" then reaper.ExecProcess(string, 0) end
-    if opsys == "OSX64" or opsys == "Other" then os.execute(string) end
+    if opsys == "Win64" then reaper.ExecProcess(command, 0) end
+    if opsys == "OSX64" or opsys == "Other" then os.execute(command) end
 end
 
-fluidUtils.sampstos = function(samps_in, sr)
-    return samps_in / sr
+fluidUtils.sampstos = function(samples, samplerate)
+    -- Return the number of <samples> given a time in seconds and a <samplerate>
+    return samples / samplerate
 end
 
-fluidUtils.stosamps = function(secs_in, sr) 
-    return math.floor((secs_in * sr) + 0.5)
+fluidUtils.stosamps = function(seconds, samplerate) 
+    -- Return the number of <seconds> given a time in samples and a <samplerate>
+    return math.floor((seconds * samplerate) + 0.5)
 end
 
-fluidUtils.basedir = function(str,sep)
-    sep=sep or'/'
-    return str:match("(.*"..sep..")")
+fluidUtils.basedir = function(path, separator)
+    -- Returns the base directory of a <path>
+    -- for example /foo/bar/script.lua >>> /foo/bar/
+    -- Optionally provide a <separator>
+    separator = separator or'/'
+    return path:match("(.*"..separator..")")
 end
 
-fluidUtils.basename = function(input_string)
-    return input_string:match("(.+)%..+")
+fluidUtils.basename = function(path)
+    -- Returns the basename of a <path>
+    -- for example /foo/bar/script.lua >>> script.lua
+    return path:match("(.+)%..+")
 end
 
-fluidUtils.rm_trailing_slash = function(s)
-    -- Remove trailing slash from string. 
+fluidUtils.rmtrailslash = function(input_string)
+    -- Remove trailing slash from an <input_string>. 
     -- Will not remove slash if it is the only character.
-    return s:gsub('(.)%/$', '%1')
+    return input_string:gsub('(.)%/$', '%1')
 end
 
 fluidUtils.cleanup = function(path_table)
+    -- Given a table of strings (<path_table>) that are paths call os.remove() on them
     for i=1, #path_table do
         os.remove(path_table[i])
     end
 end
 
 fluidUtils.capture = function(cmd, raw)
-    -- usage: local output = capture("ls", false)
+    -- Captures and returns the output of a command line call
+    -- <cmd> is the command and <raw> is flag determining raw or sanitised return
     local f = assert(io.popen(cmd, 'r'))
     local s = assert(f:read('*a'))
     f:close()
@@ -114,6 +132,7 @@ fluidUtils.capture = function(cmd, raw)
 end
 
 fluidUtils.readfile = function(file)
+    -- Returns the contents of a <file> a string
     local f = assert(io.open(file, "r"))
     local content = f:read("*all")
     f:close()
@@ -121,7 +140,7 @@ fluidUtils.readfile = function(file)
 end
 
 fluidUtils.commasplit = function(input_string)
-    -- splits by ,
+    -- Splits an <input_string> seperated by "," into a table
     local t = {}
     for word in string.gmatch(input_string, '([^,]+)') do
         table.insert(t, word)
@@ -130,7 +149,7 @@ fluidUtils.commasplit = function(input_string)
 end
 
 fluidUtils.linesplit = function(input_string)
-    -- splits by line endings
+    -- Splits an <input_string> seperated by line endings into a table
     local t = {}
     for word in string.gmatch(input_string,"(.-)\r?\n") do
         table.insert(t, word)
@@ -138,7 +157,17 @@ fluidUtils.linesplit = function(input_string)
     return t
 end
 
+fluidUtils.spacesplit = function(input_string)
+    -- Splits an <input_string> seperated by spaces into a table
+    local t = {}
+    for word in input_string:gmatch("%w+") do table.insert(t, word) end
+    return t
+end
+
 fluidUtils.lacetables = function(table1, table2)
+    -- Lace the contents of <table1> and <table2> together
+    -- 1, 2, 3  and foo, bar, baz become..gfx.a
+    -- 1, foo, 2, bar, 3, baz
     laced = {}
     for i=1, #table1 do
         table.insert(laced, table1[i])
@@ -147,37 +176,21 @@ fluidUtils.lacetables = function(table1, table2)
     return laced
 end
 
-fluidUtils.statstotable = function(string)
-    local t = {}
-    for word in string:gmatch('([^,]+)') do
-        table.insert(t, tonumber(word))
-    end
-    return t
-end
-
-fluidUtils.spacesplit = function(input_string)
-    local t = {}
-    for word in input_string:gmatch("%w+") do table.insert(t, word) end
-    return t
-end
-
 fluidUtils.rmdelim = function(input_string)
+    -- Removes delimiters from an <input_string>
     local nodots = input_string.gsub(input_string, "%.", "")
     local nospace = nodots.gsub(nodots, "%s", "")
     return nospace
 end
 
-fluidUtils.tablelen = function(t)
-  local count = 0
-  for _ in pairs(t) do count = count + 1 end
-  return count
-end
-
 fluidUtils.doublequote = function(input_string)
+    -- Surrounds an <input_string> with quotation marks
+    -- This is almost always required for passing things to the command line
     return '"'..input_string..'"'
 end
 
 ---------- Custom operators ----------
+-- These are used in the experimental functions that perform comparisons
 matchers = {
     ['>'] = function (x, y) return x > y end,
     ['<'] = function (x, y) return x < y end,
