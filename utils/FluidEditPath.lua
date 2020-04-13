@@ -1,5 +1,5 @@
 local info = debug.getinfo(1,'S');
 script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
-dofile(script_path .. "FluidUtils.lua")
+dofile(script_path .. "../FluidPlumbing/FluidPaths.lua")
 
-fluidUtils.set_fluid_path()
+fluidPaths.set_fluid_path()
