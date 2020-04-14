@@ -1,5 +1,5 @@
 local info = debug.getinfo(1,'S');
 script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
-dofile(script_path .. "../FluidPlumbing/FluidPaths.lua")
+loadfile(script_path .. "../lib/reacoma.lua")()
 
-fluidPaths.set_fluid_path()
+reacoma.paths.set_reacoma_path()

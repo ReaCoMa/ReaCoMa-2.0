@@ -1,11 +1,9 @@
 local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
-dofile(script_path .. "../FluidPlumbing/" .. "FluidParams.lua")
-dofile(script_path .. "../FluidPlumbing/" .. "FluidUtils.lua")
-
+loadfile(script_path .. "../lib/reacoma.lua")
 
 -- A script for getting rid of all FluCoMa related variables stored in the state table --
-for k, v in pairs(fluid_archetype) do
+for k, v in pairs(reacoma.params.archetype) do
     for i, j in pairs(v) do
         reaper.DeleteExtState(v.name, i, true)
     end
