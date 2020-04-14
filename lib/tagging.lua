@@ -1,24 +1,24 @@
-local info = debug.getinfo(1,'S');
-local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
-dofile(script_path .. "FluidUtils.lua")
+tagging = {}
 
-SlicingContainer = {
+tagging.container = {
     full_path = {},
     item_pos = {},
     item_pos_samples = {},
     take_ofs = {},
     take_ofs_samples = {},
     item_len_samples = {},
-    cmd = {},
-    slice_points_string = {},
-    tmp = {},
+    analcmd = {},
+    statscmd = {},
+    analysis_data = {},
+    analtmp = {},
+    statstmp = {},
     item = {},
     reverse = {},
     sr = {},
     playrate = {}
 }
 
-function get_slice_data(item_index, data)
+tagging.get_data = function(item_index, data)
     local item = reaper.GetSelectedMediaItem(0, item_index-1)
     local take = reaper.GetActiveTake(item)
     local src = reaper.GetMediaItemTake_Source(take)
@@ -36,7 +36,8 @@ function get_slice_data(item_index, data)
         table.insert(data.reverse, false)
     end
     
-    local tmp = full_path .. uuid(item_index) .. "fs.csv"
+    local analtmp = full_path .. utils.uuid(item_index) .. "ttag.wav"
+    local statstmp = full_path .. utils.uuid(item_index) .. "tstats.csv"
     local take_ofs = reaper.GetMediaItemTakeInfo_Value(take, "D_STARTOFFS")
     local item_pos = reaper.GetMediaItemInfo_Value(item, "D_POSITION")
     local item_len = reaper.GetMediaItemInfo_Value(item, "D_LENGTH")
@@ -53,9 +54,9 @@ function get_slice_data(item_index, data)
         item_len = src_len 
     end
 
-    local take_ofs_samples = stosamps(take_ofs, sr)
-    local item_pos_samples = stosamps(item_pos, sr)
-    local item_len_samples = math.floor(stosamps(item_len, sr) * playrate)
+    local take_ofs_samples = utils.stosamps(take_ofs, sr)
+    local item_pos_samples = utils.stosamps(item_pos, sr)
+    local item_len_samples = math.floor(utils.stosamps(item_len, sr) * playrate)
 
     table.insert(data.item, item)
     table.insert(data.sr, sr)
@@ -65,30 +66,26 @@ function get_slice_data(item_index, data)
     table.insert(data.item_pos, item_pos)
     table.insert(data.item_pos_samples, item_pos_samples)
     table.insert(data.item_len_samples, item_len_samples)
-    table.insert(data.tmp, tmp)
     table.insert(data.playrate, playrate)
+    table.insert(data.analtmp, analtmp)
+    table.insert(data.statstmp, statstmp)
 end
 
-function perform_splitting(item_index, data)
-    slice_points = commasplit(data.slice_points_string[item_index])
-    -- Invert the points if they are reverse
-    -- Containerise this into a function
+tagging.update_notes = function(item, text)
+    _, current_notes = reaper.GetSetMediaItemInfo_String(
+        item, 
+        "P_NOTES", 
+        "foobie", 
+        false
+    )
+    concat_string = current_notes .. "\r\n" .. text
 
-    
-
-    for j=2, #slice_points do
-        local slice_index = j
-        slice_pos = sampstos(
-            tonumber(slice_points[slice_index]), 
-            data.sr[item_index]
-        )
-
-        -- slice_pos = slice_pos * (1.0 / data.playrate[item_index]) - data.take_ofs[item_index] -- account for playback rate
-        slice_pos = (slice_pos - data.take_ofs[item_index]) * (1 / data.playrate[item_index]) -- account for playback rate
-
-        data.item[item_index] = reaper.SplitMediaItem(
-            data.item[item_index], 
-            data.item_pos[item_index] + (slice_pos - (data.take_ofs[item_index] * (1 / data.playrate[item_index])))
-        )
-    end
+    _, _ = reaper.GetSetMediaItemInfo_String(
+        item, 
+        "P_NOTES", 
+        concat_string, 
+        true
+    )
 end
+
+return tagging

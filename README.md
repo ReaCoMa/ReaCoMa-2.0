@@ -14,9 +14,9 @@ Some typical `path` locations that are (to my knowledge) default on MacOS are:
 
 `/bin/`
 
-I would recommend placing the **FluCoMa** command line tools in `/usr/local/bin`. Generally, it is a good idea to not pollute the other default paths with user specific stuff. 
+I would recommend placing the **FluCoMa** command line tools in `/usr/local/bin`. Generally, it is a good idea to not pollute the other default paths with user specific stuff. However, these are locations more suitable for power users and you can keep the tools wherever you want.
 
-The reason we have to faff around with this is that in the ReaScripts all of the computation is done in the background on the command line and we simply use the scripts to interface with the outputs of the processes and to update the arrangement view inside of REAPER.
+The reason we have to do this, is because computation is called via the command line and we simply use the scripts to interface with the outputs of the processes and to update the arrangement view inside of REAPER.
 
 ------------------
 
@@ -26,7 +26,7 @@ Once you have installed the command line tools the difficult part is over. Pat y
 
 1. Download all of the files from this repository.
 
-https://github.com/jamesb93/ReaCoMa/archive/master.zip
+https://github.com/jamesb93/ReaCoMa/releases
 
 2. Unzip the downloaded archive and you will have a folder contaning a number of files ending with the `.lua` extension - these are the scripts.
 
@@ -72,14 +72,8 @@ I would recommend you become familiar with two actions:
 
 Again, these can be found in the action menu **(`Shift + /`)**. This will allow you to explode the output of a FluCoMa process to new tracks for more fine tuned manipulation.
 
-# TODO
-
-I have not yet implemented the amplitude slicing object because a) I don't understand it and b) I am led to believe there are issues with digital silence with it.
-
-Threading! I'd like to make it so these processes can work in the background rather than locking out REAPER entirely. In so far, my research into making this happen has been discouraging as calling the shell from Lua is a blocking process and to make it non-blocking I would have to set up some additional logic that waits for processes to be finished and returns that information to REAPER.
-
 # Acknowledgements
 
-Thank you to Pierre Alexandre Tremblay for guiding me on the interface of these scripts and how they should work for the user. The tools themselves are not my own work, but a product of the FluCoMa project which can be found here. 
+Thank you to Pierre Alexandre Tremblay for guiding me through the process of developing ReaCoMa. The command line tools themselves are not my own work, but a product of the FluCoMa project which can be found here. Part of this work was generously funded by the Huddersfield Creative Coding Lab.
 
 http://www.flucoma.org

@@ -1,140 +1,123 @@
 local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
-dofile(script_path .. "FluidUtils.lua")
+loadfile(script_path .. "../lib/reacoma.lua")()
 
-------------------------------------------------------------------------------------
-if sanity_check() == false then goto exit; end
-local cli_path = get_fluid_path()
-local ie_suf = cli_path .. "/index_extractor"
-local ie_exe = doublequote(ie_suf)
-local ns_suf = cli_path .. "/noveltyslice"
-local ns_exe = doublequote(ns_suf)
-------------------------------------------------------------------------------------
-
-------------------------------------------------------------------------------------
--- Some scripts specific to this kind of automatic processing --
-function noveltyslice(source, indices, feature, threshold, kernelsize, filtersize, fftsettings)
-    os.execute(
-        ns_exe ..
-        " -source " .. source ..
-        " -indices " .. indices ..
-        " -feature " .. feature .. 
-        " -threshold " .. threshold .. 
-        " -kernelsize " .. kernelsize .. 
-        " -filtersize " .. filtersize .. 
-        " -fftsettings " .. fftsettings)
-end
-------------------------------------------------------------------------------------
-
-math.randomseed(os.clock() * 100000000000) -- random seed
+local exe = reacoma.utils.doublequote(
+    reacoma.settings.path .. "/fluid-noveltyslice"
+)
 
 local num_selected_items = reaper.CountSelectedMediaItems(0)
 if num_selected_items > 0 then
-    local confirm, user_inputs = reaper.GetUserInputs("Novelty Slice Parameters", 6, "feature,threshold,kernelsize,filtersize,fftsettings,number of slices", "0,0.5,3,1,1024 512 1024,7")
+
+    local processor = reacoma.params.experimental.auto_novelty
+    reacoma.params.check_params(processor)
+    local param_names = "feature,threshold,kernelsize,filtersize,fftsettings,minslicelength,target_slices,tolerance,max_iterations"
+    local param_values = reacoma.params.parse_params(param_names, processor)
+    local confirm, user_inputs = reaper.GetUserInputs("Auto-threshold noveltyslice", 9, param_names, param_values)
+
     if confirm then
+
         reaper.Undo_BeginBlock()
-        -- Algorithm Parameters
-        local params = commasplit(user_inputs)
+        reacoma.params.store_params(processor, param_names, user_inputs)
+
+        local params = reacoma.utils.commasplit(user_inputs)
         local feature = params[1]
         local threshold = params[2]
         local kernelsize = params[3]
         local filtersize = params[4]
         local fftsettings = params[5]
-        local target_slices = tonumber(params[6])
+        local minslicelength = params[6]
+        local target_slices = tonumber(params[7])
+        local tolerance = tonumber(params[8])
+        local max_iterations = tonumber(params[9])
 
+        local data = reacoma.slicing.container
 
-        local item_pos_t = {}
-        local item_len_t = {}
-        local full_path_t = {}
-        local item_pos_samples_t = {}
-        local item_len_samples_t = {}
-        local slice_points_string_t = {}
-        local item_t = {}
-        local sr_t = {}
-        local take_ofs_t = {}
-        local take_ofs_samples_t = {}
-
-        for i=1, num_selected_items do
-            local item = reaper.GetSelectedMediaItem(0, i-1)
-            local take = reaper.GetActiveTake(item)
-            local src = reaper.GetMediaItemTake_Source(take)
-            local sr = reaper.GetMediaSourceSampleRate(src)
-            local full_path = reaper.GetMediaSourceFileName(src, '')
-            table.insert(item_t, item)
-            table.insert(sr_t, sr)
-            table.insert(full_path_t, full_path)
-            
-            local take_ofs = reaper.GetMediaItemTakeInfo_Value(take, "D_STARTOFFS")
-            local item_pos = reaper.GetMediaItemInfo_Value(item, "D_POSITION")
-            local item_len = reaper.GetMediaItemInfo_Value(item, "D_LENGTH")
-            table.insert(take_ofs_t, take_ofs)
-            table.insert(item_pos_t, item_pos)
-            table.insert(item_len_t, item_len)
-        
-            -- Convert everything to samples for CLI --
-            local take_ofs_samples = stosamps(take_ofs, sr)
-            local item_pos_samples = stosamps(item_pos, sr)
-            local item_len_samples = stosamps(item_len, sr)
-            table.insert(take_ofs_samples_t, take_ofs_samples)
-            table.insert(item_pos_samples_t, item_pos_samples)
-            table.insert(item_len_samples_t, item_len_samples)
+        local function form_string(threshold, item_index)
+            local temp_file = data.full_path[item_index] .. reacoma.utils.uuid(item_index) .. "fs.csv"
+            local cmd_string = exe ..
+            " -source " .. reacoma.utils.doublequote(data.full_path[item_index]) .. 
+            " -indices " .. reacoma.utils.doublequote(temp_file) .. 
+            " -maxfftsize " .. reacoma.utils.getmaxfftsize(fftsettings) ..
+            " -maxkernelsize " .. kernelsize ..
+            " -maxfiltersize " .. filtersize ..
+            " -feature " .. feature .. 
+            " -kernelsize " .. kernelsize .. 
+            " -threshold " .. threshold ..
+            " -filtersize " .. filtersize .. 
+            " -fftsettings " .. fftsettings .. 
+            " -minslicelength " .. minslicelength ..
+            " -numframes " .. data.item_len_samples[item_index] .. 
+            " -startframe " .. data.take_ofs_samples[item_index]
+            return cmd_string, temp_file
         end
 
-        -- Optimisation
-        -- Generate a temporary idx file and keep it for the duration of the optimisation
-        local tmp_bse = os.tmpname()
-        local tmp_idx = doublequote(tmp_bse .. ".wav")
-        local read_cmd = ie_exe .. " " .. tmp_idx
         for i=1, num_selected_items do
-            local max_iter = 1000
+            reacoma.slicing.get_data(i, data)
+        end
+
+        for i=1, num_selected_items do
+            -- For each item that you have selected
+            -- Initialise some values
+            local solved = false
             local iter = 0
-            local init_thresh = tonumber(threshold)
-            curr_thresh = 0.0
+
+            local curr_thresh = tonumber(threshold)
+            local prev_thresh = curr_thresh
 
             num_slices = 0
+            prev_slices = 0
+            
+            -- Do an initial pass
+            local cmd, temp_file = form_string(curr_thresh, i)
+            reacoma.utils.cmdline(cmd)
+            prev_slices = #reacoma.utils.commasplit(reacoma.utils.readfile(temp_file))
+            os.remove(temp_file)
+            
             -- start searching --
-            while iter ~= max_iter do
-                if iter == 0 then -- on our first loop we have to initialise
-                    noveltyslice(full_path_t[i], tmp_idx, feature, tostring(init_thresh), kernelsize, filtersize, fftsettings)
-                    num_slices = tablelen(spacesplit(capture(read_cmd, false)))
-                    curr_thresh = init_thresh
-                end
-                if num_slices == target_slices then 
-                    -- we use this slicing param to get what we want
-                    table.insert(slice_points_string_t, capture(read_cmd, false))
-                    goto finish_search;
-                end
-                if num_slices > target_slices then 
-                    curr_thresh = curr_thresh * (1.23 + (math.random() * 0.05))
-                    noveltyslice(full_path_t[i], tmp_idx, feature, tostring(curr_thresh), kernelsize, filtersize, fftsettings)
-                    num_slices = tablelen(spacesplit(capture(read_cmd, false)))
-                end
-                if num_slices < target_slices then
-                    curr_thresh = curr_thresh * (0.8 + (math.random() * 0.05))
-                    noveltyslice(full_path_t[i], tmp_idx, feature, tostring(curr_thresh), kernelsize, filtersize, fftsettings)
-                    num_slices = tablelen(spacesplit(capture(read_cmd, false)))
-                end
-                iter = iter + 1 -- move forward in our iterations
-            end
-        end
-        ::finish_search::
+            while not solved do
+                if iter ~= tonumber(max_iterations) then
+                    if iter == 0 then -- on our first loop we have to initialise
+                        if prev_slices < target_slices then
+                            curr_thresh = prev_thresh * 0.5
+                        else
+                            curr_thresh = prev_thresh * 2
+                        end
+                    end
+                    
+                    local cmd, temp_file = form_string(curr_thresh, i)
+                    reacoma.utils.cmdline(cmd)
+                    num_slices = #reacoma.utils.commasplit(reacoma.utils.readfile(temp_file))
+                    
+                    if math.abs(target_slices - num_slices) <= tolerance then
+                        --*************************************--
+                        -- if finished within tolerance we win --
+                        --*************************************--
+                        table.insert(data.slice_points_string, reacoma.utils.readfile(temp_file))
+                        reacoma.slicing.process(i, data)
+                        os.remove(temp_file)
+                        reaper.UpdateArrange()
+                        solved = true
+                    else -- do some clever threshold manipulation and slicing
+                        local n_thresh = 0.0
+                        local d_slices = num_slices - prev_slices
+                        local d_thresh = curr_thresh - prev_thresh
 
-        -- Execution
-        for i=1, num_selected_items do
-            local slice_points = spacesplit(slice_points_string_t[i])
-            for j=2, #slice_points do
-                slice_pos = sampstos(
-                    tonumber(slice_points[j]), sr_t[i]
-                )
-                item_t[i] = reaper.SplitMediaItem(item_t[i], item_pos_t[i] + (slice_pos - take_ofs_t[i]))
+                        if d_slices ~= 0 then
+                            n_thresh = math.max(0.000001, math.min(0.999999, ((d_thresh / d_slices) * (target_slices - num_slices)) + curr_thresh))
+                        else
+                            n_thresh = math.max(0.000001, math.min(0.999999, d_thresh + curr_thresh))
+                        end
+
+                        prev_thresh = curr_thresh
+                        curr_thresh = n_thresh
+                        prev_slices = num_slices
+                        iter = iter + 1 -- move forward in our iterations
+                        os.remove(temp_file)
+                    end
+                end
             end
         end
-        reaper.UpdateArrange()
-        reaper.Undo_EndBlock("noveltyslice", 0)
-        for i=1, num_selected_items do
-            remove_file(tmp_idx)
-            remove_file(tmp_bse)
-        end
+        reaper.Undo_EndBlock("auto_novelty", 0)
     end
 end
-::exit::
