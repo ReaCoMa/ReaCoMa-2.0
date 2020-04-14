@@ -66,7 +66,7 @@ slicing.get_data = function (item_index, data)
     table.insert(data.playrate, playrate)
 end
 
-slicing.process_splitting = function (item_index, data)
+slicing.process = function (item_index, data)
     -- Thank you to Francesco Cameli for helping me debug this absolute NIGHTMARE --
     local slice_points = utils.commasplit(data.slice_points_string[item_index])
 
@@ -104,7 +104,7 @@ slicing.process_splitting = function (item_index, data)
     end
 end
 
-slicing.process_gate_splitting = function(item_index, data, init_state)
+slicing.process_gate = function(item_index, data, init_state)
     local state = init_state
     local slice_points = utils.commasplit(data.slice_points_string[item_index])
     if slice_points[1] == "-1" or slice_points[2] == "-1" then 
