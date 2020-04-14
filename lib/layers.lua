@@ -5,6 +5,7 @@ dofile(script_path .. "FluidUtils.lua")
 dofile(script_path .. "OrderedTables.lua")
 
 reacoma.layers = {}
+
 reacoma.layers.container = {
     full_path = {},
     take = {},
@@ -70,7 +71,6 @@ reacoma.layers.get_data = function (item_index, data)
     table.insert(data.playrate, playrate)
     table.insert(data.playtype, playtype)
 end
-
 
 reacoma.layers.perform_layers = function(item_index, data)
     if item_index > 1 then reaper.SetMediaItemSelected(data.item[item_index-1], false) end
