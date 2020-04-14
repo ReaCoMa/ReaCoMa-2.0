@@ -5,7 +5,7 @@ dofile(script_path .. "../FluidPlumbing/" .. "FluidUtils.lua")
 
 
 -- A script for getting rid of all FluCoMa related variables stored in the state table --
-for k, v in pairs(fluid_archetype) do
+for k, v in pairs(reacoma.param.archetype) do
     for i, j in pairs(v) do
         reaper.DeleteExtState(v.name, i, true)
     end

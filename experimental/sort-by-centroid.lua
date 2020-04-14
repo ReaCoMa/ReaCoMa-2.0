@@ -6,50 +6,50 @@ dofile(script_path .. "../FluidPlumbing/FluidPaths.lua")
 dofile(script_path .. "../FluidPlumbing/FluidSorting.lua")
 
 
-if fluidPaths.sanity_check() == false then return end
-local cli_path = fluidPaths.get_fluid_path()
-local descr_exe = fluidUtils.doublequote(cli_path .. "/fluid-spectralshape")
-local stats_exe = fluidUtils.doublequote(cli_path .. "/fluid-stats")
+if reacoma.paths.sanity_check() == false then return end
+local cli_path = reacoma.paths.get_fluid_path()
+local descr_exe = reacoma.utils.doublequote(cli_path .. "/fluid-spectralshape")
+local stats_exe = reacoma.utils.doublequote(cli_path .. "/fluid-stats")
 
 local num_selected_items = reaper.CountSelectedMediaItems(0)
 if num_selected_items > 0 then
 
-    local processor = fluid_experimental.centroid_sort
-    fluidParams.check_params(processor)
+    local processor = reacoma.param.experimental.centroid_sort
+    reacoma.params.check_params(processor)
     local param_names = "fftsettings"
-    local param_values = fluidParams.parse_params(param_names, processor)
+    local param_values = reacoma.params.parse_params(param_names, processor)
     local confirm, user_inputs = reaper.GetUserInputs("Sort by Centroid", 1, param_names, param_values)
 
     if confirm then
-        fluidParams.store_params(processor, param_names, user_inputs)
+        reacoma.params.store_params(processor, param_names, user_inputs)
         reaper.Undo_BeginBlock()
-        local params = fluidUtils.commasplit(user_inputs)
+        local params = reacoma.utils.commasplit(user_inputs)
         local fftsettings = params[1]
 
-        local data = fluidSorting.container
+        local data = reacoma.sorting.container
 
         for i=1, num_selected_items do
-            fluidSorting.get_data(i, data)
+            reacoma.sorting.get_data(i, data)
 
             local descr_cmd = descr_exe .. 
-            " -source " .. fluidUtils.doublequote(data.full_path[i]) .. 
-            " -features " .. fluidUtils.doublequote(data.tmp_descr[i]) .. 
+            " -source " .. reacoma.utils.doublequote(data.full_path[i]) .. 
+            " -features " .. reacoma.utils.doublequote(data.tmp_descr[i]) .. 
             " -fftsettings " .. fftsettings ..
             " -startframe " .. data.take_ofs_samples[i] ..
             " -numframes " .. data.item_len_samples[i]
             table.insert(data.descr_cmd, descr_cmd)
 
             local stats_cmd = stats_exe .. 
-            " -source " .. fluidUtils.doublequote(data.tmp_descr[i]) .. 
-            " -stats " .. fluidUtils.doublequote(data.tmp_stats[i]) ..
+            " -source " .. reacoma.utils.doublequote(data.tmp_descr[i]) .. 
+            " -stats " .. reacoma.utils.doublequote(data.tmp_stats[i]) ..
             " -numderivs 0"
 
             table.insert(data.stats_cmd, stats_cmd)
         end
 
         for i=1, num_selected_items do
-            fluidUtils.cmdline(data.descr_cmd[i])
-            fluidUtils.cmdline(data.stats_cmd[i])
+            reacoma.utils.cmdline(data.descr_cmd[i])
+            reacoma.utils.cmdline(data.stats_cmd[i])
         end
         
         -- Extract descriptor data and store as a table --
@@ -59,7 +59,7 @@ if num_selected_items > 0 then
             local temporary_stats = {}
 
             for line in io.lines(data.tmp_stats[i]) do
-                table.insert(temporary_stats, fluidUtils.statstotable(line))
+                table.insert(temporary_stats, reacoma.utils.statstotable(line))
             end
         
             -- Take the median of every channel --
@@ -72,7 +72,7 @@ if num_selected_items > 0 then
         end
 
         -- Sort the table --
-        for k, v in fluidUtils.spairs(data.descriptor_data, function(t,a,b) return t[a] < t[b] end) do
+        for k, v in reacoma.utils.spairs(data.descriptor_data, function(t,a,b) return t[a] < t[b] end) do
             table.insert(data.sorted_items, k)
         end
 
@@ -100,8 +100,8 @@ if num_selected_items > 0 then
         --     reaper.SetMediaItemInfo_Value(item, "D_POSITION", unordered_pos)
         -- end
 
-        fluidUtils.cleanup(data.tmp_descr)
-        fluidUtils.cleanup(data.tmp_stats)
+        reacoma.utils.cleanup(data.tmp_descr)
+        reacoma.utils.cleanup(data.tmp_stats)
 
         reaper.UpdateArrange()
         reaper.Undo_EndBlock("CentroidSort", 0)

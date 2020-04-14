@@ -1,11 +1,12 @@
 local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
-dofile(script_path .. "../settings.lua")
+dofile(script_path .. "reacoma.lua")
 dofile(script_path .. "FluidUtils.lua")
 
-fluidSlicing = {}
 
-fluidSlicing.container = {
+reacoma.slicing = {}
+
+reacoma.slicing.container = {
     full_path = {},
     item_pos = {},
     item_pos_samples = {},
@@ -21,7 +22,7 @@ fluidSlicing.container = {
     playrate = {}
 }
 
-fluidSlicing.get_data = function (item_index, data)
+reacoma.slicing.get_data = function (item_index, data)
     local item = reaper.GetSelectedMediaItem(0, item_index-1)
     local take = reaper.GetActiveTake(item)
     local src = reaper.GetMediaItemTake_Source(take)
@@ -39,7 +40,7 @@ fluidSlicing.get_data = function (item_index, data)
         table.insert(data.reverse, false)
     end
     
-    local tmp = full_path .. fluidUtils.uuid(item_index) .. "fs.csv"
+    local tmp = full_path .. reacoma.utils.uuid(item_index) .. "fs.csv"
     local playrate = reaper.GetMediaItemTakeInfo_Value(take, "D_PLAYRATE")
     local take_ofs = reaper.GetMediaItemTakeInfo_Value(take, "D_STARTOFFS")
     local item_pos = reaper.GetMediaItemInfo_Value(item, "D_POSITION")
@@ -55,9 +56,9 @@ fluidSlicing.get_data = function (item_index, data)
         item_len = (src_len * (1 / playrate))
     end
 
-    local take_ofs_samples = fluidUtils.stosamps(take_ofs, sr)
-    local item_pos_samples = fluidUtils.stosamps(item_pos, sr)
-    local item_len_samples = math.floor(fluidUtils.stosamps(item_len, sr))
+    local take_ofs_samples = reacoma.utils.stosamps(take_ofs, sr)
+    local item_pos_samples = reacoma.utils.stosamps(item_pos, sr)
+    local item_len_samples = math.floor(reacoma.utils.stosamps(item_len, sr))
 
     table.insert(data.item, item)
     table.insert(data.sr, sr)
@@ -71,9 +72,9 @@ fluidSlicing.get_data = function (item_index, data)
     table.insert(data.playrate, playrate)
 end
 
-fluidSlicing.perform_splitting = function (item_index, data)
+reacoma.slicing.perform_splitting = function (item_index, data)
     -- Thank you to Francesco Cameli for helping me debug this absolute NIGHTMARE --
-    local slice_points = fluidUtils.commasplit(data.slice_points_string[item_index])
+    local slice_points = reacoma.utils.commasplit(data.slice_points_string[item_index])
 
     -- Invert the table around the middle point (mirror!)
     if data.reverse[item_index] then
@@ -81,7 +82,7 @@ fluidSlicing.perform_splitting = function (item_index, data)
         for i=1, #slice_points do
             slice_points[i] = half_length + (half_length - slice_points[i])
         end
-        fluidUtils.reversetable(slice_points)
+        reacoma.utils.reversetable(slice_points)
     end
     
     -- if the left boundary is the start remove it
@@ -97,7 +98,7 @@ fluidSlicing.perform_splitting = function (item_index, data)
     end
 
     for j=1, #slice_points do
-        slice_pos = fluidUtils.sampstos(
+        slice_pos = reacoma.utils.sampstos(
             tonumber(slice_points[j]), 
             data.sr[item_index]
         )
@@ -109,9 +110,9 @@ fluidSlicing.perform_splitting = function (item_index, data)
     end
 end
 
-fluidSlicing.perform_gate_splitting = function(item_index, data, init_state)
+reacoma.slicing.perform_gate_splitting = function(item_index, data, init_state)
     local state = init_state
-    local slice_points = fluidUtils.commasplit(data.slice_points_string[item_index])
+    local slice_points = reacoma.utils.commasplit(data.slice_points_string[item_index])
     if slice_points[1] == "-1" or slice_points[2] == "-1" then 
         reaper.ShowMessageBox("No slices found", "FluCoMa Slicing Error", 0)
         return 
@@ -123,7 +124,7 @@ fluidSlicing.perform_gate_splitting = function(item_index, data, init_state)
         for i=1, #slice_points do
             slice_points[i] = half_length + (half_length - slice_points[i])
         end
-        fluidUtils.reversetable(slice_points)
+        reacoma.utils.reversetable(slice_points)
     end
 
     -- if the left boundary is the start remove it
@@ -139,7 +140,7 @@ fluidSlicing.perform_gate_splitting = function(item_index, data, init_state)
     end
 
     for j=1, #slice_points do
-        slice_pos = fluidUtils.sampstos(
+        slice_pos = reacoma.utils.sampstos(
             tonumber(slice_points[j]), 
             data.sr[item_index]
         )

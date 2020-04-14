@@ -1,12 +1,16 @@
-fluidUtils = {}
+local info = debug.getinfo(1,'S');
+local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
+dofile(script_path .. "reacoma.lua")
 
-fluidUtils.DEBUG = function(string)
+reacoma.utils = {}
+
+reacoma.utils.DEBUG = function(string)
     -- Handy function for quickly debugging strings
     reaper.ShowConsoleMsg(string)
     reaper.ShowConsoleMsg("\n")
 end
 
-fluidUtils.spairs = function(t, order)
+reacoma.utils.spairs = function(t, order)
     -- This function orders a table given a function as <order>
     -- If no function is passed then it used the default sort function
 
@@ -32,7 +36,7 @@ fluidUtils.spairs = function(t, order)
     end
 end
 
-fluidUtils.reversetable = function(t)
+reacoma.utils.reversetable = function(t)
     -- Reverse a table in place
 	local i, j = 1, #t
 	while i < j do
@@ -42,23 +46,23 @@ fluidUtils.reversetable = function(t)
 	end
 end
 
-fluidUtils.nextpowstr = function(x)
+reacoma.utils.nextpowstr = function(x)
     -- Finds the next power of <x> and returns it as a string
     return tostring(
         math.floor(2^math.ceil(math.log(x)/math.log(2)))
     )
 end
 
-fluidUtils.getmaxfftsize = function(fft_string)
+reacoma.utils.getmaxfftsize = function(fft_string)
     -- Given the three fftsettings values find the maximum fft size
     -- We have to do this because you can pass 1 as a valid argument
-    local split_settings = fluidUtils.spacesplit(fft_string)
+    local split_settings = reacoma.utils.spacesplit(fft_string)
     local window = split_settings[1] 
     local fft = split_settings[3]
     local adjusted_fft = ""
 
     if fft == "1" then 
-        adjusted_fft = fluidUtils.nextpowstr(tonumber(window)) 
+        adjusted_fft = reacoma.utils.nextpowstr(tonumber(window)) 
         return adjusted_fft
     else
         return fft
@@ -66,14 +70,14 @@ fluidUtils.getmaxfftsize = function(fft_string)
 end
 
 
-fluidUtils.uuid = function(idx)
+reacoma.utils.uuid = function(idx)
     -- Generates a universally unique identifier string
     -- Increases uniqueness by appending a number <idx>
     -- <idx> is generally taken as a loop value
     return tostring(reaper.time_precise()):gsub("%.+", "") .. idx
 end
 
-fluidUtils.cmdline = function(command)
+reacoma.utils.cmdline = function(command)
     -- Calls the <command> at the system's shell
     -- The implementation slightly differs for each operating system
     local opsys = reaper.GetOS()
@@ -81,17 +85,17 @@ fluidUtils.cmdline = function(command)
     if opsys == "OSX64" or opsys == "Other" then os.execute(command) end
 end
 
-fluidUtils.sampstos = function(samples, samplerate)
+reacoma.utils.sampstos = function(samples, samplerate)
     -- Return the number of <samples> given a time in seconds and a <samplerate>
     return samples / samplerate
 end
 
-fluidUtils.stosamps = function(seconds, samplerate) 
+reacoma.utils.stosamps = function(seconds, samplerate) 
     -- Return the number of <seconds> given a time in samples and a <samplerate>
     return math.floor((seconds * samplerate) + 0.5)
 end
 
-fluidUtils.basedir = function(path, separator)
+reacoma.utils.basedir = function(path, separator)
     -- Returns the base directory of a <path>
     -- for example /foo/bar/script.lua >>> /foo/bar/
     -- Optionally provide a <separator>
@@ -99,26 +103,26 @@ fluidUtils.basedir = function(path, separator)
     return path:match("(.*"..separator..")")
 end
 
-fluidUtils.basename = function(path)
+reacoma.utils.basename = function(path)
     -- Returns the basename of a <path>
     -- for example /foo/bar/script.lua >>> script.lua
     return path:match("(.+)%..+")
 end
 
-fluidUtils.rmtrailslash = function(input_string)
+reacoma.utils.rmtrailslash = function(input_string)
     -- Remove trailing slash from an <input_string>. 
     -- Will not remove slash if it is the only character.
     return input_string:gsub('(.)%/$', '%1')
 end
 
-fluidUtils.cleanup = function(path_table)
+reacoma.utils.cleanup = function(path_table)
     -- Given a table of strings (<path_table>) that are paths call os.remove() on them
     for i=1, #path_table do
         os.remove(path_table[i])
     end
 end
 
-fluidUtils.capture = function(cmd, raw)
+reacoma.utils.capture = function(cmd, raw)
     -- Captures and returns the output of a command line call
     -- <cmd> is the command and <raw> is flag determining raw or sanitised return
     local f = assert(io.popen(cmd, 'r'))
@@ -131,7 +135,7 @@ fluidUtils.capture = function(cmd, raw)
     return s
 end
 
-fluidUtils.readfile = function(file)
+reacoma.utils.readfile = function(file)
     -- Returns the contents of a <file> a string
     local f = assert(io.open(file, "r"))
     local content = f:read("*all")
@@ -139,7 +143,7 @@ fluidUtils.readfile = function(file)
     return content
 end
 
-fluidUtils.commasplit = function(input_string)
+reacoma.utils.commasplit = function(input_string)
     -- Splits an <input_string> seperated by "," into a table
     local t = {}
     for word in string.gmatch(input_string, '([^,]+)') do
@@ -148,7 +152,7 @@ fluidUtils.commasplit = function(input_string)
     return t
 end
 
-fluidUtils.linesplit = function(input_string)
+reacoma.utils.linesplit = function(input_string)
     -- Splits an <input_string> seperated by line endings into a table
     local t = {}
     for word in string.gmatch(input_string,"(.-)\r?\n") do
@@ -157,14 +161,14 @@ fluidUtils.linesplit = function(input_string)
     return t
 end
 
-fluidUtils.spacesplit = function(input_string)
+reacoma.utils.spacesplit = function(input_string)
     -- Splits an <input_string> seperated by spaces into a table
     local t = {}
     for word in input_string:gmatch("%w+") do table.insert(t, word) end
     return t
 end
 
-fluidUtils.lacetables = function(table1, table2)
+reacoma.utils.lacetables = function(table1, table2)
     -- Lace the contents of <table1> and <table2> together
     -- 1, 2, 3  and foo, bar, baz become..gfx.a
     -- 1, foo, 2, bar, 3, baz
@@ -176,14 +180,14 @@ fluidUtils.lacetables = function(table1, table2)
     return laced
 end
 
-fluidUtils.rmdelim = function(input_string)
+reacoma.utils.rmdelim = function(input_string)
     -- Removes delimiters from an <input_string>
     local nodots = input_string.gsub(input_string, "%.", "")
     local nospace = nodots.gsub(nodots, "%s", "")
     return nospace
 end
 
-fluidUtils.doublequote = function(input_string)
+reacoma.utils.doublequote = function(input_string)
     -- Surrounds an <input_string> with quotation marks
     -- This is almost always required for passing things to the command line
     return '"'..input_string..'"'

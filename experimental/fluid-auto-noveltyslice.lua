@@ -5,25 +5,25 @@ dofile(script_path .. "../FluidPlumbing/FluidParams.lua")
 dofile(script_path .. "../FluidPlumbing/FluidPaths.lua")
 dofile(script_path .. "../FluidPlumbing/FluidSlicing.lua")
 
-if fluidPaths.sanity_check() == false then return end
-local cli_path = fluidPaths.get_fluid_path()
-local exe = fluidUtils.doublequote(cli_path .. "/fluid-noveltyslice")
+if reacoma.paths.sanity_check() == false then return end
+local cli_path = reacoma.paths.get_fluid_path()
+local exe = reacoma.utils.doublequote(cli_path .. "/fluid-noveltyslice")
 
 local num_selected_items = reaper.CountSelectedMediaItems(0)
 if num_selected_items > 0 then
 
-    local processor = fluid_experimental.auto_novelty
-    fluidParams.check_params(processor)
+    local processor = reacoma.param.experimental.auto_novelty
+    reacoma.params.check_params(processor)
     local param_names = "feature,threshold,kernelsize,filtersize,fftsettings,minslicelength,target_slices,tolerance,max_iterations"
-    local param_values = fluidParams.parse_params(param_names, processor)
+    local param_values = reacoma.params.parse_params(param_names, processor)
     local confirm, user_inputs = reaper.GetUserInputs("Auto-threshold noveltyslice", 9, param_names, param_values)
 
     if confirm then
 
         reaper.Undo_BeginBlock()
-        fluidParams.store_params(processor, param_names, user_inputs)
+        reacoma.params.store_params(processor, param_names, user_inputs)
 
-        local params = fluidUtils.commasplit(user_inputs)
+        local params = reacoma.utils.commasplit(user_inputs)
         local feature = params[1]
         local threshold = params[2]
         local kernelsize = params[3]
@@ -34,14 +34,14 @@ if num_selected_items > 0 then
         local tolerance = tonumber(params[8])
         local max_iterations = tonumber(params[9])
 
-        local data = fluidSlicing.container
+        local data = reacoma.slicing.container
 
         local function form_string(threshold, item_index)
-            local temp_file = data.full_path[item_index] .. fluidUtils.uuid(item_index) .. "fs.csv"
+            local temp_file = data.full_path[item_index] .. reacoma.utils.uuid(item_index) .. "fs.csv"
             local cmd_string = exe ..
-            " -source " .. fluidUtils.doublequote(data.full_path[item_index]) .. 
-            " -indices " .. fluidUtils.doublequote(temp_file) .. 
-            " -maxfftsize " .. fluidUtils.getmaxfftsize(fftsettings) ..
+            " -source " .. reacoma.utils.doublequote(data.full_path[item_index]) .. 
+            " -indices " .. reacoma.utils.doublequote(temp_file) .. 
+            " -maxfftsize " .. reacoma.utils.getmaxfftsize(fftsettings) ..
             " -maxkernelsize " .. kernelsize ..
             " -maxfiltersize " .. filtersize ..
             " -feature " .. feature .. 
@@ -56,7 +56,7 @@ if num_selected_items > 0 then
         end
 
         for i=1, num_selected_items do
-            fluidSlicing.get_data(i, data)
+            reacoma.slicing.get_data(i, data)
         end
 
         for i=1, num_selected_items do
@@ -72,8 +72,8 @@ if num_selected_items > 0 then
 
             -- Do an initial pass
             local cmd, temp_file = form_string(curr_thresh, i)
-            fluidUtils.cmdline(cmd)
-            prev_slices = #fluidUtils.commasplit(fluidUtils.readfile(temp_file))
+            reacoma.utils.cmdline(cmd)
+            prev_slices = #reacoma.utils.commasplit(reacoma.utils.readfile(temp_file))
             os.remove(temp_file)
             
             -- start searching --
@@ -87,16 +87,16 @@ if num_selected_items > 0 then
                 end
                 
                 local cmd, temp_file = form_string(curr_thresh, i)
-                fluidUtils.cmdline(cmd)
-                num_slices = #fluidUtils.commasplit(fluidUtils.readfile(temp_file))
+                reacoma.utils.cmdline(cmd)
+                num_slices = #reacoma.utils.commasplit(reacoma.utils.readfile(temp_file))
                 
 
                 if math.abs(target_slices - num_slices) <= tolerance then
                     --*************************************--
                     -- if finished within tolerance we win --
                     --*************************************--
-                    table.insert(data.slice_points_string, fluidUtils.readfile(temp_file))
-                    fluidSlicing.perform_splitting(i, data)
+                    table.insert(data.slice_points_string, reacoma.utils.readfile(temp_file))
+                    reacoma.slicing.perform_splitting(i, data)
                     os.remove(temp_file)
                     reaper.UpdateArrange()
                 else -- do some clever threshold manipulation and slicing
