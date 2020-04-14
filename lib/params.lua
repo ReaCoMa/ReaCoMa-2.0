@@ -1,10 +1,6 @@
-local info = debug.getinfo(1,'S');
-local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
-dofile(script_path .. "reacoma.lua")
+params = {}
 
-reacoma.params = {}
-
-reacoma.param.archetype = {
+params.archetype = {
 
     nmf = {
         name = "fluidParamNMF",
@@ -111,7 +107,7 @@ reacoma.param.archetype = {
     }
 }
 
-reacoma.param.experimental = {
+params.experimental = {
     centroid_sort = {
         name = "fluidCentroidSort",
         fftsettings = "4096 1024 4096"
@@ -135,7 +131,7 @@ reacoma.param.experimental = {
     }
 }
 
-reacoma.params.check_params = function(param_table)
+params.check_params = function(param_table)
     -- This should only really once per REAPER install
     -- Otherwise most of this will just run and pass over every check...
     -- ... deferring to a getter that retrieves what we need
@@ -147,11 +143,11 @@ reacoma.params.check_params = function(param_table)
     end
 end
 
-reacoma.params.parse_params = function(parameter_names, processor)
+params.parse_params = function(parameter_names, processor)
     -- Provide captions in,
     -- turn this into a string of parameter values to be provided to the user
     -- We do this because iterating tables is not deterministic
-    local split_params = reacoma.utils.commasplit(parameter_names)
+    local split_params = utils.commasplit(parameter_names)
     local param_values = {}
     for i=1, #split_params do
         param_values[#param_values+1] = reaper.GetExtState(processor.name, split_params[i])
@@ -159,17 +155,17 @@ reacoma.params.parse_params = function(parameter_names, processor)
     return table.concat(param_values, ",")
 end
 
-reacoma.params.store_params = function(processor, parameter_names, parameter_values)
+params.store_params = function(processor, parameter_names, parameter_values)
     -- Taking two strings that are CSV of params and values
     -- This lets you re-use non, hardcoded values to store
     -- Store the numbers in the external state of reaper
     -- Processor tells you what the name of the object is and where to store
-    local n = reacoma.utils.commasplit(parameter_names)
-    local v = reacoma.utils.commasplit(parameter_values)
+    local n = utils.commasplit(parameter_names)
+    local v = utils.commasplit(parameter_values)
 
     for i=1, #n do
         reaper.SetExtState(processor.name, n[i], v[i], true)
     end
 end
 
-return reacoma.params
+return params

@@ -1,12 +1,6 @@
-local info = debug.getinfo(1,'S');
-local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
-dofile(script_path .. "reacoma.lua")
-dofile(script_path .. "FluidUtils.lua")
+slicing = {}
 
-
-reacoma.slicing = {}
-
-reacoma.slicing.container = {
+slicing.container = {
     full_path = {},
     item_pos = {},
     item_pos_samples = {},
@@ -22,7 +16,7 @@ reacoma.slicing.container = {
     playrate = {}
 }
 
-reacoma.slicing.get_data = function (item_index, data)
+slicing.get_data = function (item_index, data)
     local item = reaper.GetSelectedMediaItem(0, item_index-1)
     local take = reaper.GetActiveTake(item)
     local src = reaper.GetMediaItemTake_Source(take)
@@ -40,7 +34,7 @@ reacoma.slicing.get_data = function (item_index, data)
         table.insert(data.reverse, false)
     end
     
-    local tmp = full_path .. reacoma.utils.uuid(item_index) .. "fs.csv"
+    local tmp = full_path .. utils.uuid(item_index) .. "fs.csv"
     local playrate = reaper.GetMediaItemTakeInfo_Value(take, "D_PLAYRATE")
     local take_ofs = reaper.GetMediaItemTakeInfo_Value(take, "D_STARTOFFS")
     local item_pos = reaper.GetMediaItemInfo_Value(item, "D_POSITION")
@@ -56,9 +50,9 @@ reacoma.slicing.get_data = function (item_index, data)
         item_len = (src_len * (1 / playrate))
     end
 
-    local take_ofs_samples = reacoma.utils.stosamps(take_ofs, sr)
-    local item_pos_samples = reacoma.utils.stosamps(item_pos, sr)
-    local item_len_samples = math.floor(reacoma.utils.stosamps(item_len, sr))
+    local take_ofs_samples = utils.stosamps(take_ofs, sr)
+    local item_pos_samples = utils.stosamps(item_pos, sr)
+    local item_len_samples = math.floor(utils.stosamps(item_len, sr))
 
     table.insert(data.item, item)
     table.insert(data.sr, sr)
@@ -72,9 +66,9 @@ reacoma.slicing.get_data = function (item_index, data)
     table.insert(data.playrate, playrate)
 end
 
-reacoma.slicing.perform_splitting = function (item_index, data)
+slicing.process_splitting = function (item_index, data)
     -- Thank you to Francesco Cameli for helping me debug this absolute NIGHTMARE --
-    local slice_points = reacoma.utils.commasplit(data.slice_points_string[item_index])
+    local slice_points = utils.commasplit(data.slice_points_string[item_index])
 
     -- Invert the table around the middle point (mirror!)
     if data.reverse[item_index] then
@@ -82,7 +76,7 @@ reacoma.slicing.perform_splitting = function (item_index, data)
         for i=1, #slice_points do
             slice_points[i] = half_length + (half_length - slice_points[i])
         end
-        reacoma.utils.reversetable(slice_points)
+        utils.reversetable(slice_points)
     end
     
     -- if the left boundary is the start remove it
@@ -98,7 +92,7 @@ reacoma.slicing.perform_splitting = function (item_index, data)
     end
 
     for j=1, #slice_points do
-        slice_pos = reacoma.utils.sampstos(
+        slice_pos = utils.sampstos(
             tonumber(slice_points[j]), 
             data.sr[item_index]
         )
@@ -110,9 +104,9 @@ reacoma.slicing.perform_splitting = function (item_index, data)
     end
 end
 
-reacoma.slicing.perform_gate_splitting = function(item_index, data, init_state)
+slicing.process_gate_splitting = function(item_index, data, init_state)
     local state = init_state
-    local slice_points = reacoma.utils.commasplit(data.slice_points_string[item_index])
+    local slice_points = utils.commasplit(data.slice_points_string[item_index])
     if slice_points[1] == "-1" or slice_points[2] == "-1" then 
         reaper.ShowMessageBox("No slices found", "FluCoMa Slicing Error", 0)
         return 
@@ -124,7 +118,7 @@ reacoma.slicing.perform_gate_splitting = function(item_index, data, init_state)
         for i=1, #slice_points do
             slice_points[i] = half_length + (half_length - slice_points[i])
         end
-        reacoma.utils.reversetable(slice_points)
+        utils.reversetable(slice_points)
     end
 
     -- if the left boundary is the start remove it
@@ -140,7 +134,7 @@ reacoma.slicing.perform_gate_splitting = function(item_index, data, init_state)
     end
 
     for j=1, #slice_points do
-        slice_pos = reacoma.utils.sampstos(
+        slice_pos = utils.sampstos(
             tonumber(slice_points[j]), 
             data.sr[item_index]
         )
@@ -155,3 +149,5 @@ reacoma.slicing.perform_gate_splitting = function(item_index, data, init_state)
     end
     reaper.SetMediaItemInfo_Value(data.item[item_index], "B_MUTE", state)
 end
+
+return slicing

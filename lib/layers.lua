@@ -1,12 +1,10 @@
 local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
-dofile(script_path .. "reacoma.lua")
-dofile(script_path .. "FluidUtils.lua")
 dofile(script_path .. "OrderedTables.lua")
 
-reacoma.layers = {}
+layers = {}
 
-reacoma.layers.container = {
+layers.container = {
     full_path = {},
     take = {},
     item_pos = {},
@@ -24,7 +22,7 @@ reacoma.layers.container = {
     outputs = {},
 }
 
-reacoma.layers.get_data = function (item_index, data)
+layers.get_data = function (item_index, data)
     local item = reaper.GetSelectedMediaItem(0, item_index-1)
     local take = reaper.GetActiveTake(item)
     local src = reaper.GetMediaItemTake_Source(take)
@@ -57,8 +55,8 @@ reacoma.layers.get_data = function (item_index, data)
         item_len = (src_len * (1 / playrate))
     end
 
-    local take_ofs_samples = reacoma.utils.stosamps(take_ofs, sr)
-    local item_len_samples = math.floor(reacoma.utils.stosamps(item_len, sr))
+    local take_ofs_samples = utils.stosamps(take_ofs, sr)
+    local item_len_samples = math.floor(utils.stosamps(item_len, sr))
     
     table.insert(data.item, item)
     table.insert(data.take, take)
@@ -72,7 +70,7 @@ reacoma.layers.get_data = function (item_index, data)
     table.insert(data.playtype, playtype)
 end
 
-reacoma.layers.perform_layers = function(item_index, data)
+layers.process = function(item_index, data)
     if item_index > 1 then reaper.SetMediaItemSelected(data.item[item_index-1], false) end
     reaper.SetMediaItemSelected(data.item[item_index], true)
     for k, v in orderedPairs(data.outputs) do
@@ -85,3 +83,5 @@ reacoma.layers.perform_layers = function(item_index, data)
         if data.reverse[item_index] then reaper.Main_OnCommand(41051, 0) end
     end
 end
+
+return layers

@@ -1,11 +1,6 @@
-local info = debug.getinfo(1,'S');
-local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
-dofile(script_path .. "../settings.lua")
-dofile(script_path .. "FluidUtils.lua")
+sorting = {}
 
-reacoma.sorting = {}
-
-reacoma.sorting.container = {
+sorting.container = {
     item = {}, -- table of selected items
     full_path = {},
     descr_cmd = {}, -- command line arguments for spectralshape
@@ -24,7 +19,7 @@ reacoma.sorting.container = {
     sorted_items = {}
 }
 
-reacoma.sorting.get_data = function(item_index, data)
+sorting.get_data = function(item_index, data)
     local item = reaper.GetSelectedMediaItem(0, item_index-1)
     local take = reaper.GetActiveTake(item)
     local src = reaper.GetMediaItemTake_Source(take)
@@ -45,10 +40,10 @@ reacoma.sorting.get_data = function(item_index, data)
     local playrate = reaper.GetMediaItemTakeInfo_Value(take, "D_PLAYRATE")
     local take_ofs = reaper.GetMediaItemTakeInfo_Value(take, "D_STARTOFFS")
     local item_pos = reaper.GetMediaItemInfo_Value(item, "D_POSITION")
-    local item_pos_samples = reacoma.utils.stosamps(item_pos, sr)
+    local item_pos_samples = utils.stosamps(item_pos, sr)
     local src_len = reaper.GetMediaSourceLength(src)
     local item_len = reaper.GetMediaItemInfo_Value(item, "D_LENGTH") * playrate
-    local item_len_samples = reacoma.utils.stosamps(item_len, sr)
+    local item_len_samples = utils.stosamps(item_len, sr)
 
     if data.reverse[item_index] then
         take_ofs = math.abs(src_len - (item_len + take_ofs))
@@ -59,12 +54,12 @@ reacoma.sorting.get_data = function(item_index, data)
         item_len = (src_len * (1 / playrate))
     end
 
-    local take_ofs_samples = reacoma.utils.stosamps(take_ofs, sr)
-    local item_pos_samples = reacoma.utils.stosamps(item_pos, sr)
-    local item_len_samples = math.floor(reacoma.utils.stosamps(item_len, sr))
+    local take_ofs_samples = utils.stosamps(take_ofs, sr)
+    local item_pos_samples = utils.stosamps(item_pos, sr)
+    local item_len_samples = math.floor(utils.stosamps(item_len, sr))
     
-    local tmp_descr = full_path .. reacoma.utils.uuid(item_index) .. "descriptor" .. ".wav"
-    local tmp_stats = full_path .. reacoma.utils.uuid(item_index) .. "stat" .. ".csv"
+    local tmp_descr = full_path .. utils.uuid(item_index) .. "descriptor" .. ".wav"
+    local tmp_stats = full_path .. utils.uuid(item_index) .. "stat" .. ".csv"
 
     table.insert(data.chans, reaper.GetMediaSourceNumChannels(src))
     table.insert(data.item, item)
@@ -78,6 +73,4 @@ reacoma.sorting.get_data = function(item_index, data)
     table.insert(data.take_ofs_samples, take_ofs_samples)
 end
 
-reacoma.sorting.sort = function(item_index, data)
-    
-end
+return sorting

@@ -13,10 +13,16 @@ require("paths")
 require("slicing")
 require("sorting")
 require("tagging")
-require("tester")
 require("utils")
 
 reacoma = {}
+reacoma.layers = layers
+reacoma.params = params
+reacoma.paths = paths
+reacoma.slicing = slicing
+reacoma.sorting = sorting
+reacoma.tagging = tagging
+reacoma.utils = utils
 
 reacoma.settings = {
     copyfx = true
