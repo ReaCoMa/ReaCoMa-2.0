@@ -2,7 +2,6 @@ local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
 loadfile(script_path .. "lib/reacoma.lua")()
 
-if reacoma.paths.sanity_check() == false then return end
 local exe = reacoma.utils.doublequote(reacoma.paths.get_reacoma_path() .. "/fluid-ampslice")
 
 local num_selected_items = reaper.CountSelectedMediaItems(0)
