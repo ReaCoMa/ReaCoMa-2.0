@@ -1,9 +1,6 @@
 local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
-dofile(script_path .. "../FluidPlumbing/FluidUtils.lua")
-dofile(script_path .. "../FluidPlumbing/FluidParams.lua")
-dofile(script_path .. "../FluidPlumbing/FluidPaths.lua")
-dofile(script_path .. "../FluidPlumbing/FluidTagging.lua")
+loadfile(script_path .. "../lib/reacoma.lua")()
 
 if reacoma.paths.sanity_check() == false then return end
 local anal_exe = reacoma.utils.doublequote(reacoma.paths.get_fluid_path() .. "/fluid-loudness")
