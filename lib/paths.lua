@@ -1,6 +1,6 @@
 paths = {}
 
-paths.get_fluid_path = function()
+paths.get_reacoma_path = function()
     -- Returns the current value for the flucoma executable path state
     return reaper.GetExtState("reacoma", "exepath")
 end
@@ -48,7 +48,7 @@ paths.path_setter = function()
     end
 end
 
-paths.set_fluid_path = function()
+paths.set_reacoma_path = function()
     if paths.path_setter() == true then return true else return false end
 end
 
