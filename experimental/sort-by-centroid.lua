@@ -1,10 +1,6 @@
 local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
-dofile(script_path .. "../FluidPlumbing/FluidUtils.lua")
-dofile(script_path .. "../FluidPlumbing/FluidParams.lua")
-dofile(script_path .. "../FluidPlumbing/FluidPaths.lua")
-dofile(script_path .. "../FluidPlumbing/FluidSorting.lua")
-
+loadfile(script_path .. "../lib/reacoma.lua")()
 
 if reacoma.paths.sanity_check() == false then return end
 local cli_path = reacoma.paths.get_fluid_path()
@@ -14,7 +10,7 @@ local stats_exe = reacoma.utils.doublequote(cli_path .. "/fluid-stats")
 local num_selected_items = reaper.CountSelectedMediaItems(0)
 if num_selected_items > 0 then
 
-    local processor = reacoma.param.experimental.centroid_sort
+    local processor = reacoma.params.experimental.centroid_sort
     reacoma.params.check_params(processor)
     local param_names = "fftsettings"
     local param_values = reacoma.params.parse_params(param_names, processor)
@@ -59,7 +55,7 @@ if num_selected_items > 0 then
             local temporary_stats = {}
 
             for line in io.lines(data.tmp_stats[i]) do
-                table.insert(temporary_stats, reacoma.utils.statstotable(line))
+                table.insert(temporary_stats, reacoma.utils.commasplit(line))
             end
         
             -- Take the median of every channel --
