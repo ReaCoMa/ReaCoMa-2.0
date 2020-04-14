@@ -26,7 +26,8 @@ reacoma.utils = utils
 
 reacoma.settings = {
     copyfx = true,
-    cli_path = reacoma.paths.get_reacoma_path()
+    path = reacoma.paths.get_reacoma_path()
+    
 }
 
 if reacoma.paths.sanity_check() == false then return end
