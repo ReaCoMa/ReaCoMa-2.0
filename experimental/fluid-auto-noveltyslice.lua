@@ -58,6 +58,7 @@ if num_selected_items > 0 then
         for i=1, num_selected_items do
             -- For each item that you have selected
             -- Initialise some values
+            local solved = false
             local iter = 0
 
             local curr_thresh = tonumber(threshold)
@@ -65,7 +66,7 @@ if num_selected_items > 0 then
 
             num_slices = 0
             prev_slices = 0
-
+            
             -- Do an initial pass
             local cmd, temp_file = form_string(curr_thresh, i)
             reacoma.utils.cmdline(cmd)
@@ -73,46 +74,47 @@ if num_selected_items > 0 then
             os.remove(temp_file)
             
             -- start searching --
-            while iter ~= tonumber(max_iterations) do
-                if iter == 0 then -- on our first loop we have to initialise
-                    if prev_slices < target_slices then
-                        curr_thresh = prev_thresh * 0.5
-                    else
-                        curr_thresh = prev_thresh * 2
+            while not solved do
+                if iter ~= tonumber(max_iterations) then
+                    if iter == 0 then -- on our first loop we have to initialise
+                        if prev_slices < target_slices then
+                            curr_thresh = prev_thresh * 0.5
+                        else
+                            curr_thresh = prev_thresh * 2
+                        end
+                    end
+                    
+                    local cmd, temp_file = form_string(curr_thresh, i)
+                    reacoma.utils.cmdline(cmd)
+                    num_slices = #reacoma.utils.commasplit(reacoma.utils.readfile(temp_file))
+                    
+                    if math.abs(target_slices - num_slices) <= tolerance then
+                        --*************************************--
+                        -- if finished within tolerance we win --
+                        --*************************************--
+                        table.insert(data.slice_points_string, reacoma.utils.readfile(temp_file))
+                        reacoma.slicing.process(i, data)
+                        os.remove(temp_file)
+                        reaper.UpdateArrange()
+                        solved = true
+                    else -- do some clever threshold manipulation and slicing
+                        local n_thresh = 0.0
+                        local d_slices = num_slices - prev_slices
+                        local d_thresh = curr_thresh - prev_thresh
+
+                        if d_slices ~= 0 then
+                            n_thresh = math.max(0.000001, math.min(0.999999, ((d_thresh / d_slices) * (target_slices - num_slices)) + curr_thresh))
+                        else
+                            n_thresh = math.max(0.000001, math.min(0.999999, d_thresh + curr_thresh))
+                        end
+
+                        prev_thresh = curr_thresh
+                        curr_thresh = n_thresh
+                        prev_slices = num_slices
+                        iter = iter + 1 -- move forward in our iterations
+                        os.remove(temp_file)
                     end
                 end
-                
-                local cmd, temp_file = form_string(curr_thresh, i)
-                reacoma.utils.cmdline(cmd)
-                num_slices = #reacoma.utils.commasplit(reacoma.utils.readfile(temp_file))
-                
-
-                if math.abs(target_slices - num_slices) <= tolerance then
-                    --*************************************--
-                    -- if finished within tolerance we win --
-                    --*************************************--
-                    table.insert(data.slice_points_string, reacoma.utils.readfile(temp_file))
-                    reacoma.slicing.process_splitting(i, data)
-                    os.remove(temp_file)
-                    reaper.UpdateArrange()
-                else -- do some clever threshold manipulation and slicing
-                    local n_thresh = 0.0
-                    local d_slices = num_slices - prev_slices
-                    local d_thresh = curr_thresh - prev_thresh
-
-                    if d_slices ~= 0 then
-                        n_thresh = math.max(0.000001, math.min(0.999999, ((d_thresh / d_slices) * (target_slices - num_slices)) + curr_thresh))
-                    else
-                        n_thresh = math.max(0.000001, math.min(0.999999, d_thresh + curr_thresh))
-                    end
-
-                    prev_thresh = curr_thresh
-                    curr_thresh = n_thresh
-                    prev_slices = num_slices
-                    iter = iter + 1 -- move forward in our iterations
-                    os.remove(temp_file)
-                end
-                
             end
         end
         reaper.Undo_EndBlock("auto_novelty", 0)
