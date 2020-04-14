@@ -76,7 +76,7 @@ if num_selected_items > 0 then
                 dumb_string = dumb_string .. laced[j] .. ","
             end
             table.insert(data.slice_points_string, dumb_string)
-            reacoma.slicing.process_gate_splitting(i, data, start_state)
+            reacoma.slicing.process_gate(i, data, start_state)
         end
 
         reaper.UpdateArrange()
