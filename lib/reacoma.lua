@@ -25,5 +25,6 @@ reacoma.tagging = tagging
 reacoma.utils = utils
 
 reacoma.settings = {
-    copyfx = true
+    copyfx = true,
+    cli_path = reacoma.paths.get_reacoma_path()
 }

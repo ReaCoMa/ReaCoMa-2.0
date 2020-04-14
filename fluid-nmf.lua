@@ -3,7 +3,7 @@ local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
 loadfile(script_path .. "lib/reacoma.lua")()
 
 if reacoma.paths.sanity_check() == false then return end
-local exe = reacoma.utils.doublequote(reacoma.paths.get_fluid_path() .. "/fluid-nmf")
+local exe = reacoma.utils.doublequote(reacoma.paths.get_reacoma_path() .. "/fluid-nmf")
 
 local num_selected_items = reaper.CountSelectedMediaItems(0)
 if num_selected_items > 0 then

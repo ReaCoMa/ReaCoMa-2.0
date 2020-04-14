@@ -3,7 +3,7 @@ local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
 dofile(script_path .. "../FluidPlumbing/FluidUtils.lua")
 
 if sanity_check() == false then return end
-local cli_path = reacoma.paths.get_fluid_path()
+local cli_path = reacoma.paths.get_reacoma_path()
 --   Then we form some calls to the tools that will live in that folder --
 local ss_exe = doublequote(cli_path .. "/fluid-spectralshape")
 local st_exe = doublequote(cli_path .. "/fluid-stats")

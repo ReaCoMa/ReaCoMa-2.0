@@ -3,7 +3,7 @@ local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
 loadfile(script_path .. "../lib/reacoma.lua")()
 
 if reacoma.paths.sanity_check() == false then return end
-local cli_path = reacoma.paths.get_fluid_path()
+local cli_path = reacoma.paths.get_reacoma_path()
 local descr_exe = reacoma.utils.doublequote(cli_path .. "/fluid-spectralshape")
 local stats_exe = reacoma.utils.doublequote(cli_path .. "/fluid-stats")
 
