@@ -1,9 +1,6 @@
 local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
-dofile(script_path .. "FluidPlumbing/FluidUtils.lua")
-dofile(script_path .. "FluidPlumbing/FluidParams.lua")
-dofile(script_path .. "FluidPlumbing/FluidPaths.lua")
-dofile(script_path .. "FluidPlumbing/FluidLayers.lua")
+loadfile(script_path .. "lib/reacoma.lua")()
 
 if reacoma.paths.sanity_check() == false then return end
 local exe = reacoma.utils.doublequote(reacoma.paths.get_fluid_path() .. "/fluid-transients")
@@ -11,7 +8,7 @@ local exe = reacoma.utils.doublequote(reacoma.paths.get_fluid_path() .. "/fluid-
 local num_selected_items = reaper.CountSelectedMediaItems(0)
 if num_selected_items > 0 then
     
-    local processor = reacoma.param.archetype.transients
+    local processor = reacoma.params.archetype.transients
     reacoma.params.check_params(processor)
     local param_names = "order,blocksize,padsize,skew,threshfwd,threshback,windowsize,clumplength"
     local param_values = reacoma.params.parse_params(param_names, processor)
@@ -78,7 +75,7 @@ if num_selected_items > 0 then
 
         reaper.SelectAllMediaItems(0, 0)
         for i=1, num_selected_items do  
-            reacoma.layers.perform_layers(i, data)
+            reacoma.layers.process(i, data)
         end
 
         reaper.UpdateArrange()

@@ -1,17 +1,13 @@
 local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
-dofile(script_path .. "FluidPlumbing/reacoma.lua")
-dofile(script_path .. "FluidPlumbing/FluidUtils.lua")
-dofile(script_path .. "FluidPlumbing/FluidParams.lua")
-dofile(script_path .. "FluidPlumbing/FluidPaths.lua")
-dofile(script_path .. "FluidPlumbing/FluidSlicing.lua")
+loadfile(script_path .. "lib/reacoma.lua")()
 
 if reacoma.paths.sanity_check() == false then return end
 local exe = reacoma.utils.doublequote(reacoma.paths.get_fluid_path() .. "/fluid-ampgate")
 
 local num_selected_items = reaper.CountSelectedMediaItems(0)
 if num_selected_items > 0 then
-    local processor = reacoma.param.archetype.ampgate
+    local processor = reacoma.params.archetype.ampgate
     reacoma.params.check_params(processor)
     local param_names = "rampup,rampdown,onthreshold,offthreshold,minslicelength,minsilencelength,minlengthabove,minlengthbelow,lookback,lookahead,highpassfreq"
     param_values = reacoma.params.parse_params(param_names, processor)
@@ -79,7 +75,7 @@ if num_selected_items > 0 then
                 dumb_string = dumb_string .. laced[j] .. ","
             end
             table.insert(data.slice_points_string, dumb_string)
-            reacoma.slicing.perform_gate_splitting(i, data, start_state)
+            reacoma.slicing.process_gate_splitting(i, data, start_state)
         end
 
         reaper.UpdateArrange()
