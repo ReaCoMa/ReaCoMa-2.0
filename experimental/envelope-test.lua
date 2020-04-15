@@ -1,16 +1,10 @@
 local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
-dofile(script_path .. "/FluidPlumbing/" .. "FluidUtils.lua")
--- dofile(script_path .. "/FluidPlumbing/" .. "FluidParams.lua")
-dofile(script_path .. "/FluidPlumbing/" .. "FluidEnvelopes.lua")
+loadfile(script_path .. "../lib/reacoma.lua")()
 
-------------------------------------------------------------------------------------
 --   Each user MUST point this to their folder containing FluCoMa CLI executables --
 if sanity_check() == false then goto exit; end
-local cli_path = get_fluid_path()
---   Then we form some calls to the tools that will live in that folder --
-local suf = cli_path .. "/fluid-loudness"
-local exe = doublequote(suf)
+local exe = reacoma.utils.doublequote(reacoma.settings.path .. "/fluid-loudness")
 ------------------------------------------------------------------------------------
 tenv = reaper.GetSelectedEnvelope(0)
 
@@ -30,7 +24,7 @@ else
     full_path = reaper.GetMediaSourceFileName(src, "")
 end
 
-tmp = full_path .. uuid(0) .. "fs.csv"
+tmp = full_path .. reacoma.utils.uuid(0) .. "fs.csv"
 
 take_ofs = reaper.GetMediaItemTakeInfo_Value(take, "D_STARTOFFS")
 item_pos = reaper.GetMediaItemInfo_Value(item, "D_POSITION")
@@ -56,7 +50,7 @@ item_len_samples = math.floor(stosamps(item_len, sr) * playrate)
 -- Wipe all the envelope points
 
 -- Processing
-hopsize = 1024
+hopsize = 4410
 windowsize = 17640
 cmd = exe .. 
 " -source " .. doublequote(full_path) .. 
@@ -66,10 +60,10 @@ cmd = exe ..
 " -numframes " .. item_len_samples .. 
 " -startframe " .. take_ofs_samples
 
-cmdline(cmd)
+reacoma.utils.cmdline(cmd)
 slices = {}
-table.insert(slices, readfile(tmp))
-slice_points = commasplit(slices[1])
+table.insert(slices, reacoma.utils.readfile(tmp))
+slice_points = reacoma.utils.commasplit(slices[1])
 
 -- Scaling Mode Stuff
 scaling_mode = reaper.GetEnvelopeScalingMode(tenv)
@@ -77,7 +71,7 @@ scaling_mode = reaper.GetEnvelopeScalingMode(tenv)
 br_env = reaper.BR_EnvAlloc(tenv, false)
 active, visible, armed, inLane, laneHeight, defaultShape, minValue, maxValue, centerValue, type, faderScaling = reaper.BR_EnvGetProperties(br_env, true, true, true, true, 0, 0, 0, 0, 0, 0, true)
 for i=1, #slice_points do
-    wincentre = sampstos(
+    wincentre = reacoma.utils.sampstos(
         ((i-1) * hopsize) + (windowsize / 2) - windowsize,
         sr
     )
@@ -86,6 +80,3 @@ for i=1, #slice_points do
     reaper.InsertEnvelopePoint(tenv, wincentre, foo, 1, 1, true)
     
 end
-
-
-::exit::
