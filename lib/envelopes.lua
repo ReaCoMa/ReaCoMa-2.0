@@ -21,7 +21,7 @@ envelopes = {
     outputs = {},
 }
 
-envelopes.get_data = local function(item_index, data)
+envelopes.get_data = function(item_index, data)
     local item = reaper.GetSelectedMediaItem(0, item_index-1)
     local take = reaper.GetActiveTake(item)
     local src = reaper.GetMediaItemTake_Source(take)
