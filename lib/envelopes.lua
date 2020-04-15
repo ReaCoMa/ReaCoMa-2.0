@@ -1,9 +1,9 @@
 local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
-dofile(script_path .. "FluidUtils.lua")
+loadfile(script_path .. "../lib/reacoma.lua")()
 dofile(script_path .. "OrderedTables.lua")
 
-EnvContainer = {
+envelopes = {
     full_path = {},
     take = {},
     item_pos = {},
@@ -21,7 +21,7 @@ EnvContainer = {
     outputs = {},
 }
 
-function get_env_data(item_index, data)
+envelopes.get_data = local function(item_index, data)
     local item = reaper.GetSelectedMediaItem(0, item_index-1)
     local take = reaper.GetActiveTake(item)
     local src = reaper.GetMediaItemTake_Source(take)
@@ -69,17 +69,4 @@ function get_env_data(item_index, data)
     table.insert(data.playtype, playtype)
 end
 
-
-function perform_layers(item_index, data)
-    if item_index > 1 then reaper.SetMediaItemSelected(data.item[item_index-1], false) end
-    reaper.SetMediaItemSelected(data.item[item_index], true)
-    for k, v in orderedPairs(data.outputs) do
-        reaper.InsertMedia(data.outputs[k][item_index], 3)
-        local item = reaper.GetSelectedMediaItem(0, 0)
-        local take = reaper.GetActiveTake(item)
-        local src = reaper.GetMediaItemTake_Source(take)
-        reaper.SetMediaItemTakeInfo_Value(take, "D_PLAYRATE", data.playrate[item_index])
-        reaper.SetMediaItemTakeInfo_Value(take, "I_PITCHMODE", data.playtype[item_index])
-        if data.reverse[item_index] then reaper.Main_OnCommand(41051, 0) end
-    end
-end
+return envelopes
