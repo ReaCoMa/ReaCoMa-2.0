@@ -2,8 +2,8 @@ local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
 dofile(script_path .. "../FluidPlumbing/FluidUtils.lua")
 
-if sanity_check() == false then goto exit; end
-local cli_path = fluidPaths.get_fluid_path()
+if sanity_check() == false then return end
+local cli_path = reacoma.paths.get_reacoma_path()
 --   Then we form some calls to the tools that will live in that folder --
 local ss_exe = doublequote(cli_path .. "/fluid-spectralshape")
 local st_exe = doublequote(cli_path .. "/fluid-stats")
@@ -16,7 +16,7 @@ if num_selected_items > 0 then
     if confirm then 
         reaper.Undo_BeginBlock()
         -- Algorithm Parameters
-        local params = fluidUtils.commasplit(user_inputs)
+        local params = reacoma.utils.commasplit(user_inputs)
         local operator = params[1]
         local centroid = tonumber(params[2])
         local fftsettings = params[3]
@@ -111,4 +111,4 @@ if num_selected_items > 0 then
         reaper.Undo_EndBlock("CentroidSelect", 0)
     end
 end
-::exit::
+

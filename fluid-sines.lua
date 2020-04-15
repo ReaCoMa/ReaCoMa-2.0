@@ -1,27 +1,25 @@
 local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
-dofile(script_path .. "FluidPlumbing/FluidUtils.lua")
-dofile(script_path .. "FluidPlumbing/FluidParams.lua")
-dofile(script_path .. "FluidPlumbing/FluidPaths.lua")
-dofile(script_path .. "FluidPlumbing/FluidLayers.lua")
+loadfile(script_path .. "lib/reacoma.lua")()
 
-if fluidPaths.sanity_check() == false then goto exit; end
-local exe = fluidUtils.doublequote(fluidPaths.get_fluid_path() .. "/fluid-sines")
+local exe = reacoma.utils.doublequote(
+    reacoma.settings.path .. "/fluid-sines"
+)
 
 local num_selected_items = reaper.CountSelectedMediaItems(0)
 if num_selected_items > 0 then
     
-    local processor = fluid_archetype.sines
-    fluidParams.check_params(processor)
+    local processor = reacoma.params.archetype.sines
+    reacoma.params.check_params(processor)
     local param_names = "birthhighthreshold,birthlowthreshold,detectionthreshold,trackfreqrange,trackingmethod,trackmagrange,trackprob,bandwidth,fftsettings,mintracklen"
-    local param_values = fluidParams.parse_params(param_names, processor)
+    local param_values = reacoma.params.parse_params(param_names, processor)
 
     local confirm, user_inputs = reaper.GetUserInputs("Sines Parameters", 10, param_names, param_values)
     if confirm then 
-        fluidParams.store_params(processor, param_names, user_inputs)
+        reacoma.params.store_params(processor, param_names, user_inputs)
 
         reaper.Undo_BeginBlock()
-        local params = fluidUtils.commasplit(user_inputs)
+        local params = reacoma.utils.commasplit(user_inputs)
         local bhthresh = params[1]
         local blthresh = params[2]
         local dethresh = params[3]
@@ -33,7 +31,7 @@ if num_selected_items > 0 then
         local fftsettings = params[9]
         local mintracklen = params[10]
 
-        local data = fluidLayers.container
+        local data = reacoma.layers.container
 
         data.outputs = {
             sines = {},
@@ -41,25 +39,25 @@ if num_selected_items > 0 then
         }
 
         for i=1, num_selected_items do
-            fluidLayers.get_data(i, data)
+            reacoma.layers.get_data(i, data)
 
             table.insert(
                 data.outputs.sines,
-                fluidUtils.basename(data.full_path[i]) .. "_sines-s_" .. fluidUtils.uuid(i) .. ".wav"
+                reacoma.utils.basename(data.full_path[i]) .. "_sines-s_" .. reacoma.utils.uuid(i) .. ".wav"
             )
 
             table.insert(
                 data.outputs.residual,
-                fluidUtils.basename(data.full_path[i]) .. "_sines-r_" .. fluidUtils.uuid(i) .. ".wav"
+                reacoma.utils.basename(data.full_path[i]) .. "_sines-r_" .. reacoma.utils.uuid(i) .. ".wav"
             )
             
             table.insert(
                 data.cmd, 
                 exe .. 
-                " -source " .. fluidUtils.doublequote(data.full_path[i]) .. 
-                " -sines " .. fluidUtils.doublequote(data.outputs.sines[i]) ..
-                " -maxfftsize " .. fluidUtils.getmaxfftsize(fftsettings) ..
-                " -residual " .. fluidUtils.doublequote(data.outputs.residual[i]) .. 
+                " -source " .. reacoma.utils.doublequote(data.full_path[i]) .. 
+                " -sines " .. reacoma.utils.doublequote(data.outputs.sines[i]) ..
+                " -maxfftsize " .. reacoma.utils.getmaxfftsize(fftsettings) ..
+                " -residual " .. reacoma.utils.doublequote(data.outputs.residual[i]) .. 
                 " -birthhighthreshold " .. bhthresh ..
                 " -birthlowthreshold " .. blthresh ..
                 " -detectionthreshold " .. dethresh ..
@@ -77,16 +75,16 @@ if num_selected_items > 0 then
 
         -- Execute NMF Process
         for i=1, num_selected_items do
-            fluidUtils.cmdline(data.cmd[i])
+            reacoma.utils.cmdline(data.cmd[i])
         end
 
         reaper.SelectAllMediaItems(0, 0)
         for i=1, num_selected_items do
-            fluidLayers.perform_layers(i, data)
+            reacoma.layers.process(i, data)
         end
 
         reaper.UpdateArrange()
         reaper.Undo_EndBlock("fluidSines", 0)
     end
 end
-::exit::
+

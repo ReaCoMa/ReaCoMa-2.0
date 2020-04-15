@@ -1,10 +1,9 @@
 local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
-dofile(script_path .. "FluidUtils.lua")
+loadfile(script_path .. "../lib/reacoma.lua")()
 dofile(script_path .. "OrderedTables.lua")
 
-fluidLayers = {}
-fluidLayers.container = {
+envelopes = {
     full_path = {},
     take = {},
     item_pos = {},
@@ -22,7 +21,7 @@ fluidLayers.container = {
     outputs = {},
 }
 
-fluidLayers.get_data = function (item_index, data)
+envelopes.get_data = function(item_index, data)
     local item = reaper.GetSelectedMediaItem(0, item_index-1)
     local take = reaper.GetActiveTake(item)
     local src = reaper.GetMediaItemTake_Source(take)
@@ -40,10 +39,10 @@ fluidLayers.get_data = function (item_index, data)
         table.insert(data.reverse, false)
     end
 
-    local playrate = reaper.GetMediaItemTakeInfo_Value(take, "D_PLAYRATE")
     local take_ofs = reaper.GetMediaItemTakeInfo_Value(take, "D_STARTOFFS")
-    local src_len = reaper.GetMediaSourceLength(src)
+    local playrate = reaper.GetMediaItemTakeInfo_Value(take, "D_PLAYRATE")
     local item_len = reaper.GetMediaItemInfo_Value(item, "D_LENGTH") * playrate
+    local src_len = reaper.GetMediaSourceLength(src)
     local playtype  = reaper.GetMediaItemTakeInfo_Value(take, "I_PITCHMODE")
     
     if data.reverse[item_index] then
@@ -51,12 +50,12 @@ fluidLayers.get_data = function (item_index, data)
     end
 
     -- This line caps the analysis at one loop
-    if (item_len + take_ofs) > (src_len * (1 / playrate)) then 
-        item_len = (src_len * (1 / playrate))
+    if (item_len + take_ofs) > src_len then 
+        item_len = src_len 
     end
 
-    local take_ofs_samples = fluidUtils.stosamps(take_ofs, sr)
-    local item_len_samples = math.floor(fluidUtils.stosamps(item_len, sr))
+    local take_ofs_samples = stosamps(take_ofs, sr)
+    local item_len_samples = math.floor(stosamps(item_len, sr))
     
     table.insert(data.item, item)
     table.insert(data.take, take)
@@ -70,17 +69,4 @@ fluidLayers.get_data = function (item_index, data)
     table.insert(data.playtype, playtype)
 end
 
-
-fluidLayers.perform_layers = function(item_index, data)
-    if item_index > 1 then reaper.SetMediaItemSelected(data.item[item_index-1], false) end
-    reaper.SetMediaItemSelected(data.item[item_index], true)
-    for k, v in orderedPairs(data.outputs) do
-        reaper.InsertMedia(data.outputs[k][item_index], 3)
-        local item = reaper.GetSelectedMediaItem(0, 0)
-        local take = reaper.GetActiveTake(item)
-        local src = reaper.GetMediaItemTake_Source(take)
-        reaper.SetMediaItemTakeInfo_Value(take, "D_PLAYRATE", data.playrate[item_index])
-        reaper.SetMediaItemTakeInfo_Value(take, "I_PITCHMODE", data.playtype[item_index])
-        if data.reverse[item_index] then reaper.Main_OnCommand(41051, 0) end
-    end
-end
+return envelopes

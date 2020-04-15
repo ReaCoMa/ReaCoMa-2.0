@@ -1,9 +1,6 @@
-local info = debug.getinfo(1,'S');
-local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
-dofile(script_path .. "FluidUtils.lua")
+tagging = {}
 
-fluidTagging = {}
-fluidTagging.container = {
+tagging.container = {
     full_path = {},
     item_pos = {},
     item_pos_samples = {},
@@ -21,7 +18,7 @@ fluidTagging.container = {
     playrate = {}
 }
 
-fluidTagging.get_data = function(item_index, data)
+tagging.get_data = function(item_index, data)
     local item = reaper.GetSelectedMediaItem(0, item_index-1)
     local take = reaper.GetActiveTake(item)
     local src = reaper.GetMediaItemTake_Source(take)
@@ -39,8 +36,8 @@ fluidTagging.get_data = function(item_index, data)
         table.insert(data.reverse, false)
     end
     
-    local analtmp = full_path .. fluidUtils.uuid(item_index) .. "ttag.wav"
-    local statstmp = full_path .. fluidUtils.uuid(item_index) .. "tstats.csv"
+    local analtmp = full_path .. utils.uuid(item_index) .. "ttag.wav"
+    local statstmp = full_path .. utils.uuid(item_index) .. "tstats.csv"
     local take_ofs = reaper.GetMediaItemTakeInfo_Value(take, "D_STARTOFFS")
     local item_pos = reaper.GetMediaItemInfo_Value(item, "D_POSITION")
     local item_len = reaper.GetMediaItemInfo_Value(item, "D_LENGTH")
@@ -57,9 +54,9 @@ fluidTagging.get_data = function(item_index, data)
         item_len = src_len 
     end
 
-    local take_ofs_samples = fluidUtils.stosamps(take_ofs, sr)
-    local item_pos_samples = fluidUtils.stosamps(item_pos, sr)
-    local item_len_samples = math.floor(fluidUtils.stosamps(item_len, sr) * playrate)
+    local take_ofs_samples = utils.stosamps(take_ofs, sr)
+    local item_pos_samples = utils.stosamps(item_pos, sr)
+    local item_len_samples = math.floor(utils.stosamps(item_len, sr) * playrate)
 
     table.insert(data.item, item)
     table.insert(data.sr, sr)
@@ -74,7 +71,7 @@ fluidTagging.get_data = function(item_index, data)
     table.insert(data.statstmp, statstmp)
 end
 
-fluidTagging.update_notes = function(item, text)
+tagging.update_notes = function(item, text)
     _, current_notes = reaper.GetSetMediaItemInfo_String(
         item, 
         "P_NOTES", 
@@ -90,3 +87,5 @@ fluidTagging.update_notes = function(item, text)
         true
     )
 end
+
+return tagging

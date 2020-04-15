@@ -1,26 +1,24 @@
 local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
-dofile(script_path .. "FluidPlumbing/FluidUtils.lua")
-dofile(script_path .. "FluidPlumbing/FluidParams.lua")
-dofile(script_path .. "FluidPlumbing/FluidPaths.lua")
-dofile(script_path .. "FluidPlumbing/FluidSlicing.lua")
+loadfile(script_path .. "lib/reacoma.lua")()
 
-if fluidPaths.sanity_check() == false then goto exit; end
-local exe = fluidUtils.doublequote(fluidPaths.get_fluid_path() .. "/fluid-ampgate")
+local exe = reacoma.utils.doublequote(
+    reacoma.settings.path .. "/fluid-ampgate"
+)
 
 local num_selected_items = reaper.CountSelectedMediaItems(0)
 if num_selected_items > 0 then
-    local processor = fluid_archetype.ampgate
-    fluidParams.check_params(processor)
+    local processor = reacoma.params.archetype.ampgate
+    reacoma.params.check_params(processor)
     local param_names = "rampup,rampdown,onthreshold,offthreshold,minslicelength,minsilencelength,minlengthabove,minlengthbelow,lookback,lookahead,highpassfreq"
-    param_values = fluidParams.parse_params(param_names, processor)
+    param_values = reacoma.params.parse_params(param_names, processor)
 
     local confirm, user_inputs = reaper.GetUserInputs("Ampgate Parameters", 11, param_names, param_values)
     if confirm then
-        fluidParams.store_params(processor, param_names, user_inputs)
+        reacoma.params.store_params(processor, param_names, user_inputs)
         
         reaper.Undo_BeginBlock()
-        local params = fluidUtils.commasplit(user_inputs)
+        local params = reacoma.utils.commasplit(user_inputs)
         local rampup = params[1]
         local rampdown = params[2]
         local onthreshold = params[3]
@@ -33,14 +31,14 @@ if num_selected_items > 0 then
         local lookahead = params[10]
         local highpassfreq = params[11]
 
-        local data = fluidSlicing.container
+        local data = reacoma.slicing.container
 
         for i=1, num_selected_items do
-            fluidSlicing.get_data(i, data)
+            reacoma.slicing.get_data(i, data)
 
             local cmd = exe .. 
-            " -source " .. fluidUtils.doublequote(data.full_path[i]) .. 
-            " -indices " .. fluidUtils.doublequote(data.tmp[i]) ..
+            " -source " .. reacoma.utils.doublequote(data.full_path[i]) .. 
+            " -indices " .. reacoma.utils.doublequote(data.tmp[i]) ..
             " -maxsize "  .. math.max(tonumber(minlengthabove) + tonumber(lookback), math.max(tonumber(minlengthbelow),tonumber(lookahead))) ..
             " -rampup " .. rampup ..
             " -rampdown " .. rampdown ..
@@ -59,12 +57,12 @@ if num_selected_items > 0 then
         end
 
         for i=1, num_selected_items do
-            fluidUtils.cmdline(data.cmd[i])
-            var = fluidUtils.readfile(data.tmp[i])
-            channel_split = fluidUtils.linesplit(var)
-            onsets = fluidUtils.commasplit(channel_split[1])
-            offsets = fluidUtils.commasplit(channel_split[2])
-            laced = fluidUtils.lacetables(onsets, offsets)
+            reacoma.utils.cmdline(data.cmd[i])
+            var = reacoma.utils.readfile(data.tmp[i])
+            channel_split = reacoma.utils.linesplit(var)
+            onsets = reacoma.utils.commasplit(channel_split[1])
+            offsets = reacoma.utils.commasplit(channel_split[2])
+            laced = reacoma.utils.lacetables(onsets, offsets)
             dumb_string = ""
             local state_state = nil
             
@@ -78,12 +76,12 @@ if num_selected_items > 0 then
                 dumb_string = dumb_string .. laced[j] .. ","
             end
             table.insert(data.slice_points_string, dumb_string)
-            fluidSlicing.perform_gate_splitting(i, data, start_state)
+            reacoma.slicing.process_gate(i, data, start_state)
         end
 
         reaper.UpdateArrange()
         reaper.Undo_EndBlock("ampgate", 0)
-        fluidUtils.cleanup(data.tmp)
+        reacoma.utils.cleanup(data.tmp)
     end
 end
-::exit::
+
