@@ -198,4 +198,12 @@ matchers = {
     ['<='] = function (x, y) return x <= y end
 }
 
+utils.dataquery = function(idx, data)
+    -- Takes in some 'data' and makes a nice print out
+    reaper.ShowConsoleMsg("Item Length Samples: " .. data.item_len_samples[idx] .. "\n")
+    if data.slice_points_string then
+        reaper.ShowConsoleMsg("Slice Points: " .. data.slice_points_string[idx] .. "\n")
+    end
+end
+
 return utils
