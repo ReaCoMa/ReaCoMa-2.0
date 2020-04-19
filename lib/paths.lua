@@ -6,7 +6,16 @@ paths.get_reacoma_path = function()
 end
 
 paths.file_exists = function(path)
+
+    local first = path:sub(1, 1)
+
+    if first:match("~") then
+        local home = reacoma.utils.capture("echo $HOME")
+        path = home .. path:sub(2)
+    end
+
     -- Returns boolean for the existence of a file at <path>
+    -- Expand the tilde if exists
     if reaper.file_exists(path) then return true else return false end
 end
 
@@ -39,7 +48,6 @@ paths.path_setter = function()
     local cancel, input = reaper.GetUserInputs("Set path to FluCoMa Executables", 1, "Path:, extrawidth=150", "/usr/local/bin")
     if cancel ~= false then
         local input_path = utils.rmtrailslash(input)
-        -- local sanitised_input_path = doublequote(input_path)
         if paths.is_path_valid(input_path, true) == true then return true end
     else
         reaper.ShowMessageBox("Your path remains unconfigured. The script will now exit.", "Warning", 0)
