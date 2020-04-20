@@ -82,6 +82,7 @@ utils.cmdline = function(command)
 end
 
 utils.website = function(website)
+    local opsys = reaper.GetOS()
     if opsys == "Win64" then
         utils.cmdline("explorer " .. website)
     else
