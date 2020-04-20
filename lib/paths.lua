@@ -22,7 +22,6 @@ paths.expandtilde = function(path)
 end
 
 paths.file_exists = function(path)
-
     path = paths.expandtilde(path)
 
     -- Returns boolean for the existence of a file at <path>
@@ -58,7 +57,7 @@ end
 
 paths.path_setter = function()
     -- Function to give the user a GUI the fluid path as an ExtState in REAPER
-    local cancel, input = reaper.GetUserInputs("Set path to FluCoMa Executables", 1, "Path:, extrawidth=150", "/usr/local/bin")
+    local cancel, input = reaper.GetUserInputs("Set path to FluCoMa Executables", 1, "Path:, extrawidth=200", "/usr/local/bin")
     input = paths.expandtilde(input)
     if cancel ~= false then
         local input_path = utils.rmtrailslash(input)
