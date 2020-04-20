@@ -10,23 +10,31 @@ package.path = package.path .. ";" .. script_path .. "?.lua"
 require("layers")
 require("params")
 require("paths")
+require("download")
 require("slicing")
 require("sorting")
 require("tagging")
 require("utils")
 
 reacoma = {}
+reacoma.lib = script_path
+reacoma.version = "1.4.1"
+reacoma.dep = "Fluid Corpus Manipulation Toolkit, version 1.0.0-RC1"
+
+-- Add modules
 reacoma.layers = layers
 reacoma.params = params
 reacoma.paths = paths
+reacoma.download = download
 reacoma.slicing = slicing
 reacoma.sorting = sorting
 reacoma.tagging = tagging
 reacoma.utils = utils
 
-reacoma.settings = {
-    copyfx = true,
-}
+reacoma.settings = {}
 
+-- This stuff here is common code
 if reacoma.paths.sanity_check() == false then return end
 reacoma.settings.path = reacoma.paths.get_reacoma_path() 
+
+-- Check for versions
