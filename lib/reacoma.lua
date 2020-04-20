@@ -16,9 +16,10 @@ require("sorting")
 require("tagging")
 require("utils")
 
+-- Create a table containing vital reacoma information
 reacoma = {}
 reacoma.lib = script_path
-reacoma.version = "1.4.1"
+reacoma.v = "1.4.1"
 reacoma.dep = "Fluid Corpus Manipulation Toolkit, version 1.0.0-RC1"
 
 -- Add modules
