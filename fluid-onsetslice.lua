@@ -2,6 +2,8 @@ local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
 loadfile(script_path .. "lib/reacoma.lua")()
 
+if reacoma.settings.fatal then return end
+
 local exe = reacoma.utils.doublequote(
     reacoma.settings.path .. "/fluid-onsetslice"
 )
