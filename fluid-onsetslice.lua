@@ -16,7 +16,7 @@ if num_selected_items > 0 then
 
     local confirm, user_inputs = reaper.GetUserInputs("Onset Slice Parameters", 6, param_names, param_values)
     if confirm then
-        reacoma.params.store_params(processor, param_names, param_values)
+        reacoma.params.store_params(processor, param_names, user_inputs)
 
         reaper.Undo_BeginBlock()
         local params = reacoma.utils.commasplit(user_inputs)
