@@ -44,19 +44,11 @@ local get_version = reacoma.settings.path .. "/fluid-noveltyslice -v"
 local installed_tools_version = reacoma.utils.capture(get_version)
 
 if reacoma.dep ~= installed_tools_version then
-    if reaper.GetExtState("reacoma", "version_warned") ~= "yes" then
-        retval = reaper.ShowMessageBox(
-            "The version of ReaCoMa is not compatible with the currently installed command line tools version and may fail or produce undefined behaviour.\n\nPlease update to version" .. reacoma.dep .. "\n\nReaCoMa can take you to the download page by clicking OK.\n\nThis warning will not bother you again.",
-            "Version Incompatability", 1)
-        if retval == 1 then
-            -- Download
-            reacoma.utils.website("https://www.flucoma.org/download/")
-            reaper.SetExtState("reacoma", "version_warned", "yes", true)
-        elseif retval == 2 then
-            -- Leave them alone
-            reaper.SetExtState("reacoma", "version_warned", "yes", true)
-        end
-    else
-        print('Check for updates')
+    retval = reaper.ShowMessageBox(
+        "The version of ReaCoMa is not compatible with the currently installed command line tools version and may fail or produce undefined behaviour.\n\nPlease update to version" .. reacoma.dep .. "\n\nReaCoMa can take you to the download page by clicking OK.",
+        "Version Incompatability", 1)
+    if retval == 1 then
+        reacoma.utils.website("https://www.flucoma.org/download/")
     end
+    reacoma.settings.fatal = true
 end
