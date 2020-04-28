@@ -29,19 +29,6 @@ slicing.rm_dup = function(slice_table)
     return res
 end
 
-slicing.integrity_check = function(slice_table)
-    local unordered = false
-    for i=2, #slice_table do
-        l = slice_table[i-1]
-        r = slice_table[i]
-        if l > r then unordered = true end
-    end
-    if unordered then
-        table.sort(slice_table)
-    end
-end
-
-
 slicing.get_data = function (item_index, data)
     local item = reaper.GetSelectedMediaItem(0, item_index-1)
     local take = reaper.GetActiveTake(item)
@@ -96,7 +83,6 @@ slicing.process = function (item_index, data)
     -- Thank you to Francesco Cameli for helping me debug this absolute NIGHTMARE --
     local slice_points = utils.commasplit(data.slice_points_string[item_index])
     slice_points = slicing.rm_dup(slice_points)
-    slicing.integrity_check(slice_points)
 
     -- Invert the table around the middle point (mirror!)
     if data.reverse[item_index] then
@@ -105,6 +91,10 @@ slicing.process = function (item_index, data)
             slice_points[i] = half_length + (half_length - slice_points[i])
         end
         utils.reversetable(slice_points)
+    end
+
+    for i=1, #slice_points do
+        reacoma.utils.DEBUG(slice_points[i])
     end
     
     -- if the left boundary is the start remove it
@@ -136,7 +126,6 @@ slicing.process_gate = function(item_index, data, init_state)
     local state = init_state
     local slice_points = utils.commasplit(data.slice_points_string[item_index])
     slice_points = slicing.rm_dup(slice_points)
-    slicing.integrity_check(slice_points)
 
     if slice_points[1] == "-1" or slice_points[2] == "-1" then 
         return 
