@@ -16,6 +16,32 @@ slicing.container = {
     playrate = {}
 }
 
+slicing.rm_dup = function(slice_table)
+    -- Removes duplicate entries from a table
+    local hash = {}
+    local res = {}
+    for _,v in ipairs(slice_table) do
+        if not hash[v] then
+            res[#res+1] = v -- you could print here instead of saving to result table if you wanted
+            hash[v] = true
+        end
+    end
+    return res
+end
+
+slicing.integrity_check = function(slice_table)
+    local unordered = false
+    for i=2, #slice_table do
+        l = slice_table[i-1]
+        r = slice_table[i]
+        if l > r then unordered = true end
+    end
+    if unordered then
+        table.sort(slice_table)
+    end
+end
+
+
 slicing.get_data = function (item_index, data)
     local item = reaper.GetSelectedMediaItem(0, item_index-1)
     local take = reaper.GetActiveTake(item)
@@ -69,6 +95,8 @@ end
 slicing.process = function (item_index, data)
     -- Thank you to Francesco Cameli for helping me debug this absolute NIGHTMARE --
     local slice_points = utils.commasplit(data.slice_points_string[item_index])
+    slice_points = slicing.rm_dup(slice_points)
+    slicing.integrity_check(slice_points)
 
     -- Invert the table around the middle point (mirror!)
     if data.reverse[item_index] then
@@ -107,8 +135,10 @@ end
 slicing.process_gate = function(item_index, data, init_state)
     local state = init_state
     local slice_points = utils.commasplit(data.slice_points_string[item_index])
+    slice_points = slicing.rm_dup(slice_points)
+    slicing.integrity_check(slice_points)
+
     if slice_points[1] == "-1" or slice_points[2] == "-1" then 
-        reaper.ShowMessageBox("No slices found", "FluCoMa Slicing Error", 0)
         return 
     end
 
