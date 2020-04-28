@@ -16,6 +16,18 @@ slicing.container = {
     playrate = {}
 }
 
+slicing.rm_dup = function(slice_table)
+    -- Removes duplicate entries from a table
+    local hash = {}
+    local res = {}
+    for _,v in ipairs(slice_table) do
+        if not hash[v] then
+            res[#res+1] = v -- you could print here instead of saving to result table if you wanted
+            hash[v] = true
+        end
+    end
+    return res
+end
 slicing.integrity_check = function(slice_table)
     local unordered = false
     for i=2, #slice_table do
