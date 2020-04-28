@@ -16,6 +16,17 @@ slicing.container = {
     playrate = {}
 }
 
+slicing.integrity_check = function(slice_table)
+    local unordered = false
+    for i=2, #slice_table do
+        l = slice_table[i-1]
+        r = slice_table[i]
+        if l > r then unordered = true end
+    end
+    if unordered then
+        table.sort(slice_table)
+    end
+end
 slicing.get_data = function (item_index, data)
     local item = reaper.GetSelectedMediaItem(0, item_index-1)
     local take = reaper.GetActiveTake(item)
