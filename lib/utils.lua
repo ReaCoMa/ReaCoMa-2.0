@@ -81,6 +81,15 @@ utils.cmdline = function(command)
     if opsys == "OSX64" or opsys == "Other" then os.execute(command) end
 end
 
+utils.website = function(website)
+    local opsys = reaper.GetOS()
+    if opsys == "Win64" then
+        utils.cmdline("explorer " .. website)
+    else
+        utils.cmdline("open " .. website)
+    end
+end
+
 utils.sampstos = function(samples, samplerate)
     -- Return the number of <samples> given a time in seconds and a <samplerate>
     return samples / samplerate

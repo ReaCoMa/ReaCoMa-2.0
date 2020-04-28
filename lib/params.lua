@@ -60,12 +60,12 @@ params.archetype = {
 
     onsetslice = {
         name = "fluidParamOnsetSlice",
-        fftsettings = "1024 -1 -1",
+        metric = "0",
+        threshold = "0.5",
+        minslicelength = "2",
         filtersize = "5",
         framedelta = "0",
-        metric = "0",
-        minslicelength = "2",
-        threshold = "0.5"
+        fftsettings = "1024 -1 -1",
     },
 
     noveltyslice = {
