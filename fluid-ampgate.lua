@@ -19,7 +19,6 @@ if num_selected_items > 0 then
     if confirm then
         reacoma.params.store_params(processor, param_names, user_inputs)
         
-        reaper.Undo_BeginBlock()
         local params = reacoma.utils.commasplit(user_inputs)
         local rampup = params[1]
         local rampdown = params[2]
@@ -81,8 +80,7 @@ if num_selected_items > 0 then
             reacoma.slicing.process_gate(i, data, start_state)
         end
 
-        reaper.UpdateArrange()
-        reaper.Undo_EndBlock("ampgate", 0)
+        reacoma.utils.arrange("reacoma-ampgate")
         reacoma.utils.cleanup(data.tmp)
     end
 end

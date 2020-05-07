@@ -6,6 +6,12 @@ utils.DEBUG = function(string)
     reaper.ShowConsoleMsg("\n")
 end
 
+utils.arrange = function(undo_msg)
+    reaper.Undo_BeginBlock()
+    reaper.UpdateArrange()
+    reaper.Undo_EndBlock(undo_msg, 0)
+end
+
 utils.spairs = function(t, order)
     -- This function orders a table given a function as <order>
     -- If no function is passed then it used the default sort function
