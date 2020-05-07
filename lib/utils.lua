@@ -109,6 +109,10 @@ utils.cmdline = function(command)
     end
 end
 
+utils.assert = function(test)
+    assert(test, "Fatal ReaCoMa error! An assertion has failed. Refer to the console for more information. If you provide a bug report it is useful to include the output of this window and the console.")
+end
+
 utils.website = function(website)
     local opsys = reaper.GetOS()
     if opsys == "Win64" then
