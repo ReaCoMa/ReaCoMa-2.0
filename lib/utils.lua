@@ -83,8 +83,30 @@ utils.cmdline = function(command)
     -- Calls the <command> at the system's shell
     -- The implementation slightly differs for each operating system
     local opsys = reaper.GetOS()
-    if opsys == "Win64" then reaper.ExecProcess(command, 0) end
-    if opsys == "OSX64" or opsys == "Other" then os.execute(command) end
+    local retval = ""
+    if opsys == "Win64" then 
+        retval = reaper.ExecProcess(command, 0)
+        if retval ~= "0\n" then
+            utils.DEBUG("There was an error executing the command: "..command)
+            utils.DEBUG("See the error and return value below.")
+            utils.DEBUG(retval)
+            return false
+        else
+            return true
+        end
+    end
+
+    if opsys == "OSX64" or opsys == "Other" then 
+        retval = os.execute(command)
+        if retval ~= "0" then
+            utils.DEBUG("There was an error executing the command: "..command)
+            utils.DEBUG("See the error and return value below.")
+            utils.DEBUG(retval)
+            return false
+        else
+            return true
+        end 
+    end
 end
 
 utils.website = function(website)
