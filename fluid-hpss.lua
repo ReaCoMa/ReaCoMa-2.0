@@ -20,7 +20,6 @@ if num_selected_items > 0 then
     if confirm then 
         reacoma.params.store_params(processor, param_names, user_inputs)
 
-        reaper.Undo_BeginBlock()
         local params = reacoma.utils.commasplit(user_inputs)
         local hfs = params[1]
         local pfs = params[2]
@@ -136,8 +135,7 @@ if num_selected_items > 0 then
             reacoma.layers.process(i, data)
         end
         
-        reaper.UpdateArrange()
-        reaper.Undo_EndBlock("HPSS", 0)
+        reacoma.utils.arrange("reacoma-hpss")
     end
 end
 
