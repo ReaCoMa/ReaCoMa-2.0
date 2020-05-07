@@ -58,33 +58,26 @@ if num_selected_items > 0 then
         end
 
         for i=1, num_selected_items do
-            local cliret = reacoma.utils.cmdline(data.cmd[i])
-            if cliret then
-                if reaper.file_exists(data.tmp[i]) then
-                    local var = reacoma.utils.readfile(data.tmp[i])
-                    local channel_split = reacoma.utils.linesplit(var)
-                    local onsets = reacoma.utils.commasplit(channel_split[1])
-                    local offsets = reacoma.utils.commasplit(channel_split[2])
-                    local laced = reacoma.utils.lacetables(onsets, offsets)
-                    local dumb_string = ""
-                    local state_state = nil
-                    
-                    if laced[1] == data.take_ofs_samples[i] then 
-                        start_state = 0 -- if there is a 0 at the start we start 'off/unmuted'
-                    else 
-                        start_state = 1 -- if there is something else at the start we start muted and prepend a 0
-                    end
-
-                    for j=1, #laced do
-                        dumb_string = dumb_string .. laced[j] .. ","
-                    end
-                    table.insert(data.slice_points_string, dumb_string)
-                    reacoma.slicing.process_gate(i, data, start_state)
-                else
-                    reaper.ShowConsoleMsg("There was no CSV file to read for:\n"..data.full_path[i].."\n".."Selected file number: "..i.."\n")
-                    reaper.ShowConsoleMsg("-----------------------------")
-                end
+            reacoma.utils.assert(reacoma.utils.cmdline(data.cmd[i]))
+            local var = reacoma.utils.readfile(data.tmp[i])
+            local channel_split = reacoma.utils.linesplit(var)
+            local onsets = reacoma.utils.commasplit(channel_split[1])
+            local offsets = reacoma.utils.commasplit(channel_split[2])
+            local laced = reacoma.utils.lacetables(onsets, offsets)
+            local dumb_string = ""
+            local state_state = nil
+            
+            if laced[1] == data.take_ofs_samples[i] then 
+                start_state = 0 -- if there is a 0 at the start we start 'off/unmuted'
+            else 
+                start_state = 1 -- if there is something else at the start we start muted and prepend a 0
             end
+
+            for j=1, #laced do
+                dumb_string = dumb_string .. laced[j] .. ","
+            end
+            table.insert(data.slice_points_string, dumb_string)
+            reacoma.slicing.process_gate(i, data, start_state)
         end
 
         reacoma.utils.arrange("reacoma-ampgate")
