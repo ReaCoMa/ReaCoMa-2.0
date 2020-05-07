@@ -226,14 +226,6 @@ utils.doublequote = function(input_string)
     return '"'..input_string..'"'
 end
 
----------- Custom operators ----------
--- These are used in the experimental functions that perform comparisons
-matchers = {
-    ['>'] = function (x, y) return x > y end,
-    ['<'] = function (x, y) return x < y end,
-    ['>='] = function (x, y) return x >= y end,
-    ['<='] = function (x, y) return x <= y end
-}
 
 utils.dataquery = function(idx, data)
     -- Takes in some 'data' and makes a nice print out
@@ -242,5 +234,14 @@ utils.dataquery = function(idx, data)
         reaper.ShowConsoleMsg("Slice Points: " .. data.slice_points_string[idx] .. "\n")
     end
 end
+
+---------- Custom operators ----------
+-- These are used in the experimental functions that perform comparisons
+matchers = {
+    ['>'] = function (x, y) return x > y end,
+    ['<'] = function (x, y) return x < y end,
+    ['>='] = function (x, y) return x >= y end,
+    ['<='] = function (x, y) return x <= y end
+}
 
 return utils
