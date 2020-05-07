@@ -183,7 +183,7 @@ utils.lacetables = function(table1, table2)
     -- Lace the contents of <table1> and <table2> together
     -- 1, 2, 3  and foo, bar, baz become..gfx.a
     -- 1, foo, 2, bar, 3, baz
-    laced = {}
+    local laced = {}
     for i=1, #table1 do
         table.insert(laced, table1[i])
         table.insert(laced, table2[i])
