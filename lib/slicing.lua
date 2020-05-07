@@ -92,10 +92,6 @@ slicing.process = function (item_index, data)
         end
         utils.reversetable(slice_points)
     end
-
-    for i=1, #slice_points do
-        reacoma.utils.DEBUG(slice_points[i])
-    end
     
     -- if the left boundary is the start remove it
     if tonumber(slice_points[1]) == data.take_ofs_samples[item_index] then table.remove(slice_points, 1) end
