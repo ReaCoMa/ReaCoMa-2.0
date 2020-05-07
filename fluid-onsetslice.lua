@@ -2,6 +2,8 @@ local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
 loadfile(script_path .. "lib/reacoma.lua")()
 
+if reacoma.settings.fatal then return end
+
 local exe = reacoma.utils.doublequote(
     reacoma.settings.path .. "/fluid-onsetslice"
 )
@@ -16,7 +18,7 @@ if num_selected_items > 0 then
 
     local confirm, user_inputs = reaper.GetUserInputs("Onset Slice Parameters", 6, param_names, param_values)
     if confirm then
-        reacoma.params.store_params(processor, param_names, param_values)
+        reacoma.params.store_params(processor, param_names, user_inputs)
 
         reaper.Undo_BeginBlock()
         local params = reacoma.utils.commasplit(user_inputs)

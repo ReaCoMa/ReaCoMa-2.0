@@ -5,14 +5,35 @@ paths.get_reacoma_path = function()
     return reaper.GetExtState("reacoma", "exepath")
 end
 
+paths.expandtilde = function(path)
+    -- Crudely expands tilde to the user home folder
+    local first = path:sub(1, 1)
+
+    if first:match("~") then
+        opsys = reaper.GetOS()
+        if opsys == "OSX64" or opsys == "Other" then
+            home = reacoma.utils.capture("echo $HOME")
+        else
+            home = reacoma.utils.capture("echo %USERPROFILE%")
+        end
+        path = home .. path:sub(2)
+    end
+    return path
+end
+
 paths.file_exists = function(path)
+    path = paths.expandtilde(path)
+
     -- Returns boolean for the existence of a file at <path>
+    -- Expand the tilde if exists
     if reaper.file_exists(path) then return true else return false end
 end
 
 paths.is_path_valid = function(input_string, warning_message)
     -- Checks whether or not the <input_string> is a valid FluidPath
     -- Optionally provide a warning message on success/failure
+    input_string = paths.expandtilde(input_string)
+    
     local operating_system = reaper.GetOS()
     local check_table = {}
     check_table["Win64"] = "/fluid-noveltyslice.exe"
@@ -36,10 +57,10 @@ end
 
 paths.path_setter = function()
     -- Function to give the user a GUI the fluid path as an ExtState in REAPER
-    local cancel, input = reaper.GetUserInputs("Set path to FluCoMa Executables", 1, "Path:, extrawidth=150", "/usr/local/bin")
+    local cancel, input = reaper.GetUserInputs("Set path to FluCoMa Executables", 1, "Path:, extrawidth=200", "/usr/local/bin")
+    input = paths.expandtilde(input)
     if cancel ~= false then
         local input_path = utils.rmtrailslash(input)
-        -- local sanitised_input_path = doublequote(input_path)
         if paths.is_path_valid(input_path, true) == true then return true end
     else
         reaper.ShowMessageBox("Your path remains unconfigured. The script will now exit.", "Warning", 0)

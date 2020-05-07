@@ -2,8 +2,9 @@ local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
 loadfile(script_path .. "../lib/reacoma.lua")()
 
-local cli_path = reacoma.paths.get_reacoma_path()
-local exe = reacoma.utils.doublequote(cli_path .. "/fluid-noveltyslice")
+local exe = reacoma.utils.doublequote(
+    reacoma.settings.path .. "/fluid-noveltyslice"
+)
 
 local num_selected_items = reaper.CountSelectedMediaItems(0)
 if num_selected_items > 0 then

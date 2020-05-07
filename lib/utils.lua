@@ -81,6 +81,15 @@ utils.cmdline = function(command)
     if opsys == "OSX64" or opsys == "Other" then os.execute(command) end
 end
 
+utils.website = function(website)
+    local opsys = reaper.GetOS()
+    if opsys == "Win64" then
+        utils.cmdline("explorer " .. website)
+    else
+        utils.cmdline("open " .. website)
+    end
+end
+
 utils.sampstos = function(samples, samplerate)
     -- Return the number of <samples> given a time in seconds and a <samplerate>
     return samples / samplerate
@@ -197,5 +206,13 @@ matchers = {
     ['>='] = function (x, y) return x >= y end,
     ['<='] = function (x, y) return x <= y end
 }
+
+utils.dataquery = function(idx, data)
+    -- Takes in some 'data' and makes a nice print out
+    reaper.ShowConsoleMsg("Item Length Samples: " .. data.item_len_samples[idx] .. "\n")
+    if data.slice_points_string then
+        reaper.ShowConsoleMsg("Slice Points: " .. data.slice_points_string[idx] .. "\n")
+    end
+end
 
 return utils
