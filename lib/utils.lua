@@ -170,6 +170,8 @@ end
 
 utils.readfile = function(file)
     -- Returns the contents of a <file> a string
+    if not reaper.file_exists(file) then utils.DEBUG(file.." could not be read because it does not exist.") end
+    utils.assert(reaper.file_exists(file))
     local f = assert(io.open(file, "r"))
     local content = f:read("*all")
     f:close()
