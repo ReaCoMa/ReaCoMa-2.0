@@ -50,9 +50,16 @@ if num_selected_items > 0 then
         end
 
         for i=1, num_selected_items do
-            reacoma.utils.cmdline(data.cmd[i])
-            table.insert(data.slice_points_string, reacoma.utils.readfile(data.tmp[i]))
-            reacoma.slicing.process(i, data)
+            local cliret = reacoma.utils.cmdline(data.cmd[i])
+            if cliret then
+                if reaper.file_exists(data.tmp[i]) then
+                    table.insert(data.slice_points_string, reacoma.utils.readfile(data.tmp[i]))
+                    reacoma.slicing.process(i, data)
+                else
+                    reaper.ShowConsoleMsg("There was no CSV file to read for:\n"..data.full_path[i].."\n".."Selected file number: "..i.."\n")
+                    reaper.ShowConsoleMsg("-----------------------------")
+                end
+            end
         end
 
         reacoma.utils.arrange("reacoma-onsetslice")
