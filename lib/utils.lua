@@ -88,7 +88,7 @@ utils.cmdline = function(command)
         retval = reaper.ExecProcess(command, 0)
         if retval ~= "0\n" then
             utils.DEBUG("There was an error executing the command: "..command)
-            utils.DEBUG("See the error and return value below.")
+            utils.DEBUG("See the return value and error below:\n")
             utils.DEBUG(retval)
             return false
         else
@@ -100,7 +100,7 @@ utils.cmdline = function(command)
         retval = os.execute(command)
         if retval ~= "0" then
             utils.DEBUG("There was an error executing the command: "..command)
-            utils.DEBUG("See the error and return value below.")
+            utils.DEBUG("See the return value and error below:\n")
             utils.DEBUG(retval)
             return false
         else
