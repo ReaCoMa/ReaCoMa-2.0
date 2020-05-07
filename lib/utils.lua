@@ -110,7 +110,7 @@ utils.basedir = function(path, separator)
     -- Returns the base directory of a <path>
     -- for example /foo/bar/script.lua >>> /foo/bar/
     -- Optionally provide a <separator>
-    separator = separator or'/'
+    local separator = separator or'/'
     return path:match("(.*"..separator..")")
 end
 
