@@ -82,18 +82,35 @@ end
 utils.cmdline = function(command)
     -- Calls the <command> at the system's shell
     -- The implementation slightly differs for each operating system
-    local opsys = reaper.GetOS()
-    if opsys == "Win64" then reaper.ExecProcess(command, 0) end
-    if opsys == "OSX64" or opsys == "Other" then os.execute(command) end
+    -- local opsys = reaper.GetOS()
+    if opsys == "Win64" then retval = reaper.ExecProcess(command, 0) end
+
+    if opsys == "OSX64" or opsys == "Other" then  retval = reaper.ExecProcess(command, 0) end
+    local retval = reaper.ExecProcess(command, 0)
+    
+    if not retval then
+        utils.DEBUG("There was an error executing the command: "..command)
+        utils.DEBUG("See the return value and error below:\n")
+        utils.DEBUG(tostring(retval))
+    end
+
+    -- We only want to return success/fail and cannot guarantee a false return will not be a string
+    if retval then return true else return false end
+end
+
+utils.assert = function(test)
+    assert(test, "Fatal ReaCoMa error! An assertion has failed. Refer to the console for more information. If you provide a bug report it is useful to include the output of this window and the console.")
 end
 
 utils.website = function(website)
     local opsys = reaper.GetOS()
+    local retval = ""
     if opsys == "Win64" then
-        utils.cmdline("explorer " .. website)
+        retval = utils.cmdline("explorer " .. website)
     else
-        utils.cmdline("open " .. website)
+        retval = utils.cmdline("open " .. website)
     end
+    return retval
 end
 
 utils.sampstos = function(samples, samplerate)
@@ -110,7 +127,7 @@ utils.basedir = function(path, separator)
     -- Returns the base directory of a <path>
     -- for example /foo/bar/script.lua >>> /foo/bar/
     -- Optionally provide a <separator>
-    separator = separator or'/'
+    local separator = separator or'/'
     return path:match("(.*"..separator..")")
 end
 
@@ -148,6 +165,8 @@ end
 
 utils.readfile = function(file)
     -- Returns the contents of a <file> a string
+    if not reaper.file_exists(file) then utils.DEBUG(file.." could not be read because it does not exist.") end
+    utils.assert(reaper.file_exists(file))
     local f = assert(io.open(file, "r"))
     local content = f:read("*all")
     f:close()
@@ -183,7 +202,7 @@ utils.lacetables = function(table1, table2)
     -- Lace the contents of <table1> and <table2> together
     -- 1, 2, 3  and foo, bar, baz become..gfx.a
     -- 1, foo, 2, bar, 3, baz
-    laced = {}
+    local laced = {}
     for i=1, #table1 do
         table.insert(laced, table1[i])
         table.insert(laced, table2[i])
@@ -204,14 +223,6 @@ utils.doublequote = function(input_string)
     return '"'..input_string..'"'
 end
 
----------- Custom operators ----------
--- These are used in the experimental functions that perform comparisons
-matchers = {
-    ['>'] = function (x, y) return x > y end,
-    ['<'] = function (x, y) return x < y end,
-    ['>='] = function (x, y) return x >= y end,
-    ['<='] = function (x, y) return x <= y end
-}
 
 utils.dataquery = function(idx, data)
     -- Takes in some 'data' and makes a nice print out
@@ -220,5 +231,14 @@ utils.dataquery = function(idx, data)
         reaper.ShowConsoleMsg("Slice Points: " .. data.slice_points_string[idx] .. "\n")
     end
 end
+
+---------- Custom operators ----------
+-- These are used in the experimental functions that perform comparisons
+matchers = {
+    ['>'] = function (x, y) return x > y end,
+    ['<'] = function (x, y) return x < y end,
+    ['>='] = function (x, y) return x >= y end,
+    ['<='] = function (x, y) return x <= y end
+}
 
 return utils

@@ -58,13 +58,13 @@ if num_selected_items > 0 then
         end
 
         for i=1, num_selected_items do
-            reacoma.utils.cmdline(data.cmd[i])
-            var = reacoma.utils.readfile(data.tmp[i])
-            channel_split = reacoma.utils.linesplit(var)
-            onsets = reacoma.utils.commasplit(channel_split[1])
-            offsets = reacoma.utils.commasplit(channel_split[2])
-            laced = reacoma.utils.lacetables(onsets, offsets)
-            dumb_string = ""
+            reacoma.utils.assert(reacoma.utils.cmdline(data.cmd[i]))
+            local var = reacoma.utils.readfile(data.tmp[i])
+            local channel_split = reacoma.utils.linesplit(var)
+            local onsets = reacoma.utils.commasplit(channel_split[1])
+            local offsets = reacoma.utils.commasplit(channel_split[2])
+            local laced = reacoma.utils.lacetables(onsets, offsets)
+            local dumb_string = ""
             local state_state = nil
             
             if laced[1] == data.take_ofs_samples[i] then 
