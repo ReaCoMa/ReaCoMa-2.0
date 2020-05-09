@@ -115,11 +115,13 @@ end
 
 utils.website = function(website)
     local opsys = reaper.GetOS()
+    local retval = ""
     if opsys == "Win64" then
-        utils.cmdline("explorer " .. website)
+        retval = utils.cmdline("explorer " .. website)
     else
-        utils.cmdline("open " .. website)
+        retval = utils.cmdline("open " .. website)
     end
+    return retval
 end
 
 utils.sampstos = function(samples, samplerate)
