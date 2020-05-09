@@ -82,31 +82,20 @@ end
 utils.cmdline = function(command)
     -- Calls the <command> at the system's shell
     -- The implementation slightly differs for each operating system
-    local opsys = reaper.GetOS()
-    local retval = ""
-    if opsys == "Win64" then 
-        retval = reaper.ExecProcess(command, 0)
-        if retval ~= "0\n" then
-            utils.DEBUG("There was an error executing the command: "..command)
-            utils.DEBUG("See the return value and error below:\n")
-            utils.DEBUG(retval)
-            return false
-        else
-            return true
-        end
+    -- local opsys = reaper.GetOS()
+    if opsys == "Win64" then retval = reaper.ExecProcess(command, 0) end
+
+    if opsys == "OSX64" or opsys == "Other" then  retval = reaper.ExecProcess(command, 0) end
+    local retval = reaper.ExecProcess(command, 0)
+    
+    if not retval then
+        utils.DEBUG("There was an error executing the command: "..command)
+        utils.DEBUG("See the return value and error below:\n")
+        utils.DEBUG(tostring(retval))
     end
 
-    if opsys == "OSX64" or opsys == "Other" then 
-        retval = os.execute(command)
-        if retval ~= "0" then
-            utils.DEBUG("There was an error executing the command: "..command)
-            utils.DEBUG("See the return value and error below:\n")
-            utils.DEBUG(retval)
-            return false
-        else
-            return true
-        end 
-    end
+    -- We only want to return success/fail and cannot guarantee a false return will not be a string
+    if retval then return true else return false end
 end
 
 utils.assert = function(test)
