@@ -12,7 +12,6 @@ local reaper = reaper
 require("layers")
 require("params")
 require("paths")
-require("download")
 require("slicing")
 require("sorting")
 require("tagging")
@@ -28,7 +27,6 @@ reacoma.dep = "Fluid Corpus Manipulation Toolkit, version 1.0.0-RC1"
 reacoma.layers = layers
 reacoma.params = params
 reacoma.paths = paths
-reacoma.download = download
 reacoma.slicing = slicing
 reacoma.sorting = sorting
 reacoma.tagging = tagging
