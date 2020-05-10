@@ -12,7 +12,6 @@ local reaper = reaper
 require("layers")
 require("params")
 require("paths")
-require("download")
 require("slicing")
 require("sorting")
 require("tagging")
@@ -28,7 +27,6 @@ reacoma.dep = "Fluid Corpus Manipulation Toolkit, version 1.0.0-RC1"
 reacoma.layers = layers
 reacoma.params = params
 reacoma.paths = paths
-reacoma.download = download
 reacoma.slicing = slicing
 reacoma.sorting = sorting
 reacoma.tagging = tagging
@@ -40,7 +38,10 @@ if reacoma.paths.sanity_check() == false then return end
 reacoma.settings.path = reacoma.paths.get_reacoma_path() 
 
 -- Check for versions
-local get_version = reacoma.settings.path .. "/fluid-noveltyslice -v"
+local get_version = reacoma.utils.doublequote(
+    reacoma.settings.path .. "/fluid-noveltyslice"
+) .. " -v"
+
 local installed_tools_version = reacoma.utils.capture(get_version)
 
 if reacoma.dep ~= installed_tools_version then
