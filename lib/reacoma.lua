@@ -53,6 +53,7 @@ if reacoma.paths.sanity_check() == false then
     return
 end
 
+-- Store the path in a known place
 reacoma.settings.path = reacoma.paths.get_reacoma_path() 
 
 -- Check for versions
@@ -60,8 +61,10 @@ local get_version = reacoma.utils.doublequote(
     reacoma.settings.path .. "/fluid-noveltyslice"
 ) .. " -v"
 
+-- Get the current version by capturing the output of the -v flag
 local installed_tools_version = reacoma.utils.capture(get_version)
 
+-- Check that the version of installed tools matches the marked version in the code
 if reacoma.dep ~= installed_tools_version then
     local retval = reaper.ShowMessageBox(
         "The version of ReaCoMa is not compatible with the currently installed command line tools version and may fail or produce undefined behaviour.\n\nPlease update to version" .. reacoma.dep .. "\n\nReaCoMa can take you to the download page by clicking OK.",
