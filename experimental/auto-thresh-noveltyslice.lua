@@ -96,7 +96,7 @@ if num_selected_items > 0 then
                         table.insert(data.slice_points_string, reacoma.utils.readfile(temp_file))
                         reacoma.slicing.process(i, data)
                         os.remove(temp_file)
-                        reaper.UpdateArrange()
+                        reacoma.utils.arrange("auto_thresh_novelty")
                         solved = true
                     else -- do some clever threshold manipulation and slicing
                         local n_thresh = 0.0
@@ -118,6 +118,5 @@ if num_selected_items > 0 then
                 end
             end
         end
-        reaper.Undo_EndBlock("auto_novelty", 0)
     end
 end
