@@ -22,6 +22,15 @@ layers.container = {
     outputs = {},
 }
 
+layers.exist = function(item_index, data)
+    for k, _ in pairs(data.outputs) do
+        if not reacoma.paths.file_exists(data.outputs[k][item_index]) then
+            reacoma.utils.DEBUG(data.outputs[k][item_index].." failed to be made by the command line.")
+            reacoma.utils.assert(false)
+        end
+    end
+end
+
 layers.get_data = function (item_index, data)
     local item = reaper.GetSelectedMediaItem(0, item_index-1)
     local take = reaper.GetActiveTake(item)
