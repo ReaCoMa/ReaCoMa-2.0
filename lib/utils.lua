@@ -92,10 +92,8 @@ utils.cmdline = function(command)
         utils.DEBUG("There was an error executing the command: "..command)
         utils.DEBUG("See the return value and error below:\n")
         utils.DEBUG(tostring(retval))
+        utils.assert(false)
     end
-
-    -- We only want to return success/fail and cannot guarantee a false return will not be a string
-    if retval then return true else return false end
 end
 
 utils.assert = function(test)
@@ -114,7 +112,7 @@ utils.website = function(website)
     else
         retval = utils.cmdline("open " .. website)
     end
-    return retval
+    if not retval then utils.assert(false) end
 end
 
 utils.sampstos = function(samples, samplerate)
