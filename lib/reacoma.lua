@@ -33,8 +33,23 @@ reacoma.tagging = tagging
 reacoma.utils = utils
 reacoma.settings = {}
 
+-- Check that we are not running in restricted mode
+if not os then
+    reacoma.settings.restricted = true
+    reacoma.settings.fatal = true
+    local restr = reaper.ShowMessageBox(
+        "You have executed the ReaCoMa script in 'Restricted Mode'.\n\nReaCoMa needs this setting to be turned OFF.\n\nYou can disable resitrcted mode on the file selection pane when choosing a script.",
+        "Restricted mode warning",
+        0)
+    return
+end
+
 -- Execute common code
-if reacoma.paths.sanity_check() == false then return end
+if reacoma.paths.sanity_check() == false then 
+    reacoma.settings.fatal = true
+    return
+end
+
 reacoma.settings.path = reacoma.paths.get_reacoma_path() 
 
 -- Check for versions
@@ -45,10 +60,10 @@ local get_version = reacoma.utils.doublequote(
 local installed_tools_version = reacoma.utils.capture(get_version)
 
 if reacoma.dep ~= installed_tools_version then
-    retval = reaper.ShowMessageBox(
+    local retval = reaper.ShowMessageBox(
         "The version of ReaCoMa is not compatible with the currently installed command line tools version and may fail or produce undefined behaviour.\n\nPlease update to version" .. reacoma.dep .. "\n\nReaCoMa can take you to the download page by clicking OK.",
         "Version Incompatability", 1)
-    if retval == 1 then
+    if retval then
         reacoma.utils.assert(
             reacoma.utils.website("https://www.flucoma.org/download/")
         )
