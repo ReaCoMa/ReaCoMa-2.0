@@ -2,6 +2,8 @@ local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
 loadfile(script_path .. "../lib/reacoma.lua")()
 
+if reacoma.settings.fatal then return end
+
 local exe = reacoma.utils.doublequote(
     reacoma.settings.path .. "/fluid-noveltyslice"
 )
@@ -33,7 +35,7 @@ if num_selected_items > 0 then
 
         local data = reacoma.slicing.container
 
-        local function form_string(threshold, item_index)
+        local function form_string(kernelsize, item_index)
             local temp_file = data.full_path[item_index] .. reacoma.utils.uuid(item_index) .. "fs.csv"
             local cmd_string = exe ..
             " -source " .. reacoma.utils.doublequote(data.full_path[item_index]) .. 
@@ -41,7 +43,7 @@ if num_selected_items > 0 then
             " -maxfftsize " .. reacoma.utils.getmaxfftsize(fftsettings) ..
             " -maxkernelsize " .. kernelsize ..
             " -maxfiltersize " .. filtersize ..
-            " -feature " .. feature .. 
+            " -feature " .. feature ..
             " -kernelsize " .. kernelsize .. 
             " -threshold " .. threshold ..
             " -filtersize " .. filtersize .. 
@@ -62,7 +64,7 @@ if num_selected_items > 0 then
             local solved = false
             local iter = 0
 
-            local curr_thresh = tonumber(threshold)
+            local curr_thresh = tonumber(kernelsize)
             local prev_thresh = curr_thresh
 
             num_slices = 0
@@ -70,7 +72,7 @@ if num_selected_items > 0 then
             
             -- Do an initial pass
             local cmd, temp_file = form_string(curr_thresh, i)
-            reacoma.utils.cmdline(cmd)
+            reacoma.utils.assert(reacoma.utils.cmdline(cmd))
             prev_slices = #reacoma.utils.commasplit(reacoma.utils.readfile(temp_file))
             os.remove(temp_file)
             
@@ -86,7 +88,8 @@ if num_selected_items > 0 then
                     end
                     
                     local cmd, temp_file = form_string(curr_thresh, i)
-                    reacoma.utils.cmdline(cmd)
+                    reacoma.utils.DEBUG(cmd)
+                    reacoma.utils.assert(reacoma.utils.cmdline(cmd))
                     num_slices = #reacoma.utils.commasplit(reacoma.utils.readfile(temp_file))
                     
                     if math.abs(target_slices - num_slices) <= tolerance then
@@ -96,7 +99,7 @@ if num_selected_items > 0 then
                         table.insert(data.slice_points_string, reacoma.utils.readfile(temp_file))
                         reacoma.slicing.process(i, data)
                         os.remove(temp_file)
-                        reaper.UpdateArrange()
+                        reacoma.utils.arrange("auto_kernel_novelty")
                         solved = true
                     else -- do some clever threshold manipulation and slicing
                         local n_thresh = 0.0
@@ -104,9 +107,13 @@ if num_selected_items > 0 then
                         local d_thresh = curr_thresh - prev_thresh
 
                         if d_slices ~= 0 then
-                            n_thresh = math.max(0.000001, math.min(0.999999, ((d_thresh / d_slices) * (target_slices - num_slices)) + curr_thresh))
+                            n_thresh = math.floor(
+                                math.max(2, math.min(2048, ((d_thresh / d_slices) * (target_slices - num_slices)) + curr_thresh)) + 0.5
+                            )
                         else
-                            n_thresh = math.max(0.000001, math.min(0.999999, d_thresh + curr_thresh))
+                            n_thresh = math.floor(
+                                math.max(2, math.min(2048, d_thresh + curr_thresh)) + 0.5
+                            )
                         end
 
                         prev_thresh = curr_thresh
@@ -118,6 +125,5 @@ if num_selected_items > 0 then
                 end
             end
         end
-        reaper.Undo_EndBlock("auto_novelty", 0)
     end
 end
