@@ -1,3 +1,6 @@
+----------------------------------------------------------
+-- ReaCoMa by James Bradbury | james.bradbury@hud.ac.uk --
+----------------------------------------------------------
 -- This is the entry point to the REACOMA library
 -- Taking the path of THIS script we then append that folder to the package path
 -- We then require all of the modules into this file which is loaded by any top level scripts
