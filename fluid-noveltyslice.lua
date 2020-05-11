@@ -51,7 +51,7 @@ if num_selected_items > 0 then
         end
 
         for i=1, num_selected_items do
-            reacoma.utils.assert(reacoma.utils.cmdline(data.cmd[i]))
+            reacoma.utils.cmdline(data.cmd[i])
             table.insert(data.slice_points_string, reacoma.utils.readfile(data.tmp[i]))
             reacoma.slicing.process(i, data)
         end

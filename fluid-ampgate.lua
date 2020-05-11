@@ -58,7 +58,7 @@ if num_selected_items > 0 then
         end
 
         for i=1, num_selected_items do
-            reacoma.utils.assert(reacoma.utils.cmdline(data.cmd[i]))
+            reacoma.utils.cmdline(data.cmd[i])
             local var = reacoma.utils.readfile(data.tmp[i])
             local channel_split = reacoma.utils.linesplit(var)
             local onsets = reacoma.utils.commasplit(channel_split[1])
