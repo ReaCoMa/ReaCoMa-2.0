@@ -66,10 +66,8 @@ if reacoma.dep ~= installed_tools_version then
     local retval = reaper.ShowMessageBox(
         "The version of ReaCoMa is not compatible with the currently installed command line tools version and may fail or produce undefined behaviour.\n\nPlease update to version" .. reacoma.dep .. "\n\nReaCoMa can take you to the download page by clicking OK.",
         "Version Incompatability", 1)
-    if retval then
-        reacoma.utils.assert(
-            reacoma.utils.website("https://www.flucoma.org/download/")
-        )
+    if retval == 1 then
+        reacoma.utils.website("https://www.flucoma.org/download/")
     end
     reacoma.settings.fatal = true
 end
