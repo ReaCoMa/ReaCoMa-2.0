@@ -72,7 +72,7 @@ if num_selected_items > 0 then
 
         -- CONTIGUOUS ITEMS MODE --
         -- This can eventually just be merged with the above function
-        accum_offset = data.item_pos[1]
+        local accum_offset = data.item_pos[1]
         
         for i=1, #data.sorted_items do
             
