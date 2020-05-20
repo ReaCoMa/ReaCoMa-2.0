@@ -104,6 +104,7 @@ params.archetype = {
         lookback = "5",
         lookahead = "5",
         highpassfreq = "100",
+        mute = "1"
     }
 }
 
