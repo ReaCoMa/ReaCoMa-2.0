@@ -100,7 +100,6 @@ utils.assert = function(test)
     -- A template for asserting and dumping the stack
     -- You should embed this into a function and check against some value
     -- Avoid putting it at the top level and make the asserts granular
-    reacoma.utils.DEBUG(debug.traceback())
     if not test then
         reacoma.utils.DEBUG(debug.traceback())
     end
@@ -114,7 +113,7 @@ utils.website = function(website)
         utils.cmdline("explorer " .. website)
     else
         retval = os.execute("open "..website)
-        reacoma.utils.assert(retval)
+        utils.assert(retval)
     end
 end
 
