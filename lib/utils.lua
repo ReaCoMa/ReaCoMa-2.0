@@ -108,9 +108,10 @@ utils.website = function(website)
     local opsys = reaper.GetOS()
     local retval = ""
     if opsys == "Win64" then
-        retval = utils.cmdline("explorer " .. website)
+        utils.cmdline("explorer " .. website)
     else
-        retval = utils.cmdline("open " .. website)
+        retval = os.execute("open "..website)
+        reacoma.utils.assert(retval)
     end
 end
 
