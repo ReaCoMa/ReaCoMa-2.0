@@ -101,6 +101,9 @@ utils.assert = function(test)
     -- You should embed this into a function and check against some value
     -- Avoid putting it at the top level and make the asserts granular
     reacoma.utils.DEBUG(debug.traceback())
+    if not test then
+        reacoma.utils.DEBUG(debug.traceback())
+    end
     assert(test, "Fatal ReaCoMa error! An assertion has failed. Refer to the console for more information. If you provide a bug report it is useful to include the output of this window and the console.")
 end
 
