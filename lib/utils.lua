@@ -112,7 +112,6 @@ utils.website = function(website)
     else
         retval = utils.cmdline("open " .. website)
     end
-    if not retval then utils.assert(false) end
 end
 
 utils.sampstos = function(samples, samplerate)
