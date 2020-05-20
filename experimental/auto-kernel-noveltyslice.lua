@@ -72,7 +72,7 @@ if num_selected_items > 0 then
             
             -- Do an initial pass
             local cmd, temp_file = form_string(curr_thresh, i)
-            reacoma.utils.assert(reacoma.utils.cmdline(cmd))
+            reacoma.utils.cmdline(cmd)
             prev_slices = #reacoma.utils.commasplit(reacoma.utils.readfile(temp_file))
             os.remove(temp_file)
             
@@ -88,8 +88,7 @@ if num_selected_items > 0 then
                     end
                     
                     local cmd, temp_file = form_string(curr_thresh, i)
-                    reacoma.utils.DEBUG(cmd)
-                    reacoma.utils.assert(reacoma.utils.cmdline(cmd))
+                    reacoma.utils.cmdline(cmd)
                     num_slices = #reacoma.utils.commasplit(reacoma.utils.readfile(temp_file))
                     
                     if math.abs(target_slices - num_slices) <= tolerance then
