@@ -12,10 +12,10 @@ local num_selected_items = reaper.CountSelectedMediaItems(0)
 if num_selected_items > 0 then
     local processor = reacoma.params.archetype.ampgate
     reacoma.params.check_params(processor)
-    local param_names = "rampup,rampdown,onthreshold,offthreshold,minslicelength,minsilencelength,minlengthabove,minlengthbelow,lookback,lookahead,highpassfreq,mute"
+    local param_names = "rampup,rampdown,onthreshold,offthreshold,minslicelength,minsilencelength,minlengthabove,minlengthbelow,lookback,lookahead,highpassfreq,mute,onsetsonly"
     param_values = reacoma.params.parse_params(param_names, processor)
 
-    local confirm, user_inputs = reaper.GetUserInputs("Ampgate Parameters", 12, param_names, param_values)
+    local confirm, user_inputs = reaper.GetUserInputs("Ampgate Parameters", 13, param_names, param_values)
     if confirm then
         reacoma.params.store_params(processor, param_names, user_inputs)
         
@@ -32,6 +32,7 @@ if num_selected_items > 0 then
         local lookahead = params[10]
         local highpassfreq = params[11]
         local mute = tonumber(params[12])
+        local onsetsonly = tonumber(params[13])
 
         local data = reacoma.slicing.container
 
@@ -64,7 +65,13 @@ if num_selected_items > 0 then
             local channel_split = reacoma.utils.linesplit(var)
             local onsets = reacoma.utils.commasplit(channel_split[1])
             local offsets = reacoma.utils.commasplit(channel_split[2])
-            local laced = reacoma.utils.lacetables(onsets, offsets)
+            local laced = nil
+            if onsetsonly == 1 then
+                laced = onsets
+                mute = 0
+            else 
+                laced = reacoma.utils.lacetables(onsets, offsets)
+            end
             local dumb_string = ""
             local state_state = nil
             
