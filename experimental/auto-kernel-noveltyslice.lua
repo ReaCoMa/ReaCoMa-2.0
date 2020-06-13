@@ -88,7 +88,6 @@ if num_selected_items > 0 then
                     end
                     
                     local cmd, temp_file = form_string(curr_thresh, i)
-                    reacoma.utils.DEBUG(cmd)
                     reacoma.utils.assert(reacoma.utils.cmdline(cmd))
                     num_slices = #reacoma.utils.commasplit(reacoma.utils.readfile(temp_file))
                     
