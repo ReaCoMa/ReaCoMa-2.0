@@ -1,4 +1,4 @@
-<img src="logo.jpg" alt="reacoma_logo">
+<img src="logo.jpg" alt="reacoma_logo" width="25%" height="25%">
 
 ReaCoMa is a project developed by [James Bradbury](https://jamesbradbury.xyz). The project brings the power of the [FluCoMa tools](https://www.flucoma.org) to REAPER. 
 
@@ -36,8 +36,6 @@ Thank you to Pierre Alexandre Tremblay for guiding me through the process of dev
 
 https://www.flucoma.org
 
-<br><br><br>
-
-Thank you to Niamh Dell for the sleeping reaper logo.
+*Thank you to Niamh Dell for the sleeping reaper logo*
 
 
