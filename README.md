@@ -1,4 +1,6 @@
-<img src="logo.jpg" alt="reacoma_logo" width="25%" height="25%" align="center">
+<p align="center">
+<img src="logo.jpg" alt="reacoma_logo" width="25%" height="25%">
+</p>
 
 ReaCoMa is a project developed by [James Bradbury](https://jamesbradbury.xyz). The project brings the power of the [FluCoMa tools](https://www.flucoma.org) to REAPER. 
 
