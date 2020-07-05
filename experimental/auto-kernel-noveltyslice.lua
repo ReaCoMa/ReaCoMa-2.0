@@ -78,7 +78,6 @@ if num_selected_items > 0 then
             
             -- start searching --
             while not solved do
-                reaper.ShowConsoleMsg(iter)
                 if iter ~= tonumber(max_iterations) then
                     if iter == 0 then -- on our first loop we have to initialise
                         if prev_slices < target_slices then
