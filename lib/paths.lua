@@ -82,7 +82,10 @@ paths.sanity_check = function()
     -- Function to call at the start of every script
     -- This ensures that the path has been set otherwise it prompts the user to go through the process
     if paths.check_state() == false then
-        reaper.ShowMessageBox("The path to the FluCoMa CLI tools is not set. Please follow the next prompt to configure it. Doing so remains persistent across projects and sessions of reaper. If you need to change it please use the FluidEditPath.lua script.", "Warning!", 0)
+        local warning_msg = "The path to the FluCoMa CLI tools is not set. Please follow the next prompt to configure it. Doing so remains persistent across projects and sessions of reaper.\n\n" .. 
+        "If you need to change it please use the FluidEditPath.lua script.\n\n" ..
+        "For example, if you've just downloaded the tools from the flucoma.org/download then youll need to provide the path to the 'bin' folder which is inside 'FluidCorpusManipulation'.\n\n"
+        reaper.ShowMessageBox(warning_msg, "Warning!", 0)
         if paths.set_reacoma_path() == true then return true else return false end
     end
 
