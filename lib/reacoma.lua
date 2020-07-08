@@ -12,13 +12,6 @@ package.path = package.path .. ";" .. script_path .. "?.lua"
 
 -- Require the modules
 local reaper = reaper
-require("layers")
-require("params")
-require("paths")
-require("slicing")
-require("sorting")
-require("tagging")
-require("utils")
 
 -- Create a table containing vital reacoma information
 reacoma = {}
@@ -27,13 +20,13 @@ reacoma.version = "1.4.1"
 reacoma.dep = "Fluid Corpus Manipulation Toolkit, version 1.0.0-RC1"
 
 -- Add modules to reacoma table
-reacoma.layers = layers
-reacoma.params = params
-reacoma.paths = paths
-reacoma.slicing = slicing
-reacoma.sorting = sorting
-reacoma.tagging = tagging
-reacoma.utils = utils
+reacoma.layers = require("layers")
+reacoma.params = require("params")
+reacoma.paths = require("paths")
+reacoma.slicing = require("slicing")
+reacoma.sorting = require("sorting")
+reacoma.tagging = require("tagging")
+reacoma.utils = require("utils")
 reacoma.settings = {}
 
 -- Check that we are not running in restricted mode
