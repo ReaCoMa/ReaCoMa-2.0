@@ -45,6 +45,7 @@ if num_selected_items > 0 then
                 exe .. 
                 " -source " .. reacoma.utils.doublequote(data.full_path[i]) .. 
                 " -resynth " .. reacoma.utils.doublequote(data.outputs.components[i]) ..
+                " -iterations " .. iterations ..
                 " -components " .. components .. 
                 " -fftsettings " .. fftsettings ..
                 " -numframes " .. data.item_len_samples[i] .. 
