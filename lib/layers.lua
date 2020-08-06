@@ -8,6 +8,7 @@ layers = {}
 
 layers.container = {
     full_path = {},
+    path = {},
     take = {},
     item_pos = {},
     item_pos_samples = {},
@@ -50,6 +51,8 @@ layers.get_data = function (item_index, data)
         full_path = reaper.GetMediaSourceFileName(src, "")
         table.insert(data.reverse, false)
     end
+
+    local path = reacoma.utils.form_path(full_path)
 
     local playrate = reaper.GetMediaItemTakeInfo_Value(take, "D_PLAYRATE")
     local take_ofs = reaper.GetMediaItemTakeInfo_Value(take, "D_STARTOFFS")
