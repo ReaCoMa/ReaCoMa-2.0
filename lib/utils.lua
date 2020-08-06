@@ -136,7 +136,10 @@ end
 
 utils.basename = function(path)
     -- Returns the basename of a <path>
-    -- for example /foo/bar/script.lua >>> script.lua
+    -- for example /foo/bar/script.lua >>> /foo/bar/script
+    return path:match("(.+)%..+")
+end
+
 utils.dir_exists = function(path)
     local cross_platform_string = path.."/"
     local ok, err, code = os.rename(path, path)
