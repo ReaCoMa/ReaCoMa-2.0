@@ -22,7 +22,7 @@ paths.expandtilde = function(path)
 end
 
 paths.file_exists = function(path)
-    path = paths.expandtilde(path)
+    local path = paths.expandtilde(path)
 
     -- Returns boolean for the existence of a file at <path>
     -- Expand the tilde if exists
@@ -30,9 +30,9 @@ paths.file_exists = function(path)
 end
 
 paths.is_path_valid = function(input_string, warning_message)
-    -- Checks whether or not the <input_string> is a valid FluidPath
+    -- Checks whether or not the <input_string> is valid
     -- Optionally provide a warning message on success/failure
-    input_string = paths.expandtilde(input_string)
+    local input_string = paths.expandtilde(input_string)
     
     local operating_system = reaper.GetOS()
     local check_table = {}
