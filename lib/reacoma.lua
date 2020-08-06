@@ -31,7 +31,7 @@ reacoma.output = reacoma.output or "parent" -- If this isn't set we set a defaul
 if reacoma.output ~= "parent" and reacoma.output ~= "media" then
     reacoma.output = reacoma.paths.expandtilde(reacoma.output)
     if not reacoma.utils.dir_exists(reacoma.output) then
-        reacoma.utils.DEBUG("The custom output directory does not exist. Please make it or adjust the configuration")
+        reacoma.utils.DEBUG("The custom output directory ".."'"..reacoma.output.."'".." does not exist. Please make it or adjust the configuration")
         reacoma.utils.assert(false)
     end
 end
