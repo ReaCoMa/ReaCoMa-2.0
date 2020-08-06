@@ -39,7 +39,7 @@ layers.get_data = function (item_index, data)
     local src = reaper.GetMediaItemTake_Source(take)
     local src_parent = reaper.GetMediaSourceParent(src)
     local sr = nil
-    local full_path = nil
+    local full_path = ""
 
     if src_parent ~= nil then
         sr = reaper.GetMediaSourceSampleRate(src_parent)
