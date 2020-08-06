@@ -71,7 +71,6 @@ utils.getmaxfftsize = function(fft_string)
     end
 end
 
-
 utils.uuid = function(idx)
     -- Generates a universally unique identifier string
     -- Increases uniqueness by appending a number <idx>
