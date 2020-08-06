@@ -137,6 +137,17 @@ end
 utils.basename = function(path)
     -- Returns the basename of a <path>
     -- for example /foo/bar/script.lua >>> script.lua
+utils.dir_exists = function(path)
+    local cross_platform_string = path.."/"
+    local ok, err, code = os.rename(path, path)
+    if not ok then
+       if code == 13 then
+          -- Permission denied, but it exists
+          return true
+       end
+    end
+    return ok, err
+end
     return path:match("(.+)%..+")
 end
 
