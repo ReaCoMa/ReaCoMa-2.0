@@ -28,7 +28,7 @@ reacoma.settings = {}
 loadfile(script_path .. "../config.lua")() -- Load the config as a chunk to get the values
 reacoma.output = reacoma.output or "parent" -- If this isn't set we set a default.
 -- If the user has set a custom path then lets check if it exists
-if reacoma.output ~= "parent" or reacoma.output ~= "media" then
+if reacoma.output ~= "parent" and reacoma.output ~= "media" then
     reacoma.output = reacoma.paths.expandtilde(reacoma.output)
     if not reacoma.utils.dir_exists(reacoma.output) then
         reacoma.utils.DEBUG("The custom output directory does not exist. Please make it or adjust the configuration")
