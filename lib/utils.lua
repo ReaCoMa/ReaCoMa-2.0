@@ -154,8 +154,8 @@ end
 utils.stem = function(path)
     -- Returns the stem of a path
     -- /foo/bar/script.lua >> script
-    local path = path:match("^.+/(.+)$")
-    return path:match("(.+)%..+")
+    local _, file, _ = path:match("(.-)([^\\/]-%.?([^%.\\/]*))$") -- TODO make this the only way of parsing strings
+    return file
 end
 
 utils.form_path = function(path)
