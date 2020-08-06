@@ -148,6 +148,11 @@ utils.dir_exists = function(path)
     end
     return ok, err
 end
+
+utils.stem = function(path)
+    -- Returns the stem of a path
+    -- /foo/bar/script.lua >> script
+    local path = path:match("^.+/(.+)$")
     return path:match("(.+)%..+")
 end
 
