@@ -31,15 +31,7 @@ reacoma.lib = script_path
 reacoma.version = "1.4.3"
 reacoma.dep = "Fluid Corpus Manipulation Toolkit, version 1.0.0-RC1"
 
--- Add modules to reacoma table
-reacoma.layers = layers
-reacoma.params = params
-reacoma.paths = paths
-reacoma.slicing = slicing
-reacoma.sorting = sorting
-reacoma.tagging = tagging
-reacoma.utils = utils
-reacoma.settings = {}
+
 
 -- Check that we are not running in restricted mode
 if not os then
