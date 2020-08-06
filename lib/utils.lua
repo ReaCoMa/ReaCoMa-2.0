@@ -81,10 +81,10 @@ end
 utils.cmdline = function(command)
     -- Calls the <command> at the system's shell
     -- The implementation slightly differs for each operating system
+    -- 06/08/2020 23:26:07 Seems ExecProcess works equally well everywhere
     -- local opsys = reaper.GetOS()
-    if opsys == "Win64" then retval = reaper.ExecProcess(command, 0) end
-
-    if opsys == "OSX64" or opsys == "Other" then  retval = reaper.ExecProcess(command, 0) end
+    -- if opsys == "Win64" then retval = reaper.ExecProcess(command, 0) end
+    -- if opsys == "OSX64" or opsys == "Other" then  retval = reaper.ExecProcess(command, 0) end
     local retval = reaper.ExecProcess(command, 0)
     
     if not retval then
