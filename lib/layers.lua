@@ -1,6 +1,8 @@
 local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
 dofile(script_path .. "OrderedTables.lua")
+floor = math.floor
+abs = math.abs
 
 layers = {}
 
@@ -56,7 +58,7 @@ layers.get_data = function (item_index, data)
     local playtype  = reaper.GetMediaItemTakeInfo_Value(take, "I_PITCHMODE")
     
     if data.reverse[item_index] then
-        take_ofs = math.abs(src_len - (item_len + take_ofs))
+        take_ofs = abs(src_len - (item_len + take_ofs))
     end
 
     -- This line caps the analysis at one loop
@@ -64,8 +66,8 @@ layers.get_data = function (item_index, data)
         item_len = (src_len * (1 / playrate))
     end
 
-    local take_ofs_samples = utils.stosamps(take_ofs, sr)
-    local item_len_samples = math.floor(utils.stosamps(item_len, sr))
+    local take_ofs_samples = reacoma.utils.stosamps(take_ofs, sr)
+    local item_len_samples = floor(reacoma.utils.stosamps(item_len, sr))
     
     table.insert(data.item, item)
     table.insert(data.take, take)
