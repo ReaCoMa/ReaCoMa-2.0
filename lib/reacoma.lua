@@ -27,6 +27,15 @@ reacoma.settings = {}
 -- High level information about reacoma
 loadfile(script_path .. "../config.lua")() -- Load the config as a chunk to get the values
 reacoma.output = reacoma.output or "parent" -- If this isn't set we set a default.
+-- If the user has set a custom path then lets check if it exists
+if reacoma.output ~= "parent" or reacoma.output ~= "media" then
+    reacoma.output = reacoma.paths.expandtilde(reacoma.output)
+    if not reacoma.utils.dir_exists(reacoma.output) then
+        reacoma.utils.DEBUG("The custom output directory does not exist. Please make it or adjust the configuration")
+        reacoma.utils.assert(false)
+    end
+end
+-- Now set the paths up for where new files will be located
 reacoma.lib = script_path
 reacoma.version = "1.4.3"
 reacoma.dep = "Fluid Corpus Manipulation Toolkit, version 1.0.0-RC1"
