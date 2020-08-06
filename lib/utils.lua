@@ -151,6 +151,13 @@ utils.basename = function(path)
     -- for example /foo/bar/script.lua >>> /foo/bar/script
     return path:match("(.+)%..+")
 end
+
+utils.name = function(path)
+    -- Returns the name from a path
+    -- /foo/bar/script.lua >> script.lua
+    return path:match("^.+/(.+)$")
+end
+
 utils.stem = function(path)
     -- Returns the stem of a path
     -- /foo/bar/script.lua >> script
