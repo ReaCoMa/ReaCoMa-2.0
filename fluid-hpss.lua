@@ -50,17 +50,17 @@ if num_selected_items > 0 then
 
             table.insert(
                 data.outputs.harmonic,
-                reacoma.utils.basename(data.full_path[i]) .. "_hpss-h_" .. reacoma.utils.uuid(i) .. ".wav"
+                data.path[i] .. "_hpss-h_" .. reacoma.utils.uuid(i) .. ".wav"
             )
             table.insert(
                 data.outputs.percussive,
-                reacoma.utils.basename(data.full_path[i]) .. "_hpss-p_" .. reacoma.utils.uuid(i) .. ".wav"
+                data.path[i] .. "_hpss-p_" .. reacoma.utils.uuid(i) .. ".wav"
             )
 
             if maskingmode == "2" then 
                 table.insert(
                     data.outputs.residual, 
-                    reacoma.utils.basename(data.full_path[i]) .. "_hpss-r_" .. reacoma.utils.uuid(i) .. ".wav"
+                    data.path[i] .. "_hpss-r_" .. reacoma.utils.uuid(i) .. ".wav"
                 ) 
             end
 

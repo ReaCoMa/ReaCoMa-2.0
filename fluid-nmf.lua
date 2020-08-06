@@ -37,7 +37,7 @@ if num_selected_items > 0 then
 
             table.insert(
                 data.outputs.components,
-                reacoma.utils.basename(data.full_path[i]) .. "_nmf_" .. reacoma.utils.uuid(i) .. ".wav"
+                data.path[i] .. "_nmf_" .. reacoma.utils.uuid(i) .. ".wav"
             )
 
             table.insert(
