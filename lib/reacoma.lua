@@ -13,14 +13,16 @@ package.path = package.path .. ";" .. script_path .. "?.lua"
 -- Require the modules
 local reaper = reaper
 reacoma = {}
--- Setup 
-require("layers")
-require("params")
-require("paths")
-require("slicing")
-require("sorting")
-require("tagging")
-require("utils")
+
+-- Add modules to reacoma table
+reacoma.layers = require("layers")
+reacoma.params = require("params")
+reacoma.paths = require("paths")
+reacoma.slicing = require("slicing")
+reacoma.sorting = require("sorting")
+reacoma.tagging = require("tagging")
+reacoma.utils = require("utils")
+reacoma.settings = {}
 
 -- High level information about reacoma
 loadfile(script_path .. "../config.lua")() -- Load the config as a chunk to get the values
