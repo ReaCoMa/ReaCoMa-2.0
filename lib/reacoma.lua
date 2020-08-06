@@ -12,6 +12,8 @@ package.path = package.path .. ";" .. script_path .. "?.lua"
 
 -- Require the modules
 local reaper = reaper
+reacoma = {}
+-- Setup 
 require("layers")
 require("params")
 require("paths")
@@ -20,8 +22,9 @@ require("sorting")
 require("tagging")
 require("utils")
 
--- Create a table containing vital reacoma information
-reacoma = {}
+-- High level information about reacoma
+loadfile(script_path .. "../config.lua")() -- Load the config as a chunk to get the values
+reacoma.output = reacoma.output or "parent" -- If this isn't set we set a default.
 reacoma.lib = script_path
 reacoma.version = "1.4.3"
 reacoma.dep = "Fluid Corpus Manipulation Toolkit, version 1.0.0-RC1"
