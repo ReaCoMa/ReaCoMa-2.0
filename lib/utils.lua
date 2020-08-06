@@ -164,16 +164,12 @@ utils.form_path = function(path)
     local opsys = reaper.GetOS()
     if reacoma.output == "parent" then
         return utils.basename(path)
+    elseif reacoma.output == "media" then
+        local stem = utils.stem(path)
+        return reacoma.paths.expandtilde("~/Documents/REAPER Media/") .. stem
     else
         local stem = utils.stem(path)
-        if opsys == "OSX64" or opsys == "Other" then
-            return reacoma.paths.expandtilde("~/Documents/REAPER Media/") .. stem
-        elseif opsys == "Win64" then
-            return nil
-        else
-            
-            return 
-        end
+        return reacoma.output.."/".. stem
     end
 end
 
