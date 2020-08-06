@@ -151,6 +151,24 @@ end
     return path:match("(.+)%..+")
 end
 
+utils.form_path = function(path)
+    -- Forms a path given the reacoma.output settings
+    local opsys = reaper.GetOS()
+    if reacoma.output == "parent" then
+        return utils.basename(path)
+    else
+        local stem = utils.stem(path)
+        if opsys == "OSX64" or opsys == "Other" then
+            return reacoma.paths.expandtilde("~/Documents/REAPER Media/") .. stem
+        elseif opsys == "Win64" then
+            return nil
+        else
+            
+            return 
+        end
+    end
+end
+
 utils.rmtrailslash = function(input_string)
     -- Remove trailing slash from an <input_string>. 
     -- Will not remove slash if it is the only character.
