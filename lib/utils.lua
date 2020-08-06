@@ -81,10 +81,10 @@ end
 utils.cmdline = function(command)
     -- Calls the <command> at the system's shell
     -- The implementation slightly differs for each operating system
+    -- 06/08/2020 23:26:07 Seems ExecProcess works equally well everywhere
     -- local opsys = reaper.GetOS()
-    if opsys == "Win64" then retval = reaper.ExecProcess(command, 0) end
-
-    if opsys == "OSX64" or opsys == "Other" then  retval = reaper.ExecProcess(command, 0) end
+    -- if opsys == "Win64" then retval = reaper.ExecProcess(command, 0) end
+    -- if opsys == "OSX64" or opsys == "Other" then  retval = reaper.ExecProcess(command, 0) end
     local retval = reaper.ExecProcess(command, 0)
     
     if not retval then
@@ -136,8 +136,41 @@ end
 
 utils.basename = function(path)
     -- Returns the basename of a <path>
-    -- for example /foo/bar/script.lua >>> script.lua
+    -- for example /foo/bar/script.lua >>> /foo/bar/script
     return path:match("(.+)%..+")
+end
+
+utils.dir_exists = function(path)
+    local cross_platform_string = path.."/"
+    local ok, err, code = os.rename(path, path)
+    if not ok then
+       if code == 13 then
+          -- Permission denied, but it exists
+          return true
+       end
+    end
+    return ok, err
+end
+
+utils.stem = function(path)
+    -- Returns the stem of a path
+    -- /foo/bar/script.lua >> script
+    local path = path:match("^.+/(.+)$")
+    return path:match("(.+)%..+")
+end
+
+utils.form_path = function(path)
+    -- Forms a path given the reacoma.output settings
+    local opsys = reaper.GetOS()
+    if reacoma.output == "parent" then
+        return utils.basename(path)
+    elseif reacoma.output == "media" then
+        local stem = utils.stem(path)
+        return reacoma.paths.expandtilde("~/Documents/REAPER Media/") .. stem
+    else
+        local stem = utils.stem(path)
+        return reacoma.output.."/".. stem
+    end
 end
 
 utils.rmtrailslash = function(input_string)

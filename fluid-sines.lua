@@ -44,12 +44,12 @@ if num_selected_items > 0 then
 
             table.insert(
                 data.outputs.sines,
-                reacoma.utils.basename(data.full_path[i]) .. "_sines-s_" .. reacoma.utils.uuid(i) .. ".wav"
+                data.path[i] .. "_sines-s_" .. reacoma.utils.uuid(i) .. ".wav"
             )
 
             table.insert(
                 data.outputs.residual,
-                reacoma.utils.basename(data.full_path[i]) .. "_sines-r_" .. reacoma.utils.uuid(i) .. ".wav"
+                data.path[i] .. "_sines-r_" .. reacoma.utils.uuid(i) .. ".wav"
             )
             
             table.insert(

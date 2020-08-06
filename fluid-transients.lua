@@ -43,12 +43,12 @@ if num_selected_items > 0 then
 
             table.insert(
                 data.outputs.transients,
-                reacoma.utils.basename(data.full_path[i]) .. "_ts-t_" .. reacoma.utils.uuid(i) .. ".wav"
+                data.path[i] .. "_ts-t_" .. reacoma.utils.uuid(i) .. ".wav"
             )
 
             table.insert(
                 data.outputs.residual,
-                reacoma.utils.basename(data.full_path[i]) .. "_ts-r_" .. reacoma.utils.uuid(i) .. ".wav"
+                data.path[i] .. "_ts-r_" .. reacoma.utils.uuid(i) .. ".wav"
             )
 
             table.insert(

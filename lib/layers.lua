@@ -1,11 +1,14 @@
 local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
 dofile(script_path .. "OrderedTables.lua")
+floor = math.floor
+abs = math.abs
 
 layers = {}
 
 layers.container = {
     full_path = {},
+    path = {},
     take = {},
     item_pos = {},
     item_pos_samples = {},
@@ -37,7 +40,7 @@ layers.get_data = function (item_index, data)
     local src = reaper.GetMediaItemTake_Source(take)
     local src_parent = reaper.GetMediaSourceParent(src)
     local sr = nil
-    local full_path = nil
+    local full_path = ""
 
     if src_parent ~= nil then
         sr = reaper.GetMediaSourceSampleRate(src_parent)
@@ -49,6 +52,8 @@ layers.get_data = function (item_index, data)
         table.insert(data.reverse, false)
     end
 
+    local path = reacoma.utils.form_path(full_path)
+
     local playrate = reaper.GetMediaItemTakeInfo_Value(take, "D_PLAYRATE")
     local take_ofs = reaper.GetMediaItemTakeInfo_Value(take, "D_STARTOFFS")
     local src_len = reaper.GetMediaSourceLength(src)
@@ -56,7 +61,7 @@ layers.get_data = function (item_index, data)
     local playtype  = reaper.GetMediaItemTakeInfo_Value(take, "I_PITCHMODE")
     
     if data.reverse[item_index] then
-        take_ofs = math.abs(src_len - (item_len + take_ofs))
+        take_ofs = abs(src_len - (item_len + take_ofs))
     end
 
     -- This line caps the analysis at one loop
@@ -64,13 +69,14 @@ layers.get_data = function (item_index, data)
         item_len = (src_len * (1 / playrate))
     end
 
-    local take_ofs_samples = utils.stosamps(take_ofs, sr)
-    local item_len_samples = math.floor(utils.stosamps(item_len, sr))
+    local take_ofs_samples = reacoma.utils.stosamps(take_ofs, sr)
+    local item_len_samples = floor(reacoma.utils.stosamps(item_len, sr))
     
     table.insert(data.item, item)
     table.insert(data.take, take)
     table.insert(data.sr, sr)
     table.insert(data.full_path, full_path)
+    table.insert(data.path, path)
     table.insert(data.take_ofs, take_ofs)
     table.insert(data.take_ofs_samples, take_ofs_samples)
     table.insert(data.item_len, item_len)
