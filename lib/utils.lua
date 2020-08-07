@@ -179,6 +179,14 @@ utils.form_path = function(path)
     end
 end
 
+utils.check_extension = function(path)
+    local _, name, ext = path:match("(.-)([^\\/]-%.?([^%.\\/]*))$")
+    if ext ~= "wav" then
+        utils.DEBUG(name.." is not in WAV format. ReaCoMa currently only works on WAV files.")
+        utils.assert(false)
+    end
+end
+
 utils.rmtrailslash = function(input_string)
     -- Remove trailing slash from an <input_string>. 
     -- Will not remove slash if it is the only character.

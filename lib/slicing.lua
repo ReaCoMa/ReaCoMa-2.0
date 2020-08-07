@@ -46,6 +46,8 @@ slicing.get_data = function (item_index, data)
         full_path = reaper.GetMediaSourceFileName(src, "")
         table.insert(data.reverse, false)
     end
+
+    reacoma.utils.check_extension(full_path)
     
     local tmp = full_path .. utils.uuid(item_index) .. "fs.csv"
     local playrate = reaper.GetMediaItemTakeInfo_Value(take, "D_PLAYRATE")

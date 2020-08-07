@@ -52,6 +52,7 @@ layers.get_data = function (item_index, data)
         table.insert(data.reverse, false)
     end
 
+    reacoma.utils.check_extension(full_path)
     local path = reacoma.utils.form_path(full_path)
 
     local playrate = reaper.GetMediaItemTakeInfo_Value(take, "D_PLAYRATE")

@@ -39,6 +39,8 @@ envelopes.get_data = function(item_index, data)
         table.insert(data.reverse, false)
     end
 
+    reacoma.utils.check_extension(full_path)
+
     local take_ofs = reaper.GetMediaItemTakeInfo_Value(take, "D_STARTOFFS")
     local playrate = reaper.GetMediaItemTakeInfo_Value(take, "D_PLAYRATE")
     local item_len = reaper.GetMediaItemInfo_Value(item, "D_LENGTH") * playrate

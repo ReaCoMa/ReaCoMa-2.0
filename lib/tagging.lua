@@ -35,6 +35,8 @@ tagging.get_data = function(item_index, data)
         full_path = reaper.GetMediaSourceFileName(src, "")
         table.insert(data.reverse, false)
     end
+
+    reacoma.utils.check_extension(full_path)
     
     local analtmp = full_path .. utils.uuid(item_index) .. "ttag.wav"
     local statstmp = full_path .. utils.uuid(item_index) .. "tstats.csv"

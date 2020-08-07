@@ -36,6 +36,8 @@ sorting.get_data = function(item_index, data)
         full_path = reaper.GetMediaSourceFileName(src, "")
         table.insert(data.reverse, false)
     end
+
+    reacoma.utils.check_extension(full_path)
     
     local playrate = reaper.GetMediaItemTakeInfo_Value(take, "D_PLAYRATE")
     local take_ofs = reaper.GetMediaItemTakeInfo_Value(take, "D_STARTOFFS")
