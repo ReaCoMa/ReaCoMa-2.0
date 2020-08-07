@@ -168,7 +168,7 @@ end
 utils.form_path = function(path)
     -- Forms a path given the reacoma.output settings
     local opsys = reaper.GetOS()
-    if reacoma.output == "parent" then
+    if reacoma.output == "source" then
         return utils.basename(path)
     elseif reacoma.output == "media" then
         local stem = utils.stem(path)
