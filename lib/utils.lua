@@ -181,8 +181,8 @@ end
 
 utils.check_extension = function(path)
     local _, name, ext = path:match("(.-)([^\\/]-%.?([^%.\\/]*))$")
-    if ext ~= "wav" then
-        utils.DEBUG(name.." is not in WAV format. ReaCoMa currently only works on WAV files.")
+    if ext ~= "wav" and ext ~= "aif" and ext ~= "aiff" then
+        utils.DEBUG(name.." is not in WAV or AIFF format. ReaCoMa currently only works on WAV or AIFF files.")
         utils.assert(false)
     end
 end
