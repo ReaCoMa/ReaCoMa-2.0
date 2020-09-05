@@ -40,8 +40,6 @@ reacoma.lib = script_path
 reacoma.version = "1.5.0"
 reacoma.dep = "Fluid Corpus Manipulation Toolkit, version 1.0.0-RC1"
 
-
-
 -- Check that we are not running in restricted mode
 if not os then
     reacoma.settings.restricted = true
