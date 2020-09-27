@@ -1,14 +1,15 @@
 <p align="center">
 <img src="logo.jpg" alt="reacoma_logo" width="25%" height="25%">
+<a href="https://www.buymeacoffee.com/jamesb" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/arial-blue.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
 </p>
-
-<script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="jamesb" data-color="#5F7FFF" data-emoji=""  data-font="Arial" data-text="Buy me a coffee" data-outline-color="#000" data-font-color="#fff" data-coffee-color="#fd0" ></script>
 
 ReaCoMa is a project developed by [James Bradbury](https://jamesbradbury.xyz). The project brings the power of the [FluCoMa tools](https://www.flucoma.org) to REAPER. 
 
 The website for ReaCoMa provides some information in addition to the installation instructions which have been mirrored below. I encourage you to visit it if you are interested in learning more about the project.
 
 https://www.reacoma.xyz
+
+If you have found ReaCoMa in anyone, consider supporting the project by clicking the button above!
 
 # Installation
 
