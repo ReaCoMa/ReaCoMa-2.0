@@ -8,7 +8,8 @@ The website for ReaCoMa provides some information in addition to the installatio
 
 https://www.reacoma.xyz
 
-<a href="https://www.buymeacoffee.com/jamesb" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/arial-blue.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 50px !important;" ></a>
+<a href="https://www.buymeacoffee.com/jamesb" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/arial-blue.png" alt="Buy Me A Coffee" style="height: 20px !important;width: 50px !important;" ></a>
+
 If you have found ReaCoMa in anyone, consider supporting the project by clicking the button above!
 
 # Installation
