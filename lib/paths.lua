@@ -33,8 +33,10 @@ paths.is_path_valid = function(input_string, warning_message)
     -- Checks whether or not the <input_string> is valid
     -- Optionally provide a warning message on success/failure
     local input_string = paths.expandtilde(input_string)
-    local ns_path = input_string .. "/fluid-noveltyslice"
-
+    local opsys = reaper.GetOS()
+    local f = "/fluid-noveltyslice"
+    if opsys == "Win64" or "Win32" then f = "/fluid-noveltyslice.exe" end
+    local ns_path = input_string .. f
     if paths.file_exists(ns_path) then
         reaper.SetExtState("reacoma", "exepath", input_string, 1)
         if warning_message then
