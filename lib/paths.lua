@@ -35,7 +35,7 @@ paths.is_path_valid = function(input_string, warning_message)
     local input_string = paths.expandtilde(input_string)
     local opsys = reaper.GetOS()
     local f = "/fluid-noveltyslice"
-    if opsys == "Win64" or "Win32" then f = "/fluid-noveltyslice.exe" end
+    if opsys == "Win64" or opsys == "Win32" then f = "/fluid-noveltyslice.exe" end
     local ns_path = input_string .. f
     if paths.file_exists(ns_path) then
         reaper.SetExtState("reacoma", "exepath", input_string, 1)
