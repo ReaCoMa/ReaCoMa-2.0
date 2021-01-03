@@ -179,9 +179,18 @@ utils.form_path = function(path)
     end
 end
 
+utils.table_contains = function(tab, val)
+    for i=1, #tab do
+        if tab[i] == val then return true end
+    end
+    return false
+end
+
 utils.check_extension = function(path)
     local _, name, ext = path:match("(.-)([^\\/]-%.?([^%.\\/]*))$")
-    if ext ~= "wav" and ext ~= "aif" and ext ~= "aiff" then
+    local valid_ext = {'wav', 'aif', 'aiff', 'WAV', 'AIF', 'AIFF'}
+    local valid = utils.table_contains(valid_ext, ext)
+    if not valid then
         utils.DEBUG(name.." is not in WAV or AIFF format. ReaCoMa currently only works on WAV or AIFF files.")
         utils.assert(false)
     end
