@@ -9,9 +9,17 @@ paths.expandtilde = function(path)
     -- Crudely expands tilde to the user home folder
     local first = path:sub(1, 1)
 
+    -- Codes representing operating systems which are unix
+    -- This was updated 10/06/2021 for new ARM macs
+    local unix_codes = {
+        'macOS-arm64',
+        'OSX64',
+        'Other'
+    }
+
     if first:match("~") then
         opsys = reaper.GetOS()
-        if opsys == "OSX64" or opsys == "Other" then
+        if reacoma.utils.table_contains(unix_codes, opsys) then
             home = reacoma.utils.capture("echo $HOME")
         else
             home = reacoma.utils.capture("echo %USERPROFILE%")
@@ -23,7 +31,6 @@ end
 
 paths.file_exists = function(path)
     local path = paths.expandtilde(path)
-
     -- Returns boolean for the existence of a file at <path>
     -- Expand the tilde if exists
     if reaper.file_exists(path) then return true else return false end
@@ -34,6 +41,7 @@ paths.is_path_valid = function(input_string, warning_message)
     -- Optionally provide a warning message on success/failure
     local input_string = paths.expandtilde(input_string)
     local opsys = reaper.GetOS()
+    -- macOS-arm64 is the new ARM architecture code (worth remembering when it breaks something later...)
     local f = "/fluid-noveltyslice"
     if opsys == "Win64" or opsys == "Win32" then f = "/fluid-noveltyslice.exe" end
     local ns_path = input_string .. f
