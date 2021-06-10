@@ -16,7 +16,7 @@ reacoma.output = "source"
 -------------------------------------------------------------------------------------
 
 -------------------------------------------------------------------------------------
--- Parameter Description: Bypass command line versoin checks
+-- Parameter Description: Bypass command line version checks
 -- Default: "false"
 -- Examples:
     -- reacoma.bypass_version = true (this will ignore the checking of versions)
