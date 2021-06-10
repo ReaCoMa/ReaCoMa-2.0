@@ -38,7 +38,7 @@ end
 -- Now set the paths up for where new files will be located
 reacoma.lib = script_path
 reacoma.version = "1.5.4"
-reacoma.dep = "Fluid Corpus Manipulation Toolkit, version 1.0.0-RC1"
+reacoma.dep = "Fluid Corpus Manipulation Toolkit, version 1"
 
 -- Check that we are not running in restricted mode
 if not os then
@@ -68,15 +68,19 @@ local get_version = reacoma.utils.doublequote(
 -- Get the current version by capturing the output of the -v flag
 local installed_tools_version = reacoma.utils.capture(get_version)
 
+-- Find out if the dependency string matches the version of the cli
+-- From this we can deduce a sort of minimum version
+local valid_version = installed_tools_version:find(reacoma.dep)
+
 -- Check that the version of installed tools matches the marked version in the code
 if not reacoma.bypass_version then
-    if reacoma.dep ~= installed_tools_version then
+    if valid_version < 1 then
         local retval = reaper.ShowMessageBox(
-            "The version of ReaCoMa is not compatible with the currently installed command line tools version and may fail or produce undefined behaviour.\n\nPlease update to version: " .. reacoma.dep .. "\n\nReaCoMa can take you to the download page by clicking OK.",
+            "The version of ReaCoMa is not tested with the currently installed command-line tools version and may fail or produce undefined behaviour. \n\nReaCoMa can take you to the download page by clicking OK, or you can move on by clicking Cancel. Alternatively, to disable this message forever change reacoma.bypass_version in config.lua to true.",
             "Version Incompatability", 1)
         if retval == 1 then
             reacoma.utils.website("https://www.flucoma.org/download/")
         end
-        reacoma.settings.fatal = true
+        reacoma.settings.fatal = false -- for now everything is fine, we dont need to test versions that thoroughly anymore
     end
 end
