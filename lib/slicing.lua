@@ -142,7 +142,9 @@ slicing.process_gate = function(item_index, data, init_state)
     end
 
     -- if the left boundary is the start remove it
-    if tonumber(slice_points[1]) == data.take_ofs_samples[item_index] then table.remove(slice_points, 1) end
+    if tonumber(slice_points[1]) == data.take_ofs_samples[item_index] then 
+        table.remove(slice_points, 1) 
+    end
 
     -- now sanitise the numbers to adjust for the take offset and playback rate
     for i=1, #slice_points do
