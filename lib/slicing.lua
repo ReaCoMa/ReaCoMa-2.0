@@ -84,7 +84,7 @@ slicing.get_data = function (item_index, data)
     table.insert(data.playrate, playrate)
 end
 
-slicing.process = function (item_index, data)
+slicing.process = function(item_index, data)
     -- Thank you to Francesco Cameli for helping me debug this absolute NIGHTMARE --
     local slice_points = utils.commasplit(data.slice_points_string[item_index])
     slice_points = slicing.rm_dup(slice_points)
