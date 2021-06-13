@@ -61,8 +61,8 @@ if num_selected_items > 0 then
 
         for i=1, num_selected_items do
             reacoma.utils.cmdline(data.cmd[i])
-            local var = reacoma.utils.readfile(data.tmp[i])
-            local channel_split = reacoma.utils.split_line(var)
+            local raw_data = reacoma.utils.readfile(data.tmp[i])
+            local channel_split = reacoma.utils.split_line(raw_data)
             local onsets = reacoma.utils.split_comma(channel_split[1])
             local offsets = reacoma.utils.split_comma(channel_split[2])
             local laced = nil
@@ -72,22 +72,19 @@ if num_selected_items > 0 then
             else 
                 laced = reacoma.utils.lace_tables(onsets, offsets)
             end
-            local dumb_string = ""
-            local state_state = nil
-            
-            if laced[1] == data.take_ofs_samples[i] then 
-                start_state = 0 -- if there is a 0 at the start we start 'off/unmuted'
-            else 
-                start_state = 1 -- if there is something else at the start we start muted and prepend a 0
+
+            -- We reform a string which is comma-separated values
+            local comma_separated_points = ''
+            for j=1, #laced do
+                comma_separated_points = (
+                    comma_separated_points .. laced[j] .. ","
+                )   
             end
 
-            for j=1, #laced do
-                dumb_string = dumb_string .. laced[j] .. ","
-            end
-            table.insert(data.slice_points_string, dumb_string)
+            table.insert(data.slice_points_string, comma_separated_points)
             
             if mute == 1 then
-                reacoma.slicing.process_gate(i, data, start_state)
+                reacoma.slicing.process(i, data, 1)
             else
                 reacoma.slicing.process(i, data)
             end
