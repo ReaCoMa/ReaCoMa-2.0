@@ -4,7 +4,7 @@ loadfile(script_path .. "lib/reacoma.lua")()
 
 if reacoma.settings.fatal then return end
 
-local exe = reacoma.utils.doublequote(
+local exe = reacoma.utils.wrap_quotes(
     reacoma.settings.path .. "/fluid-noveltyslice"
 )
 
@@ -20,7 +20,7 @@ if num_selected_items > 0 then
     if confirm then
         reacoma.params.store_params(processor, param_names, user_inputs)
 
-        local params = reacoma.utils.commasplit(user_inputs)
+        local params = reacoma.utils.split_comma(user_inputs)
         local feature = params[1]
         local threshold = params[2]
         local kernelsize = params[3]
@@ -34,9 +34,9 @@ if num_selected_items > 0 then
             reacoma.slicing.get_data(i, data)
             
             local cmd = exe .. 
-            " -source " .. reacoma.utils.doublequote(data.full_path[i]) .. 
-            " -indices " .. reacoma.utils.doublequote(data.tmp[i]) .. 
-            " -maxfftsize " .. reacoma.utils.getmaxfftsize(fftsettings) ..
+            " -source " .. reacoma.utils.wrap_quotes(data.full_path[i]) .. 
+            " -indices " .. reacoma.utils.wrap_quotes(data.tmp[i]) .. 
+            " -maxfftsize " .. reacoma.utils.get_max_fft_size(fftsettings) ..
             " -maxkernelsize " .. kernelsize ..
             " -maxfiltersize " .. filtersize ..
             " -feature " .. feature .. 

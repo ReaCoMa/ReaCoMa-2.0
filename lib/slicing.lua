@@ -86,16 +86,15 @@ end
 
 slicing.process = function(item_index, data)
     -- Thank you to Francesco Cameli for helping me debug this absolute NIGHTMARE --
-    local slice_points = utils.commasplit(data.slice_points_string[item_index])
+    local slice_points = utils.split_comma(data.slice_points_string[item_index])
     slice_points = slicing.rm_dup(slice_points)
 
     -- Invert the table around the middle point (mirror!)
     if data.reverse[item_index] then
-        local half_length = (data.item_len_samples[item_index]) * 0.5
         for i=1, #slice_points do
-            slice_points[i] = half_length + (half_length - slice_points[i])
+            slice_points[i] = data.item_len_samples[item_index] - slice_points[i]
         end
-        utils.reversetable(slice_points)
+        utils.reverse_table(slice_points)
     end
     
     -- if the left boundary is the start remove it
@@ -125,7 +124,7 @@ end
 
 slicing.process_gate = function(item_index, data, init_state)
     local state = init_state
-    local slice_points = utils.commasplit(data.slice_points_string[item_index])
+    local slice_points = utils.split_comma(data.slice_points_string[item_index])
     slice_points = slicing.rm_dup(slice_points)
 
     if slice_points[1] == "-1" or slice_points[2] == "-1" then 
@@ -138,7 +137,7 @@ slicing.process_gate = function(item_index, data, init_state)
         for i=1, #slice_points do
             slice_points[i] = half_length + (half_length - slice_points[i])
         end
-        utils.reversetable(slice_points)
+        utils.reverse_table(slice_points)
     end
 
     -- if the left boundary is the start remove it

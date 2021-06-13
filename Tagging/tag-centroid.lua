@@ -3,8 +3,8 @@ local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
 loadfile(script_path .. "../lib/reacoma.lua")()
 
 if reacoma.paths.sanity_check() == false then return end
-local loudness_exe = reacoma.utils.doublequote(reacoma.paths.get_reacoma_path() .. "/fluid-spectralshape")
-local stats_exe = reacoma.utils.doublequote(reacoma.paths.get_reacoma_path() .. "/fluid-stats")
+local loudness_exe = reacoma.utils.wrap_quotes(reacoma.paths.get_reacoma_path() .. "/fluid-spectralshape")
+local stats_exe = reacoma.utils.wrap_quotes(reacoma.paths.get_reacoma_path() .. "/fluid-stats")
 
 local num_selected_items = reaper.CountSelectedMediaItems(0)
     if num_selected_items > 0 then
@@ -14,14 +14,14 @@ local num_selected_items = reaper.CountSelectedMediaItems(0)
             reacoma.tagging.get_data(i, data)
             
             local analcmd = loudness_exe ..
-            " -source " .. reacoma.utils.doublequote(data.full_path[i]) ..
-            " -features " .. reacoma.utils.doublequote(data.analtmp[i]) ..
+            " -source " .. reacoma.utils.wrap_quotes(data.full_path[i]) ..
+            " -features " .. reacoma.utils.wrap_quotes(data.analtmp[i]) ..
             " -fftsettings " .. "8192 1024 8192"
             table.insert(data.analcmd, analcmd)
             
             local statscmd = stats_exe ..
-            " -source " .. reacoma.utils.doublequote(data.analtmp[i]) ..
-            " -stats " .. reacoma.utils.doublequote(data.statstmp[i])
+            " -source " .. reacoma.utils.wrap_quotes(data.analtmp[i]) ..
+            " -stats " .. reacoma.utils.wrap_quotes(data.statstmp[i])
             table.insert(data.statscmd, statscmd)
         end
 
@@ -29,11 +29,11 @@ local num_selected_items = reaper.CountSelectedMediaItems(0)
             reacoma.utils.cmdline(data.analcmd[i])
             reacoma.utils.cmdline(data.statscmd[i])
 
-            local channel1 = reacoma.utils.linesplit(
+            local channel1 = reacoma.utils.split_line(
                 reacoma.utils.readfile(data.statstmp[i])
             )[1]
 
-            local analysis_data = reacoma.utils.commasplit(channel1) -- whatver your numbers are basically
+            local analysis_data = reacoma.utils.split_comma(channel1) -- whatver your numbers are basically
 
             reacoma.tagging.update_notes(data.item[i], "-- Centroid Analysis --")
             local details = "Average: " .. analysis_data[1] .. "\r\n" ..

@@ -38,7 +38,7 @@ utils.spairs = function(t, order)
     end
 end
 
-utils.reversetable = function(t)
+utils.reverse_table = function(t)
     -- Reverse a table in place
 	local i, j = 1, #t
 	while i < j do
@@ -48,23 +48,28 @@ utils.reversetable = function(t)
 	end
 end
 
-utils.nextpowstr = function(x)
-    -- Finds the next power of <x> and returns it as a string
-    return tostring(
-        math.floor(2^math.ceil(math.log(x)/math.log(2)))
-    )
+utils.next_pow_str = function(value, return_type)
+    -- Finds the next power of <x> and returns it as return_type
+    local return_type = return_type or 'string'
+    local snap = math.floor(2^math.ceil(math.log(value)/math.log(2)))
+
+    if return_type == 'string' then
+        return tostring(snap)
+    else
+        return tonumber(snap)
+    end
 end
 
-utils.getmaxfftsize = function(fft_string)
+utils.get_max_fft_size = function(fft_string)
     -- Given the three fftsettings values find the maximum fft size
     -- We have to do this because you can pass 1 as a valid argument
-    local split_settings = utils.spacesplit(fft_string)
+    local split_settings = utils.split_space(fft_string)
     local window = split_settings[1] 
     local fft = split_settings[3]
     local adjusted_fft = ""
 
     if fft == "1" then 
-        adjusted_fft = utils.nextpowstr(tonumber(window)) 
+        adjusted_fft = utils.next_pow_str(tonumber(window), 'string') 
         return adjusted_fft
     else
         return fft
@@ -78,14 +83,14 @@ utils.uuid = function(idx)
     return tostring(reaper.time_precise()):gsub("%.+", "") .. idx
 end
 
-utils.cmdline = function(command)
+utils.cmdline = function(invocation)
     -- Calls the <command> at the system's shell
     -- The implementation slightly differs for each operating system
     -- 06/08/2020 23:26:07 Seems ExecProcess works equally well everywhere
     -- local opsys = reaper.GetOS()
     -- if opsys == "Win64" then retval = reaper.ExecProcess(command, 0) end
     -- if opsys == "OSX64" or opsys == "Other" then  retval = reaper.ExecProcess(command, 0) end
-    local retval = reaper.ExecProcess(command, 0)
+    local retval = reaper.ExecProcess(invocation, 0)
     
     if not retval then
         utils.DEBUG("There was an error executing the command: "..command)
@@ -105,13 +110,13 @@ utils.assert = function(test)
     assert(test, "Fatal ReaCoMa error! An assertion has failed. Refer to the console for more information. If you provide a bug report it is useful to include the output of this window and the console.")
 end
 
-utils.website = function(website)
+utils.open_browser = function(url)
     local opsys = reaper.GetOS()
     local retval = ""
     if opsys == "Win64" then
-        utils.cmdline("explorer " .. website)
+        utils.cmdline("explorer " .. url)
     else
-        retval = os.execute("open "..website)
+        retval = os.execute("open " .. url)
         utils.assert(retval)
     end
 end
@@ -126,7 +131,7 @@ utils.stosamps = function(seconds, samplerate)
     return math.floor((seconds * samplerate) + 0.5)
 end
 
-utils.basedir = function(path, separator)
+utils.dir_parent = function(path, separator)
     -- Returns the base directory of a <path>
     -- for example /foo/bar/script.lua >>> /foo/bar/
     -- Optionally provide a <separator>
@@ -161,7 +166,7 @@ end
 utils.stem = function(path)
     -- Returns the stem of a path
     -- /foo/bar/script.lua >> script
-    local _, file, _ = path:match("(.-)([^\\/]-%.?([^%.\\/]*))$") -- TODO make this the only way of parsing strings
+    local _, file, _ = path:match("(.-)([^\\/]-%.?([^%.\\/]*))$")
     return file
 end
 
@@ -196,7 +201,7 @@ utils.check_extension = function(path)
     end
 end
 
-utils.rmtrailslash = function(input_string)
+utils.rm_trailing_slash = function(input_string)
     -- Remove trailing slash from an <input_string>. 
     -- Will not remove slash if it is the only character.
     return input_string:gsub('(.)%/$', '%1')
@@ -234,7 +239,7 @@ utils.readfile = function(file)
     return content
 end
 
-utils.commasplit = function(input_string)
+utils.split_comma = function(input_string)
     -- Splits an <input_string> seperated by "," into a table
     local t = {}
     for word in string.gmatch(input_string, '([^,]+)') do
@@ -243,7 +248,7 @@ utils.commasplit = function(input_string)
     return t
 end
 
-utils.linesplit = function(input_string)
+utils.split_line = function(input_string)
     -- Splits an <input_string> seperated by line endings into a table
     local t = {}
     for word in string.gmatch(input_string,"(.-)\r?\n") do
@@ -252,14 +257,14 @@ utils.linesplit = function(input_string)
     return t
 end
 
-utils.spacesplit = function(input_string)
+utils.split_space = function(input_string)
     -- Splits an <input_string> seperated by spaces into a table
     local t = {}
     for word in input_string:gmatch("%w+") do table.insert(t, word) end
     return t
 end
 
-utils.lacetables = function(table1, table2)
+utils.lace_tables = function(table1, table2)
     -- Lace the contents of <table1> and <table2> together
     -- 1, 2, 3  and foo, bar, baz become..gfx.a
     -- 1, foo, 2, bar, 3, baz
@@ -278,7 +283,7 @@ utils.rmdelim = function(input_string)
     return nospace
 end
 
-utils.doublequote = function(input_string)
+utils.wrap_quotes = function(input_string)
     -- Surrounds an <input_string> with quotation marks
     -- This is almost always required for passing things to the command line
     return '"'..input_string..'"'

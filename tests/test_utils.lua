@@ -7,7 +7,7 @@ describe("Reverse Table", function()
   it("should reverse a table", function()
     foo = {1, 2, 3, 4, 5}
     rev = {5, 4, 3, 2, 1}
-    utils.reversetable(foo)
+    utils.reverse_table(foo)
     assert.are_same(foo, rev)
   end)
 end)
@@ -24,16 +24,16 @@ describe("Find next power of two from string", function()
     c8 = "2001 1 2048"
     c9 = "4003 1 4096"
     c10 = "8100 1 8192"
-    assert.are.same(utils.getmaxfftsize(c1), "512")
-    assert.are.same(utils.getmaxfftsize(c2), "1024")
-    assert.are.same(utils.getmaxfftsize(c3), "2048")
-    assert.are.same(utils.getmaxfftsize(c4), "4096")
-    assert.are.same(utils.getmaxfftsize(c5), "8192")
-    assert.are.same(utils.getmaxfftsize(c6), "512")
-    assert.are.same(utils.getmaxfftsize(c7), "1024")
-    assert.are.same(utils.getmaxfftsize(c8), "2048")
-    assert.are.same(utils.getmaxfftsize(c9), "4096")
-    assert.are.same(utils.getmaxfftsize(c10), "8192")
+    assert.are.same(utils.get_max_fft_size(c1), "512")
+    assert.are.same(utils.get_max_fft_size(c2), "1024")
+    assert.are.same(utils.get_max_fft_size(c3), "2048")
+    assert.are.same(utils.get_max_fft_size(c4), "4096")
+    assert.are.same(utils.get_max_fft_size(c5), "8192")
+    assert.are.same(utils.get_max_fft_size(c6), "512")
+    assert.are.same(utils.get_max_fft_size(c7), "1024")
+    assert.are.same(utils.get_max_fft_size(c8), "2048")
+    assert.are.same(utils.get_max_fft_size(c9), "4096")
+    assert.are.same(utils.get_max_fft_size(c10), "8192")
   end)
 end)
 
@@ -48,15 +48,15 @@ describe("Find next power of 2", function()
     c7 = 19
     c8 = 500
     c9 = 1000
-    assert.are_same(utils.nextpowstr(c1), '4')
-    assert.are_same(utils.nextpowstr(c2), '8')
-    assert.are_same(utils.nextpowstr(c3), '8')
-    assert.are_same(utils.nextpowstr(c4), '16')
-    assert.are_same(utils.nextpowstr(c5), '16')
-    assert.are_same(utils.nextpowstr(c6), '65536')
-    assert.are_same(utils.nextpowstr(c7), '32')
-    assert.are_same(utils.nextpowstr(c8), '512')
-    assert.are_same(utils.nextpowstr(c9), '1024')
+    assert.are_same(utils.next_pow_str(c1), '4')
+    assert.are_same(utils.next_pow_str(c2), '8')
+    assert.are_same(utils.next_pow_str(c3), '8')
+    assert.are_same(utils.next_pow_str(c4), '16')
+    assert.are_same(utils.next_pow_str(c5), '16')
+    assert.are_same(utils.next_pow_str(c6), '65536')
+    assert.are_same(utils.next_pow_str(c7), '32')
+    assert.are_same(utils.next_pow_str(c8), '512')
+    assert.are_same(utils.next_pow_str(c9), '1024')
   end)
 end)
 
@@ -94,10 +94,10 @@ describe("Get the base dir", function()
     c2 = "/home/james/path/"
     c3 = "/home/james/path"
     c4 = "/home/james/path/foo"
-    assert.are_same(utils.basedir(c1), "/home/james/path/")
-    assert.are_same(utils.basedir(c2), "/home/james/path/")
-    assert.are_same(utils.basedir(c3), "/home/james/")
-    assert.are_same(utils.basedir(c4), "/home/james/path/")
+    assert.are_same(utils.dir_parent(c1), "/home/james/path/")
+    assert.are_same(utils.dir_parent(c2), "/home/james/path/")
+    assert.are_same(utils.dir_parent(c3), "/home/james/")
+    assert.are_same(utils.dir_parent(c4), "/home/james/path/")
   end)
 end)
 
@@ -118,8 +118,8 @@ describe("Remove trailing slash", function()
   it("Removes a trailing slash from a path", function()
     c1 = "/home/james/path/foo.lua/"
     c2 = "/home/james/path/"
-    assert.are_same(utils.rmtrailslash(c1), "/home/james/path/foo.lua")
-    assert.are_same(utils.rmtrailslash(c2), "/home/james/path")
+    assert.are_same(utils.rm_trailing_slash(c1), "/home/james/path/foo.lua")
+    assert.are_same(utils.rm_trailing_slash(c2), "/home/james/path")
   end)
 end)
 
@@ -132,7 +132,7 @@ describe("Check comma splitting is predictable", function()
       "param3",
       "param5"
     }
-    assert.are_same(utils.commasplit(c1), test_case)
+    assert.are_same(utils.split_comma(c1), test_case)
   end)
 end)
 
@@ -145,7 +145,7 @@ describe("Check space splitting is predictable", function()
       "param3",
       "param5"
     }
-    assert.are_same(utils.spacesplit(c1), test_case)
+    assert.are_same(utils.split_space(c1), test_case)
   end)
 end)
 
@@ -155,7 +155,7 @@ describe("Lacing tables is predictable", function()
     left = {0.0, 100.0, 300.1}
     right = {78.0, 299.0}
     expected = {0.0, 78.0, 100.0, 299.0, 300.1}
-    assert.are_same(utils.lacetables(left, right), expected)
+    assert.are_same(utils.lace_tables(left, right), expected)
   end)
 end)
 
@@ -167,15 +167,15 @@ describe("Remove delimiters", function()
   end)
 end)
 
-describe("Doublequote a string for CLI", function()
+describe("wrap_quotes a string for CLI", function()
   it("Should return something that is double quoted", function()
     c1 = '/home/james/Documents/Max 8/Packages/Worst Path Ever'
     c2 = "/home/james/Documents/Max 8/Packages/Worst Path Ever"
 
     expected = '"/home/james/Documents/Max 8/Packages/Worst Path Ever"'
 
-    assert.are_same(utils.doublequote(c1), expected)
-    assert.are_same(utils.doublequote(c2), expected)
+    assert.are_same(utils.wrap_quotes(c1), expected)
+    assert.are_same(utils.wrap_quotes(c2), expected)
 
   end)
 end)
@@ -192,9 +192,9 @@ end)
 --       "param3",
 --       "param5"
 --     }
---     assert.are.equals(utils.linesplit(c1), test_case)
---     assert.are.equals(utils.linesplit(c2), test_case)
---     assert.are.equals(utils.linesplit(c3), test_case)
+--     assert.are.equals(utils.split_line(c1), test_case)
+--     assert.are.equals(utils.split_line(c2), test_case)
+--     assert.are.equals(utils.split_line(c3), test_case)
 
 --   end)
 -- end)

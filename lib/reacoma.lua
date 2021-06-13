@@ -61,7 +61,7 @@ end
 reacoma.settings.path = reacoma.paths.get_reacoma_path() 
 
 -- Check for versions
-local get_version = reacoma.utils.doublequote(
+local get_version = reacoma.utils.wrap_quotes(
     reacoma.settings.path .. "/fluid-noveltyslice"
 ) .. " -v"
 
@@ -79,7 +79,7 @@ if not reacoma.bypass_version then
             "The version of ReaCoMa is not tested with the currently installed command-line tools version and may fail or produce undefined behaviour. \n\nReaCoMa can take you to the download page by clicking OK, or you can move on by clicking Cancel. Alternatively, to disable this message forever change reacoma.bypass_version in config.lua to true.",
             "Version Incompatability", 1)
         if retval == 1 then
-            reacoma.utils.website("https://www.flucoma.org/download/")
+            reacoma.utils.open_browser("https://www.flucoma.org/download/")
         end
         reacoma.settings.fatal = false -- for now everything is fine, we dont need to test versions that thoroughly anymore
     end

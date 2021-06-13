@@ -149,7 +149,7 @@ params.parse_params = function(parameter_names, processor)
     -- Provide captions in,
     -- turn this into a string of parameter values to be provided to the user
     -- We do this because iterating tables is not deterministic
-    local split_params = utils.commasplit(parameter_names)
+    local split_params = utils.split_comma(parameter_names)
     local param_values = {}
     for i=1, #split_params do
         param_values[#param_values+1] = reaper.GetExtState(processor.name, split_params[i])
@@ -162,8 +162,8 @@ params.store_params = function(processor, parameter_names, parameter_values)
     -- This lets you re-use non, hardcoded values to store
     -- Store the numbers in the external state of reaper
     -- Processor tells you what the name of the object is and where to store
-    local n = utils.commasplit(parameter_names)
-    local v = utils.commasplit(parameter_values)
+    local n = utils.split_comma(parameter_names)
+    local v = utils.split_comma(parameter_values)
 
     for i=1, #n do
         reaper.SetExtState(processor.name, n[i], v[i], true)

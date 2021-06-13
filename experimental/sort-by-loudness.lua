@@ -3,8 +3,8 @@ local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
 loadfile(script_path .. "../lib/reacoma.lua")()
 
 local cli_path = reacoma.paths.get_reacoma_path()
-local descr_exe = reacoma.utils.doublequote(cli_path .. "/fluid-loudness")
-local stats_exe = reacoma.utils.doublequote(cli_path .. "/fluid-stats")
+local descr_exe = reacoma.utils.wrap_quotes(cli_path .. "/fluid-loudness")
+local stats_exe = reacoma.utils.wrap_quotes(cli_path .. "/fluid-stats")
 
 local num_selected_items = reaper.CountSelectedMediaItems(0)
 if num_selected_items > 0 then
@@ -18,7 +18,7 @@ if num_selected_items > 0 then
     if confirm then
         reacoma.params.store_params(processor, param_names, user_inputs)
         reaper.Undo_BeginBlock()
-        local params = reacoma.utils.commasplit(user_inputs)
+        local params = reacoma.utils.split_comma(user_inputs)
         local windowsize = params[1]
         local hopsize = params[2]
 
@@ -28,8 +28,8 @@ if num_selected_items > 0 then
             reacoma.sorting.get_data(i, data)
 
             local descr_cmd = descr_exe .. 
-            " -source " .. reacoma.utils.doublequote(data.full_path[i]) .. 
-            " -features " .. reacoma.utils.doublequote(data.tmp_descr[i]) .. 
+            " -source " .. reacoma.utils.wrap_quotes(data.full_path[i]) .. 
+            " -features " .. reacoma.utils.wrap_quotes(data.tmp_descr[i]) .. 
             " -windowsize " ..  windowsize ..
             " -hopsize " .. hopsize ..
             " -startframe " .. data.take_ofs_samples[i] ..
@@ -37,8 +37,8 @@ if num_selected_items > 0 then
             table.insert(data.descr_cmd, descr_cmd)
 
             local stats_cmd = stats_exe .. 
-            " -source " .. reacoma.utils.doublequote(data.tmp_descr[i]) .. 
-            " -stats " .. reacoma.utils.doublequote(data.tmp_stats[i]) ..
+            " -source " .. reacoma.utils.wrap_quotes(data.tmp_descr[i]) .. 
+            " -stats " .. reacoma.utils.wrap_quotes(data.tmp_stats[i]) ..
             " -numderivs 0"
 
             table.insert(data.stats_cmd, stats_cmd)
@@ -56,7 +56,7 @@ if num_selected_items > 0 then
             local temporary_stats = {}
 
             for line in io.lines(data.tmp_stats[i]) do
-                table.insert(temporary_stats, reacoma.utils.commasplit(line))
+                table.insert(temporary_stats, reacoma.utils.split_comma(line))
             end
         
             -- Take the median of every channel --

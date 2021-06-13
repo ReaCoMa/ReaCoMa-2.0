@@ -4,7 +4,7 @@ loadfile(script_path .. "lib/reacoma.lua")()
 
 if reacoma.settings.fatal then return end
 
-local exe = reacoma.utils.doublequote(
+local exe = reacoma.utils.wrap_quotes(
     reacoma.settings.path .. "/fluid-transients"
 )
 
@@ -20,7 +20,7 @@ if num_selected_items > 0 then
     if confirm then 
         reacoma.params.store_params(processor, param_names, user_inputs)
         
-        local params = reacoma.utils.commasplit(user_inputs)
+        local params = reacoma.utils.split_comma(user_inputs)
         local order = params[1]
         local blocksize = params[2]
         local padsize = params[3]
@@ -54,9 +54,9 @@ if num_selected_items > 0 then
             table.insert(
                 data.cmd, 
                 exe .. 
-                " -source " .. reacoma.utils.doublequote(data.full_path[i]) .. 
-                " -transients " .. reacoma.utils.doublequote(data.outputs.transients[i]) .. 
-                " -residual " .. reacoma.utils.doublequote(data.outputs.residual[i]) ..
+                " -source " .. reacoma.utils.wrap_quotes(data.full_path[i]) .. 
+                " -transients " .. reacoma.utils.wrap_quotes(data.outputs.transients[i]) .. 
+                " -residual " .. reacoma.utils.wrap_quotes(data.outputs.residual[i]) ..
                 " -order " .. order ..
                 " -blocksize " .. blocksize ..
                 " -padsize " .. padsize ..

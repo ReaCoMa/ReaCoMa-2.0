@@ -63,7 +63,7 @@ paths.path_setter = function()
     local cancel, input = reaper.GetUserInputs("Set path to FluCoMa Executables", 1, "Path:, extrawidth=200", "/usr/local/bin")
     input = paths.expandtilde(input)
     if cancel ~= false then
-        local input_path = utils.rmtrailslash(input)
+        local input_path = utils.rm_trailing_slash(input)
         if paths.is_path_valid(input_path, true) == true then return true end
     else
         reaper.ShowMessageBox("Your path remains unconfigured. The script will now exit.", "Warning", 0)

@@ -4,7 +4,7 @@ loadfile(script_path .. "../lib/reacoma.lua")()
 
 if reacoma.settings.fatal then return end
 
-local exe = reacoma.utils.doublequote(
+local exe = reacoma.utils.wrap_quotes(
     reacoma.settings.path .. "/fluid-noveltyslice"
 )
 
@@ -22,7 +22,7 @@ if num_selected_items > 0 then
         reaper.Undo_BeginBlock()
         reacoma.params.store_params(processor, param_names, user_inputs)
 
-        local params = reacoma.utils.commasplit(user_inputs)
+        local params = reacoma.utils.split_comma(user_inputs)
         local feature = params[1]
         local threshold = params[2]
         local kernelsize = params[3]
@@ -38,9 +38,9 @@ if num_selected_items > 0 then
         local function form_string(kernelsize, item_index)
             local temp_file = data.full_path[item_index] .. reacoma.utils.uuid(item_index) .. "fs.csv"
             local cmd_string = exe ..
-            " -source " .. reacoma.utils.doublequote(data.full_path[item_index]) .. 
-            " -indices " .. reacoma.utils.doublequote(temp_file) .. 
-            " -maxfftsize " .. reacoma.utils.getmaxfftsize(fftsettings) ..
+            " -source " .. reacoma.utils.wrap_quotes(data.full_path[item_index]) .. 
+            " -indices " .. reacoma.utils.wrap_quotes(temp_file) .. 
+            " -maxfftsize " .. reacoma.utils.get_max_fft_size(fftsettings) ..
             " -maxkernelsize " .. kernelsize ..
             " -maxfiltersize " .. filtersize ..
             " -feature " .. feature ..
@@ -73,7 +73,7 @@ if num_selected_items > 0 then
             -- Do an initial pass
             local cmd, temp_file = form_string(curr_thresh, i)
             reacoma.utils.cmdline(cmd)
-            prev_slices = #reacoma.utils.commasplit(reacoma.utils.readfile(temp_file))
+            prev_slices = #reacoma.utils.split_comma(reacoma.utils.readfile(temp_file))
             os.remove(temp_file)
             
             -- start searching --
@@ -89,7 +89,7 @@ if num_selected_items > 0 then
                     
                     local cmd, temp_file = form_string(curr_thresh, i)
                     reacoma.utils.cmdline(cmd)
-                    num_slices = #reacoma.utils.commasplit(reacoma.utils.readfile(temp_file))
+                    num_slices = #reacoma.utils.split_comma(reacoma.utils.readfile(temp_file))
                     
                     if math.abs(target_slices - num_slices) <= tolerance then
                         --*************************************--

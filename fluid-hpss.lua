@@ -4,7 +4,7 @@ loadfile(script_path .. "lib/reacoma.lua")()
 
 if reacoma.settings.fatal then return end
 
-local exe = reacoma.utils.doublequote(
+local exe = reacoma.utils.wrap_quotes(
     reacoma.settings.path .. "/fluid-hpss"
 )
 
@@ -20,7 +20,7 @@ if num_selected_items > 0 then
     if confirm then 
         reacoma.params.store_params(processor, param_names, user_inputs)
 
-        local params = reacoma.utils.commasplit(user_inputs)
+        local params = reacoma.utils.split_comma(user_inputs)
         local hfs = params[1]
         local pfs = params[2]
         local maskingmode = params[3]
@@ -68,12 +68,12 @@ if num_selected_items > 0 then
                 table.insert(
                     data.cmd, 
                     exe .. 
-                    " -source " .. reacoma.utils.doublequote(data.full_path[i]) .. 
-                    " -harmonic " .. reacoma.utils.doublequote(data.outputs.harmonic[i]) .. 
-                    " -maxfftsize " .. reacoma.utils.getmaxfftsize(fftsettings) ..
+                    " -source " .. reacoma.utils.wrap_quotes(data.full_path[i]) .. 
+                    " -harmonic " .. reacoma.utils.wrap_quotes(data.outputs.harmonic[i]) .. 
+                    " -maxfftsize " .. reacoma.utils.get_max_fft_size(fftsettings) ..
                     " -maxharmfiltersize " .. hfs ..
                     " -maxpercfiltersize " .. pfs ..
-                    " -percussive " .. reacoma.utils.doublequote(data.outputs.percussive[i]) ..  
+                    " -percussive " .. reacoma.utils.wrap_quotes(data.outputs.percussive[i]) ..  
                     " -harmfiltersize " .. hfs .. 
                     " -percfiltersize " .. pfs .. 
                     " -maskingmode " .. maskingmode ..
@@ -87,12 +87,12 @@ if num_selected_items > 0 then
                 table.insert(
                     data.cmd, 
                     exe .. 
-                    " -source " .. reacoma.utils.doublequote(data.full_path[i]) .. 
-                    " -harmonic " .. reacoma.utils.doublequote(data.outputs.harmonic[i]) ..
-                    " -maxfftsize " .. reacoma.utils.getmaxfftsize(fftsettings) ..
+                    " -source " .. reacoma.utils.wrap_quotes(data.full_path[i]) .. 
+                    " -harmonic " .. reacoma.utils.wrap_quotes(data.outputs.harmonic[i]) ..
+                    " -maxfftsize " .. reacoma.utils.get_max_fft_size(fftsettings) ..
                     " -maxharmfiltersize " .. hfs ..
                     " -maxpercfiltersize " .. pfs .. 
-                    " -percussive " .. reacoma.utils.doublequote(data.outputs.percussive[i]) ..  
+                    " -percussive " .. reacoma.utils.wrap_quotes(data.outputs.percussive[i]) ..  
                     " -harmfiltersize " .. hfs .. 
                     " -percfiltersize " .. pfs .. 
                     " -maskingmode " .. maskingmode .. 
@@ -107,13 +107,13 @@ if num_selected_items > 0 then
                 table.insert(
                     data.cmd, 
                     exe .. 
-                    " -source " .. reacoma.utils.doublequote(data.full_path[i]) .. 
-                    " -harmonic " .. reacoma.utils.doublequote(data.outputs.harmonic[i]) ..
-                    " -maxfftsize " .. reacoma.utils.getmaxfftsize(fftsettings) ..
+                    " -source " .. reacoma.utils.wrap_quotes(data.full_path[i]) .. 
+                    " -harmonic " .. reacoma.utils.wrap_quotes(data.outputs.harmonic[i]) ..
+                    " -maxfftsize " .. reacoma.utils.get_max_fft_size(fftsettings) ..
                     " -maxharmfiltersize " .. hfs ..
                     " -maxpercfiltersize " .. pfs .. 
-                    " -percussive " .. reacoma.utils.doublequote(data.outputs.percussive[i]) .. 
-                    " -residual " .. reacoma.utils.doublequote(data.outputs.residual[i]) .. 
+                    " -percussive " .. reacoma.utils.wrap_quotes(data.outputs.percussive[i]) .. 
+                    " -residual " .. reacoma.utils.wrap_quotes(data.outputs.residual[i]) .. 
                     " -harmfiltersize " .. hfs .. 
                     " -percfiltersize " .. pfs .. 
                     " -maskingmode " .. maskingmode .. 

@@ -4,7 +4,7 @@ loadfile(script_path .. "lib/reacoma.lua")()
 
 if reacoma.settings.fatal then return end
 
-local exe = reacoma.utils.doublequote(
+local exe = reacoma.utils.wrap_quotes(
     reacoma.settings.path .. "/fluid-ampgate"
 )
 
@@ -19,7 +19,7 @@ if num_selected_items > 0 then
     if confirm then
         reacoma.params.store_params(processor, param_names, user_inputs)
         
-        local params = reacoma.utils.commasplit(user_inputs)
+        local params = reacoma.utils.split_comma(user_inputs)
         local rampup = params[1]
         local rampdown = params[2]
         local onthreshold = params[3]
@@ -40,8 +40,8 @@ if num_selected_items > 0 then
             reacoma.slicing.get_data(i, data)
 
             local cmd = exe .. 
-            " -source " .. reacoma.utils.doublequote(data.full_path[i]) .. 
-            " -indices " .. reacoma.utils.doublequote(data.tmp[i]) ..
+            " -source " .. reacoma.utils.wrap_quotes(data.full_path[i]) .. 
+            " -indices " .. reacoma.utils.wrap_quotes(data.tmp[i]) ..
             " -maxsize "  .. math.max(tonumber(minlengthabove) + tonumber(lookback), math.max(tonumber(minlengthbelow),tonumber(lookahead))) ..
             " -rampup " .. rampup ..
             " -rampdown " .. rampdown ..
@@ -62,15 +62,15 @@ if num_selected_items > 0 then
         for i=1, num_selected_items do
             reacoma.utils.cmdline(data.cmd[i])
             local var = reacoma.utils.readfile(data.tmp[i])
-            local channel_split = reacoma.utils.linesplit(var)
-            local onsets = reacoma.utils.commasplit(channel_split[1])
-            local offsets = reacoma.utils.commasplit(channel_split[2])
+            local channel_split = reacoma.utils.split_line(var)
+            local onsets = reacoma.utils.split_comma(channel_split[1])
+            local offsets = reacoma.utils.split_comma(channel_split[2])
             local laced = nil
             if onsetsonly == 1 then
                 laced = onsets
                 mute = 0
             else 
-                laced = reacoma.utils.lacetables(onsets, offsets)
+                laced = reacoma.utils.lace_tables(onsets, offsets)
             end
             local dumb_string = ""
             local state_state = nil
