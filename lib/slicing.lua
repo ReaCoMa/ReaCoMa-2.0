@@ -84,63 +84,42 @@ slicing.get_data = function (item_index, data)
     table.insert(data.playrate, playrate)
 end
 
-slicing.process = function(item_index, data)
+slicing.process = function(item_index, data, mute_state)
+
+
     -- Thank you to Francesco Cameli for helping me debug this absolute NIGHTMARE --
-    local slice_points = utils.split_comma(data.slice_points_string[item_index])
+    local slice_points = utils.split_comma(
+        data.slice_points_string[item_index]
+    )
+
     slice_points = slicing.rm_dup(slice_points)
+
+    -- If the init_mute_state is passed its a gate-baseds slice (fluid.ampgate~)
+    -- Otherwise its not
+    local gate_based_slicer = false
+    local mute_state = mute_state
+
+    if mute_state == 0 or mute_state == 1 then 
+        gate_based_slicer = true
+
+        -- Also test if the slice points are logical, otherwise exit
+        if slice_points[1] == "-1" or slice_points[2] == "-1" then 
+            return 
+        end
+    end
 
     -- Invert the table around the middle point (mirror!)
     if data.reverse[item_index] then
         for i=1, #slice_points do
-            slice_points[i] = data.item_len_samples[item_index] - slice_points[i]
+            slice_points[i] = (
+                data.item_len_samples[item_index] - slice_points[i]
+            )   
         end
         utils.reverse_table(slice_points)
     end
     
     -- if the left boundary is the start remove it
-    if tonumber(slice_points[1]) == data.take_ofs_samples[item_index] then table.remove(slice_points, 1) end
-
-    -- now sanitise the numbers to adjust for the take offset and playback rate
-    for i=1, #slice_points do
-        if data.reverse[item_index] then
-            slice_points[i] = (slice_points[i] + data.take_ofs_samples[item_index]) * (1 / data.playrate[item_index])
-        else
-            slice_points[i] = (slice_points[i] - data.take_ofs_samples[item_index]) * (1 / data.playrate[item_index])
-        end
-    end
-
-    for j=1, #slice_points do
-        slice_pos = utils.sampstos(
-            tonumber(slice_points[j]), 
-            data.sr[item_index]
-        )
-        slice_pos = data.item_pos[item_index] + slice_pos
-        data.item[item_index] = reaper.SplitMediaItem(
-            data.item[item_index], 
-            slice_pos
-        )
-    end
-end
-
-slicing.process_gate = function(item_index, data, init_state)
-    local state = init_state
-    local slice_points = utils.split_comma(data.slice_points_string[item_index])
-    slice_points = slicing.rm_dup(slice_points)
-
-    if slice_points[1] == "-1" or slice_points[2] == "-1" then 
-        return 
-    end
-
-    -- Invert the table around the middle point (mirror!)
-    if data.reverse[item_index] then
-        local half_length = (data.item_len_samples[item_index]) * 0.5
-        for i=1, #slice_points do
-            slice_points[i] = half_length + (half_length - slice_points[i])
-        end
-        utils.reverse_table(slice_points)
-    end
-
-    -- if the left boundary is the start remove it
+    -- This protects situations where the slice point is implicit in the boundaries of the media item
     if tonumber(slice_points[1]) == data.take_ofs_samples[item_index] then 
         table.remove(slice_points, 1) 
     end
@@ -159,16 +138,28 @@ slicing.process_gate = function(item_index, data, init_state)
             tonumber(slice_points[j]), 
             data.sr[item_index]
         )
-        
-        slice_pos = data.item_pos[item_index] + slice_pos  -- account for playback rate
-        reaper.SetMediaItemInfo_Value(data.item[item_index], "B_MUTE", state)
+        slice_pos = data.item_pos[item_index] + slice_pos -- account for playback rate
+
+        -- Handle muting for fluid.ampgate
+        if gate_based_slicer then
+            reaper.SetMediaItemInfo_Value(
+                data.item[item_index], 
+                "B_MUTE", 
+                mute_state
+            )
+            -- invert the mute state
+            if mute_state == 1 then 
+                mute_state = 0 else 
+                mute_state = 1 end
+        end
+
+
+
         data.item[item_index] = reaper.SplitMediaItem(
             data.item[item_index], 
             slice_pos
         )
-        if state == 1 then state = 0 else state = 1 end
     end
-    reaper.SetMediaItemInfo_Value(data.item[item_index], "B_MUTE", state)
 end
 
 return slicing
