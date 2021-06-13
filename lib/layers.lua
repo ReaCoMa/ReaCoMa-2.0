@@ -67,7 +67,7 @@ layers.get_data = function (item_index, data)
 
     -- This line caps the analysis at one loop
     if (item_len + take_ofs) > (src_len * (1 / playrate)) then 
-        item_len = (src_len * (1 / playrate))
+        item_len = ((src_len - take_ofs) * (1 / playrate))
     end
 
     local take_ofs_samples = reacoma.utils.stosamps(take_ofs, sr)
