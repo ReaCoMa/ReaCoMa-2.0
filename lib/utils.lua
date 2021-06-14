@@ -12,7 +12,7 @@ utils.deep_copy = function(obj, seen)
   local s = seen or {}
   local res = setmetatable({}, getmetatable(obj))
   s[obj] = res
-  for k, v in pairs(obj) do res[copy(k, s)] = copy(v, s) end
+  for k, v in pairs(obj) do res[utils.deep_copy(k, s)] = utils.deep_copy(v, s) end
   return res
 end
 

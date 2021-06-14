@@ -5,12 +5,23 @@ loadfile(script_path .. "lib/reacoma.lua")()
 if reacoma.settings.fatal then return end
 
 local data = {
-  threshold = 0.5,
+  threshold = {
+    value = 0.5,
+  },
+  kernelsize = {
+    value = 3,
+  }
 }
 
-local history = reacoma.utils.deep_copy(data)
+local state = {}
+local undo = false
 
 local frame_count = 0
+local code = ''
+local last = ''
+
+-- local data = reacoma.utils.deep_copy(reacoma.slicing.container)
+
 
 reaper.defer(function()
   ctx = reaper.ImGui_CreateContext('Dynamic Slicing', 350, 50)
@@ -21,21 +32,37 @@ end)
 function frame()
   -- per frame stuff
   if reaper.ImGui_Button(ctx, 'Click me!') then
+    if #touched_items >= 1 then
+      for i=1, #touched_items do
+
+      end
+    end
   end
 
-  if history.threshold ~= data.threshold then
-    history = data
-    reaper.ShowConsoleMsg('not the same')
-    -- slice()
+  data.threshold.change, data.threshold.value = reaper.ImGui_SliderDouble(ctx, 'Threshold', data.threshold.value, 0.0, 1.0)
+  data.kernelsize.change, data.kernelsize.value = reaper.ImGui_SliderInt(ctx, 'Kernelsize', data.kernelsize.value, 3, 21)
+
+  if data.threshold.change or data.kernelsize.change then
+
+    -- if undo then
+    --   code = reaper.Undo_CanUndo2(0)
+    -- end
+
+    -- if code == 'dynamic-slicing' then
+    --   reaper.Undo_DoUndo2(0)
+    -- end
+
+    reaper.Undo_BeginBlock2(0)
+    slice(data)
+    reaper.Undo_EndBlock2(0, 'dynamic-slicing', 4)
+    undo = true
   end
 
-
-  frame_count = frame_count + 1
   reaper.ImGui_SameLine(ctx)
   reaper.ImGui_Text(ctx, tostring(frame_count)) 
-  reaper.ImGui_Text(ctx, tostring(history.threshold))   
-  _, data.threshold = reaper.ImGui_SliderDouble(ctx, 'Threshold', data.threshold, 0.0, 1.0)
-  
+  reaper.ImGui_Text(ctx, tostring(code))   
+  reaper.ImGui_Text(ctx, tostring(last))   
+  data.change = 0
 end
 
 function loop()
@@ -53,7 +80,7 @@ function loop()
   reaper.defer(loop)
 end
 
-function slice()
+function slice(data)
   local exe = reacoma.utils.wrap_quotes(
       reacoma.settings.path .. "/fluid-noveltyslice"
   )
@@ -61,17 +88,17 @@ function slice()
   local num_selected_items = reaper.CountSelectedMediaItems(0)
   if num_selected_items > 0 then
     local feature = 0
-    local threshold = data.threshold
-    local kernelsize = 3
+    local threshold = data.threshold.value
+    local kernelsize = data.kernelsize.value
     local filtersize = 2
     local fftsettings = '1024 512 1024'
     local minslicelength = 2
-    
-    local data = reacoma.slicing.container
+
+    local data = reacoma.utils.deep_copy(reacoma.slicing.container)
 
     for i=1, num_selected_items do
         reacoma.slicing.get_data(i, data)
-        
+
         local cmd = exe .. 
         " -source " .. reacoma.utils.wrap_quotes(data.full_path[i]) .. 
         " -indices " .. reacoma.utils.wrap_quotes(data.tmp[i]) .. 
@@ -89,13 +116,16 @@ function slice()
         table.insert(data.cmd, cmd)
     end
 
+    touched_items[#touched_items+1] = data 
+
     for i=1, num_selected_items do
         reacoma.utils.cmdline(data.cmd[i])
         table.insert(data.slice_points_string, reacoma.utils.readfile(data.tmp[i]))
-        reacoma.slicing.process(i, data)
+        local take, points = reacoma.slicing.process(i, data)
+        state[#state+1] = { take, points }
     end
 
-    reacoma.utils.arrange("reacoma-noveltyslice")
+    reaper.UpdateArrange()
     reacoma.utils.cleanup(data.tmp)
   end
 end

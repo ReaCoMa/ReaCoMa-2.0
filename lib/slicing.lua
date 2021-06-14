@@ -16,7 +16,8 @@ slicing.container = {
     item = {},
     reverse = {},
     sr = {},
-    playrate = {}
+    playrate = {},
+    take = {}
 }
 
 slicing.rm_dup = function(slice_table)
@@ -32,7 +33,8 @@ slicing.rm_dup = function(slice_table)
     return res
 end
 
-slicing.get_data = function (item_index, data)
+slicing.get_data = function(item_index, data)
+
     local item = reaper.GetSelectedMediaItem(0, item_index-1)
     local take = reaper.GetActiveTake(item)
     local src = reaper.GetMediaItemTake_Source(take)
@@ -82,11 +84,10 @@ slicing.get_data = function (item_index, data)
     table.insert(data.item_len_samples, item_len_samples)
     table.insert(data.tmp, tmp)
     table.insert(data.playrate, playrate)
+    table.insert(data.take, take)
 end
 
 slicing.process = function(item_index, data, mute_state)
-
-
     -- Thank you to Francesco Cameli for helping me debug this absolute NIGHTMARE --
     local slice_points = utils.split_comma(
         data.slice_points_string[item_index]
@@ -133,6 +134,8 @@ slicing.process = function(item_index, data, mute_state)
         end
     end
 
+    local added_markers = {}
+
     for j=1, #slice_points do
         slice_pos = utils.sampstos(
             tonumber(slice_points[j]), 
@@ -141,25 +144,36 @@ slicing.process = function(item_index, data, mute_state)
         slice_pos = data.item_pos[item_index] + slice_pos -- account for playback rate
 
         -- Handle muting for fluid.ampgate
-        if gate_based_slicer then
-            reaper.SetMediaItemInfo_Value(
-                data.item[item_index], 
-                "B_MUTE", 
-                mute_state
+        -- if gate_based_slicer then
+        --     reaper.SetMediaItemInfo_Value(
+        --         data.item[item_index], 
+        --         "B_MUTE", 
+        --         mute_state
+        --     )
+        --     -- invert the mute state
+        --     if mute_state == 1 then 
+        --         mute_state = 0 else 
+        --         mute_state = 1 
+        --     end
+        -- end
+
+        -- data.item[item_index] = reaper.SplitMediaItem(
+        --     data.item[item_index], 
+        --     slice_pos
+        -- )
+        local colour = reaper.ColorToNative(0, 0, 0) | 0x1000000
+        added_markers[#added_markers+1] = (
+            reaper.SetTakeMarker(
+                data.take[item_index], 
+                -1, 
+                '', 
+                slice_pos, 
+                colour
             )
-            -- invert the mute state
-            if mute_state == 1 then 
-                mute_state = 0 else 
-                mute_state = 1 end
-        end
-
-
-
-        data.item[item_index] = reaper.SplitMediaItem(
-            data.item[item_index], 
-            slice_pos
         )
     end
+    return data.take, slice_points
+
 end
 
 return slicing
