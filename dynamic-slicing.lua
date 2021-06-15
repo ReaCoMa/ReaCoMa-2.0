@@ -13,7 +13,7 @@ local data = {
   }
 }
 
-local state = {}
+local state = {} -- contains recent changes to undo
 local undo = false
 
 local frame_count = 0
@@ -52,6 +52,9 @@ function frame()
     --   reaper.Undo_DoUndo2(0)
     -- end
 
+    for i=1, #state do
+      for j=1, #state
+    end
     reaper.Undo_BeginBlock2(0)
     slice(data)
     reaper.Undo_EndBlock2(0, 'dynamic-slicing', 4)
