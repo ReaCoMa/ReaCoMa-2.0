@@ -93,12 +93,11 @@ slicing.process = function(item_index, data, mute_state)
         data.slice_points_string[item_index]
     )
 
-    slice_points = slicing.rm_dup(slice_points)
+    -- slice_points = slicing.rm_dup(slice_points)
 
     -- If the init_mute_state is passed its a gate-baseds slice (fluid.ampgate~)
     -- Otherwise its not
     local gate_based_slicer = false
-    local mute_state = mute_state
 
     if mute_state == 0 or mute_state == 1 then 
         gate_based_slicer = true
@@ -128,20 +127,20 @@ slicing.process = function(item_index, data, mute_state)
     -- now sanitise the numbers to adjust for the take offset and playback rate
     for i=1, #slice_points do
         if data.reverse[item_index] then
-            slice_points[i] = (slice_points[i] + data.take_ofs_samples[item_index]) * (1 / data.playrate[item_index])
+            slice_points[i] = (slice_points[i] + data.take_ofs_samples[item_index]) / data.playrate[item_index]
         else
-            slice_points[i] = (slice_points[i] - data.take_ofs_samples[item_index]) * (1 / data.playrate[item_index])
+            slice_points[i] = (slice_points[i] - data.take_ofs_samples[item_index]) / data.playrate[item_index]
         end
-    end
-
-    local added_markers = {}
-
-    for j=1, #slice_points do
-        slice_pos = utils.sampstos(
-            tonumber(slice_points[j]), 
+        -- and convert to seconds for REAPER
+        slice_points[i] = utils.sampstos(
+            tonumber(slice_points[i]),
             data.sr[item_index]
         )
-        slice_pos = data.item_pos[item_index] + slice_pos -- account for playback rate
+    end
+
+    for i=1, #slice_points do
+        local slice_pos = slice_points[i]
+        -- slice_pos = data.item_pos[item_index] + slice_pos
 
         -- Handle muting for fluid.ampgate
         -- if gate_based_slicer then
@@ -156,24 +155,15 @@ slicing.process = function(item_index, data, mute_state)
         --         mute_state = 1 
         --     end
         -- end
-
-        -- data.item[item_index] = reaper.SplitMediaItem(
-        --     data.item[item_index], 
-        --     slice_pos
-        -- )
         local colour = reaper.ColorToNative(0, 0, 0) | 0x1000000
-        added_markers[#added_markers+1] = (
-            reaper.SetTakeMarker(
-                data.take[item_index], 
-                -1, 
-                '', 
-                slice_pos, 
-                colour
-            )
+        reaper.SetTakeMarker(
+            data.take[item_index], 
+            -1, 
+            '', 
+            slice_pos, 
+            colour
         )
     end
-    return data.take, slice_points
-
 end
 
 return slicing
