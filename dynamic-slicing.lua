@@ -1,19 +1,12 @@
 local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
 loadfile(script_path .. "lib/reacoma.lua")()
+loadfile(script_path .. "lib/reacoma.lua")()
 
 if reacoma.settings.fatal then return end
-
 reaper.Undo_BeginBlock2(0)
 
-local parameters = {
-    threshold = {
-        value = 0.5,
-    },
-    kernelsize = {
-        value = 3,
-    }
-}
+bool_to_number = { [true]=1, [false]=0 }
 
 local state = {}
 
@@ -27,7 +20,6 @@ reaper.defer(function()
 end)
 
 function frame()
-    
     if reaper.ImGui_Button(ctx, 'segment') then
         -- Slices need to be based on the markers not any other data
         local num_selected_items = reaper.CountSelectedMediaItems(0)
@@ -48,10 +40,16 @@ function frame()
         reaper.UpdateArrange()
     end
 
-    parameters.threshold.change, parameters.threshold.value = reaper.ImGui_SliderDouble(ctx, 'Threshold', parameters.threshold.value, 0.0, 1.0)
-    parameters.kernelsize.change, parameters.kernelsize.value = reaper.ImGui_SliderInt(ctx, 'Kernelsize', parameters.kernelsize.value, 3, 21)
-
-    if parameters.threshold.change or parameters.kernelsize.change then
+    local change = 0
+    for parameter, d in pairs(GUI) do
+        temp, d.value = d.widget(
+            ctx, 
+            d.name, d.value, d.min, d.max 
+        )
+        change = change + bool_to_number[temp]
+    end
+    
+    if change > 0 then
         
         -- Remove any previously made take markers
         local num_selected_items = reaper.CountSelectedMediaItems(0)
@@ -66,9 +64,8 @@ function frame()
     end
 
     reaper.ImGui_SameLine(ctx)
-    reaper.ImGui_Text(ctx, tostring(frame_count)) 
-    reaper.ImGui_Text(ctx, tostring(code))   
-    reaper.ImGui_Text(ctx, tostring(last))   
+    reaper.ImGui_Text(ctx, tostring(frame_count))
+    frame_count = frame_count + 1 
 end
 
 function loop()
@@ -94,8 +91,8 @@ function slice(data)
 
     local num_selected_items = reaper.CountSelectedMediaItems(0)
     local feature = 0
-    local threshold = parameters.threshold.value
-    local kernelsize = parameters.kernelsize.value
+    local threshold = GUI[1].value
+    local kernelsize = GUI[2].value
     local filtersize = 2
     local fftsettings = '1024 512 1024'
     local minslicelength = 2
@@ -117,9 +114,8 @@ function slice(data)
         " -minslicelength " .. minslicelength ..
         " -numframes " .. data.item_len_samples[i] .. 
         " -startframe " .. data.take_ofs_samples[i]
-        table.insert(data.cmd, cmd)
 
-        reacoma.utils.cmdline(data.cmd[i])
+        reacoma.utils.cmdline(cmd)
         table.insert(data.slice_points_string, reacoma.utils.readfile(data.tmp[i]))
         reacoma.slicing.process(i, data)
     end
