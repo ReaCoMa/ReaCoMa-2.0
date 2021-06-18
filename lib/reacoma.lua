@@ -22,6 +22,9 @@ reacoma.slicing = require("slicing")
 reacoma.sorting = require("sorting")
 reacoma.tagging = require("tagging")
 reacoma.utils = require("utils")
+
+-- Import algorithms
+reacoma.noveltyslice = require("algos/noveltyslice")
 reacoma.settings = {}
 
 -- High level information about reacoma
