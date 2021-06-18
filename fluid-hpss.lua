@@ -28,7 +28,9 @@ if num_selected_items > 0 then
         local hthresh = params[5]
         local pthresh = params[6]
 
-        local data = reacoma.layers.container
+        local data = reacoma.utils.deep_copy(
+            reacoma.layers.container
+        )
 
         -- Set up the outputs
         if maskingmode == "0" or maskingmode == "1" then
