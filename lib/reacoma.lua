@@ -101,3 +101,4 @@ if not reaper.ImGui_GetVersion then
     reacoma.settings.fatal = true
 end
 
+reaper.Undo_BeginBlock2(0)
