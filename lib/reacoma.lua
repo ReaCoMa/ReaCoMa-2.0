@@ -1,5 +1,5 @@
 ----------------------------------------------------------
--- ReaCoMa by James Bradbury | james.bradbury@hud.ac.uk --
+--   ReaCoMa by James Bradbury | hello@jamesbradbury.xyz   --
 ----------------------------------------------------------
 -- This is the entry point to the REACOMA library
 -- Taking the path of THIS script we then append that folder to the package path
