@@ -78,7 +78,7 @@ local valid_version = installed_tools_version:find(reacoma.dep)
 -- Check that the version of installed tools matches the marked version in the code
 if not reacoma.bypass_version then
     if valid_version < 1 then
-        local retval = reaper.ShowMessageBox(
+        local rv = reaper.ShowMessageBox(
             "The version of ReaCoMa is not tested with the currently installed command-line tools version and may fail or produce undefined behaviour. \n\nReaCoMa can take you to the download page by clicking OK, or you can move on by clicking Cancel. Alternatively, to disable this message forever change reacoma.bypass_version in config.lua to true.",
             "Version Incompatability", 1)
         if retval == 1 then
@@ -87,3 +87,16 @@ if not reacoma.bypass_version then
         reacoma.settings.fatal = false -- for now everything is fine, we dont need to test versions that thoroughly anymore
     end
 end
+
+-- Check tht imgui exists
+if not reaper.ImGui_GetVersion then
+    local rv = reaper.ShowMessageBox(
+        "ReaImGui is a dependency of ReaCoMa version 2.0 and needs to be installed. \n\nReaCoMa can not install it for you, but it is simple to install. I suggest managing its installation through ReaPack. If you click OK, you will be taken to the ReaPack website which has instructions for installation.",
+        "Dependency Missing", 1
+    )
+    if rv == 1 then
+        reacoma.utils.open_browser("https://reapack.com/")
+    end
+    reacoma.settings.fatal = true
+end
+
