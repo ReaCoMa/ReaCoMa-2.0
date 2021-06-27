@@ -1,5 +1,7 @@
 utils = {}
 
+utils.bool_to_number = { [true]=1, [false]=0 }
+
 utils.DEBUG = function(string)
     -- Handy function for quickly debugging strings
     reaper.ShowConsoleMsg(string)
@@ -84,6 +86,10 @@ utils.get_max_fft_size = function(fft_string)
     else
         return fft
     end
+end
+
+utils.form_fft_string = function(window, hop, fft)
+    return string.format('%d %d %d', window, hop, fft)
 end
 
 utils.uuid = function(idx)
@@ -312,6 +318,7 @@ utils.get_item_info = function(item_index)
     local info = {}
     local item = reaper.GetSelectedMediaItem(0, item_index-1)
     local take = reaper.GetActiveTake(item)
+    local take_markers = reaper.GetNumTakeMarkers(take)
     local src = reaper.GetMediaItemTake_Source(take)
     local src_parent = reaper.GetMediaSourceParent(src)
     local sr = nil
@@ -353,6 +360,7 @@ utils.get_item_info = function(item_index)
     -- Yeah this is verbose but it makes it cleaner
     info.item = item
     info.take = take
+    info.take_markers = take_markers
     info.sr = sr
     info.full_path = full_path
     info.take_ofs = take_ofs

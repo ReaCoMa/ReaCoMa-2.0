@@ -21,6 +21,7 @@ slicing.container = {
     sr = {},
     playrate = {},
     take = {},
+    take_markers = {},
     path = {},
     playtype = {},
     outputs = {}
@@ -117,8 +118,7 @@ slicing.process = function(item_index, data, mute_state)
         local colour = reaper.ColorToNative(0, 0, 0) | 0x1000000
         reaper.SetTakeMarker(
             data.take[item_index], 
-            -1, 
-            '', 
+            -1, '', 
             slice_pos, 
             colour
         )

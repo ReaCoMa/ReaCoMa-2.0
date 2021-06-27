@@ -1,23 +1,14 @@
 local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
 loadfile(script_path .. "lib/reacoma.lua")()
-loadfile(script_path .. "lib/reacoma.lua")()
-
+ 
 if reacoma.settings.fatal then return end
 reaper.Undo_BeginBlock2(0)
 
-bool_to_number = { [true]=1, [false]=0 }
-
+local GUI = reacoma.noveltyslice.parameters
+local slicer = reacoma.noveltyslice
 local state = {}
-
-local frame_count = 0
-local code = ''
-
-reaper.defer(function()
-    ctx = reaper.ImGui_CreateContext('Dynamic Slicing', 350, 50)
-    viewport = reaper.ImGui_GetMainViewport(ctx)
-    loop()
-end)
+local preview = true
 
 function frame()
     if reaper.ImGui_Button(ctx, 'segment') then
@@ -25,6 +16,9 @@ function frame()
         local num_selected_items = reaper.CountSelectedMediaItems(0)
         for i=1, num_selected_items do
             local item = reaper.GetSelectedMediaItem(0, i-1)
+
+            -- If we have never sliced anything we need to do something
+            state = slicer.slice(GUI)
 
             local take = reaper.GetActiveTake(item)
             local take_markers = reaper.GetNumTakeMarkers(take)
@@ -39,34 +33,37 @@ function frame()
         end
         reaper.UpdateArrange()
     end
+    
+    reaper.ImGui_SameLine(ctx)
+
+    _, preview = reaper.ImGui_Checkbox(ctx, 'preview', preview)
 
     local change = 0
     for parameter, d in pairs(GUI) do
-        temp, d.value = d.widget(
-            ctx, 
-            d.name, d.value, d.min, d.max 
-        )
-        change = change + bool_to_number[temp]
+        if d.type == 'slider' then
+            temp, d.value = d.widget(
+                ctx, 
+                d.name, d.value, d.min, d.max 
+            )
+        end
+        if d.type == 'combo' then
+            temp, d.value = d.widget(
+                ctx, 
+                d.name, d.value, d.items
+            )
+        end
+
+        change = change + utils.bool_to_number[temp]
     end
     
-    if change > 0 then
-        
-        -- Remove any previously made take markers
-        local num_selected_items = reaper.CountSelectedMediaItems(0)
-        for i=1, num_selected_items do
-            local take = reaper.GetActiveTake(reaper.GetSelectedMediaItem(0, i-1))
-            local take_markers = reaper.GetNumTakeMarkers(take)
-            for j=1, take_markers do
-                reaper.DeleteTakeMarker(take, take_markers - j)
-            end
-        end
-        slice(data)
+    if change > 0 and preview then
+        state = slicer.slice(GUI)
     end
 
     reaper.ImGui_SameLine(ctx)
-    reaper.ImGui_Text(ctx, tostring(frame_count))
-    frame_count = frame_count + 1 
 end
+
+-- FRAME LOOP --
 
 function loop()
     local rv
@@ -84,43 +81,9 @@ function loop()
     reaper.defer(loop)
 end
 
-function slice(data)
-    local exe = reacoma.utils.wrap_quotes(
-        reacoma.settings.path .. "/fluid-noveltyslice"
-    )
 
-    local num_selected_items = reaper.CountSelectedMediaItems(0)
-    local feature = 0
-    local threshold = GUI[1].value
-    local kernelsize = GUI[2].value
-    local filtersize = 2
-    local fftsettings = '1024 512 1024'
-    local minslicelength = 2
-    local data = reacoma.utils.deep_copy(reacoma.slicing.container)
-    for i=1, num_selected_items do
-        reacoma.slicing.get_data(i, data)
-        
-        local cmd = exe .. 
-        " -source " .. reacoma.utils.wrap_quotes(data.full_path[i]) .. 
-        " -indices " .. reacoma.utils.wrap_quotes(data.tmp[i]) .. 
-        " -maxfftsize " .. reacoma.utils.get_max_fft_size(fftsettings) ..
-        " -maxkernelsize " .. kernelsize ..
-        " -maxfiltersize " .. filtersize ..
-        " -feature " .. feature .. 
-        " -kernelsize " .. kernelsize .. 
-        " -threshold " .. threshold .. 
-        " -filtersize " .. filtersize .. 
-        " -fftsettings " .. fftsettings .. 
-        " -minslicelength " .. minslicelength ..
-        " -numframes " .. data.item_len_samples[i] .. 
-        " -startframe " .. data.take_ofs_samples[i]
-
-        reacoma.utils.cmdline(cmd)
-        table.insert(data.slice_points_string, reacoma.utils.readfile(data.tmp[i]))
-        reacoma.slicing.process(i, data)
-    end
-    
-    reaper.UpdateArrange()
-    reacoma.utils.cleanup(data.tmp)
-    state = data
-end
+reaper.defer(function()
+    ctx = reaper.ImGui_CreateContext(slicer.info.algorithm_name, 350, 225)
+    viewport = reaper.ImGui_GetMainViewport(ctx)
+    loop()
+end)
