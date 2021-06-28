@@ -1,5 +1,38 @@
 imgui_helpers = {}
 
+imgui_helpers.draw_gui = function(obj)
+    local change = 0
+    for parameter, d in pairs(obj.parameters) do
+        if d.type == 'slider' then
+            temp, d.value = d.widget(
+                ctx, 
+                d.name, d.value, d.min, d.max 
+            )
+        end
+        if d.type == 'combo' then
+            temp, d.value = d.widget(
+                ctx, 
+                d.name, d.value, d.items
+            )
+        end
+
+        change = change + reacoma.utils.bool_to_number[temp]
+    end
+    return change
+end
+
+imgui_helpers.slice = function(obj, preview)
+    local change = imgui_helpers.draw_gui(obj)
+
+    if change > 0 and preview then
+        return obj.slice(obj.parameters)
+    end
+end
+
+imgui_helpers.layers = function(obj)
+end
+
+
 imgui_helpers.button_segment = function(slicer)
     local state = slicer.slice(slicer.parameters)
 
@@ -19,30 +52,6 @@ imgui_helpers.button_segment = function(slicer)
     end
     reaper.UpdateArrange()
     return state
-end
-
-imgui_helpers.update_slicing = function(slicer, preview)
-    local change = 0
-    for parameter, d in pairs(slicer.parameters) do
-        if d.type == 'slider' then
-            temp, d.value = d.widget(
-                ctx, 
-                d.name, d.value, d.min, d.max 
-            )
-        end
-        if d.type == 'combo' then
-            temp, d.value = d.widget(
-                ctx, 
-                d.name, d.value, d.items
-            )
-        end
-
-        change = change + utils.bool_to_number[temp]
-    end
-
-    if change > 0 and preview then
-        return slicer.slice(slicer.parameters)
-    end
 end
 
 return imgui_helpers
