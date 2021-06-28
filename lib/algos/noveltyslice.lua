@@ -53,7 +53,8 @@ end
 
 noveltyslice = {
     info = {
-        algorithm_name = 'Novelty Slice'
+        algorithm_name = 'Novelty Slice',
+        ext_name = 'reacoma.noveltyslice'
     },
     parameters =  {
         {
