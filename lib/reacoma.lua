@@ -23,6 +23,7 @@ reacoma.sorting = require("sorting")
 reacoma.tagging = require("tagging")
 reacoma.utils = require("utils")
 reacoma.imgui_helpers = require("imgui_helpers")
+reacoma.imgui_wrapper = require("imgui_wrapper")
 
 -- Import algorithms
 reacoma.noveltyslice = require("algos/noveltyslice")
