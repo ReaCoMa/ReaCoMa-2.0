@@ -102,3 +102,4 @@ if not reaper.ImGui_GetVersion then
 end
 
 reaper.Undo_BeginBlock2(0)
+reaper.Undo_BeginBlock2(0)
