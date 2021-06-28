@@ -54,7 +54,8 @@ end
 noveltyslice = {
     info = {
         algorithm_name = 'Novelty Slice',
-        ext_name = 'reacoma.noveltyslice'
+        ext_name = 'reacoma.noveltyslice',
+        action = 'segment'
     },
     parameters =  {
         {
