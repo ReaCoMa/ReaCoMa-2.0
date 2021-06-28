@@ -1,9 +1,9 @@
 imgui_helpers = {}
 
-imgui_helpers.button_segment = function(state)
-    state = slicer.slice(parameters)
+imgui_helpers.button_segment = function(slicer)
+    local state = slicer.slice(slicer.parameters)
 
-    num_selected_items = reaper.CountSelectedMediaItems(0)
+    local num_selected_items = reaper.CountSelectedMediaItems(0)
     for i=1, num_selected_items do
         item = reaper.GetSelectedMediaItem(0, i-1)
         take = reaper.GetActiveTake(item)
@@ -18,11 +18,12 @@ imgui_helpers.button_segment = function(state)
         end
     end
     reaper.UpdateArrange()
+    return state
 end
 
-imgui_helpers.update_slicing = function(parameters, preview)
+imgui_helpers.update_slicing = function(slicer, preview)
     local change = 0
-    for parameter, d in pairs(parameters) do
+    for parameter, d in pairs(slicer.parameters) do
         if d.type == 'slider' then
             temp, d.value = d.widget(
                 ctx, 
@@ -40,7 +41,7 @@ imgui_helpers.update_slicing = function(parameters, preview)
     end
 
     if change > 0 and preview then
-        return slicer.slice(parameters)
+        return slicer.slice(slicer.parameters)
     end
 end
 
