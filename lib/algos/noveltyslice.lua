@@ -1,18 +1,18 @@
-function perform_slice(GUI)
+function perform_slice(parameters)
     local exe = reacoma.utils.wrap_quotes(
         reacoma.settings.path .. "/fluid-noveltyslice"
     )
 
     local num_selected_items = reaper.CountSelectedMediaItems(0)
-    local feature = GUI[1].value
-    local threshold = GUI[2].value
-    local kernelsize = GUI[3].value
-    local filtersize = GUI[4].value
-    local minslicelength = GUI[5].value
+    local feature = parameters[1].value
+    local threshold = parameters[2].value
+    local kernelsize = parameters[3].value
+    local filtersize = parameters[4].value
+    local minslicelength = parameters[5].value
     local fftsettings = utils.form_fft_string(
-        GUI[6].value, 
-        GUI[7].value, 
-        GUI[8].value
+        parameters[6].value, 
+        parameters[7].value, 
+        parameters[8].value
     )
     local data = reacoma.utils.deep_copy(reacoma.slicing.container)
     for i=1, num_selected_items do
