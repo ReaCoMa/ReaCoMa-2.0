@@ -64,30 +64,30 @@ end
 -- Store the path in a known place
 reacoma.settings.path = reacoma.paths.get_reacoma_path() 
 
--- Check for versions
-local get_version = reacoma.utils.wrap_quotes(
-    reacoma.settings.path .. "/fluid-noveltyslice"
-) .. " -v"
+-- -- Check for versions
+-- local get_version = reacoma.utils.wrap_quotes(
+--     reacoma.settings.path .. "/fluid-noveltyslice"
+-- ) .. " -v"
 
--- Get the current version by capturing the output of the -v flag
-local installed_tools_version = reacoma.utils.capture(get_version)
+-- -- Get the current version by capturing the output of the -v flag
+-- local installed_tools_version = reacoma.utils.capture(get_version)
 
--- Find out if the dependency string matches the version of the cli
--- From this we can deduce a sort of minimum version
-local valid_version = installed_tools_version:find(reacoma.dep)
+-- -- Find out if the dependency string matches the version of the cli
+-- -- From this we can deduce a sort of minimum version
+-- local valid_version = installed_tools_version:find(reacoma.dep)
 
--- Check that the version of installed tools matches the marked version in the code
-if not reacoma.bypass_version then
-    if valid_version < 1 then
-        local rv = reaper.ShowMessageBox(
-            "The version of ReaCoMa is not tested with the currently installed command-line tools version and may fail or produce undefined behaviour. \n\nReaCoMa can take you to the download page by clicking OK, or you can move on by clicking Cancel. Alternatively, to disable this message forever change reacoma.bypass_version in config.lua to true.",
-            "Version Incompatability", 1)
-        if retval == 1 then
-            reacoma.utils.open_browser("https://www.flucoma.org/download/")
-        end
-        reacoma.settings.fatal = false -- for now everything is fine, we dont need to test versions that thoroughly anymore
-    end
-end
+-- -- Check that the version of installed tools matches the marked version in the code
+-- if not reacoma.bypass_version then
+--     if valid_version < 1 then
+--         local rv = reaper.ShowMessageBox(
+--             "The version of ReaCoMa is not tested with the currently installed command-line tools version and may fail or produce undefined behaviour. \n\nReaCoMa can take you to the download page by clicking OK, or you can move on by clicking Cancel. Alternatively, to disable this message forever change reacoma.bypass_version in config.lua to true.",
+--             "Version Incompatability", 1)
+--         if retval == 1 then
+--             reacoma.utils.open_browser("https://www.flucoma.org/download/")
+--         end
+--         reacoma.settings.fatal = false -- for now everything is fine, we dont need to test versions that thoroughly anymore
+--     end
+-- end
 
 -- Check tht imgui exists
 if not reaper.ImGui_GetVersion then
@@ -101,5 +101,4 @@ if not reaper.ImGui_GetVersion then
     reacoma.settings.fatal = true
 end
 
-reaper.Undo_BeginBlock2(0)
 reaper.Undo_BeginBlock2(0)
