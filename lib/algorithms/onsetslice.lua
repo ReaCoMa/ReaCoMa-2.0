@@ -1,0 +1,129 @@
+function segment(parameters)
+    local exe = reacoma.utils.wrap_quotes(
+        reacoma.settings.path .. "/fluid-onsetslice"
+    )
+
+    local num_selected_items = reaper.CountSelectedMediaItems(0)
+    local feature = parameters[1].value
+    local threshold = parameters[2].value
+    local kernelsize = parameters[3].value
+    local filtersize = parameters[4].value
+    local minslicelength = parameters[5].value
+    local fftsettings = reacoma.utils.form_fft_string(
+        parameters[6].value, 
+        parameters[7].value, 
+        parameters[8].value
+    )
+    local data = reacoma.utils.deep_copy(reacoma.container.generic)
+    for i=1, num_selected_items do
+        reacoma.container.get_data(i, data)
+
+        -- Remove any existing take markers
+        for j=1, data.take_markers[i] do
+            reaper.DeleteTakeMarker(
+                data.take[i], 
+                data.take_markers[i] - j
+            )
+        end
+        
+        local cmd = exe .. 
+        " -source " .. reacoma.utils.wrap_quotes(data.full_path[i]) .. 
+        " -indices " .. reacoma.utils.wrap_quotes(data.tmp[i]) .. 
+        " -maxfftsize " .. reacoma.utils.get_max_fft_size(fftsettings) ..
+        " -maxkernelsize " .. kernelsize ..
+        " -maxfiltersize " .. filtersize ..
+        " -feature " .. feature .. 
+        " -kernelsize " .. kernelsize .. 
+        " -threshold " .. threshold .. 
+        " -filtersize " .. filtersize .. 
+        " -fftsettings " .. fftsettings .. 
+        " -minslicelength " .. minslicelength ..
+        " -numframes " .. data.item_len_samples[i] .. 
+        " -startframe " .. data.take_ofs_samples[i]
+
+        reacoma.utils.cmdline(cmd)
+        table.insert(data.slice_points_string, reacoma.utils.readfile(data.tmp[i]))
+        reacoma.slicing.process(i, data)
+    end
+    
+    reaper.UpdateArrange()
+    reacoma.utils.cleanup(data.tmp)
+    return data
+end
+
+onsetslice = {
+    info = {
+        algorithm_name = 'Onset Slice',
+        ext_name = 'reacoma.onsetslice',
+        action = 'segment'
+    },
+    parameters =  {
+        {
+            name = 'metric',
+            widget = reaper.ImGui_Combo,
+            value = 0,
+            items = 'energy\31high frequency content\31spectral flux\31modified kullback-leibler\31itakura-saito\31cosine\31phase deviation\31weighted phase deviation\31complex domain\31rectified complex domain\31',
+            type = 'combo',
+            desc = 'The metric used to derive a difference curve between spectral frames'
+        },
+        {
+            name = 'threshold',
+            widget = reaper.ImGui_SliderDouble,
+            min = 0.0,
+            max = 2.0,
+            value = 0.5,
+            type = 'sliderdouble',
+        },
+        {
+            name = 'minslicelength',
+            widget = reaper.ImGui_SliderInt,
+            min = 0,
+            max = 20,
+            value = 2,
+            type = 'sliderint'
+        },
+        {
+            name = 'filtersize',
+            widget = reaper.ImGui_SliderInt,
+            min = 1,
+            max = 101,
+            value = 5,
+            type = 'sliderint' 
+        },
+        {
+            name = 'framedelta',
+            widget = reaper.ImGui_SliderInt,
+            min = 0,
+            max = 20,
+            value = 0,
+            type = 'sliderint' 
+        },
+        {
+            name = 'window size',
+            widget = reaper.ImGui_SliderInt,
+            min = 32,
+            max = 8192,
+            value = 1024,
+            type = 'sliderint' 
+        },
+        {
+            name = 'hop size',
+            widget = reaper.ImGui_SliderInt,
+            min = 32,
+            max = 8192,
+            value = 512,
+            type = 'sliderint' 
+        },
+        {
+            name = 'fft size',
+            widget = reaper.ImGui_SliderInt,
+            min = 32,
+            max = 8192,
+            value = 1024,
+            type = 'sliderint' 
+        }
+    },
+    perform_update = segment
+}
+
+return onsetslice
