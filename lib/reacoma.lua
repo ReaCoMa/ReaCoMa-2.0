@@ -27,8 +27,11 @@ reacoma.imgui_helpers = require("imgui_helpers")
 reacoma.imgui_wrapper = require("imgui_wrapper")
 
 -- Import algorithms
+-- Slicing
 reacoma.noveltyslice = require("algorithms/noveltyslice")
 reacoma.ampslice = require("algorithms/ampslice")
+reacoma.transientslice = require("algorithms/transientslice")
+-- Layers
 reacoma.hpss = require("algorithms/hpss")
 
 reacoma.settings = {}
