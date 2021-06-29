@@ -4,11 +4,11 @@ function segment(parameters)
     )
 
     local num_selected_items = reaper.CountSelectedMediaItems(0)
-    local feature = parameters[1].value
+    local metric = parameters[1].value
     local threshold = parameters[2].value
-    local kernelsize = parameters[3].value
+    local minslicelength = parameters[3].value
     local filtersize = parameters[4].value
-    local minslicelength = parameters[5].value
+    local framedelta = parameters[5].value
     local fftsettings = reacoma.utils.form_fft_string(
         parameters[6].value, 
         parameters[7].value, 
@@ -28,16 +28,14 @@ function segment(parameters)
         
         local cmd = exe .. 
         " -source " .. reacoma.utils.wrap_quotes(data.full_path[i]) .. 
-        " -indices " .. reacoma.utils.wrap_quotes(data.tmp[i]) .. 
-        " -maxfftsize " .. reacoma.utils.get_max_fft_size(fftsettings) ..
-        " -maxkernelsize " .. kernelsize ..
-        " -maxfiltersize " .. filtersize ..
-        " -feature " .. feature .. 
-        " -kernelsize " .. kernelsize .. 
+        " -indices " .. reacoma.utils.wrap_quotes(data.tmp[i]) ..
+        " -maxfftsize " .. reacoma.utils.get_max_fft_size(fftsettings) .. 
+        " -metric " .. metric .. 
+        " -minslicelength " .. minslicelength ..
         " -threshold " .. threshold .. 
         " -filtersize " .. filtersize .. 
+        " -framedelta " .. framedelta ..
         " -fftsettings " .. fftsettings .. 
-        " -minslicelength " .. minslicelength ..
         " -numframes " .. data.item_len_samples[i] .. 
         " -startframe " .. data.take_ofs_samples[i]
 
