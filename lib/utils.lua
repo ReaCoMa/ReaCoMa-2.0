@@ -67,7 +67,8 @@ utils.next_pow_str = function(value, return_type)
 
     if return_type == 'string' then
         return tostring(snap)
-    else
+    end
+    if return_type == 'number' then
         return tonumber(snap)
     end
 end
