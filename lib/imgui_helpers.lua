@@ -1,6 +1,21 @@
 imgui_helpers = {}
 
-imgui_helpers.draw_gui = function(obj)
+imgui_helpers.HelpMarker = function(ctx, desc)
+    reaper.ImGui_SameLine(ctx)
+    reaper.ImGui_TextDisabled(ctx, '(?)')
+    if reaper.ImGui_IsItemHovered(ctx) then
+      reaper.ImGui_BeginTooltip(ctx)
+      reaper.ImGui_PushTextWrapPos(
+          ctx, 
+          reaper.ImGui_GetFontSize(ctx) * 15.0
+        )
+      reaper.ImGui_Text(ctx, desc)
+      reaper.ImGui_PopTextWrapPos(ctx)
+      reaper.ImGui_EndTooltip(ctx)
+    end
+  end
+
+imgui_helpers.draw_gui = function(ctx, obj)
     local change = 0
     for parameter, d in pairs(obj.parameters) do
         if d.type == 'sliderint' then
