@@ -6,34 +6,6 @@ abs = math.abs
 
 layers = {}
 
-layers.container = {
-    full_path = {},
-    item_pos = {},
-    item_pos_samples = {},
-    take_ofs = {},
-    take_ofs_samples = {},
-    item_len = {},
-    item_len_samples = {},
-    cmd = {},
-    slice_points_string = {},
-    tmp = {},
-    item = {},
-    reverse = {},
-    sr = {},
-    playrate = {},
-    take = {},
-    path = {},
-    playtype = {},
-    outputs = {}
-}
-
-layers.get_data = function (item_index, data)    
-    local info = reacoma.utils.get_item_info(item_index)
-    for k, v in pairs(info) do
-        table.insert(data[tostring(k)], v)
-    end
-end
-
 layers.exist = function(item_index, data)
     for k, _ in pairs(data.outputs) do
         if not reacoma.paths.file_exists(data.outputs[k][item_index]) then
