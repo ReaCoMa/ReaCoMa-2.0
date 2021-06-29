@@ -19,6 +19,8 @@ imgui_wrapper.loop = function(ctx, viewport, state, obj, preview)
     if reaper.ImGui_Button(ctx, obj.info.action) or reaper.ImGui_IsKeyPressed(ctx, 13) then
         state = reacoma.imgui_helpers.process(obj) -- TODO: make this respond to slicer/layers
     end
+    reaper.ImGui_SameLine(ctx)
+    reaper.ImGui_Text(ctx, w..' x '..h)
 
     -- TODO: lets handle undo (maybe)
     -- local alt_pressed = (reaper.ImGui_GetKeyMods(ctx) & reaper.ImGui_KeyModFlags_Alt()) == 4
@@ -26,8 +28,12 @@ imgui_wrapper.loop = function(ctx, viewport, state, obj, preview)
     --     reaper.Undo_DoUndo2(0)
     -- end
 
-    reaper.ImGui_SameLine(ctx)
-    _, preview = reaper.ImGui_Checkbox(ctx, 'preview', preview)
+    if obj.info.action == 'segment' then
+        reaper.ImGui_SameLine(ctx)
+        _, preview = reaper.ImGui_Checkbox(ctx, 'preview', preview)
+    else
+        preview = 0
+    end
     state = reacoma.imgui_helpers.update_state(obj, preview)
     -------------------------------------------------------------------
 
