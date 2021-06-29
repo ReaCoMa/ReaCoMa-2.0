@@ -1,4 +1,4 @@
-function perform_slice(parameters)
+function segment(parameters)
     local exe = reacoma.utils.wrap_quotes(
         reacoma.settings.path .. "/fluid-noveltyslice"
     )
