@@ -103,7 +103,7 @@ noveltyslice = {
             min = 32,
             max = 8192,
             value = 1024,
-            type = 'slider' 
+            type = 'snapslider' 
         },
         {
             name = 'hop size',
@@ -111,7 +111,7 @@ noveltyslice = {
             min = 32,
             max = 8192,
             value = 512,
-            type = 'slider' 
+            type = 'snapslider' 
         },
         {
             name = 'fft size',
@@ -119,10 +119,10 @@ noveltyslice = {
             min = 32,
             max = 8192,
             value = 1024,
-            type = 'slider' 
+            type = 'snapslider' 
         }
     },
-    slice = perform_slice
+    perform_update = segment
 }
 
 return noveltyslice
