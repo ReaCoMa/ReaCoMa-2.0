@@ -53,8 +53,8 @@ end
 
 ampslice = {
     info = {
-        algorithm_name = 'Novelty Slice',
-        ext_name = 'reacoma.noveltyslice',
+        algorithm_name = 'Ampslice Slicing',
+        ext_name = 'reacoma.ampslice',
         action = 'segment'
     },
     parameters =  {
