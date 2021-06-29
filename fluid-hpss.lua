@@ -4,7 +4,6 @@ loadfile(script_path .. "lib/reacoma.lua")()
 if reacoma.settings.fatal then return end
 
 obj = reacoma.hpss
-parameters = obj.parameters
 reacoma.params.get(obj)
 
 ctx = reaper.ImGui_CreateContext(obj.info.algorithm_name, 494, 149)
