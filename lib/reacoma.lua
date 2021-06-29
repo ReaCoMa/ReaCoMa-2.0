@@ -13,6 +13,7 @@ package.path = package.path .. ";" .. script_path .. "?.lua"
 -- Require the modules
 local reaper = reaper
 reacoma = {}
+reacoma.settings = {}
 
 -- Add modules to reacoma table
 reacoma.container = require("container")
@@ -26,15 +27,17 @@ reacoma.utils = require("utils")
 reacoma.imgui_helpers = require("imgui_helpers")
 reacoma.imgui_wrapper = require("imgui_wrapper")
 
--- Import algorithms
 -- Slicing
 reacoma.noveltyslice = require("algorithms/noveltyslice")
 reacoma.ampslice = require("algorithms/ampslice")
 reacoma.transientslice = require("algorithms/transientslice")
+reacoma.onsetslice = require("algorithms/onsetslice")
+reacoma.ampgate = require("algorithms/ampgate")
 -- Layers
 reacoma.hpss = require("algorithms/hpss")
-
-reacoma.settings = {}
+reacoma.nmf = require("algorithms/nmf")
+reacoma.sines = require("algorithms/sines")
+reacoma.transients = require("algorithms/transients")
 
 -- High level information about reacoma
 loadfile(script_path .. "../config.lua")() -- Load the config as a chunk to get the values
