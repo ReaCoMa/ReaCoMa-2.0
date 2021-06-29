@@ -15,10 +15,11 @@ local reaper = reaper
 reacoma = {}
 
 -- Add modules to reacoma table
+reacoma.container = require("container")
 reacoma.layers = require("layers")
+reacoma.slicing = require("slicing")
 reacoma.params = require("params")
 reacoma.paths = require("paths")
-reacoma.slicing = require("slicing")
 reacoma.sorting = require("sorting")
 reacoma.tagging = require("tagging")
 reacoma.utils = require("utils")
