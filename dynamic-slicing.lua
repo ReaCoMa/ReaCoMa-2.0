@@ -3,11 +3,11 @@ local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
 loadfile(script_path .. "lib/reacoma.lua")()
 if reacoma.settings.fatal then return end
 
-parameters = reacoma.noveltyslice.parameters
-slicer = reacoma.noveltyslice
-reacoma.params.get(slicer)
+obj = reacoma.noveltyslice
+parameters = obj.parameters
+reacoma.params.get(obj)
 
-ctx = reaper.ImGui_CreateContext(slicer.info.algorithm_name, 350, 225)
+ctx = reaper.ImGui_CreateContext(obj.info.algorithm_name, 350, 225)
 viewport = reaper.ImGui_GetMainViewport(ctx)
 
 reaper.defer(
