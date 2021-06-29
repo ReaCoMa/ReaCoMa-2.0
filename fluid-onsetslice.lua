@@ -6,7 +6,7 @@ if reacoma.settings.fatal then return end
 obj = reacoma.onsetslice
 reacoma.params.get(obj)
 
-ctx = reaper.ImGui_CreateContext(obj.info.algorithm_name, 357, 241)
+ctx = reaper.ImGui_CreateContext(obj.info.algorithm_name, 415, 219)
 viewport = reaper.ImGui_GetMainViewport(ctx)
 
 reaper.defer(

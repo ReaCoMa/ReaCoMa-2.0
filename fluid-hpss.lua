@@ -6,7 +6,7 @@ if reacoma.settings.fatal then return end
 obj = reacoma.hpss
 reacoma.params.get(obj)
 
-ctx = reaper.ImGui_CreateContext(obj.info.algorithm_name, 494, 149)
+ctx = reaper.ImGui_CreateContext(obj.info.algorithm_name, 567, 149)
 viewport = reaper.ImGui_GetMainViewport(ctx)
 
 reaper.defer(
