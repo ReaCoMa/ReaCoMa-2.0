@@ -3,21 +3,20 @@ imgui_helpers = {}
 imgui_helpers.draw_gui = function(obj)
     local change = 0
     for parameter, d in pairs(obj.parameters) do
-        if d.type == 'slider' or d.type == 'snapslider' then
+        if d.type == 'sliderint' then
             temp, d.value = d.widget(
                 ctx, 
-                d.name, d.value, d.min, d.max 
+                d.name, d.value, d.min, d.max
             )
         end
-        -- TODO: find a better way of snapping FFT values
-        -- if d.type == 'snapslider' then
-        --     -- local fftvalue = reacoma.utils.next_pow_str(d.value, 'number')
-        --     temp, d.value = d.widget(
-        --         ctx, 
-        --         d.name, d.value, d.min, d.max 
-        --     )
-        --     d.value = reacoma.utils.next_pow_str(d.value, 'number')
-        -- end
+        if d.type == 'sliderdouble' then
+            temp, d.value = d.widget(
+                ctx,
+                d.name, d.value, d.min, d.max,
+                '%.3f',
+                d.flag or 0
+            )
+        end
         if d.type == 'combo' then
             temp, d.value = d.widget(
                 ctx, 
