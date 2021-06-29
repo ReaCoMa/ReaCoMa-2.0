@@ -14,9 +14,9 @@ function segment(parameters)
         parameters[7].value, 
         parameters[8].value
     )
-    local data = reacoma.utils.deep_copy(reacoma.slicing.container)
+    local data = reacoma.utils.deep_copy(reacoma.container.generic)
     for i=1, num_selected_items do
-        reacoma.slicing.get_data(i, data)
+        reacoma.container.get_data(i, data)
 
         -- Remove any existing take markers
         for j=1, data.take_markers[i] do
