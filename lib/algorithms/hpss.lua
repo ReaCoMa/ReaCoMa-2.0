@@ -56,7 +56,7 @@ function decompose(parameters)
     end
 end
 
-noveltyslice = {
+hpss = {
     info = {
         algorithm_name = 'Harmonic Percussive Source Separation',
         ext_name = 'reacoma.hpss',
@@ -69,7 +69,7 @@ noveltyslice = {
             min = 3,
             max = 51,
             value = 17,
-            type = 'slider'
+            type = 'sliderint'
         },
         {
             name = 'percussive filter size',
@@ -77,7 +77,7 @@ noveltyslice = {
             min = 3,
             max = 51,
             value = 31,
-            type = 'slider'
+            type = 'sliderint'
         },
         {
             name = 'window size',
@@ -85,7 +85,7 @@ noveltyslice = {
             min = 32,
             max = 8192,
             value = 1024,
-            type = 'snapslider' 
+            type = 'sliderint' 
         },
         {
             name = 'hop size',
@@ -93,7 +93,7 @@ noveltyslice = {
             min = 32,
             max = 8192,
             value = 512,
-            type = 'snapslider' 
+            type = 'sliderint' 
         },
         {
             name = 'fft size',
@@ -101,10 +101,10 @@ noveltyslice = {
             min = 32,
             max = 8192,
             value = 1024,
-            type = 'snapslider' 
+            type = 'sliderint' 
         }
     },
     perform_update = decompose
 }
 
-return noveltyslice
+return hpss

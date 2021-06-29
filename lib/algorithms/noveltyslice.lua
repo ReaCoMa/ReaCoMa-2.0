@@ -71,7 +71,7 @@ noveltyslice = {
             min = 0.0,
             max = 1.0,
             value = 0.5,
-            type = 'slider'
+            type = 'sliderdouble',
         },
         {
             name = 'kernelsize',
@@ -79,7 +79,7 @@ noveltyslice = {
             min = 3,
             max = 51,
             value = 3,
-            type = 'slider'
+            type = 'sliderint'
         },
         {
             name = 'filtersize',
@@ -87,7 +87,7 @@ noveltyslice = {
             min = 1,
             max = 100,
             value = 1,
-            type = 'slider' 
+            type = 'sliderint' 
         },
         {
             name = 'minslicelength',
@@ -95,7 +95,7 @@ noveltyslice = {
             min = 0,
             max = 20,
             value = 2,
-            type = 'slider'
+            type = 'sliderint'
         },
         {
             name = 'window size',
@@ -103,7 +103,7 @@ noveltyslice = {
             min = 32,
             max = 8192,
             value = 1024,
-            type = 'snapslider' 
+            type = 'sliderint' 
         },
         {
             name = 'hop size',
@@ -111,7 +111,7 @@ noveltyslice = {
             min = 32,
             max = 8192,
             value = 512,
-            type = 'snapslider' 
+            type = 'sliderint' 
         },
         {
             name = 'fft size',
@@ -119,7 +119,7 @@ noveltyslice = {
             min = 32,
             max = 8192,
             value = 1024,
-            type = 'snapslider' 
+            type = 'sliderint' 
         }
     },
     perform_update = segment
