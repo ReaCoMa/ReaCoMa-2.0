@@ -9,7 +9,7 @@ function segment(parameters)
     local kernelsize = parameters[3].value
     local filtersize = parameters[4].value
     local minslicelength = parameters[5].value
-    local fftsettings = utils.form_fft_string(
+    local fftsettings = reacoma.utils.form_fft_string(
         parameters[6].value, 
         parameters[7].value, 
         parameters[8].value
