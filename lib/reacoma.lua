@@ -32,12 +32,12 @@ reacoma.noveltyslice = require("algorithms/noveltyslice")
 reacoma.ampslice = require("algorithms/ampslice")
 reacoma.transientslice = require("algorithms/transientslice")
 reacoma.onsetslice = require("algorithms/onsetslice")
-reacoma.ampgate = require("algorithms/ampgate")
+-- reacoma.ampgate = require("algorithms/ampgate")
 -- Layers
 reacoma.hpss = require("algorithms/hpss")
 reacoma.nmf = require("algorithms/nmf")
-reacoma.sines = require("algorithms/sines")
-reacoma.transients = require("algorithms/transients")
+-- reacoma.sines = require("algorithms/sines")
+-- reacoma.transients = require("algorithms/transients")
 
 -- High level information about reacoma
 loadfile(script_path .. "../config.lua")() -- Load the config as a chunk to get the values
