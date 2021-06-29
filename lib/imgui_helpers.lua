@@ -24,15 +24,19 @@ imgui_helpers.draw_gui = function(obj)
             )
         end
 
+        -- Draw the mouseover description
+        local help_text = d.desc or 'no help available'
+        imgui_helpers.HelpMarker(ctx, help_text)
+
         change = change + reacoma.utils.bool_to_number[temp]
     end
     return change
 end
 
-imgui_helpers.update_state = function(obj, preview)
+imgui_helpers.update_state = function(ctx, obj, preview)
     -- TODO: this could possibly be refactored into a single if statement but for now lets keep it verbose
     -- Updates the state within each frame loop
-    local change = imgui_helpers.draw_gui(obj)
+    local change = imgui_helpers.draw_gui(ctx, obj)
 
     -- We only need to update the state intermittently if the object is for segmenting...
     -- ... and if the preview is checked

@@ -34,7 +34,7 @@ imgui_wrapper.loop = function(ctx, viewport, state, obj, preview)
     else
         preview = 0
     end
-    state = reacoma.imgui_helpers.update_state(obj, preview)
+    state = reacoma.imgui_helpers.update_state(ctx, obj, preview)
     -------------------------------------------------------------------
 
     reaper.ImGui_End(ctx)
