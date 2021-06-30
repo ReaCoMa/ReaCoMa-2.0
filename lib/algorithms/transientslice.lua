@@ -64,7 +64,8 @@ transientslice = {
             min = 10,
             max = 400,
             value = 20,
-            type = 'sliderint'
+            type = 'sliderint',
+            desc = 'The order in samples of the impulse response filter used to model the estimated continuous signal.'
         },
         {
             name = 'blocksize',
@@ -72,7 +73,8 @@ transientslice = {
             min = 100,
             max = 1024,
             value = 256,
-            type = 'sliderint'
+            type = 'sliderint',
+            desc = 'The size in samples of frame on which it the algorithm is operating.'
         },
         {
             name = 'padsize',
@@ -80,7 +82,8 @@ transientslice = {
             min = 0,
             max = 512,
             value = 128,
-            type = 'sliderint'
+            type = 'sliderint',
+            desc = 'The size of the handles on each sides of the block simply used for analysis purpose and avoid boundary issues.'
         },
         {
             name = 'skew',
@@ -88,7 +91,8 @@ transientslice = {
             min = -10.0,
             max = 10.0,
             value = 0.0,
-            type = 'sliderdouble'
+            type = 'sliderdouble',
+            desc = 'The nervousness of the bespoke detection function with values from -10 to 10. High values increase the sensitivity to small variations.'
         },
         {
             name = 'threshfwd',
@@ -96,7 +100,8 @@ transientslice = {
             min = 0.0,
             max = 8.0,
             value = 2.0,
-            type = 'sliderdouble'
+            type = 'sliderdouble',
+            desc = 'The threshold of the onset of the smoothed error function. It allows tight start of the identification of the anomaly as it proceeds forward.'
         },
         {
             name = 'threshback',
@@ -104,7 +109,8 @@ transientslice = {
             min = 0.0,
             max = 8.0,
             value = 1.1,
-            type = 'sliderdouble'
+            type = 'sliderdouble',
+            desc = 'The threshold of the offset of the smoothed error function. As it proceeds backwards in time, it allows tight ending of the identification of the anomaly.'
         },
         {
             name = 'windowsize',
@@ -112,7 +118,8 @@ transientslice = {
             min = 0,
             max = 400,
             value = 14,
-            type = 'sliderint'
+            type = 'sliderint',
+            desc = 'The averaging window of the error detection function. It needs smoothing as it is very jittery. The longer the window, the less precise, but the less false positives.'
         },
         {
             name = 'clumplength',
@@ -120,7 +127,8 @@ transientslice = {
             min = 0,
             max = 1000,
             value = 25,
-            type = 'sliderint'
+            type = 'sliderint',
+            desc = 'The window size in sample within with positive detections will be clumped together to avoid overdetecting in time.'
         },
         {
             name = 'minslicelength',
@@ -128,7 +136,8 @@ transientslice = {
             min = 0,
             max = 3000,
             value = 1000,
-            type = 'sliderint'
+            type = 'sliderint',
+            desc = 'The minimum duration of a slice in samples.'
         },
     },
     perform_update = segment
