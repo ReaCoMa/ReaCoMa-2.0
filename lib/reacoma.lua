@@ -36,7 +36,7 @@ reacoma.onsetslice = require("algorithms/onsetslice")
 -- Layers
 reacoma.hpss = require("algorithms/hpss")
 reacoma.nmf = require("algorithms/nmf")
--- reacoma.sines = require("algorithms/sines")
+reacoma.sines = require("algorithms/sines")
 -- reacoma.transients = require("algorithms/transients")
 
 -- High level information about reacoma
