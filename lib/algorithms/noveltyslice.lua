@@ -63,7 +63,8 @@ noveltyslice = {
             widget = reaper.ImGui_Combo,
             value = 0,
             items = 'spectrum\31mfcc\31pitch\31loudness\31',
-            type = 'combo' 
+            type = 'combo',
+            desc = 'The feature on which novelty is computed.'
         },
         {
             name = 'threshold',
@@ -72,6 +73,7 @@ noveltyslice = {
             max = 1.0,
             value = 0.5,
             type = 'sliderdouble',
+            desc = 'The normalised threshold, between 0 an 1, on the novelty curve to consider it a segmentation point.'
         },
         {
             name = 'kernelsize',
@@ -79,7 +81,8 @@ noveltyslice = {
             min = 3,
             max = 51,
             value = 3,
-            type = 'sliderint'
+            type = 'sliderint',
+            desc = 'The granularity of the window in which the algorithm looks for change, in samples.'
         },
         {
             name = 'filtersize',
@@ -87,7 +90,8 @@ noveltyslice = {
             min = 1,
             max = 100,
             value = 1,
-            type = 'sliderint' 
+            type = 'sliderint',
+            desc = 'The size of a smoothing filter that is applied on the novelty curve. A larger filter filter size allows for cleaner cuts on very sharp changes.'
         },
         {
             name = 'minslicelength',
@@ -95,7 +99,8 @@ noveltyslice = {
             min = 0,
             max = 20,
             value = 2,
-            type = 'sliderint'
+            type = 'sliderint',
+            desc = 'The minimum duration of a slice in number of hop size.'
         },
         {
             name = 'window size',
@@ -103,7 +108,8 @@ noveltyslice = {
             min = 32,
             max = 8192,
             value = 1024,
-            type = 'sliderint' 
+            type = 'sliderint',
+            desc = 'window size'
         },
         {
             name = 'hop size',
@@ -111,7 +117,8 @@ noveltyslice = {
             min = 32,
             max = 8192,
             value = 512,
-            type = 'sliderint' 
+            type = 'sliderint',
+            desc = 'hop size'
         },
         {
             name = 'fft size',
@@ -119,7 +126,8 @@ noveltyslice = {
             min = 32,
             max = 8192,
             value = 1024,
-            type = 'sliderint' 
+            type = 'sliderint',
+            desc = 'fft size' 
         }
     },
     perform_update = segment
