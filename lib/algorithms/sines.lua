@@ -1,6 +1,6 @@
 function decompose(parameters)
     local exe = reacoma.utils.wrap_quotes(
-        reacoma.settings.path .. "/fluid-nmf"
+        reacoma.settings.path .. "/fluid-sines"
     )
 
     local num_selected_items = reaper.CountSelectedMediaItems(0)
