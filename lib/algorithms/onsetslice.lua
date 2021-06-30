@@ -71,6 +71,7 @@ onsetslice = {
             max = 2.0,
             value = 0.5,
             type = 'sliderdouble',
+            desc = 'The thresholding of a new slice. Value ranges are different for each metric, from 0 upwards.'
         },
         {
             name = 'minslicelength',
@@ -78,7 +79,8 @@ onsetslice = {
             min = 0,
             max = 20,
             value = 2,
-            type = 'sliderint'
+            type = 'sliderint',
+            desc = 'The minimum duration of a slice in number of hop size.'
         },
         {
             name = 'filtersize',
@@ -86,7 +88,8 @@ onsetslice = {
             min = 1,
             max = 101,
             value = 5,
-            type = 'sliderint' 
+            type = 'sliderint',
+            desc = 'The size of a smoothing filter that is applied on the novelty curve. A larger filter filter size allows for cleaner cuts on very sharp changes.'
         },
         {
             name = 'framedelta',
@@ -94,7 +97,8 @@ onsetslice = {
             min = 0,
             max = 20,
             value = 0,
-            type = 'sliderint' 
+            type = 'sliderint',
+            desc = 'For certain metrics the distance does not have to be computed between consecutive frames. By default it is, otherwise this sets the distance between the comparison window in samples.'
         },
         {
             name = 'window size',
@@ -102,7 +106,8 @@ onsetslice = {
             min = 32,
             max = 8192,
             value = 1024,
-            type = 'sliderint' 
+            type = 'sliderint',
+            desc = 'window size'
         },
         {
             name = 'hop size',
@@ -110,7 +115,8 @@ onsetslice = {
             min = 32,
             max = 8192,
             value = 512,
-            type = 'sliderint' 
+            type = 'sliderint',
+            desc = 'hop size'
         },
         {
             name = 'fft size',
@@ -118,7 +124,8 @@ onsetslice = {
             min = 32,
             max = 8192,
             value = 1024,
-            type = 'sliderint' 
+            type = 'sliderint',
+            desc = 'fft size'
         }
     },
     perform_update = segment
