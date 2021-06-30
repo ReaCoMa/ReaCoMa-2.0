@@ -37,7 +37,7 @@ reacoma.onsetslice = require("algorithms/onsetslice")
 reacoma.hpss = require("algorithms/hpss")
 reacoma.nmf = require("algorithms/nmf")
 reacoma.sines = require("algorithms/sines")
--- reacoma.transients = require("algorithms/transients")
+reacoma.transients = require("algorithms/transients")
 
 -- High level information about reacoma
 loadfile(script_path .. "../config.lua")() -- Load the config as a chunk to get the values
