@@ -64,12 +64,13 @@ hpss = {
     },
     parameters =  {
         {
-            name = 'harmonic filter size',
+            name = 'harmfiltersize',
             widget = reaper.ImGui_SliderInt,
             min = 3,
             max = 51,
             value = 17,
-            type = 'sliderint'
+            type = 'sliderint',
+            desc = 'The size, in spectral frames, of the median filter for the harmonic component.'
         },
         {
             name = 'percussive filter size',
@@ -77,7 +78,8 @@ hpss = {
             min = 3,
             max = 51,
             value = 31,
-            type = 'sliderint'
+            type = 'sliderint',
+            desc = 'The size, in spectral bins, of the median filter for the percussive component.'
         },
         {
             name = 'window size',
@@ -85,7 +87,8 @@ hpss = {
             min = 32,
             max = 8192,
             value = 1024,
-            type = 'sliderint' 
+            type = 'sliderint',
+            desc = 'window size'
         },
         {
             name = 'hop size',
@@ -93,7 +96,8 @@ hpss = {
             min = 32,
             max = 8192,
             value = 512,
-            type = 'sliderint' 
+            type = 'sliderint',
+            desc = 'hop size'
         },
         {
             name = 'fft size',
@@ -101,7 +105,8 @@ hpss = {
             min = 32,
             max = 8192,
             value = 1024,
-            type = 'sliderint' 
+            type = 'sliderint',
+            desc = 'fft size' 
         }
     },
     perform_update = decompose
