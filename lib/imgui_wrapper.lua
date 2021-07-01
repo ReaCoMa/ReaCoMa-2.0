@@ -4,18 +4,11 @@ local r = reaper
 local path_valid = false
 local show_modal = true
 local confirmed_path_valid = reacoma.paths.is_path_valid(reacoma.settings.path)
+open = true
 
 -- FRAME LOOP --
 imgui_wrapper.loop = function(ctx, viewport, state, obj)
     path_valid = reacoma.paths.is_path_valid(reacoma.settings.path)
-
-    if reaper.ImGui_IsCloseRequested(ctx) then
-        reaper.ImGui_DestroyContext(ctx)
-        reaper.Undo_EndBlock2(0, obj.info.ext_name, 4)
-        reacoma.params.set(obj)
-        reaper.SetExtState('reacoma', 'slice_preview', utils.bool_to_string[reacoma.settings.slice_preview], true)
-        return
-    end
 
     reaper.ImGui_SetNextWindowPos(ctx, reaper.ImGui_Viewport_GetPos(viewport))
     reaper.ImGui_SetNextWindowSize(ctx, reaper.ImGui_Viewport_GetSize(viewport))
@@ -45,10 +38,9 @@ imgui_wrapper.loop = function(ctx, viewport, state, obj)
             -- EXIT MODAL --
         end
 
-        reaper.ImGui_Begin(ctx, 'wnd', nil, reaper.ImGui_WindowFlags_NoDecoration())
+        visible, open = reaper.ImGui_Begin(ctx, 'Path Setter', true, reaper.ImGui_WindowFlags_NoDecoration())
 
         r.ImGui_Text(ctx, 'FluCoMa Command Line Tools Path')
-
 
         if path_valid then 
             r.ImGui_PushStyleColor(ctx, r.ImGui_Col_FrameBg(), colors.green)
@@ -63,9 +55,10 @@ imgui_wrapper.loop = function(ctx, viewport, state, obj)
             r.ImGui_Text(ctx, 'Path looks good!')
         end
 
-        r.ImGui_BeginChildFrame(ctx, '##file-drop', 0, 100)
-        r.ImGui_Text(ctx, 'Drag and drop the bin folder here...')
-        r.ImGui_EndChildFrame(ctx)
+        if r.ImGui_BeginChildFrame(ctx, 'file-drop', 0, 100) then
+            r.ImGui_Text(ctx, 'Drag and drop the bin folder here...')
+            r.ImGui_EndChildFrame(ctx)
+        end
 
         if r.ImGui_BeginDragDropTarget(ctx) then
             local rv, count = r.ImGui_AcceptDragDropPayloadFiles(ctx)
@@ -104,7 +97,7 @@ imgui_wrapper.loop = function(ctx, viewport, state, obj)
     -- GUI --
     if confirmed_path_valid == true then
 
-        reaper.ImGui_Begin(ctx, 'wnd', nil, reaper.ImGui_WindowFlags_NoDecoration())
+        local visible, open = reaper.ImGui_Begin(ctx, 'ReaCoMA Interface', true, reaper.ImGui_WindowFlags_NoDecoration())
 
         if reaper.ImGui_Button(ctx, obj.info.action) or (reacoma.global_state.active == 0 and reaper.ImGui_IsKeyPressed(ctx, 13)) then
             state = reacoma.imgui_helpers.process(obj) -- TODO: make this respond to slicer/layers
@@ -125,11 +118,20 @@ imgui_wrapper.loop = function(ctx, viewport, state, obj)
         state = reacoma.imgui_helpers.update_state(ctx, obj, reacoma.settings.slice_preview)
         reaper.ImGui_End(ctx)
     end
-    reaper.defer(
-        function() 
-            imgui_wrapper.loop(ctx, viewport, state, obj) 
-        end
-    )
+    if open then
+        reaper.defer(
+            function() 
+                imgui_wrapper.loop(ctx, viewport, state, obj) 
+            end
+        )
+      else
+        reaper.ImGui_DestroyContext(ctx)
+        reaper.Undo_EndBlock2(0, obj.info.ext_name, 4)
+        reacoma.params.set(obj)
+        reaper.SetExtState('reacoma', 'slice_preview', utils.bool_to_string[reacoma.settings.slice_preview], true)
+        return
+      end
+
 end
 
 return imgui_wrapper

@@ -9,6 +9,7 @@ package.path = package.path .. ";" .. script_path .. "?.lua"
 -- Require the modules
 local reaper = reaper
 reacoma = {}
+state = {}
 reacoma.settings = {}
 -- Now set the paths up for where new files will be located
 reacoma.lib = script_path
@@ -24,6 +25,7 @@ end
 reacoma.global_state = {}
 reacoma.global_state.active = false
 
+
 -- Add modules to reacoma table
 reacoma.container = require("container")
 reacoma.layers = require("layers")
@@ -33,33 +35,6 @@ reacoma.paths = require("paths")
 reacoma.sorting = require("sorting")
 reacoma.tagging = require("tagging")
 reacoma.utils = require("utils")
-reacoma.colors = require("colors")
-reacoma.imgui_helpers = require("imgui_helpers")
-reacoma.imgui_wrapper = require("imgui_wrapper")
-
--- Slicing
-reacoma.noveltyslice = require("algorithms/noveltyslice")
-reacoma.ampslice = require("algorithms/ampslice")
-reacoma.transientslice = require("algorithms/transientslice")
-reacoma.onsetslice = require("algorithms/onsetslice")
-reacoma.ampgate = require("algorithms/ampgate")
--- Layers
-reacoma.hpss = require("algorithms/hpss")
-reacoma.nmf = require("algorithms/nmf")
-reacoma.sines = require("algorithms/sines")
-reacoma.transients = require("algorithms/transients")
-
--- High level information about reacoma
-loadfile(script_path .. "../config.lua")() -- Load the config as a chunk to get the values
-reacoma.output = reacoma.output or "source" -- If this isn't set we set a default.
--- If the user has set a custom path then lets check if it exists
-if reacoma.output ~= "source" and reacoma.output ~= "media" then
-    reacoma.output = reacoma.paths.expandtilde(reacoma.output)
-    if not reacoma.utils.dir_exists(reacoma.output) then
-        reacoma.utils.DEBUG("The custom output directory ".."'"..reacoma.output.."'".." does not exist. Please make it or adjust the configuration")
-        reacoma.utils.assert(false)
-    end
-end
 
 -- Check that we are not running in restricted mode
 if not os then
@@ -82,8 +57,36 @@ if not reaper.ImGui_GetVersion then
         reacoma.utils.open_browser("https://reapack.com/")
     end
     reacoma.settings.fatal = true
+else
+    -- ImGui Specific Stuff
+    reacoma.colors = require("colors")
+    reacoma.imgui_helpers = require("imgui_helpers")
+    reacoma.imgui_wrapper = require("imgui_wrapper")
+
+    -- Slicing
+    reacoma.noveltyslice = require("algorithms/noveltyslice")
+    reacoma.ampslice = require("algorithms/ampslice")
+    reacoma.transientslice = require("algorithms/transientslice")
+    reacoma.onsetslice = require("algorithms/onsetslice")
+    reacoma.ampgate = require("algorithms/ampgate")
+    -- Layers
+    reacoma.hpss = require("algorithms/hpss")
+    reacoma.nmf = require("algorithms/nmf")
+    reacoma.sines = require("algorithms/sines")
+    reacoma.transients = require("algorithms/transients")
+end
+
+-- High level information about reacoma
+loadfile(script_path .. "../config.lua")() -- Load the config as a chunk to get the values
+reacoma.output = reacoma.output or "source" -- If this isn't set we set a default.
+-- If the user has set a custom path then lets check if it exists
+if reacoma.output ~= "source" and reacoma.output ~= "media" then
+    reacoma.output = reacoma.paths.expandtilde(reacoma.output)
+    if not reacoma.utils.dir_exists(reacoma.output) then
+        reacoma.utils.DEBUG("The custom output directory ".."'"..reacoma.output.."'".." does not exist. Please make it or adjust the configuration")
+        reacoma.utils.assert(false)
+    end
 end
 
 
 reaper.Undo_BeginBlock2(0)
-state = {}
