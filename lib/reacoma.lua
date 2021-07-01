@@ -1,10 +1,6 @@
-----------------------------------------------------------
---   ReaCoMa by James Bradbury | hello@jamesbradbury.xyz   --
-----------------------------------------------------------
--- This is the entry point to the REACOMA library
--- Taking the path of THIS script we then append that folder to the package path
--- We then require all of the modules into this file which is loaded by any top level scripts
--- This means 1 import for every file that uses the library.
+---------------------------------------------------------
+-- ReaCoMa by James Bradbury | hello@jamesbradbury.xyz --
+---------------------------------------------------------
 
 local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
@@ -24,6 +20,7 @@ reacoma.paths = require("paths")
 reacoma.sorting = require("sorting")
 reacoma.tagging = require("tagging")
 reacoma.utils = require("utils")
+reacoma.colors = require("colors")
 reacoma.imgui_helpers = require("imgui_helpers")
 reacoma.imgui_wrapper = require("imgui_wrapper")
 
@@ -53,6 +50,7 @@ end
 -- Now set the paths up for where new files will be located
 reacoma.lib = script_path
 reacoma.version = "2.0.0a"
+reacoma.settings.path = reacoma.paths.get_reacoma_path() 
 
 -- Check that we are not running in restricted mode
 if not os then
@@ -77,21 +75,6 @@ if not reaper.ImGui_GetVersion then
     reacoma.settings.fatal = true
 end
 
-if reacoma.paths.is_path_valid(reacoma.paths.get_reacoma_path()) then
-    -- quickly check that its valid
-    -- local reacoma_exe_path = reacoma.paths.get_reacoma_path()
-
-    -- if not valid go into setter
-    -- if not reacoma.paths.is_path_valid(reacoma_exe_path) then
-else
-    reaper.defer(
-        function()
-            paths.gui(ctx, vp)
-        end
-    )
-end
--- Store the path in a known place
-reacoma.settings.path = reacoma.paths.get_reacoma_path() 
 
 reaper.Undo_BeginBlock2(0)
 state = {}
