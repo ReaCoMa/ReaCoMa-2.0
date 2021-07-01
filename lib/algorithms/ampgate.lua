@@ -48,7 +48,7 @@ function segment(parameters)
 
         reacoma.utils.cmdline(cmd)
         table.insert(data.slice_points_string, reacoma.utils.readfile(data.tmp[i]))
-        reacoma.slicing.process(i, data)
+        reacoma.slicing.process(i, data, true)
     end
     
     reaper.UpdateArrange()
