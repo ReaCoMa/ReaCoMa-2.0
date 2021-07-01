@@ -16,25 +16,24 @@ slicing.rm_dup = function(slice_table)
     return res
 end
 
-slicing.process = function(item_index, data, mute_state)
-    -- Thank you to Francesco Cameli for helping me debug this absolute NIGHTMARE --
-    local slice_points = utils.split_comma(
-        data.slice_points_string[item_index]
-    )
+slicing.process = function(item_index, data, gate_based_slicer)
+    local slice_points = nil
+
+    if gate_based_slicer then
+        slice_points = utils.split_space(
+            data.slice_points_string[item_index]
+        )
+    else
+        slice_points = utils.split_comma(
+            data.slice_points_string[item_index]
+        )
+    end
 
     -- slice_points = slicing.rm_dup(slice_points)
 
-    -- If the init_mute_state is passed its a gate-baseds slice (fluid.ampgate~)
-    -- Otherwise its not
-    local gate_based_slicer = false
-
-    if mute_state == 0 or mute_state == 1 then 
-        gate_based_slicer = true
-
-        -- Also test if the slice points are logical, otherwise exit
-        if slice_points[1] == "-1" or slice_points[2] == "-1" then 
-            return 
-        end
+    -- Also test if the slice points are logical, otherwise exit
+    if gate_based_slicer and (slice_points[1] == '-1' or slice_points[2] == '-1') then 
+        return 
     end
 
     -- Invert the table around the middle point (mirror!)
@@ -59,10 +58,12 @@ slicing.process = function(item_index, data, mute_state)
             slice_points[i] = (slice_points[i] + data.take_ofs_samples[item_index]) / data.playrate[item_index]
         else
             slice_points[i] = (slice_points[i] - data.take_ofs_samples[item_index]) / data.playrate[item_index]
+            -- reaper.ShowConsoleMsg(slice_points[i])
+            -- reaper.ShowConsoleMsg('\n')
         end
         -- and convert to seconds for REAPER
         slice_points[i] = utils.sampstos(
-            tonumber(slice_points[i]),
+            slice_points[i],
             data.sr[item_index]
         )
     end
@@ -71,19 +72,6 @@ slicing.process = function(item_index, data, mute_state)
         local slice_pos = slice_points[i]
         -- slice_pos = data.item_pos[item_index] + slice_pos
 
-        -- Handle muting for fluid.ampgate
-        -- if gate_based_slicer then
-        --     reaper.SetMediaItemInfo_Value(
-        --         data.item[item_index], 
-        --         "B_MUTE", 
-        --         mute_state
-        --     )
-        --     -- invert the mute state
-        --     if mute_state == 1 then 
-        --         mute_state = 0 else 
-        --         mute_state = 1 
-        --     end
-        -- end
         local colour = reaper.ColorToNative(0, 0, 0) | 0x1000000
         reaper.SetTakeMarker(
             data.take[item_index], 
