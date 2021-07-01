@@ -100,7 +100,6 @@ imgui_helpers.process = function(obj)
             for j=1, num_markers do
                 marker = reaper.GetTakeMarker(take, j-1)
                 table.insert(take_markers, marker)
-                reaper.ShowConsoleMsg(reaper.GetTakeMarker(take, j-1))
             end
             
             -- Now remove them from the item
