@@ -1,12 +1,14 @@
 imgui_helpers = {}
 
 imgui_helpers.create_context = function(name, width, height)
-    return reaper.ImGui_CreateContext(
+    local context = reaper.ImGui_CreateContext(
         name, width, height, 
         nil, nil, nil,
         nil 
         -- reaper.ImGui_ConfigFlags_NoSavedSettings()
     )
+    local viewport = reaper.ImGui_GetMainViewport(context)
+    return context, viewport
 end
 
 imgui_helpers.HelpMarker = function(ctx, desc)
