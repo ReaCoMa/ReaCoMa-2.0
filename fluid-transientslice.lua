@@ -11,6 +11,6 @@ viewport = reaper.ImGui_GetMainViewport(ctx)
 
 reaper.defer(
     function()
-        reacoma.imgui_wrapper.loop(ctx, viewport, state, obj, preview)
+        reacoma.imgui_wrapper.loop(ctx, viewport, state, obj)
     end
 )
