@@ -109,7 +109,6 @@ imgui_wrapper.loop = function(ctx, viewport, state, obj)
         if reaper.ImGui_Button(ctx, obj.info.action) or (reacoma.global_state.active == 0 and reaper.ImGui_IsKeyPressed(ctx, 13)) then
             state = reacoma.imgui_helpers.process(obj) -- TODO: make this respond to slicer/layers
         end
-        reaper.ImGui_SameLine(ctx)
         -- DEBUG SIZE --
         -- w, h = reaper.ImGui_Viewport_GetSize(viewport)
         -- reaper.ImGui_Text(ctx, w..' x '..h)
