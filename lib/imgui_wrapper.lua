@@ -3,14 +3,17 @@ imgui_wrapper = {}
 local r = reaper
 local path_valid = false
 local show_modal = true
-local confirmed_path_valid = false
+local confirmed_path_valid = reacoma.paths.is_path_valid(reacoma.settings.path)
 
 -- FRAME LOOP --
-imgui_wrapper.loop = function(ctx, viewport, state, obj, preview)
+imgui_wrapper.loop = function(ctx, viewport, state, obj)
+    path_valid = reacoma.paths.is_path_valid(reacoma.settings.path)
+
     if reaper.ImGui_IsCloseRequested(ctx) then
         reaper.ImGui_DestroyContext(ctx)
         reaper.Undo_EndBlock2(0, obj.info.ext_name, 4)
         reacoma.params.set(obj)
+        reaper.SetExtState('reacoma', 'slice_preview', utils.bool_to_string[reacoma.settings.slice_preview], true)
         return
     end
 
@@ -82,17 +85,14 @@ imgui_wrapper.loop = function(ctx, viewport, state, obj, preview)
             r.ImGui_PushStyleColor(ctx, r.ImGui_Col_ButtonActive(), colors.mid_grey)
             r.ImGui_PushStyleColor(ctx, r.ImGui_Col_ButtonHovered(), colors.grey)
         end
-        
+
         if reaper.ImGui_Button(ctx, 'confirm path') then
             if path_valid then
                 confirmed_path_valid = path_valid
-            else
-                -- modal popup
+                reacoma.paths.set_reacoma_path(reacoma.settings.path)
             end
         end
         r.ImGui_PopStyleColor(ctx, 3)
-
-        path_valid = reacoma.paths.is_path_valid(reacoma.settings.path)
         
         if path_valid then
             r.ImGui_SameLine(ctx)
@@ -106,25 +106,29 @@ imgui_wrapper.loop = function(ctx, viewport, state, obj, preview)
 
         reaper.ImGui_Begin(ctx, 'wnd', nil, reaper.ImGui_WindowFlags_NoDecoration())
 
-        w, h = reaper.ImGui_Viewport_GetSize(viewport)
-        if reaper.ImGui_Button(ctx, obj.info.action) or reaper.ImGui_IsKeyPressed(ctx, 13) then
+        if reaper.ImGui_Button(ctx, obj.info.action) or (reacoma.global_state.active == 0 and reaper.ImGui_IsKeyPressed(ctx, 13)) then
             state = reacoma.imgui_helpers.process(obj) -- TODO: make this respond to slicer/layers
         end
         reaper.ImGui_SameLine(ctx)
-        reaper.ImGui_Text(ctx, w..' x '..h)
+        -- DEBUG SIZE --
+        -- w, h = reaper.ImGui_Viewport_GetSize(viewport)
+        -- reaper.ImGui_Text(ctx, w..' x '..h)
 
         if obj.info.action == 'segment' then
             reaper.ImGui_SameLine(ctx)
-            _, preview = reaper.ImGui_Checkbox(ctx, 'preview', preview)
+            _, reacoma.settings.slice_preview = reaper.ImGui_Checkbox(ctx, 
+                'preview', 
+                reacoma.settings.slice_preview
+            )
         else
-            preview = 0
+            reacoma.settings.slice_preview = false
         end
-        state = reacoma.imgui_helpers.update_state(ctx, obj, preview)
+        state = reacoma.imgui_helpers.update_state(ctx, obj, reacoma.settings.slice_preview)
         reaper.ImGui_End(ctx)
     end
     reaper.defer(
         function() 
-            imgui_wrapper.loop(ctx, viewport, state, obj, preview) 
+            imgui_wrapper.loop(ctx, viewport, state, obj) 
         end
     )
 end
