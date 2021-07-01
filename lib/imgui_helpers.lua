@@ -55,6 +55,9 @@ imgui_helpers.draw_gui = function(ctx, obj)
         local help_text = d.desc or 'no help available'
         imgui_helpers.HelpMarker(ctx, help_text)
         active = active + reacoma.utils.bool_to_number[widget_active]
+        -- TODO:
+        -- If something is active (edited currently)...
+        -- ... we don't want to trigger a change
         change = change + reacoma.utils.bool_to_number[temp]
     end
     reacoma.global_state.active = active
@@ -78,14 +81,35 @@ imgui_helpers.process = function(obj)
     local state = obj.perform_update(obj.parameters)
 
     if obj.info.action == 'segment' then
+        -- Handle muting
+        -- local mute = 0
+        -- reaper.SetMediaItemInfo_Value(
+        --     data.item[item_index], 
+        --     "B_MUTE", 
+        --     mute_state
+        -- )
+        -- if mute_state == 1 then mute_state = 0 else mute_state = 1 end
         local num_selected_items = reaper.CountSelectedMediaItems(0)
         for i=1, num_selected_items do
             item = reaper.GetSelectedMediaItem(0, i-1)
             take = reaper.GetActiveTake(item)
-            take_markers = reaper.GetNumTakeMarkers(take)
+            num_markers = reaper.GetNumTakeMarkers(take)
+            
+            -- Collect the take markers
+            take_markers = {}
+            for j=1, num_markers do
+                marker = reaper.GetTakeMarker(take, j-1)
+                table.insert(take_markers, marker)
+                reaper.ShowConsoleMsg(reaper.GetTakeMarker(take, j-1))
+            end
+            
+            -- Now remove them from the item
+            for j=1, num_markers do
+                reaper.DeleteTakeMarker(take, num_markers-j)
+            end
 
-            for j=1, take_markers do
-                local slice_pos, _, _ = reaper.GetTakeMarker(take, j-1)
+            for j=1, #take_markers do
+                local slice_pos = take_markers[j]
                 item = reaper.SplitMediaItem(
                     item, 
                     slice_pos + state.item_pos[i]
