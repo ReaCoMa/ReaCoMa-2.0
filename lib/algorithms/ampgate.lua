@@ -127,7 +127,7 @@ ampgate = {
             desc = 'The length in samples that the envelope have to be above the threshold to consider it a valid transition to ON. The Slice will start at the first sample when the condition is met. Therefore, this affects the latency.'
         },
         {
-            name = 'minlengthabove',
+            name = 'minlengthbelow',
             widget = reaper.ImGui_SliderInt,
             min = 1,
             max = 3000,
