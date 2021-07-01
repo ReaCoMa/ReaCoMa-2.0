@@ -10,6 +10,19 @@ package.path = package.path .. ";" .. script_path .. "?.lua"
 local reaper = reaper
 reacoma = {}
 reacoma.settings = {}
+-- Now set the paths up for where new files will be located
+reacoma.lib = script_path
+reacoma.version = "2.0.0a"
+reacoma.settings.path = reaper.GetExtState("reacoma", "exepath")
+if reaper.HasExtState("reacoma", "slice_preview") then
+    local preview = reaper.GetExtState("reacoma", "slice_preview")
+    if preview == 'false' then preview = false else preview = true end
+    reacoma.settings.slice_preview = preview
+else
+    reacoma.settings.slice_preview = false
+end
+reacoma.global_state = {}
+reacoma.global_state.active = false
 
 -- Add modules to reacoma table
 reacoma.container = require("container")
@@ -29,7 +42,7 @@ reacoma.noveltyslice = require("algorithms/noveltyslice")
 reacoma.ampslice = require("algorithms/ampslice")
 reacoma.transientslice = require("algorithms/transientslice")
 reacoma.onsetslice = require("algorithms/onsetslice")
--- reacoma.ampgate = require("algorithms/ampgate")
+reacoma.ampgate = require("algorithms/ampgate")
 -- Layers
 reacoma.hpss = require("algorithms/hpss")
 reacoma.nmf = require("algorithms/nmf")
@@ -47,10 +60,6 @@ if reacoma.output ~= "source" and reacoma.output ~= "media" then
         reacoma.utils.assert(false)
     end
 end
--- Now set the paths up for where new files will be located
-reacoma.lib = script_path
-reacoma.version = "2.0.0a"
-reacoma.settings.path = reacoma.paths.get_reacoma_path() 
 
 -- Check that we are not running in restricted mode
 if not os then
@@ -78,4 +87,3 @@ end
 
 reaper.Undo_BeginBlock2(0)
 state = {}
-preview = true
