@@ -1,5 +1,14 @@
 imgui_helpers = {}
 
+imgui_helpers.create_context = function(name, width, height)
+    return reaper.ImGui_CreateContext(
+        name, width, height, 
+        nil, nil, nil,
+        nil 
+        -- reaper.ImGui_ConfigFlags_NoSavedSettings()
+    )
+end
+
 imgui_helpers.HelpMarker = function(ctx, desc)
     reaper.ImGui_SameLine(ctx)
     reaper.ImGui_TextDisabled(ctx, '(?)')
