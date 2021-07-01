@@ -64,7 +64,7 @@ end
 imgui_helpers.update_state = function(ctx, obj)
     -- TODO: this could possibly be refactored into a single if statement but for now lets keep it verbose
     -- Updates the state within each frame loop
-    local change, active = imgui_helpers.draw_gui(ctx, obj)
+    local change = imgui_helpers.draw_gui(ctx, obj)
     -- We only need to update the state intermittently if the object is for segmenting...
     -- ... and if the preview is checked
     if obj.info.action == 'segment' and change > 0 and reacoma.settings.slice_preview then
