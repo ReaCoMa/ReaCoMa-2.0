@@ -117,7 +117,7 @@ ampslice = {
             widget = reaper.ImGui_SliderDouble,
             min = -144,
             max = 144,
-            value = -145,
+            value = -60,
             type = 'sliderdouble',
             desc = 'The level in dB the slowRamp needs to be above to consider a detected difference valid, allowing to ignore the slices in the noise floor.'
         },
@@ -135,10 +135,10 @@ ampslice = {
             widget = reaper.ImGui_SliderDouble,
             min = 0,
             max = 20000,
-            value = 22000,
+            value = 85,
             type = 'sliderdouble',
             flag = reaper.ImGui_SliderFlags_Logarithmic(),
-            desc = 'The frequency of the fourth-order Linkwitz–Riley high-pass filter.'
+            desc = 'The frequency of the fourth-order Linkwitz-Riley high-pass filter.'
         },
 
     },
