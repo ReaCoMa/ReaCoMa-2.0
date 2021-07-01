@@ -6,8 +6,7 @@ if reacoma.settings.fatal then return end
 obj = reacoma.ampgate
 reacoma.params.get(obj)
 
-ctx = imgui_helpers.create_context(obj.info.algorithm_name, 454, 287)
-viewport = reaper.ImGui_GetMainViewport(ctx)
+ctx, viewport = imgui_helpers.create_context(obj.info.algorithm_name, 454, 287)
 
 reaper.defer(
     function()
