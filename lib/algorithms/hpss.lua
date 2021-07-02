@@ -73,7 +73,7 @@ hpss = {
             desc = 'The size, in spectral frames, of the median filter for the harmonic component.'
         },
         {
-            name = 'percussive filter size',
+            name = 'percfiltersize',
             widget = reaper.ImGui_SliderInt,
             min = 3,
             max = 51,
