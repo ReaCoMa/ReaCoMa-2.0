@@ -6,7 +6,10 @@ if reacoma.settings.fatal then return end
 obj = reacoma.hpss
 reacoma.params.get(obj)
 
-ctx, viewport = imgui_helpers.create_context(obj.info.algorithm_name, 567, 149)
+reacoma.global_state.width = 597
+reacoma.global_state.height = 169
+
+ctx, viewport = imgui_helpers.create_context(obj.info.algorithm_name)
 
 reaper.defer(
     function()

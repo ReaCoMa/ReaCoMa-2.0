@@ -1,6 +1,6 @@
 imgui_helpers = {}
 
-imgui_helpers.create_context = function(name, width, height)
+imgui_helpers.create_context = function(name)
     local context = reaper.ImGui_CreateContext(name)
     local viewport = reaper.ImGui_GetMainViewport(context)
     return context, viewport

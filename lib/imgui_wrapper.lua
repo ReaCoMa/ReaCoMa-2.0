@@ -5,40 +5,53 @@ local path_valid = false
 local show_modal = true
 local confirmed_path_valid = reacoma.paths.is_path_valid(reacoma.settings.path)
 open = true
+visible = true
 
+local path_width = 500
+local path_height = 200
 -- FRAME LOOP --
 imgui_wrapper.loop = function(ctx, viewport, state, obj)
+
     path_valid = reacoma.paths.is_path_valid(reacoma.settings.path)
 
-    reaper.ImGui_SetNextWindowPos(ctx, reaper.ImGui_Viewport_GetPos(viewport))
-    reaper.ImGui_SetNextWindowSize(ctx, reaper.ImGui_Viewport_GetSize(viewport))
+    local pos = { r.ImGui_Viewport_GetWorkPos(viewport) }
+    local w, h = reaper.ImGui_Viewport_GetSize(viewport)
+
+    reaper.ImGui_SetNextWindowPos(ctx, pos[1] + 100, pos[2] + 100, r.ImGui_Cond_FirstUseEver())
+    reaper.ImGui_SetNextWindowSize(ctx, 
+        reacoma.global_state.width,
+        reacoma.global_state.height, 
+        r.ImGui_Cond_FirstUseEver()
+    )
 
     if confirmed_path_valid == false then
-        -- PATH CHECKING --
-    
+        
         if show_modal then
+            -- reaper.ImGui_SetNextWindowSize(ctx, 
+            --     path_width, path_height,
+            --     r.ImGui_Cond_FirstUseEver()
+            -- )
             r.ImGui_OpenPopup(ctx, 'Set ReaCoMa Path')
-
-            -- Always center this window when appearing
-            local center = {r.ImGui_Viewport_GetCenter(r.ImGui_GetMainViewport(ctx))}
-            local window_size = r.ImGui_Viewport_GetSize(viewport)
-            -- r.ImGui_SetNextWindowSize(ctx, 400, 230, 0)
-            -- r.ImGui_SetNextWindowPos(ctx, center[1], center[2], r.ImGui_Cond_Appearing(), 0.5, 0.5)
-
             -- ENTER MODAL --
-            r.ImGui_BeginPopupModal(ctx, 'Set ReaCoMa Path', nil, r.ImGui_WindowFlags_AlwaysAutoResize())
-            r.ImGui_TextWrapped(ctx, 'The path to the FluCoMa CLI tools is not set. Please follow the next prompt to configure it. Doing so remains persistent across projects and sessions of reaper.')
-            r.ImGui_TextWrapped(ctx, "For example, if you've just downloaded the tools from the flucoma.org/download then you'll need to provide the path to the 'bin' folder which is inside 'Fluid Corpus Manipulation'.")
+            if r.ImGui_BeginPopupModal(ctx, 'Set ReaCoMa Path', nil) then
+                r.ImGui_TextWrapped(ctx, 'The path to the FluCoMa CLI tools is not set. Please follow the next prompt to configure it. Doing so remains persistent across projects and sessions of reaper.')
+                r.ImGui_TextWrapped(ctx, "For example, if you've just downloaded the tools from the flucoma.org/download then you'll need to provide the path to the 'bin' folder which is inside 'Fluid Corpus Manipulation'.")
             
-            if r.ImGui_Button(ctx, 'OK', 120, 0) then 
-                show_modal = false
-                r.ImGui_CloseCurrentPopup(ctx) 
+                if r.ImGui_Button(ctx, 'OK', 120, 0) then 
+                    r.ImGui_CloseCurrentPopup(ctx) 
+                    show_modal = false
+                end
+                r.ImGui_EndPopup(ctx)
             end
-            r.ImGui_EndPopup(ctx)
             -- EXIT MODAL --
         end
 
-        visible, open = reaper.ImGui_Begin(ctx, 'Path Setter', true, reaper.ImGui_WindowFlags_NoDecoration())
+        reaper.ImGui_SetNextWindowSize(ctx, 
+            path_width, path_height,
+            r.ImGui_Cond_FirstUseEver()
+        )
+
+        visible, open = reaper.ImGui_Begin(ctx, 'Path Setter', true, r.ImGui_WindowFlags_NoCollapse())
 
         r.ImGui_Text(ctx, 'FluCoMa Command Line Tools Path')
 
@@ -97,14 +110,11 @@ imgui_wrapper.loop = function(ctx, viewport, state, obj)
     -- GUI --
     if confirmed_path_valid == true then
 
-        local visible, open = reaper.ImGui_Begin(ctx, 'ReaCoMA Interface', true, reaper.ImGui_WindowFlags_NoDecoration())
+        visible, open = reaper.ImGui_Begin(ctx, obj.info.algorithm_name, true, r.ImGui_WindowFlags_NoCollapse())
 
         if reaper.ImGui_Button(ctx, obj.info.action) or (reacoma.global_state.active == 0 and reaper.ImGui_IsKeyPressed(ctx, 13)) then
             state = reacoma.imgui_helpers.process(obj) -- TODO: make this respond to slicer/layers
         end
-        -- DEBUG SIZE --
-        -- w, h = reaper.ImGui_Viewport_GetSize(viewport)
-        -- reaper.ImGui_Text(ctx, w..' x '..h)
 
         if obj.info.action == 'segment' then
             reaper.ImGui_SameLine(ctx)
@@ -124,14 +134,13 @@ imgui_wrapper.loop = function(ctx, viewport, state, obj)
                 imgui_wrapper.loop(ctx, viewport, state, obj) 
             end
         )
-      else
+    else
         reaper.ImGui_DestroyContext(ctx)
         reaper.Undo_EndBlock2(0, obj.info.ext_name, 4)
         reacoma.params.set(obj)
         reaper.SetExtState('reacoma', 'slice_preview', utils.bool_to_string[reacoma.settings.slice_preview], true)
         return
-      end
-
+    end
 end
 
 return imgui_wrapper

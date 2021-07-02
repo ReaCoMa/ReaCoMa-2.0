@@ -6,7 +6,10 @@ if reacoma.settings.fatal then return end
 obj = reacoma.transientslice
 reacoma.params.get(obj)
 
-ctx, viewport = imgui_helpers.create_context(obj.info.algorithm_name, 415, 241)
+reacoma.global_state.width = 445
+reacoma.global_state.height = 261
+
+ctx, viewport = imgui_helpers.create_context(obj.info.algorithm_name)
 
 reaper.defer(
     function()
