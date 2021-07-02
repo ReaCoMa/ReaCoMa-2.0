@@ -6,7 +6,7 @@ if reacoma.settings.fatal then return end
 obj = reacoma.nmf
 reacoma.params.get(obj)
 
-reacoma.global_state.width = 429
+reacoma.global_state.width = 375
 reacoma.global_state.height = 169
 
 ctx, viewport = imgui_helpers.create_context(obj.info.algorithm_name)
