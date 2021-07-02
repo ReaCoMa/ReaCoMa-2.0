@@ -19,8 +19,6 @@ All of the number crunching and DSP is performed by the FluCoMa command line too
 
 Once you have a set of the binaries you will need to store them in a sensible location that is likely not to change.
 
-------------------
-
 ## Step 2: Lua Scripts
 
 The lua scripts orchestrate calls between REAPER and the command line executables. They take care of things like providing a basic user interface and the specification of parameters for each algorithm. 
