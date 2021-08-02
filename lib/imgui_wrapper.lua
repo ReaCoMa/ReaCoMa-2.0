@@ -2,13 +2,13 @@ imgui_wrapper = {}
 
 local r = reaper
 local path_valid = false
-local show_modal = true
+local show_modal = false
 local confirmed_path_valid = reacoma.paths.is_path_valid(reacoma.settings.path)
 open = true
 visible = true
 
 local path_width = 500
-local path_height = 200
+local path_height = 285
 -- FRAME LOOP --
 imgui_wrapper.loop = function(ctx, viewport, state, obj)
 
@@ -25,35 +25,19 @@ imgui_wrapper.loop = function(ctx, viewport, state, obj)
     )
 
     if confirmed_path_valid == false then
-        
-        if show_modal then
-            -- reaper.ImGui_SetNextWindowSize(ctx, 
-            --     path_width, path_height,
-            --     r.ImGui_Cond_FirstUseEver()
-            -- )
-            r.ImGui_OpenPopup(ctx, 'Set ReaCoMa Path')
-            -- ENTER MODAL --
-            if r.ImGui_BeginPopupModal(ctx, 'Set ReaCoMa Path', nil) then
-                r.ImGui_TextWrapped(ctx, 'The path to the FluCoMa CLI tools is not set. Please follow the next prompt to configure it. Doing so remains persistent across projects and sessions of reaper.')
-                r.ImGui_TextWrapped(ctx, "For example, if you've just downloaded the tools from the flucoma.org/download then you'll need to provide the path to the 'bin' folder which is inside 'Fluid Corpus Manipulation'.")
-            
-                if r.ImGui_Button(ctx, 'OK', 120, 0) then 
-                    r.ImGui_CloseCurrentPopup(ctx) 
-                    show_modal = false
-                end
-                r.ImGui_EndPopup(ctx)
-            end
-            -- EXIT MODAL --
-        end
 
         reaper.ImGui_SetNextWindowSize(ctx, 
             path_width, path_height,
             r.ImGui_Cond_FirstUseEver()
         )
 
-        visible, open = reaper.ImGui_Begin(ctx, 'Path Setter', true, r.ImGui_WindowFlags_NoCollapse())
+        visible, open = reaper.ImGui_Begin(ctx, 'ReaCoMa Command-Line Configuration', true, r.ImGui_WindowFlags_NoCollapse())
 
-        r.ImGui_Text(ctx, 'FluCoMa Command Line Tools Path')
+        r.ImGui_TextWrapped(ctx, "You will need to configure ReaCoMa so that it is aware of the location of the FluCoMa command line tools. To do this, provide the location of the folder containing the executable tools. For example, if you've just downloaded them from www.flucoma.org/download then you'll need to supply the 'bin' folder which is inside 'Fluid Corpus Manipulation. You can also drag and drop the folder below.")
+
+
+        reaper.ImGui_NewLine(ctx)
+        
 
         if path_valid then 
             r.ImGui_PushStyleColor(ctx, r.ImGui_Col_FrameBg(), colors.green)
