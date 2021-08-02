@@ -2,43 +2,83 @@
 <img src="logo.jpg" alt="reacoma_logo" width="25%" height="25%">
 </p>
 
-ReaCoMa is a project developed by [James Bradbury](https://jamesbradbury.xyz). The project brings the power of the [FluCoMa tools](https://www.flucoma.org) to REAPER. 
+ReaCoMa 2 is a project developed by [James Bradbury](https://jamesbradbury.xyz). The project brings the power of the [FluCoMa tools](https://www.flucoma.org) to REAPER. 
 
-The website for ReaCoMa provides some information in addition to the installation instructions which have been mirrored below. I encourage you to visit it if you are interested in learning more about the project.
+# Another ReaCoMa ?!
+ReaCoMa 2 is a major update and improvement to the first version of ReaCoMa
 
-https://www.reacoma.xyz
+It brings a number of improvements over the initial version, while still being minimal and robust. These include: 
 
-<a href="https://www.buymeacoffee.com/jamesb" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
+- A new interface that leverages Dear ImGui for an immediate mode, hardware accelerated interface with sliders, drop-downs and more.
+- Dockable and persistent windows, so you can keep your favourite slicers or decomposition algorithms handy.
+- real-time slicing previews.
 
-If you have found ReaCoMa in any way useful, consider supporting the project by clicking the button above. :+1:
-# Installation
+The code is also refactored to be much more flexible, and to enable more agile development in the future. I hope to add more features and to continually improve the software moving forward.
 
-## Step 1: Command Line Tools
+ ReaCoMa 2 is is not a replacement for ReaCoMa 1, rather, it can be seen as an enhanced version for those who don’t mind installing an additional dependency and are willing to adapt their workflow. I know the value in maintaining a stable creative workflow, so ReaCoMa 1 will receive bug fixes. Ultimately it's up to you which version you want to use.
 
-All of the number crunching and DSP is performed by the FluCoMa command line tools. You will need to download the appropriate version for your operating system. Precompiled binaries can be found [here](https://www.flucoma.org/download) or you can compile them from [source](https://github.com/flucoma/flucoma-cli).
+# Installation Instructions
 
-Once you have a set of the binaries you will need to store them in a sensible location that is likely not to change.
+Installing ReaCoMa 2 is similar to ReaCoMa one, with one additional step.
 
-## Step 2: Lua Scripts
+## Step 1 (Downloading ReaCoMa)
+Step 1 is to download ReaCoMa 2 from GitHub
+After you have done this keep that folder in a safe place that won't need to be moved.
 
-The lua scripts orchestrate calls between REAPER and the command line executables. They take care of things like providing a basic user interface and the specification of parameters for each algorithm. 
+It does not matter where it goes, only that you know how to find it later.
 
-1. Download all of the files from this repository.
+## Step 2 (Install ReaImGui)
+Step 2 is to download the ReaImGui library. This is the engine which powers the new interface of ReaCoMa 2, generously developed and given away by Christian Fillion.
 
-https://github.com/jamesb93/ReaCoMa/archive/master.zip
+There are **two** ways that you can manage the installation of the ReaImGui library, each with their own set of pros and cons. Ultimately, all we need to do is have the correct version of the compiled library in REAPER's UserPlugins folder.
 
-2. Unzip the downloaded archive and you will have a folder contaning a number of files ending with the `.lua` extension - these are the scripts that relate to each FluCoMa algorithm.
+### Method 1
 
-You can have this folder anywhere you want on your machine, REAPER doesn't actually care too much about where a script is launched from and I have made sure that any dependencies are sorted out in-house and not as part of your REAPER installation. The entire thing is *very* portable.
+Method One is the ReaPack method. ReaPack is a package manager for REAPER. If you've never used a package manager before, it is a tool for simplifying installation, updates and the management of extensions to REAPER. This method is more convenient if you already use ReaPack but might be more trouble than its worth if it is not part of your workflow already.
 
-When you try to run the lua scripts for the first time it will ask you to provide the path where you stored the command line tools. This creates a semi-permanent link between the scripts and ReaCoMa using internal [extended states](https://www.reaper.fm/sdk/reascript/reascripthelp.html#SetExtState) in the REAPER ReaScript API.
+The first stage of the ReaPack method is to:
+
+- first head head to manage repositories and make sure we are subscribed to the ReaTeam extensions.
+- Now, head to browse packages and search for reaimgui. 
+- Once you find it, right click and click install.
+
+Thats it!
+
+### Method 2
+
+Method Two is the manual method. This method means you don't need to install or use ReaPack, which can be much more straightforward. However, you'll need to manage your own updates of the library.
+
+To follow this method: 
+- start by heading to the releases page of ReaImGui's github: https://github.com/cfillion/reaimgui/releases
+- You'll need to select the appropriate compilation of the library for your processor and operating system. I'm using an arm processor and so I select arm64. If you use a 64 bit intel processor on windows you would select reaper_imgui-x64.dll for example.
+- Once you've downloaded this file you need to move it to your UserPlugins folder.
+- Unless you already know the path, the easiest way to find this is to click the options menu in REAPER, and to then follow the link to the "resource path" for REAPER.
+- From there the userplugins folder should be apparent.
+- Copy the shared library to this path
+
+After installing ReaimGui you will need to restart REAPER.
+
+## Step 3 (Command line tools)
+You'll also need to have the command line tools available somewhere on your computer. If you already have them from a previous ReaCoMa 1 install, then you won't need to do this again. However, if you are new, begin by:
+
+- downloading the appropriate build from https://www.flucoma.org/download/
+- These executables can go anywhere on your system, it is only important that they exist in a location which will not change and which you can remember.
+
+## Step 4 (Run a script!)
+
+The final stage of this process is to run any of the ReaCoMa 2 scripts.
+
+If you've already installed ReaCoMa 1 before, it will remember the location of the command line executables that was set. If you're new - welcome!. Simply follow the prompts in order to connect ReaCoMa 2. The interface will change to green if the path is valid, allowing you to move forward.
+
+If you have any trouble installing Reacoma 2, or find something which you think is a bug, feel free to send me an email at reacoma@jamesbradbury.xyz or to file a github issue.
 
 # Acknowledgments
 
-Thank you to Pierre Alexandre Tremblay for guiding me through the process of developing ReaCoMa. The command line tools themselves are not my own work, but a product of the FluCoMa project which can be found here. Part of this work was generously funded by the Huddersfield Creative Coding Lab.
+Thank you to Pierre Alexandre Tremblay for providing much advice through the process of developing ReaCoMa. The command line tools themselves are not my own work, but a product of the FluCoMa project. Part of this work was generously funded by the Huddersfield Creative Coding Lab.
 
 https://www.flucoma.org
 
 *Thank you to Niamh Dell for the sleeping reaper logo*
+
 
 
