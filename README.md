@@ -30,39 +30,30 @@ It does not matter where it goes, only that you know how to find it later.
 ## Step 2 (Install ReaImGui)
 Step 2 is to download the ReaImGui library. This is the engine which powers the new interface of ReaCoMa 2, generously developed and given away by Christian Fillion.
 
-There are **two** ways that you can manage the installation of the ReaImGui library, each with their own set of pros and cons. Ultimately, all we need to do is have the correct version of the compiled library in REAPER's UserPlugins folder.
+There are **two** ways that you can manage the installation of the ReaImGui library, each with their own set of pros and cons. Ultimately, all we need to do is have the correct version of the compiled library in REAPER's UserPlugins folder. Only choose one of the following methods.
 
 ### Method 1
 
 Method One is the ReaPack method. ReaPack is a package manager for REAPER. If you've never used a package manager before, it is a tool for simplifying installation, updates and the management of extensions to REAPER. This method is more convenient if you already use ReaPack but might be more trouble than its worth if it is not part of your workflow already.
 
-The first stage of the ReaPack method is to:
-
-- first head head to manage repositories and make sure we are subscribed to the ReaTeam extensions.
-- Now, head to browse packages and search for reaimgui. 
-- Once you find it, right click and click install.
-
-Thats it!
+1. Go to "manage repositories" and make sure you are subscribed to the ReaTeam extensions.
+2. Go to "browse packages" and search for reaimgui. 
+3. Right click and click install.
 
 ### Method 2
 
-Method Two is the manual method. This method means you don't need to install or use ReaPack, which can be much more straightforward. However, you'll need to manage your own updates of the library.
+Method Two is the manual method. This method means you don't need to install or use ReaPack, which can be much more straightforward. However, you'll need to manage updates of anything installed this way.
 
-To follow this method: 
-- start by heading to the releases page of ReaImGui's github: https://github.com/cfillion/reaimgui/releases
-- You'll need to select the appropriate compilation of the library for your processor and operating system. I'm using an arm processor and so I select arm64. If you use a 64 bit intel processor on windows you would select reaper_imgui-x64.dll for example.
-- Once you've downloaded this file you need to move it to your UserPlugins folder.
-- Unless you already know the path, the easiest way to find this is to click the options menu in REAPER, and to then follow the link to the "resource path" for REAPER.
-- From there the userplugins folder should be apparent.
-- Copy the shared library to this path
-
-After installing ReaimGui you will need to restart REAPER.
+1. Go to the releases page of ReaImGui's github: https://github.com/cfillion/reaimgui/releases
+2. Select the appropriate compilation of the library for your processor and operating system. I'm using an arm processor and so I select arm64. If you use a 64 bit intel processor on windows you would select reaper_imgui-x64.dll for example.
+3. Once you've downloaded this file move it to your UserPlugins folder. Unless you already know the path, the easiest way to find this is to click the options menu in REAPER, and to then follow the link to the "resource path".
+4. Restart REAPER.
 
 ## Step 3 (Command line tools)
-You'll also need to have the command line tools available somewhere on your computer. If you already have them from a previous ReaCoMa 1 install, then you won't need to do this again. However, if you are new, begin by:
+You'll also need to have the command line tools available somewhere on your computer. If you already have them from a previous ReaCoMa 1 install, then you won't need to do this again. However, if you are new:
 
-- downloading the appropriate build from https://www.flucoma.org/download/
-- These executables can go anywhere on your system, it is only important that they exist in a location which will not change and which you can remember.
+1. Download the appropriate build from https://www.flucoma.org/download/
+2. Move the executables anywhere on your system, it is only important that they exist in a location which will not change and which you can remember.
 
 ## Step 4 (Run a script!)
 
