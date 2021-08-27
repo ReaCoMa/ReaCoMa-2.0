@@ -64,8 +64,8 @@ ZIP_LOCATION="$HOME/Downloads/flucoma-cli.zip"
 curl -s -L $FLUCOMA_RELEASE --output $ZIP_LOCATION
 unzip -o -q "$HOME/Downloads/flucoma-cli.zip" -d "$HOME/Downloads/"
 mkdir -p "/opt/flucoma-cli"
-cp -r "$HOME/Downloads/FluidCorpusManipulation/bin/" "/usr/local/bin/flucoma-cli/"
-echo "$BRORANGE\n3. Executables copied to /usr/local/bin/flucoma-cli$NC"
+cp -r "$HOME/Downloads/FluidCorpusManipulation/bin/" "/opt/flucoma-cli/"
+echo "$BRORANGE\n3. Executables copied to /opt/flucoma-cli$NC"
 
 echo "$BRORANGE\n4. Cleaning Up Files...$NC"
 rm -r $ZIP_LOCATION
