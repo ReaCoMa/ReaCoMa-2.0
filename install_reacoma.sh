@@ -8,49 +8,56 @@ YELLOW='\033[1:33m'
 NC='\033[0m' # No Color
 
 echo "$BOLD---- ReaCoMa 2.0 Installer Script ----$NORMAL"
-echo "This installer will download ReaCoMa, ReaImGui and the FluCoMa Command-Line Executables. All temporary files such as .zip will be downloaded to your user downloads folder and removed afterwards"
+echo "This installer will download ReaCoMa, ReaImGui and the FluCoMa CLI Executables.\nAll temporary files such as .zip will be downloaded to your user downloads folder and removed afterwards\n"
 
-REACOMA_LOCATION="$HOME/Library/Application\ Support/REAPER/Scripts/ReaCoMa-2.0"
+ARCH=`uname -m`
+DISTRO=`uname`
+REAIMGUI_VERSIONED_URL="https://github.com/cfillion/reaimgui/releases/download/v0.5.4"
+
+# The extension of the shared library will be determined by the DISTRO
+if [ $DISTRO == "Darwin" ]
+then
+    REACOMA_LOCATION="$HOME/Library/ApplicationSupport/REAPER/Scripts/ReaCoMa-2.0"
+    DYLIB_OUTPUT="$HOME/Library/ApplicationSupport/REAPER/UserPlugins" 
+    EXT=".dylib"
+else
+    REACOMA_LOCATION="$HOME/.config/REAPER/Scripts/ReaCoMa-2.0"
+    DYLIB_OUTPUT="$HOME/.config/REAPER/UserPlugins" 
+    EXT=".so"
+fi
+
 # Download ReaCoMa to the UserScripts place
 if [ -d "$REACOMA_LOCATION" ]
 then
-    rm -r $REACOMA_LOCATION
+    cd $REACOMA_LOCATION && git pull > /dev/null 2>&1
+    echo "$BRORANGE\n1. ReaCoMa exists at $REACOMA_LOCATION so invoked git pull"
+else
+    git clone https://github.com/ReaCoMa/ReaCoMa-2.0.git "$REACOMA_LOCATION" > /dev/null 2>&1
+    echo "$BRORANGE\n1. ReaCoMa downloaded to $REACOMA_LOCATION"
 fi
-echo "$BOLD---- Downloading ReaCoMa ----$NORMAL"
-git clone https://github.com/ReaCoMa/ReaCoMa-2.0.git "$REACOMA_LOCATION" >> /dev/null
 
-# Get ImGui
-echo "$BOLD---- Installing ImGui ----$NORMAL"
-ARCH=`uname -m`
-DISTRO=`uname`
-DYLIB_OUTPUT="$HOME/Library/Application Support/REAPER/UserPlugins" 
-REAIMGUI_VERSIONED_URL="https://github.com/cfillion/reaimgui/releases/download/v0.5.4"
 
 if [ $ARCH == "arm64" ]
 then
-    echo "$BRORANGE\nINFO: ARM64 Architecture Identified$NC"
-    FILE="reaper_imgui-arm64.dylib"
+    echo "$BRORANGE\n2. ARM64 Architecture Identified for ImGui$NC"
+    FILE="reaper_imgui-arm64$EXT"
 fi
 
-if [ $ARCH == "X86_64" ]
+if [ $ARCH == "x86_64" ]
 then
-    echo "$BRORANGE\nINFO: X86_64 architecture identified$NC"
-    FILE="reaper_imgui-x86_64.dylib"
-fi
-
-if [ $ARCH == "i386" ]
-then
-    echo "$BRORANGE\nINFO: Running ARM64 in Rosetta possibly...$NC"
-    FILE="reaper_imgui-i386.dylib"
+    echo "$BRORANGE\n2. x86_64 architecture identified for ImGui$NC"
+    FILE="reaper_imgui-x86_64$EXT"
 fi
 
 CONCAT_OUTPUT="$DYLIB_OUTPUT/$FILE"
 curl -s -L "$REAIMGUI_VERSIONED_URL/$FILE" --output "$DYLIB_OUTPUT/$FILE" >> /dev/null
 
 # Get FluCoMa CLI Tools
-echo "$BOLD---- Downloading FluCoMa Command-Line Tools ----$NORMAL"
-if [ $DISTRO == "Darwin" ]; then
+if [ $DISTRO == "Darwin" ]
+then
     FLUCOMA_RELEASE="https://github.com/flucoma/flucoma-cli/releases/download/1.0.0.RC1b/FluCoMa-CLI-Mac-RC1b.zip"
+else
+    FLUCOMA_RELEASE="https://github.com/flucoma/flucoma-cli/releases/download/1.0.0.RC1b/FluCoMa-CLI-Linux-RC1b.zip"
 fi
 
 ZIP_LOCATION="$HOME/Downloads/flucoma-cli.zip"
@@ -58,10 +65,9 @@ curl -s -L $FLUCOMA_RELEASE --output $ZIP_LOCATION
 unzip -o -q "$HOME/Downloads/flucoma-cli.zip" -d "$HOME/Downloads/"
 mkdir -p "/usr/local/bin/flucoma-cli"
 cp -r "$HOME/Downloads/FluidCorpusManipulation/bin/" "/usr/local/bin/flucoma-cli/"
-echo "$BRORANGE\nINFO: Executables copied to /usr/local/bin/flucoma-cli$NC"
+echo "$BRORANGE\n3. Executables copied to /usr/local/bin/flucoma-cli$NC"
 
-echo "$BOLD---- ReaCoMA has been installed! ----$NORMAL"
-echo "$BRORANGE\nINFO: Cleaning Up Files...$NC"
+echo "$BRORANGE\n4. Cleaning Up Files...$NC"
 rm -r $ZIP_LOCATION
 rm -r "$HOME/Downloads/FluidCorpusManipulation"
 
