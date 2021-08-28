@@ -17,11 +17,12 @@ ReaCoMa 2 is is not a replacement for ReaCoMa 1, rather, it can be seen as an en
 
 # Installation Instructions
 
-You can now run the UNIX script installer by plugging this into your shell:
+You can now run the UNIX script installer by invoking this command into your shell:
 
 `curl -sL https://git.io/JRrrd | sh`
 
-This currently only works for macOS and will download all the necessary dependencies automatically and clean up after itself. Otherwise, the manual installation is similar to ReaCoMa 1.0, with one additional step.
+This will perform all of the manual steps automatically and only store assets inside the REAPER resource path.
+
 
 ## Step 1 (Downloading ReaCoMa)
 Step 1 is to download ReaCoMa 2 from GitHub
