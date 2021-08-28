@@ -14,7 +14,19 @@ reacoma.settings = {}
 -- Now set the paths up for where new files will be located
 reacoma.lib = script_path
 reacoma.version = "2.0.0a"
+
+if not reaper.HasExtState("reacoma", "exepath") then
+    -- Check if the default location might have the executables
+    local resource_path = reaper.GetResourcePath()
+    local ext = ''
+    if reaper.GetOS() == 'Win64' then ext = '.exe' end
+    local bin = resource_path..'/Scripts/ReaCoMa-2.0/bin/'
+    local exists = reaper.file_exists(bin..'fluid-noveltyslice'..ext)
+    if exists then reaper.SetExtState('reacoma', 'exepath', bin, true) end
+end
+
 reacoma.settings.path = reaper.GetExtState("reacoma", "exepath")
+
 if reaper.HasExtState("reacoma", "slice_preview") then
     local preview = reaper.GetExtState("reacoma", "slice_preview")
     if preview == 'false' then preview = false else preview = true end
@@ -28,13 +40,13 @@ reacoma.global_state.active = false
 
 -- Add modules to reacoma table
 reacoma.container = require("container")
-reacoma.layers = require("layers")
-reacoma.slicing = require("slicing")
-reacoma.params = require("params")
-reacoma.paths = require("paths")
-reacoma.sorting = require("sorting")
-reacoma.tagging = require("tagging")
-reacoma.utils = require("utils")
+reacoma.Layers    = require("layers")
+reacoma.slicing   = require("slicing")
+reacoma.params    = require("params")
+reacoma.paths     = require("paths")
+reacoma.sorting   = require("sorting")
+reacoma.tagging   = require("tagging")
+reacoma.utils     = require("utils")
 
 -- Check that we are not running in restricted mode
 if not os then
