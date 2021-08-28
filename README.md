@@ -17,12 +17,15 @@ ReaCoMa 2 is is not a replacement for ReaCoMa 1, rather, it can be seen as an en
 
 # Installation Instructions
 
-You can now run the UNIX script installer by invoking this command into your shell:
+You can run the UNIX script installer by invoking this command into your shell:
 
 `curl -sL https://git.io/JRrrd | sh`
 
 This will perform all of the manual steps automatically and only store assets inside the REAPER resource path.
 
+For windows you can also run the following command from Powershell.:
+
+`Invoke-WebRequest -Uri https://git.io/JEwUO -OutFile install_reacoma.ps1 && ./install_reacoma.ps1`
 
 ## Step 1 (Downloading ReaCoMa)
 Step 1 is to download ReaCoMa 2 from GitHub
