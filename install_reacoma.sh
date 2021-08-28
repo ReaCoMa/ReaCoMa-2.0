@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 echo "---- ReaCoMa 2.0 Installer Script ----"
 echo "This installer will download ReaCoMa, ReaImGui and the FluCoMa CLI Executables.\nAll temporary files such as .zip will be downloaded to your user downloads folder and removed afterwards\n"
