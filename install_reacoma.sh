@@ -60,7 +60,7 @@ mkdir -p $BINARY_LOCATION
 ZIP_LOCATION="$HOME/Downloads/flucoma-cli.zip"
 curl -s -L $FLUCOMA_RELEASE --output $ZIP_LOCATION
 unzip -o -q "$HOME/Downloads/flucoma-cli.zip" -d "$HOME/Downloads/"
-cp -r "$HOME/Downloads/FluidCorpusManipulation/bin/" $BINARY_LOCATION
+cp -a "$HOME/Downloads/FluidCorpusManipulation/bin/." $BINARY_LOCATION
 echo "3. Executables copied to $BINARY_LOCATION"
 
 echo "4. Cleaning Up Files..."
