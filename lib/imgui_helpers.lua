@@ -71,7 +71,7 @@ imgui_helpers.update_state = function(ctx, obj)
 end
 
 imgui_helpers.process = function(obj)
-    -- This is called everytime there is a process buttno process
+    -- This is called everytime there is a process button pressed
     -- This button is uniform across layers/slices and is found at the top left
     local state = obj.perform_update(obj.parameters)
 
