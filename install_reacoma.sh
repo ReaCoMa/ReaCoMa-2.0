@@ -53,6 +53,13 @@ else
     FLUCOMA_RELEASE="https://github.com/flucoma/flucoma-cli/releases/download/1.0.0.RC1b/FluCoMa-CLI-Linux-RC1b.zip"
 fi
 
+# Add a temporary case for arm64 machines for the CLI tools
+if [ "$ARCH" == "arm64" ]
+then
+    FLUCOMA_RELEASE="https://user.fm/files/v2-315b3d2ab4a0d10e380b8b4ae41c0bbc/FluidCorpusManipulation.zip"    
+fi
+
+
 # make the folder for the binaries
 BINARY_LOCATION="$REACOMA_LOCATION/bin"
 mkdir -p "$BINARY_LOCATION"
