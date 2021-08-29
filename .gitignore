@@ -1,3 +1,4 @@
+/bin
 .DS_Store
 /SlicingTest/*.csv
 SlicingTest/*_nmf_*.wav
