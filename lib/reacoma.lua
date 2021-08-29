@@ -20,8 +20,8 @@ if not reaper.HasExtState("reacoma", "exepath") then
     local resource_path = reaper.GetResourcePath()
     local ext = ''
     if reaper.GetOS() == 'Win64' then ext = '.exe' end
-    local bin = resource_path..'/Scripts/ReaCoMa-2.0/bin/'
-    local exists = reaper.file_exists(bin..'fluid-noveltyslice'..ext)
+    local bin = resource_path..'/Scripts/ReaCoMa-2.0/bin'
+    local exists = reaper.file_exists(bin..'/fluid-noveltyslice'..ext)
     if exists then reaper.SetExtState('reacoma', 'exepath', bin, true) end
 end
 
@@ -40,7 +40,7 @@ reacoma.global_state.active = false
 
 -- Add modules to reacoma table
 reacoma.container = require("container")
-reacoma.Layers    = require("layers")
+reacoma.layers    = require("layers")
 reacoma.slicing   = require("slicing")
 reacoma.params    = require("params")
 reacoma.paths     = require("paths")
