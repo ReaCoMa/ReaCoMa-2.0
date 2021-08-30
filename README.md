@@ -14,16 +14,6 @@ ReaCoMa 2 is a major update and improvement to the first version of ReaCoMa. It 
 
 ReaCoMa 2 is is not a replacement for ReaCoMa 1, rather, it can be seen as an enhanced version for those who don’t mind installing an additional dependency and are willing to adapt their workflow. I know the value in maintaining a stable creative workflow, so ReaCoMa 1 will receive bug fixes. Ultimately it's up to you which version you want to use.
 
-# Installation
+# Installation and Use
 
-ReaCoMa 2.0 can be installed relatively automatically by running one of the scripts (depending on your OS) I have prepared.
-
-For macOS or other UNIX platforms run:
-
-`curl -sL https://git.io/JRrrd | sh`
-
-For windows you can run:
-
-`Invoke-WebRequest -Uri https://git.io/JEwUO -OutFile install_reacoma.ps1 && ./install_reacoma.ps1`
-
-For more detailed and manual installation instructions please see the wiki.
+For detailed installation steps and a guide on how to use ReaCoMa 2.0 please see the [wiki](https://github.com/ReaCoMa/ReaCoMa-2.0/wiki).
