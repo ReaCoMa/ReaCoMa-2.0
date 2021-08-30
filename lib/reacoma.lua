@@ -1,6 +1,6 @@
----------------------------------------------------------
--- ReaCoMa by James Bradbury | hello@jamesbradbury.xyz --
----------------------------------------------------------
+-----------------------------------------------------------
+-- ReaCoMa by James Bradbury | reacoma@jamesbradbury.xyz --
+-----------------------------------------------------------
 
 local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
@@ -9,11 +9,12 @@ package.path = package.path .. ";" .. script_path .. "?.lua"
 -- Require the modules
 local reaper = reaper
 reacoma = {}
-state = {}
 reacoma.settings = {}
--- Now set the paths up for where new files will be located
 reacoma.lib = script_path
 reacoma.version = "2.0.0a"
+reacoma.global_state = {}
+reacoma.global_state.active = false
+state = {}
 
 if not reaper.HasExtState("reacoma", "exepath") then
     -- Check if the default location might have the executables
@@ -34,9 +35,6 @@ if reaper.HasExtState("reacoma", "slice_preview") then
 else
     reacoma.settings.slice_preview = false
 end
-reacoma.global_state = {}
-reacoma.global_state.active = false
-
 
 -- Add modules to reacoma table
 reacoma.container = require("container")
@@ -52,9 +50,23 @@ reacoma.utils     = require("utils")
 if not os then
     reacoma.settings.restricted = true
     reacoma.settings.fatal = true
-    local restr = reaper.ShowMessageBox(
+    _ = reaper.ShowMessageBox(
         "You have executed the ReaCoMa script in 'Restricted Mode'.\n\nReaCoMa needs this setting to be turned OFF.\n\nYou can disable resitrcted mode on the file selection pane when choosing a script.",
         "Restricted mode warning",
+        0)
+    return
+end
+
+app_version = reaper.GetAppVersion()
+app_version = app_version:sub(1, 4)
+app_version = app_version:gsub('%.', '')
+app_version = tonumber(app_version)
+
+if app_version < 609 then
+    reacoma.settings.fatal = true
+    _ = reaper.ShowMessageBox(
+        "ReaCoMa 2.0 requires a minimum of version 6.09 for REAPER.\n\nPlease update REAPER.",
+        "Version Warning",
         0)
     return
 end
