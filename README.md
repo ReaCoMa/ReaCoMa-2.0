@@ -6,6 +6,8 @@
 
 ReaCoMa 2 is a project developed by [James Bradbury](https://jamesbradbury.xyz). It enables you to use the [FluCoMa tools](https://www.flucoma.org) directly within REAPER. 
 
+> :warning: ReaCoMa 2.0 only works in **REAPER version 6.09 or greater**. I rely on some ReaScript API's that were added in this release.
+
 ReaCoMa 2 is a major update and improvement to the first version of ReaCoMa. It brings a number of improvements over the initial version, while still being minimal and robust. These include: 
 
 - A new interface that leverages Dear ImGui for an immediate mode, hardware accelerated interface with sliders, drop-downs and more.
