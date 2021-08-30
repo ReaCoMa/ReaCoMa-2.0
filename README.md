@@ -14,7 +14,7 @@ ReaCoMa 2 is a major update and improvement to the first version of ReaCoMa. It 
 
 ReaCoMa 2 is is not a replacement for ReaCoMa 1, rather, it can be seen as an enhanced version for those who don’t mind installing an additional dependency and are willing to adapt their workflow. I know the value in maintaining a stable creative workflow, so ReaCoMa 1 will receive bug fixes. Ultimately it's up to you which version you want to use. 
 
-> :warning: ReaCoMa 2.0 only works in REAPER version 6.09 and above. I rely on some ReaScript API's which we're added in after this release.
+> :warning: ReaCoMa 2.0 only works in **REAPER version 6.09 or greater**. I rely on some ReaScript API's that were added in this release.
 
 # Installation and Use
 
