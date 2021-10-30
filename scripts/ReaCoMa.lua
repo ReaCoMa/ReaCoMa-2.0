@@ -1,5 +1,5 @@
 --[[
-Description: ReaCoMA
+Description: ReaCoMA: Ports of the FluCoMa Toolkit
 Version: 2.1
 Author: James Bradbury
 Provides:
