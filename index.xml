@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="ReaCoMa" commit="e50fd27eb8327f07b7ff0a31ff9ea31b28b0ddce">
+<index version="1" name="ReaCoMa" commit="c0cb458fd827996a00e7220dd784f37834e8a6a1">
   <category name="scripts">
-    <reapack name="ReaCoMa.lua" type="script" desc="ReaCoMA">
+    <reapack name="ReaCoMa.lua" type="script" desc="ReaCoMA: Ports of the FluCoMa Toolkit">
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
