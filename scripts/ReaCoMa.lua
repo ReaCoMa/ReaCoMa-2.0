@@ -1,5 +1,5 @@
 --[[
-Description: REAPER ports of the Fluid Corpus Manipulation Toolkit
+Description: ReaCoMA
 Version: 2.1
 Author: James Bradbury
 Provides:
