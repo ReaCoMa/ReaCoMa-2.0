@@ -1,6 +1,6 @@
 --[[
 Description: ReaCoMA: Ports of the FluCoMa Toolkit
-Version: 2.1
+Version: 2.1.0
 Author: James Bradbury
 Provides:
     [main] fluid-ampgate.lua 
@@ -12,11 +12,10 @@ Provides:
     [main] fluid-sines.lua
     [main] fluid-transients.lua
     [main] fluid-transientslice.lua
+    [nomain] config.lua
     [nomain] lib/*
     [nomain] clean_path.lua
 Metapackage: true
-About:
-    ReaCoMa are REAPER ports of the Fluid Corpus Manipulation (FluCoMa) project toolkit.
 Links:
     Wiki https://github.com/ReaCoMa/ReaCoMa-2.0/wiki
     Tutorials https://www.youtube.com/watch?v=r3uHMXmlPRo&list=PLCQRw62RgghbsZgsA98lLkOwjBSs4yc9T
