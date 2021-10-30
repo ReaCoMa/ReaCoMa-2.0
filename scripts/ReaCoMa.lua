@@ -13,7 +13,8 @@ Provides:
     [main] fluid-transients.lua
     [main] fluid-transientslice.lua
     [nomain] config.lua
-    [nomain] lib/*
+    [nomain] lib/*.lua
+    [nomain] lib/algorithms/*.lua
     [nomain] clean_path.lua
 Metapackage: true
 Links:
