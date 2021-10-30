@@ -34,7 +34,6 @@ else
 end
 
 -- Add modules to reacoma table
-reacoma.colors    = require("colors")
 reacoma.container = require("container")
 reacoma.layers    = require("layers")
 reacoma.slicing   = require("slicing")
