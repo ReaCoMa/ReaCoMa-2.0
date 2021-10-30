@@ -1,8 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="ReaCoMa" commit="be32bb82c4285678544e20eb5de749d3f61c4538">
+<index version="1" name="ReaCoMa" commit="0bb003e1ecbc614837520bcd4330413f6d2c6971">
   <category name="scripts">
     <reapack name="ReaCoMa.lua" type="script" desc="ReaCoMA: Ports of the FluCoMa Toolkit">
       <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 ReaCoMa\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 ReaCoMa brings the Fluid Corpus Manipulation (FluComa) toolkit to REAPER as a set of flexible ReaScripts.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 This includes algorithms for:\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab harmonic-percussive source separation\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab non-negative matrix factorisation (blind source separation)\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab sinusoidal modelling and decomposition\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab transient extraction\sa180\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 as well as several flavours of audio segmentation:\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab novelty slice\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab onset slice\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab relative and absolute amplitude slicing\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab transient slicing\sa180\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 ReaCoMa depends on {\field{\*\fldinst{HYPERLINK "https://github.com/cfillion/reaimgui"}}{\fldrslt{\ul
+ReaImGui
+}}}
+ which can be managed manually or via ReaPack.\par}
+}
+]]></description>
         <link rel="website" href="https://github.com/ReaCoMa/ReaCoMa-2.0/wiki">Wiki</link>
         <link rel="website" href="https://www.youtube.com/watch?v=r3uHMXmlPRo&amp;list=PLCQRw62RgghbsZgsA98lLkOwjBSs4yc9T">Tutorials</link>
         <link rel="website" href="https://jamesbradbury.net">Creator</link>
