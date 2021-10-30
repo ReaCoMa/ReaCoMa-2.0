@@ -1,7 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="ReaCoMa" commit="3f36d290129d6d6fe09e1196c2fb70bc7ab2901e">
+<index version="1" name="ReaCoMa" commit="e50fd27eb8327f07b7ff0a31ff9ea31b28b0ddce">
   <category name="scripts">
-    <reapack name="ReaCoMa.lua" type="script" desc="REAPER ports of the Fluid Corpus Manipulation Toolkit">
+    <reapack name="ReaCoMa.lua" type="script" desc="ReaCoMA">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 ReaCoMa are REAPER ports of the Fluid Corpus Manipulation (FluCoMa) project toolkit.\par}
+}
+]]></description>
+        <link rel="website" href="https://github.com/ReaCoMa/ReaCoMa-2.0/wiki">Wiki</link>
+        <link rel="website" href="https://www.youtube.com/watch?v=r3uHMXmlPRo&amp;list=PLCQRw62RgghbsZgsA98lLkOwjBSs4yc9T">Tutorials</link>
+        <link rel="website" href="https://jamesbradbury.net">Creator</link>
+        <link rel="website" href="https://flucoma.org">FluCoMa</link>
+      </metadata>
       <version name="2.1" author="James Bradbury" time="2021-10-30T23:00:12Z">
         <source main="main" file="fluid-ampgate.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/3f36d290129d6d6fe09e1196c2fb70bc7ab2901e/scripts/fluid-ampgate.lua</source>
         <source main="main" file="fluid-ampslice.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/3f36d290129d6d6fe09e1196c2fb70bc7ab2901e/scripts/fluid-ampslice.lua</source>
