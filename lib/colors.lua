@@ -1,3 +1,4 @@
+-- @noindex
 colors = {}
 
 colors.red = reaper.ImGui_ColorConvertHSVtoRGB(0.0, 0.7, 1.0, 1.0)
