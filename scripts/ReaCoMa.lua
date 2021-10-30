@@ -15,4 +15,11 @@ Provides:
     [nomain] lib/*
     [nomain] clean_path.lua
 Metapackage: true
+About:
+    ReaCoMa are REAPER ports of the Fluid Corpus Manipulation (FluCoMa) project toolkit.
+Links:
+    Wiki https://github.com/ReaCoMa/ReaCoMa-2.0/wiki
+    Tutorials https://www.youtube.com/watch?v=r3uHMXmlPRo&list=PLCQRw62RgghbsZgsA98lLkOwjBSs4yc9T
+    Creator https://jamesbradbury.net
+    FluCoMa https://flucoma.org
 ]]
