@@ -40,4 +40,8 @@ About:
     * transient slicing
 
     ReaCoMa depends on [ReaImGui](https://github.com/cfillion/reaimgui) which can be managed manually or via ReaPack.
+    
+    Any issues can be directed to reacoma@jamesbradbury.net
+
+    Huge love to PA Tremblay who supported the development of this hugely.
 ]]
