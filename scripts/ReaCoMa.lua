@@ -1,6 +1,6 @@
 --[[
 Description: ReaCoMa: Ports of the FluCoMa Toolkit
-Version: 2.1.2
+Version: 2.0.0
 Author: James Bradbury
 Provides:
     [main] fluid-ampgate.lua 
