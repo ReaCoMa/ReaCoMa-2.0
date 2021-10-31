@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="ReaCoMa" commit="0bb003e1ecbc614837520bcd4330413f6d2c6971">
+<index version="1" name="ReaCoMa" commit="6aab1e6f718b786ef4d935458a83ed5a01d34ad6">
   <category name="scripts">
     <reapack name="ReaCoMa.lua" type="script" desc="ReaCoMA: Ports of the FluCoMa Toolkit">
       <metadata>
@@ -23,6 +23,8 @@
 ReaImGui
 }}}
  which can be managed manually or via ReaPack.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Any issues can be directed to reacoma@jamesbradbury.net\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Huge love to PA Tremblay who supported the development of this hugely.\par}
 }
 ]]></description>
         <link rel="website" href="https://github.com/ReaCoMa/ReaCoMa-2.0/wiki">Wiki</link>
