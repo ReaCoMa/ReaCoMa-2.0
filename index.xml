@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="ReaCoMa" commit="dd408a7f54751b107bea593d7ef34b36e95a1e98">
+<index version="1" name="ReaCoMa" commit="c84948af9f18876e5f9fd58368b12377a6c03c2a">
   <category name="scripts">
     <reapack name="ReaCoMa.lua" type="script" desc="ReaCoMa: Ports of the FluCoMa Toolkit">
       <metadata>
@@ -32,84 +32,38 @@ ReaImGui
         <link rel="website" href="https://jamesbradbury.net">Creator</link>
         <link rel="website" href="https://flucoma.org">FluCoMa</link>
       </metadata>
-      <version name="2.1" author="James Bradbury" time="2021-10-30T23:00:12Z">
-        <source main="main" file="fluid-ampgate.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/3f36d290129d6d6fe09e1196c2fb70bc7ab2901e/scripts/fluid-ampgate.lua</source>
-        <source main="main" file="fluid-ampslice.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/3f36d290129d6d6fe09e1196c2fb70bc7ab2901e/scripts/fluid-ampslice.lua</source>
-        <source main="main" file="fluid-hpss.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/3f36d290129d6d6fe09e1196c2fb70bc7ab2901e/scripts/fluid-hpss.lua</source>
-        <source main="main" file="fluid-nmf.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/3f36d290129d6d6fe09e1196c2fb70bc7ab2901e/scripts/fluid-nmf.lua</source>
-        <source main="main" file="fluid-noveltyslice.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/3f36d290129d6d6fe09e1196c2fb70bc7ab2901e/scripts/fluid-noveltyslice.lua</source>
-        <source main="main" file="fluid-onsetslice.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/3f36d290129d6d6fe09e1196c2fb70bc7ab2901e/scripts/fluid-onsetslice.lua</source>
-        <source main="main" file="fluid-sines.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/3f36d290129d6d6fe09e1196c2fb70bc7ab2901e/scripts/fluid-sines.lua</source>
-        <source main="main" file="fluid-transients.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/3f36d290129d6d6fe09e1196c2fb70bc7ab2901e/scripts/fluid-transients.lua</source>
-        <source main="main" file="fluid-transientslice.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/3f36d290129d6d6fe09e1196c2fb70bc7ab2901e/scripts/fluid-transientslice.lua</source>
-        <source file="lib/OrderedTables.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/3f36d290129d6d6fe09e1196c2fb70bc7ab2901e/scripts/lib/OrderedTables.lua</source>
-        <source file="lib/container.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/3f36d290129d6d6fe09e1196c2fb70bc7ab2901e/scripts/lib/container.lua</source>
-        <source file="lib/imgui_helpers.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/3f36d290129d6d6fe09e1196c2fb70bc7ab2901e/scripts/lib/imgui_helpers.lua</source>
-        <source file="lib/imgui_wrapper.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/3f36d290129d6d6fe09e1196c2fb70bc7ab2901e/scripts/lib/imgui_wrapper.lua</source>
-        <source file="lib/layers.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/3f36d290129d6d6fe09e1196c2fb70bc7ab2901e/scripts/lib/layers.lua</source>
-        <source file="lib/params.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/3f36d290129d6d6fe09e1196c2fb70bc7ab2901e/scripts/lib/params.lua</source>
-        <source file="lib/paths.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/3f36d290129d6d6fe09e1196c2fb70bc7ab2901e/scripts/lib/paths.lua</source>
-        <source file="lib/reacoma.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/3f36d290129d6d6fe09e1196c2fb70bc7ab2901e/scripts/lib/reacoma.lua</source>
-        <source file="lib/slicing.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/3f36d290129d6d6fe09e1196c2fb70bc7ab2901e/scripts/lib/slicing.lua</source>
-        <source file="lib/utils.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/3f36d290129d6d6fe09e1196c2fb70bc7ab2901e/scripts/lib/utils.lua</source>
-        <source file="clean_path.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/3f36d290129d6d6fe09e1196c2fb70bc7ab2901e/scripts/clean_path.lua</source>
-      </version>
-      <version name="2.1.0" author="James Bradbury" time="2021-10-30T23:23:20Z">
-        <source main="main" file="fluid-ampgate.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/1385155f5b08bbaad0ccc1f18cf2eb29945768b7/scripts/fluid-ampgate.lua</source>
-        <source main="main" file="fluid-ampslice.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/1385155f5b08bbaad0ccc1f18cf2eb29945768b7/scripts/fluid-ampslice.lua</source>
-        <source main="main" file="fluid-hpss.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/1385155f5b08bbaad0ccc1f18cf2eb29945768b7/scripts/fluid-hpss.lua</source>
-        <source main="main" file="fluid-nmf.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/1385155f5b08bbaad0ccc1f18cf2eb29945768b7/scripts/fluid-nmf.lua</source>
-        <source main="main" file="fluid-noveltyslice.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/1385155f5b08bbaad0ccc1f18cf2eb29945768b7/scripts/fluid-noveltyslice.lua</source>
-        <source main="main" file="fluid-onsetslice.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/1385155f5b08bbaad0ccc1f18cf2eb29945768b7/scripts/fluid-onsetslice.lua</source>
-        <source main="main" file="fluid-sines.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/1385155f5b08bbaad0ccc1f18cf2eb29945768b7/scripts/fluid-sines.lua</source>
-        <source main="main" file="fluid-transients.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/1385155f5b08bbaad0ccc1f18cf2eb29945768b7/scripts/fluid-transients.lua</source>
-        <source main="main" file="fluid-transientslice.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/1385155f5b08bbaad0ccc1f18cf2eb29945768b7/scripts/fluid-transientslice.lua</source>
-        <source file="config.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/1385155f5b08bbaad0ccc1f18cf2eb29945768b7/scripts/config.lua</source>
-        <source file="lib/OrderedTables.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/1385155f5b08bbaad0ccc1f18cf2eb29945768b7/scripts/lib/OrderedTables.lua</source>
-        <source file="lib/colors.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/1385155f5b08bbaad0ccc1f18cf2eb29945768b7/scripts/lib/colors.lua</source>
-        <source file="lib/container.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/1385155f5b08bbaad0ccc1f18cf2eb29945768b7/scripts/lib/container.lua</source>
-        <source file="lib/imgui_helpers.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/1385155f5b08bbaad0ccc1f18cf2eb29945768b7/scripts/lib/imgui_helpers.lua</source>
-        <source file="lib/imgui_wrapper.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/1385155f5b08bbaad0ccc1f18cf2eb29945768b7/scripts/lib/imgui_wrapper.lua</source>
-        <source file="lib/layers.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/1385155f5b08bbaad0ccc1f18cf2eb29945768b7/scripts/lib/layers.lua</source>
-        <source file="lib/params.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/1385155f5b08bbaad0ccc1f18cf2eb29945768b7/scripts/lib/params.lua</source>
-        <source file="lib/paths.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/1385155f5b08bbaad0ccc1f18cf2eb29945768b7/scripts/lib/paths.lua</source>
-        <source file="lib/reacoma.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/1385155f5b08bbaad0ccc1f18cf2eb29945768b7/scripts/lib/reacoma.lua</source>
-        <source file="lib/slicing.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/1385155f5b08bbaad0ccc1f18cf2eb29945768b7/scripts/lib/slicing.lua</source>
-        <source file="lib/utils.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/1385155f5b08bbaad0ccc1f18cf2eb29945768b7/scripts/lib/utils.lua</source>
-        <source file="clean_path.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/1385155f5b08bbaad0ccc1f18cf2eb29945768b7/scripts/clean_path.lua</source>
-      </version>
-      <version name="2.1.1" author="James Bradbury" time="2021-10-30T23:29:09Z">
-        <source main="main" file="fluid-ampgate.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/fluid-ampgate.lua</source>
-        <source main="main" file="fluid-ampslice.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/fluid-ampslice.lua</source>
-        <source main="main" file="fluid-hpss.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/fluid-hpss.lua</source>
-        <source main="main" file="fluid-nmf.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/fluid-nmf.lua</source>
-        <source main="main" file="fluid-noveltyslice.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/fluid-noveltyslice.lua</source>
-        <source main="main" file="fluid-onsetslice.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/fluid-onsetslice.lua</source>
-        <source main="main" file="fluid-sines.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/fluid-sines.lua</source>
-        <source main="main" file="fluid-transients.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/fluid-transients.lua</source>
-        <source main="main" file="fluid-transientslice.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/fluid-transientslice.lua</source>
-        <source file="config.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/config.lua</source>
-        <source file="lib/OrderedTables.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/lib/OrderedTables.lua</source>
-        <source file="lib/colors.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/lib/colors.lua</source>
-        <source file="lib/container.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/lib/container.lua</source>
-        <source file="lib/imgui_helpers.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/lib/imgui_helpers.lua</source>
-        <source file="lib/imgui_wrapper.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/lib/imgui_wrapper.lua</source>
-        <source file="lib/layers.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/lib/layers.lua</source>
-        <source file="lib/params.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/lib/params.lua</source>
-        <source file="lib/paths.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/lib/paths.lua</source>
-        <source file="lib/reacoma.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/lib/reacoma.lua</source>
-        <source file="lib/slicing.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/lib/slicing.lua</source>
-        <source file="lib/utils.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/lib/utils.lua</source>
-        <source file="lib/algorithms/ampgate.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/lib/algorithms/ampgate.lua</source>
-        <source file="lib/algorithms/ampslice.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/lib/algorithms/ampslice.lua</source>
-        <source file="lib/algorithms/hpss.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/lib/algorithms/hpss.lua</source>
-        <source file="lib/algorithms/nmf.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/lib/algorithms/nmf.lua</source>
-        <source file="lib/algorithms/noveltyslice.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/lib/algorithms/noveltyslice.lua</source>
-        <source file="lib/algorithms/onsetslice.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/lib/algorithms/onsetslice.lua</source>
-        <source file="lib/algorithms/sines.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/lib/algorithms/sines.lua</source>
-        <source file="lib/algorithms/transients.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/lib/algorithms/transients.lua</source>
-        <source file="lib/algorithms/transientslice.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/lib/algorithms/transientslice.lua</source>
-        <source file="clean_path.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/clean_path.lua</source>
+      <version name="2.1.0" author="James Bradbury" time="2021-10-31T00:07:51Z">
+        <source main="main" file="fluid-ampgate.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/03bb2a5895d80a3851458e984468c4894e0ac4aa/scripts/fluid-ampgate.lua</source>
+        <source main="main" file="fluid-ampslice.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/03bb2a5895d80a3851458e984468c4894e0ac4aa/scripts/fluid-ampslice.lua</source>
+        <source main="main" file="fluid-hpss.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/03bb2a5895d80a3851458e984468c4894e0ac4aa/scripts/fluid-hpss.lua</source>
+        <source main="main" file="fluid-nmf.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/03bb2a5895d80a3851458e984468c4894e0ac4aa/scripts/fluid-nmf.lua</source>
+        <source main="main" file="fluid-noveltyslice.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/03bb2a5895d80a3851458e984468c4894e0ac4aa/scripts/fluid-noveltyslice.lua</source>
+        <source main="main" file="fluid-onsetslice.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/03bb2a5895d80a3851458e984468c4894e0ac4aa/scripts/fluid-onsetslice.lua</source>
+        <source main="main" file="fluid-sines.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/03bb2a5895d80a3851458e984468c4894e0ac4aa/scripts/fluid-sines.lua</source>
+        <source main="main" file="fluid-transients.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/03bb2a5895d80a3851458e984468c4894e0ac4aa/scripts/fluid-transients.lua</source>
+        <source main="main" file="fluid-transientslice.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/03bb2a5895d80a3851458e984468c4894e0ac4aa/scripts/fluid-transientslice.lua</source>
+        <source file="config.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/03bb2a5895d80a3851458e984468c4894e0ac4aa/scripts/config.lua</source>
+        <source file="lib/OrderedTables.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/03bb2a5895d80a3851458e984468c4894e0ac4aa/scripts/lib/OrderedTables.lua</source>
+        <source file="lib/colors.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/03bb2a5895d80a3851458e984468c4894e0ac4aa/scripts/lib/colors.lua</source>
+        <source file="lib/container.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/03bb2a5895d80a3851458e984468c4894e0ac4aa/scripts/lib/container.lua</source>
+        <source file="lib/imgui_helpers.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/03bb2a5895d80a3851458e984468c4894e0ac4aa/scripts/lib/imgui_helpers.lua</source>
+        <source file="lib/imgui_wrapper.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/03bb2a5895d80a3851458e984468c4894e0ac4aa/scripts/lib/imgui_wrapper.lua</source>
+        <source file="lib/layers.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/03bb2a5895d80a3851458e984468c4894e0ac4aa/scripts/lib/layers.lua</source>
+        <source file="lib/params.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/03bb2a5895d80a3851458e984468c4894e0ac4aa/scripts/lib/params.lua</source>
+        <source file="lib/paths.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/03bb2a5895d80a3851458e984468c4894e0ac4aa/scripts/lib/paths.lua</source>
+        <source file="lib/reacoma.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/03bb2a5895d80a3851458e984468c4894e0ac4aa/scripts/lib/reacoma.lua</source>
+        <source file="lib/slicing.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/03bb2a5895d80a3851458e984468c4894e0ac4aa/scripts/lib/slicing.lua</source>
+        <source file="lib/utils.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/03bb2a5895d80a3851458e984468c4894e0ac4aa/scripts/lib/utils.lua</source>
+        <source file="lib/algorithms/ampgate.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/03bb2a5895d80a3851458e984468c4894e0ac4aa/scripts/lib/algorithms/ampgate.lua</source>
+        <source file="lib/algorithms/ampslice.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/03bb2a5895d80a3851458e984468c4894e0ac4aa/scripts/lib/algorithms/ampslice.lua</source>
+        <source file="lib/algorithms/hpss.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/03bb2a5895d80a3851458e984468c4894e0ac4aa/scripts/lib/algorithms/hpss.lua</source>
+        <source file="lib/algorithms/nmf.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/03bb2a5895d80a3851458e984468c4894e0ac4aa/scripts/lib/algorithms/nmf.lua</source>
+        <source file="lib/algorithms/noveltyslice.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/03bb2a5895d80a3851458e984468c4894e0ac4aa/scripts/lib/algorithms/noveltyslice.lua</source>
+        <source file="lib/algorithms/onsetslice.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/03bb2a5895d80a3851458e984468c4894e0ac4aa/scripts/lib/algorithms/onsetslice.lua</source>
+        <source file="lib/algorithms/sines.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/03bb2a5895d80a3851458e984468c4894e0ac4aa/scripts/lib/algorithms/sines.lua</source>
+        <source file="lib/algorithms/transients.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/03bb2a5895d80a3851458e984468c4894e0ac4aa/scripts/lib/algorithms/transients.lua</source>
+        <source file="lib/algorithms/transientslice.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/03bb2a5895d80a3851458e984468c4894e0ac4aa/scripts/lib/algorithms/transientslice.lua</source>
+        <source file="clean_path.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/03bb2a5895d80a3851458e984468c4894e0ac4aa/scripts/clean_path.lua</source>
       </version>
       <version name="2.1.2" author="James Bradbury" time="2021-10-31T00:17:25Z">
         <source main="main" file="fluid-ampgate.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/dd408a7f54751b107bea593d7ef34b36e95a1e98/scripts/fluid-ampgate.lua</source>
@@ -143,6 +97,61 @@ ReaImGui
         <source file="lib/algorithms/transients.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/dd408a7f54751b107bea593d7ef34b36e95a1e98/scripts/lib/algorithms/transients.lua</source>
         <source file="lib/algorithms/transientslice.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/dd408a7f54751b107bea593d7ef34b36e95a1e98/scripts/lib/algorithms/transientslice.lua</source>
         <source file="clean_path.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/dd408a7f54751b107bea593d7ef34b36e95a1e98/scripts/clean_path.lua</source>
+      </version>
+      <version name="2.1" author="James Bradbury" time="2021-10-30T23:00:12Z">
+        <source main="main" file="fluid-ampgate.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/3f36d290129d6d6fe09e1196c2fb70bc7ab2901e/scripts/fluid-ampgate.lua</source>
+        <source main="main" file="fluid-ampslice.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/3f36d290129d6d6fe09e1196c2fb70bc7ab2901e/scripts/fluid-ampslice.lua</source>
+        <source main="main" file="fluid-hpss.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/3f36d290129d6d6fe09e1196c2fb70bc7ab2901e/scripts/fluid-hpss.lua</source>
+        <source main="main" file="fluid-nmf.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/3f36d290129d6d6fe09e1196c2fb70bc7ab2901e/scripts/fluid-nmf.lua</source>
+        <source main="main" file="fluid-noveltyslice.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/3f36d290129d6d6fe09e1196c2fb70bc7ab2901e/scripts/fluid-noveltyslice.lua</source>
+        <source main="main" file="fluid-onsetslice.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/3f36d290129d6d6fe09e1196c2fb70bc7ab2901e/scripts/fluid-onsetslice.lua</source>
+        <source main="main" file="fluid-sines.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/3f36d290129d6d6fe09e1196c2fb70bc7ab2901e/scripts/fluid-sines.lua</source>
+        <source main="main" file="fluid-transients.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/3f36d290129d6d6fe09e1196c2fb70bc7ab2901e/scripts/fluid-transients.lua</source>
+        <source main="main" file="fluid-transientslice.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/3f36d290129d6d6fe09e1196c2fb70bc7ab2901e/scripts/fluid-transientslice.lua</source>
+        <source file="lib/OrderedTables.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/3f36d290129d6d6fe09e1196c2fb70bc7ab2901e/scripts/lib/OrderedTables.lua</source>
+        <source file="lib/container.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/3f36d290129d6d6fe09e1196c2fb70bc7ab2901e/scripts/lib/container.lua</source>
+        <source file="lib/imgui_helpers.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/3f36d290129d6d6fe09e1196c2fb70bc7ab2901e/scripts/lib/imgui_helpers.lua</source>
+        <source file="lib/imgui_wrapper.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/3f36d290129d6d6fe09e1196c2fb70bc7ab2901e/scripts/lib/imgui_wrapper.lua</source>
+        <source file="lib/layers.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/3f36d290129d6d6fe09e1196c2fb70bc7ab2901e/scripts/lib/layers.lua</source>
+        <source file="lib/params.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/3f36d290129d6d6fe09e1196c2fb70bc7ab2901e/scripts/lib/params.lua</source>
+        <source file="lib/paths.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/3f36d290129d6d6fe09e1196c2fb70bc7ab2901e/scripts/lib/paths.lua</source>
+        <source file="lib/reacoma.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/3f36d290129d6d6fe09e1196c2fb70bc7ab2901e/scripts/lib/reacoma.lua</source>
+        <source file="lib/slicing.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/3f36d290129d6d6fe09e1196c2fb70bc7ab2901e/scripts/lib/slicing.lua</source>
+        <source file="lib/utils.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/3f36d290129d6d6fe09e1196c2fb70bc7ab2901e/scripts/lib/utils.lua</source>
+        <source file="clean_path.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/3f36d290129d6d6fe09e1196c2fb70bc7ab2901e/scripts/clean_path.lua</source>
+      </version>
+      <version name="2.1.1" author="James Bradbury" time="2021-10-30T23:29:09Z">
+        <source main="main" file="fluid-ampgate.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/fluid-ampgate.lua</source>
+        <source main="main" file="fluid-ampslice.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/fluid-ampslice.lua</source>
+        <source main="main" file="fluid-hpss.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/fluid-hpss.lua</source>
+        <source main="main" file="fluid-nmf.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/fluid-nmf.lua</source>
+        <source main="main" file="fluid-noveltyslice.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/fluid-noveltyslice.lua</source>
+        <source main="main" file="fluid-onsetslice.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/fluid-onsetslice.lua</source>
+        <source main="main" file="fluid-sines.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/fluid-sines.lua</source>
+        <source main="main" file="fluid-transients.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/fluid-transients.lua</source>
+        <source main="main" file="fluid-transientslice.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/fluid-transientslice.lua</source>
+        <source file="config.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/config.lua</source>
+        <source file="lib/OrderedTables.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/lib/OrderedTables.lua</source>
+        <source file="lib/colors.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/lib/colors.lua</source>
+        <source file="lib/container.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/lib/container.lua</source>
+        <source file="lib/imgui_helpers.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/lib/imgui_helpers.lua</source>
+        <source file="lib/imgui_wrapper.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/lib/imgui_wrapper.lua</source>
+        <source file="lib/layers.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/lib/layers.lua</source>
+        <source file="lib/params.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/lib/params.lua</source>
+        <source file="lib/paths.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/lib/paths.lua</source>
+        <source file="lib/reacoma.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/lib/reacoma.lua</source>
+        <source file="lib/slicing.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/lib/slicing.lua</source>
+        <source file="lib/utils.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/lib/utils.lua</source>
+        <source file="lib/algorithms/ampgate.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/lib/algorithms/ampgate.lua</source>
+        <source file="lib/algorithms/ampslice.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/lib/algorithms/ampslice.lua</source>
+        <source file="lib/algorithms/hpss.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/lib/algorithms/hpss.lua</source>
+        <source file="lib/algorithms/nmf.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/lib/algorithms/nmf.lua</source>
+        <source file="lib/algorithms/noveltyslice.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/lib/algorithms/noveltyslice.lua</source>
+        <source file="lib/algorithms/onsetslice.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/lib/algorithms/onsetslice.lua</source>
+        <source file="lib/algorithms/sines.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/lib/algorithms/sines.lua</source>
+        <source file="lib/algorithms/transients.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/lib/algorithms/transients.lua</source>
+        <source file="lib/algorithms/transientslice.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/lib/algorithms/transientslice.lua</source>
+        <source file="clean_path.lua">https://github.com/ReaCoMa/ReaCoMa-2.0/raw/be32bb82c4285678544e20eb5de749d3f61c4538/scripts/clean_path.lua</source>
       </version>
     </reapack>
   </category>
