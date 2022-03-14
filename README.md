@@ -1,7 +1,7 @@
 # ReaCoMa 2.0
 
 <p align="center">
-<img src="logo.png" alt="reacoma_logo" width="25%" height="25%">
+<img src="logo.PNG" alt="reacoma_logo" width="25%" height="25%">
 </p>
 
 ReaCoMa 2 is a project developed by [James Bradbury](https://jamesbradbury.net). It enables you to use the [FluCoMa tools](https://www.flucoma.org) directly within REAPER. 
