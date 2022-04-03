@@ -48,9 +48,9 @@ curl -s -L "$REAIMGUI_VERSIONED_URL/$FILE" --output "$DYLIB_OUTPUT/$FILE" >> /de
 # Get FluCoMa CLI Tools
 if [ "$DISTRO" == "Darwin" ]
 then
-    FLUCOMA_RELEASE="https://github.com/flucoma/flucoma-cli/releases/download/1.0.0-TB2.beta5/FluCoMa-CLI-Mac.zip"
+    FLUCOMA_RELEASE="https://github.com/flucoma/flucoma-cli/releases/download/1.0.0-TB2.beta6/FluCoMa-CLI-Mac.zip"
 else
-    FLUCOMA_RELEASE="https://github.com/flucoma/flucoma-cli/releases/download/1.0.0-TB2.beta5/FluCoMa-Linux-Mac.zip"
+    FLUCOMA_RELEASE="https://github.com/flucoma/flucoma-cli/releases/download/1.0.0-TB2.beta6/FluCoMa-CLI-Linux.zip"
 fi
 
 # make the folder for the binaries
