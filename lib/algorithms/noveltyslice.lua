@@ -59,7 +59,7 @@ noveltyslice = {
     },
     parameters =  {
         {
-            name = 'Algorothm',
+            name = 'algorithm',
             widget = reaper.ImGui_Combo,
             value = 0,
             items = 'spectrum\31mfcc\31pitch\31loudness\31',
