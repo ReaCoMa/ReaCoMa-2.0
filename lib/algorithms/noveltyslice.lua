@@ -4,7 +4,7 @@ function segment(parameters)
     )
 
     local num_selected_items = reaper.CountSelectedMediaItems(0)
-    local feature = parameters[1].value
+    local algorithm = parameters[1].value
     local threshold = parameters[2].value
     local kernelsize = parameters[3].value
     local filtersize = parameters[4].value
@@ -32,7 +32,7 @@ function segment(parameters)
         " -maxfftsize " .. reacoma.utils.get_max_fft_size(fftsettings) ..
         " -maxkernelsize " .. kernelsize ..
         " -maxfiltersize " .. filtersize ..
-        " -feature " .. feature .. 
+        " -algorithm " .. algorithm .. 
         " -kernelsize " .. kernelsize .. 
         " -threshold " .. threshold .. 
         " -filtersize " .. filtersize .. 
@@ -59,7 +59,7 @@ noveltyslice = {
     },
     parameters =  {
         {
-            name = 'feature',
+            name = 'Algorothm',
             widget = reaper.ImGui_Combo,
             value = 0,
             items = 'spectrum\31mfcc\31pitch\31loudness\31',
@@ -82,7 +82,7 @@ noveltyslice = {
             max = 51,
             value = 3,
             type = 'sliderint',
-            desc = 'The granularity of the window in which the algorithm looks for change, in samples.'
+            desc = 'The granularity of the window in which the algorithm looks for change, in FFT frames.'
         },
         {
             name = 'filtersize',
