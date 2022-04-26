@@ -45,7 +45,7 @@ imgui_wrapper.loop = function(ctx, viewport, state, obj)
             r.ImGui_PushStyleColor(ctx, r.ImGui_Col_FrameBg(), colors.red)
         end
 
-        _, reacoma.settings.path = r.ImGui_InputText(ctx, '', reacoma.settings.path)
+        _, reacoma.settings.path = r.ImGui_InputText(ctx, '##', reacoma.settings.path)
         r.ImGui_PopStyleColor(ctx)
         if path_valid then
             r.ImGui_SameLine(ctx)
@@ -102,12 +102,24 @@ imgui_wrapper.loop = function(ctx, viewport, state, obj)
 
         if obj.info.action == 'segment' then
             reaper.ImGui_SameLine(ctx)
-            _, reacoma.settings.slice_preview = reaper.ImGui_Checkbox(ctx, 
-                'preview', 
+            _, reacoma.settings.slice_preview = reaper.ImGui_Checkbox(ctx,
+                'preview',
                 reacoma.settings.slice_preview
             )
+            if not reacoma.settings.slice_preview then
+                reaper.ImGui_BeginDisabled(ctx)
+            end
+            reaper.ImGui_SameLine(ctx)
+            _,  reacoma.settings.drag_preview = reaper.ImGui_Checkbox(ctx,
+                'immediate',
+                reacoma.settings.drag_preview
+            )
+            if not reacoma.settings.slice_preview then
+                reaper.ImGui_EndDisabled(ctx)
+            end
         else
             reacoma.settings.slice_preview = false
+            reacoma.settings.drag_preview = false
         end
         state = reacoma.imgui_helpers.update_state(ctx, obj, reacoma.settings.slice_preview)
         reaper.ImGui_End(ctx)

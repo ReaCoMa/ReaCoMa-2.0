@@ -32,8 +32,12 @@ if reaper.HasExtState("reacoma", "slice_preview") then
     local preview = reaper.GetExtState("reacoma", "slice_preview")
     if preview == 'false' then preview = false else preview = true end
     reacoma.settings.slice_preview = preview
+    reacoma.settings.drag_preview = preview
+    reacoma.settings.preview_pending = false
 else
     reacoma.settings.slice_preview = false
+    reacoma.settings.drag_preview = false
+    reacoma.settings.preview_pending = false
 end
 
 -- Add modules to reacoma table

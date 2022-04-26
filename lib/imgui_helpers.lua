@@ -59,15 +59,23 @@ imgui_helpers.draw_gui = function(ctx, obj)
     return change
 end
 
+imgui_helpers.do_preview = function(ctx, obj, change)
+    if obj.info.action ~= 'segment' or not reacoma.settings.slice_preview then
+      return false
+    end
+    local left = reaper.ImGui_MouseButton_Left()
+    --local not_drag_changed = reaper.ImGui_IsItemActive(ctx) ~= reacoma.settings.drag_preview
+    local drag_preview = change > 0 and reacoma.settings.drag_preview
+    local end_drag_preview = not reacoma.settings.drag_preview and reaper.ImGui_IsMouseReleased(ctx, left) and reacoma.settings.preview_pending
+    reacoma.settings.preview_pending = not end_drag_preview and (reacoma.settings.preview_pending or (change > 0 and not reacoma.settings.drag_preview))
+    return drag_preview or end_drag_preview
+end
+
 imgui_helpers.update_state = function(ctx, obj)
-    -- TODO: this could possibly be refactored into a single if statement but for now lets keep it verbose
-    -- Updates the state within each frame loop
     local change = imgui_helpers.draw_gui(ctx, obj)
-    -- We only need to update the state intermittently if the object is for segmenting...
-    -- ... and if the preview is checked
-    if obj.info.action == 'segment' and change > 0 and reacoma.settings.slice_preview then
+    if imgui_helpers.do_preview(ctx, obj, change) then
         return obj.perform_update(obj.parameters)
-    end 
+    end
 end
 
 imgui_helpers.process = function(obj)
