@@ -96,6 +96,8 @@ imgui_wrapper.loop = function(ctx, viewport, state, obj)
 
         visible, open = reaper.ImGui_Begin(ctx, obj.info.algorithm_name, true, r.ImGui_WindowFlags_NoCollapse())
 
+        local restored = false
+        
         if reaper.ImGui_Button(ctx, obj.info.action) or (reacoma.global_state.active == 0 and reaper.ImGui_IsKeyPressed(ctx, 13)) then
             state = reacoma.imgui_helpers.process(obj) -- TODO: make this respond to slicer/layers
         end
@@ -121,7 +123,13 @@ imgui_wrapper.loop = function(ctx, viewport, state, obj)
             reacoma.settings.slice_preview = false
             reacoma.settings.immediate_preview = false
         end
-        state = reacoma.imgui_helpers.update_state(ctx, obj, reacoma.settings.slice_preview)
+        if obj.defaults ~= nil then
+            if reaper.ImGui_Button(ctx, "defaults") then
+                state = params.restore_defaults(obj)
+                restored = true
+            end
+        end
+        state = reacoma.imgui_helpers.update_state(ctx, obj, restored)
         reaper.ImGui_End(ctx)
     end
     if open then

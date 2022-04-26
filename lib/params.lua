@@ -14,4 +14,23 @@ params.get = function(obj)
     end
 end
 
+params.store_defaults = function(obj)
+    idx = 1
+    defaults = {}
+    for parameter, d in pairs(obj.parameters) do
+        defaults[idx] = d.value
+        idx = idx + 1
+    end
+    obj.defaults = defaults
+end
+
+params.restore_defaults = function(obj)
+    idx = 1
+    for parameter, d in pairs(obj.parameters) do
+        d.value = obj.defaults[idx]
+        idx = idx + 1
+    end
+end
+
+
 return params

@@ -70,9 +70,9 @@ imgui_helpers.do_preview = function(ctx, obj, change)
     return drag_preview or end_drag_preview
 end
 
-imgui_helpers.update_state = function(ctx, obj)
+imgui_helpers.update_state = function(ctx, obj, update)
     local change = imgui_helpers.draw_gui(ctx, obj)
-    if imgui_helpers.do_preview(ctx, obj, change) then
+    if imgui_helpers.do_preview(ctx, obj, change + utils.bool_to_number[update]) then
         return obj.perform_update(obj.parameters)
     end
 end
