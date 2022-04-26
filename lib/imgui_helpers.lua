@@ -64,10 +64,9 @@ imgui_helpers.do_preview = function(ctx, obj, change)
       return false
     end
     local left = reaper.ImGui_MouseButton_Left()
-    --local not_drag_changed = reaper.ImGui_IsItemActive(ctx) ~= reacoma.settings.drag_preview
     local drag_preview = change > 0 and reacoma.settings.drag_preview
-    local end_drag_preview = not reacoma.settings.drag_preview and reaper.ImGui_IsMouseReleased(ctx, left) and reacoma.settings.preview_pending
-    reacoma.settings.preview_pending = not end_drag_preview and (reacoma.settings.preview_pending or (change > 0 and not reacoma.settings.drag_preview))
+    local end_drag_preview = not reacoma.settings.immediate_preview and not reaper.ImGui_IsMouseDown(ctx, left) and reacoma.settings.preview_pending
+    reacoma.settings.preview_pending = not end_drag_preview and (reacoma.settings.preview_pending or (change > 0 and not reacoma.settings.immediate_preview))
     return drag_preview or end_drag_preview
 end
 

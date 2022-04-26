@@ -31,12 +31,14 @@ reacoma.settings.path = reaper.GetExtState("reacoma", "exepath")
 if reaper.HasExtState("reacoma", "slice_preview") then
     local preview = reaper.GetExtState("reacoma", "slice_preview")
     if preview == 'false' then preview = false else preview = true end
+    local immediate = reaper.GetExtState("reacoma", "immediate_preview")
+    if immediate == 'false' then immediate = false else immediate = true end
     reacoma.settings.slice_preview = preview
-    reacoma.settings.drag_preview = preview
+    reacoma.settings.immediate_preview = immediate
     reacoma.settings.preview_pending = false
 else
     reacoma.settings.slice_preview = false
-    reacoma.settings.drag_preview = false
+    reacoma.settings.immediate_preview = false
     reacoma.settings.preview_pending = false
 end
 
