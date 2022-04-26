@@ -45,7 +45,7 @@ imgui_wrapper.loop = function(ctx, viewport, state, obj)
             r.ImGui_PushStyleColor(ctx, r.ImGui_Col_FrameBg(), colors.red)
         end
 
-        _, reacoma.settings.path = r.ImGui_InputText(ctx, '', reacoma.settings.path)
+        _, reacoma.settings.path = r.ImGui_InputText(ctx, '##', reacoma.settings.path)
         r.ImGui_PopStyleColor(ctx)
         if path_valid then
             r.ImGui_SameLine(ctx)
