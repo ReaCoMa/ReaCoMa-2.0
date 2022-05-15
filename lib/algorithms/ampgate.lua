@@ -31,7 +31,6 @@ function segment(parameters)
         local cmd = exe .. 
         " -source " .. reacoma.utils.wrap_quotes(data.full_path[i]) .. 
         " -indices " .. reacoma.utils.wrap_quotes(data.tmp[i]) ..
-        " -maxsize "  .. math.max(tonumber(minlengthabove) + tonumber(lookback), math.max(tonumber(minlengthbelow),tonumber(lookahead))) ..
         " -rampup " .. rampup ..
         " -rampdown " .. rampdown ..
         " -onthreshold " .. onthreshold ..

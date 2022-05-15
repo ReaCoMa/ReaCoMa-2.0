@@ -37,9 +37,6 @@ function decompose(parameters)
             exe .. 
             " -source " .. reacoma.utils.wrap_quotes(data.full_path[i]) .. 
             " -harmonic " .. reacoma.utils.wrap_quotes(data.outputs.harmonic[i]) .. 
-            " -maxfftsize " .. reacoma.utils.get_max_fft_size(fftsettings) ..
-            " -maxharmfiltersize " .. hfs ..
-            " -maxpercfiltersize " .. pfs ..
             " -percussive " .. reacoma.utils.wrap_quotes(data.outputs.percussive[i]) ..  
             " -harmfiltersize " .. hfs .. 
             " -percfiltersize " .. pfs .. 

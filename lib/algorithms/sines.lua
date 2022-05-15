@@ -43,7 +43,6 @@ function decompose(parameters)
             exe .. 
             " -source " .. reacoma.utils.wrap_quotes(data.full_path[i]) .. 
             " -sines " .. reacoma.utils.wrap_quotes(data.outputs.sines[i]) ..
-            " -maxfftsize " .. reacoma.utils.get_max_fft_size(fftsettings) ..
             " -residual " .. reacoma.utils.wrap_quotes(data.outputs.residual[i]) .. 
             " -birthhighthreshold " .. bhthresh ..
             " -birthlowthreshold " .. blthresh ..

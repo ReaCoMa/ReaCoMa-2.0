@@ -29,7 +29,6 @@ function segment(parameters)
         local cmd = exe .. 
         " -source " .. reacoma.utils.wrap_quotes(data.full_path[i]) .. 
         " -indices " .. reacoma.utils.wrap_quotes(data.tmp[i]) ..
-        " -maxfftsize " .. reacoma.utils.get_max_fft_size(fftsettings) .. 
         " -metric " .. metric .. 
         " -minslicelength " .. minslicelength ..
         " -threshold " .. threshold .. 
