@@ -30,6 +30,7 @@ function decompose(parameters)
             exe .. 
             " -source " .. reacoma.utils.wrap_quotes(data.full_path[i]) .. 
             " -resynth " .. reacoma.utils.wrap_quotes(data.outputs.components[i]) ..
+            " -resynthmode " .. 1 ..
             " -iterations " .. iterations ..
             " -components " .. components .. 
             " -fftsettings " .. fftsettings ..
