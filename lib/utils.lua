@@ -93,6 +93,7 @@ utils.get_max_fft_size = function(fft_string)
 end
 
 utils.form_fft_string = function(window, hop, fft)
+    -- always append -1 so that maxfftsize matches fft
     return string.format('%d %d %d -1', window, hop, fft)
 end
 
