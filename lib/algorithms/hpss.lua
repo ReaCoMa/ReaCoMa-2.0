@@ -38,8 +38,8 @@ function decompose(parameters)
             " -source " .. reacoma.utils.wrap_quotes(data.full_path[i]) .. 
             " -harmonic " .. reacoma.utils.wrap_quotes(data.outputs.harmonic[i]) .. 
             " -percussive " .. reacoma.utils.wrap_quotes(data.outputs.percussive[i]) ..  
-            " -harmfiltersize " .. hfs .. 
-            " -percfiltersize " .. pfs .. 
+            " -harmfiltersize " .. hfs .. hfs ..
+            " -percfiltersize " .. pfs .. pfs ..
             " -maskingmode " .. maskingmode ..
             " -fftsettings " .. fftsettings .. 
             " -numframes " .. data.item_len_samples[i] .. 
