@@ -24,6 +24,7 @@ imgui_helpers.HelpMarker = function(ctx, desc)
 imgui_helpers.draw_gui = function(ctx, obj)
     local change = 0
     local active = 0
+    local temp = nil
     for parameter, d in pairs(obj.parameters) do
         if d.type == 'sliderint' then
             temp, d.value = d.widget(
