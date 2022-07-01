@@ -30,9 +30,9 @@ function segment(parameters)
         " -source " .. reacoma.utils.wrap_quotes(data.full_path[i]) .. 
         " -indices " .. reacoma.utils.wrap_quotes(data.tmp[i]) .. 
         " -algorithm " .. algorithm .. 
-        " -kernelsize " .. kernelsize .. 
+        " -kernelsize " .. kernelsize .. " " .. kernelsize ..
+        " -filtersize " .. filtersize .. " " .. filtersize ..
         " -threshold " .. threshold .. 
-        " -filtersize " .. filtersize .. 
         " -fftsettings " .. fftsettings .. 
         " -minslicelength " .. minslicelength ..
         " -numframes " .. data.item_len_samples[i] .. 
@@ -59,7 +59,7 @@ noveltyslice = {
             name = 'algorithm',
             widget = reaper.ImGui_Combo,
             value = 0,
-            items = 'spectrum\31mfcc\31pitch\31loudness\31',
+            items = 'spectrum\0mfcc\0chroma\0pitch\0loudness\0',
             type = 'combo',
             desc = 'The feature on which novelty is computed.'
         },
