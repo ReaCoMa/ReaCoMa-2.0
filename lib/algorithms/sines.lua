@@ -76,7 +76,7 @@ sines = {
             name = 'trackingmethod',
             widget = reaper.ImGui_Combo,
             value = 0,
-            items = 'greedy\31hungarian\31',
+            items = 'greedy\0hungarian\0',
             type = 'combo',
             desc = 'The algorithm used to track the sinusoidal continuity between spectral frames.'
         },

@@ -59,7 +59,7 @@ onsetslice = {
             name = 'metric',
             widget = reaper.ImGui_Combo,
             value = 0,
-            items = 'energy\31high frequency content\31spectral flux\31modified kullback-leibler\31itakura-saito\31cosine\31phase deviation\31weighted phase deviation\31complex domain\31rectified complex domain\31',
+            items = 'energy\0high frequency content\0spectral flux\0modified kullback-leibler\0itakura-saito\0cosine\0phase deviation\0weighted phase deviation\0complex domain\0rectified complex domain\0',
             type = 'combo',
             desc = 'The metric used to derive a difference curve between spectral frames'
         },
