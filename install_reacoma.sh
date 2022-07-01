@@ -5,7 +5,7 @@ echo "This installer will download ReaCoMa, ReaImGui and the FluCoMa CLI Executa
 
 ARCH=`uname -m`
 DISTRO=`uname`
-REAIMGUI_VERSIONED_URL="https://github.com/cfillion/reaimgui/releases/download/v0.6.1"
+REAIMGUI_VERSIONED_URL="https://github.com/cfillion/reaimgui/releases/download/v0.7"
 
 # The extension of the shared library will be determined by the DISTRO
 if [ $DISTRO == "Darwin" ]

@@ -3,8 +3,8 @@ write-output "Please CLOSE REAPER for this script to work."
 $resource_path = ($env:USERPROFILE+'\AppData\Roaming\REAPER')
 $reacoma_dist = "https://github.com/ReaCoMa/ReaCoMa-2.0/archive/refs/heads/main.zip"
 $reacoma_location = ($resource_path+'\Scripts\')
-$reaimgui_dist = "https://github.com/cfillion/reaimgui/releases/download/v0.6.1/reaper_imgui-x64.dll"
-$flucoma_dist = "https://github.com/flucoma/flucoma-cli/releases/download/1.0.0-TB2.beta6/FluCoMa-CLI-Windows.zip"
+$reaimgui_dist = "https://github.com/cfillion/reaimgui/releases/download/v0.7/reaper_imgui-x64.dll"
+$flucoma_dist = "https://github.com/flucoma/flucoma-cli/releases/download/1.0.0-TB2.beta7/FluCoMa-CLI-Windows.zip"
 $flucoma_dl = ($env:USERPROFILE+'\Downloads\flucoma-binaries.zip')
 $flucoma_location = ($resource_path + '\Scripts\ReaCoMa-2.0-main\bin')
 
