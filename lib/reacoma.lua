@@ -106,6 +106,7 @@ else
     reacoma.nmf = require("algorithms/nmf")
     reacoma.sines = require("algorithms/sines")
     reacoma.transients = require("algorithms/transients")
+    reacoma.nmfcross = require("algorithms/nmfcross")
 end
 
 -- High level information about reacoma
