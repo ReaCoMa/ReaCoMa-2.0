@@ -1,5 +1,5 @@
 -----------------------------------------------------------
--- ReaCoMa by James Bradbury | reacoma@jamesbradbury.xyz --
+-- ReaCoMa by James Bradbury | reacoma@jamesbradbury.net --
 -----------------------------------------------------------
 
 local info = debug.getinfo(1,'S');
