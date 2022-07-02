@@ -7,7 +7,7 @@ local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
 package.path = package.path .. ";" .. script_path .. "?.lua"
 
 -- Require the modules
-local reaper = reaper
+local r = reaper
 reacoma = {}
 reacoma.settings = {}
 reacoma.lib = script_path
@@ -63,14 +63,14 @@ if not os then
     return
 end
 
-app_version = reaper.GetAppVersion()
+app_version = r.GetAppVersion()
 app_version = app_version:sub(1, 4)
 app_version = app_version:gsub('%.', '')
 app_version = tonumber(app_version)
 
 if app_version < 609 then
     reacoma.settings.fatal = true
-    _ = reaper.ShowMessageBox(
+    _ = r.ShowMessageBox(
         "ReaCoMa 2.0 requires a minimum of version 6.09 for REAPER.\n\nPlease update REAPER.",
         "Version Warning",
         0)
@@ -78,10 +78,10 @@ if app_version < 609 then
 end
 
 -- Check that ReaImGui exists
-local IMGUI_VERSION, IMGUI_VERSION_NUM, REAIMGUI_VERSION = reaper.ImGui_GetVersion()
-local version_satisfied = IMGUI_VERSION_NUM >= '18800'
+local IMGUI_VERSION, IMGUI_VERSION_NUM, REAIMGUI_VERSION = r.ImGui_GetVersion()
+local version_satisfied = IMGUI_VERSION_NUM >= 18800
 if not reaper.ImGui_GetVersion or not version_satisfied then
-    local rv = reaper.ShowMessageBox(
+    local rv = r.ShowMessageBox(
         "ReaImGui 0.7 or greater is a dependency of ReaCoMa version 2.0 and needs to be installed. \n\nReaCoMa can not install it for you, but it is simple to install. I suggest managing its installation through ReaPack. If you click OK, you will be taken to the ReaPack website which has instructions for installation.",
         "Dependency Missing", 1
     )
