@@ -79,7 +79,7 @@ end
 
 -- Check that ReaImGui exists
 local IMGUI_VERSION, IMGUI_VERSION_NUM, REAIMGUI_VERSION = reaper.ImGui_GetVersion()
-local version_satisfied = IMGUI_VERSION_NUM >= '18800'
+local version_satisfied = IMGUI_VERSION_NUM >= 18800 or nil
 if not reaper.ImGui_GetVersion or not version_satisfied then
     local rv = reaper.ShowMessageBox(
         "ReaImGui 0.7 or greater is a dependency of ReaCoMa version 2.0 and needs to be installed. \n\nReaCoMa can not install it for you, but it is simple to install. I suggest managing its installation through ReaPack. If you click OK, you will be taken to the ReaPack website which has instructions for installation.",
