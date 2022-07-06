@@ -25,7 +25,6 @@ imgui_wrapper.loop = function(ctx, viewport, state, obj)
     )
 
     if confirmed_path_valid == false then
-
         reaper.ImGui_SetNextWindowSize(ctx, 
             path_width, path_height,
             r.ImGui_Cond_FirstUseEver()
@@ -35,10 +34,8 @@ imgui_wrapper.loop = function(ctx, viewport, state, obj)
 
         r.ImGui_TextWrapped(ctx, "You will need to configure ReaCoMa so that it is aware of the location of the FluCoMa command line tools. To do this, provide the location of the folder containing the executable tools. For example, if you've just downloaded them from www.flucoma.org/download then you'll need to supply the 'bin' folder which is inside 'Fluid Corpus Manipulation. You can also drag and drop the folder below.")
 
-
         reaper.ImGui_NewLine(ctx)
         
-
         if path_valid then 
             r.ImGui_PushStyleColor(ctx, r.ImGui_Col_FrameBg(), colors.green)
         else
@@ -93,7 +90,6 @@ imgui_wrapper.loop = function(ctx, viewport, state, obj)
     
     -- GUI --
     if confirmed_path_valid == true then
-
         visible, open = reaper.ImGui_Begin(ctx, obj.info.algorithm_name, true, r.ImGui_WindowFlags_NoCollapse())
 
         local restored = false
@@ -129,7 +125,49 @@ imgui_wrapper.loop = function(ctx, viewport, state, obj)
                 restored = true
             end
         end
+
         state = reacoma.imgui_helpers.update_state(ctx, obj, restored)
+
+        takes = {}
+        for i=1, r.CountSelectedMediaItems(0) do
+            local item = r.GetSelectedMediaItem(0, i-1)
+            local take = r.GetActiveTake(item)
+            local name = r.GetTakeName(take)
+
+            takes[take] = true
+
+            if mappings[take] == nil then
+                mappings[take] = "source"
+            end
+        end
+
+        for k, v in pairs(mappings) do
+            if takes[k] == nil then
+                mappings[k] = nil
+            end
+        end
+
+        if r.ImGui_BeginTable(ctx, 'mappings', 2) then
+            r.ImGui_TableSetupColumn(ctx, 'Source')
+            r.ImGui_TableSetupColumn(ctx, 'Target')
+            r.ImGui_TableHeadersRow(ctx)
+            r.ImGui_TableNextRow(ctx)
+          
+            for i, v in pairs(mappings) do
+                local col = 0
+                if v == "source" then col = 0 end
+                if v == "target" then col = 1 end
+                if v ~= nil then
+                    r.ImGui_TableSetColumnIndex(ctx, col)
+                    if r.ImGui_Button(ctx, r.GetTakeName(i)) then
+                        if v == "source" then mappings[i] = "target" end
+                        if v == "target" then mappings[i] = "source" end
+                    end
+                end
+            end
+            r.ImGui_EndTable(ctx)
+        end
+
         reaper.ImGui_End(ctx)
     end
     if open then

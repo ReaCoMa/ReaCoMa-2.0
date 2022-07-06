@@ -22,6 +22,10 @@ container.generic = {
     outputs = {}
 }
 
+container.get_dual_data = function(item_index, data)
+
+end
+
 container.get_data = function(item_index, data)
     local info = container.get_item_info(item_index)
     for k, v in pairs(info) do

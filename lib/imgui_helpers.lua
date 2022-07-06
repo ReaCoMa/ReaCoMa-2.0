@@ -56,6 +56,8 @@ imgui_helpers.draw_gui = function(ctx, obj)
         -- ... we don't want to trigger a change
         change = change + reacoma.utils.bool_to_number[temp]
     end
+
+
     reacoma.global_state.active = active
     return change
 end

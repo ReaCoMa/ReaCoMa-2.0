@@ -19,6 +19,15 @@ decompose = function(parameters)
         output = {}
     }
 
+    -- gets a matrix of items to process
+    -- get_data as per normalbut cross the items and return an output
+    -- append the result to the source
+
+
+    for k, v in pairs(matrix) do
+            
+    end
+
     for i=1, num_selected_items do
         reacoma.container.get_data(i, data)
 
@@ -50,7 +59,9 @@ nmfcross = {
     info = {
         algorithm_name = 'Resynthesise a target sound based on a source sound',
         ext_name = 'reacoma.nmfcross',
-        action = 'decompose'
+        action = 'decompose',
+        source_target_matrix = true
+
     },
     parameters =  {
         {

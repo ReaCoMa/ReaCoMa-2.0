@@ -319,4 +319,12 @@ utils.dataquery = function(idx, data)
     end
 end
 
+utils.tablesize = function(t)
+    local count = 0
+    for _, __ in pairs(t) do
+        count = count + 1
+    end
+    return count
+end
+
 return utils

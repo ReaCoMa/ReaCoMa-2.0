@@ -29,4 +29,8 @@ layers.process = function(item_index, data)
     end
 end
 
+layers.process_cross = function(item_index, data)
+    
+end
+
 return layers
