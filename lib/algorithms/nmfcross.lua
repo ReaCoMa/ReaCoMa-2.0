@@ -19,41 +19,42 @@ decompose = function(parameters)
         output = {}
     }
 
+    -- get mappings and convert to a matrix...? or get the matrix...?
     -- gets a matrix of items to process
     -- get_data as per normalbut cross the items and return an output
-    -- append the result to the source
+    -- append the result to the target
 
 
-    for k, v in pairs(matrix) do
-            
+    for source, target in pairs(matrix) do
+        
     end
 
-    for i=1, num_selected_items do
-        reacoma.container.get_data(i, data)
+--     for i=1, num_selected_items do
+--         reacoma.container.get_data(i, data)
 
-        table.insert(
-            data.outputs.output,
-            data.path[i] .. "_nmfcross_" .. reacoma.utils.uuid(i) .. ".wav"
-        )
+--         table.insert(
+--             data.outputs.output,
+--             data.path[i] .. "_nmfcross_" .. reacoma.utils.uuid(i) .. ".wav"
+--         )
 
-		local cli = exe .. 
-		" -source " .. reacoma.utils.wrap_quotes(data.full_path[i]) ..
-		" -target " .. reacoma.utils.wrap_quotes(data.full_path[i]) ..
-		" -output " .. reacoma.utils.wrap_quotes(data.outputs.components[i]) ..
-		" -timesparsity " .. timesparsity ..
-		" -polyphony " .. polyphony ..
-		" -continuity " .. continuity ..
-		" -iterations " .. iterations ..
-		" -fftsettings " .. fftsettings
-        table.insert(data.cmd, cli)
+-- 		local cli = exe .. 
+-- 		" -source " .. reacoma.utils.wrap_quotes(data.full_path[i]) ..
+-- 		" -target " .. reacoma.utils.wrap_quotes(data.full_path[i]) ..
+-- 		" -output " .. reacoma.utils.wrap_quotes(data.outputs.components[i]) ..
+-- 		" -timesparsity " .. timesparsity ..
+-- 		" -polyphony " .. polyphony ..
+-- 		" -continuity " .. continuity ..
+-- 		" -iterations " .. iterations ..
+-- 		" -fftsettings " .. fftsettings
+--         table.insert(data.cmd, cli)
 
-        reacoma.utils.cmdline(data.cmd[i])
-        reacoma.layers.exist(i, data)
-        reaper.SelectAllMediaItems(0, 0)
-        reacoma.layers.process(i, data)
-        reaper.UpdateArrange()
-    end
-end
+--         reacoma.utils.cmdline(data.cmd[i])
+--         reacoma.layers.exist(i, data)
+--         reaper.SelectAllMediaItems(0, 0)
+--         reacoma.layers.process(i, data)
+--         reaper.UpdateArrange()
+--     end
+-- end
 
 nmfcross = {
     info = {

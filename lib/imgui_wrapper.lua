@@ -126,6 +126,7 @@ imgui_wrapper.loop = function(ctx, viewport, state, obj)
             end
         end
 
+        -- TODO, this is where you would pass in the matrix
         state = reacoma.imgui_helpers.update_state(ctx, obj, restored)
 
         takes = {}
@@ -141,11 +142,26 @@ imgui_wrapper.loop = function(ctx, viewport, state, obj)
             end
         end
 
+        local sources = {
+
+        }
+
+        local tarets = {
+
+        }
+
+        local mappings = {
+            "take1" = "take2",
+            "take3",
+            "take4"
+        }
+
         for k, v in pairs(mappings) do
             if takes[k] == nil then
                 mappings[k] = nil
             end
         end
+
 
         if r.ImGui_BeginTable(ctx, 'mappings', 2) then
             r.ImGui_TableSetupColumn(ctx, 'Source')

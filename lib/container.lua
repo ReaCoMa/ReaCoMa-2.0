@@ -22,12 +22,8 @@ container.generic = {
     outputs = {}
 }
 
-container.get_dual_data = function(item_index, data)
-
-end
-
-container.get_data = function(item_index, data)
-    local info = container.get_item_info(item_index)
+container.get_data = function(i, data)
+    local info = container.get_item_info(i)
     for k, v in pairs(info) do
         table.insert(data[tostring(k)], v)
     end
