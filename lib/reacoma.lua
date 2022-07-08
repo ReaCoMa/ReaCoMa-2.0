@@ -51,6 +51,7 @@ reacoma.paths     = require("paths")
 reacoma.sorting   = require("sorting")
 reacoma.tagging   = require("tagging")
 reacoma.utils     = require("utils")
+fzy = require('fzy')
 
 -- Check that we are not running in restricted mode
 if not os then
