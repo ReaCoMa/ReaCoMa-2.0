@@ -7,7 +7,7 @@ local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
 package.path = package.path .. ";" .. script_path .. "?.lua"
 
 -- Require the modules
-local r = reaper
+r = reaper
 reacoma = {}
 reacoma.settings = {}
 reacoma.lib = script_path
@@ -51,6 +51,7 @@ reacoma.paths     = require("paths")
 reacoma.sorting   = require("sorting")
 reacoma.tagging   = require("tagging")
 reacoma.utils     = require("utils")
+reacoma.envelope  = require('envelope')
 
 -- Check that we are not running in restricted mode
 if not os then
