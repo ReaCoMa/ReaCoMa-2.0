@@ -104,6 +104,13 @@ utils.uuid = function(idx)
     return tostring(reaper.time_precise()):gsub("%.+", "") .. idx
 end
 
+utils.uuid2 = function()
+    local time = reaper.time_precise()
+    math.randomseed(time)
+    local rng = math.random(0, 1000000)
+    return tostring(time):gsub("%.+", "")
+end
+
 utils.cmdline = function(invocation)
     -- Calls the <command> at the system's shell
     -- The implementation slightly differs for each operating system
