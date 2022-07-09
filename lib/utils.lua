@@ -334,4 +334,24 @@ utils.tablesize = function(t)
     return count
 end
 
+utils.scale = function(x, imin, imax, omin, omax)
+    -- scales a value <x> from range <imin> <imax> to <omin> <omax>
+	local percent = (x - imin) / (imax - imin)
+	return percent * (omax - omin) + omin
+end
+
+utils.normalise = function(t)
+    local normalised = {}
+    local min = math.min(table.unpack(t))
+    local max = math.max(table.unpack(t))
+    for i=1, #t do
+        normalised[i] = utils.scale(t[i], min, max, 0, 1)
+    end
+    return normalised
+end
+
+utils.decimate = function(t)
+    
+end
+
 return utils
