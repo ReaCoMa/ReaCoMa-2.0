@@ -61,5 +61,4 @@ paths.is_path_valid = function(input_string)
     end
 end
 
-
 return paths

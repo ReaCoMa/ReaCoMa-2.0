@@ -1,6 +1,7 @@
 imgui_wrapper = {}
 
 local r = reaper
+local checked_version = false
 local path_valid = false
 local show_modal = false
 local confirmed_path_valid = reacoma.paths.is_path_valid(reacoma.settings.path)
@@ -25,7 +26,6 @@ imgui_wrapper.loop = function(ctx, viewport, state, obj)
     )
 
     if confirmed_path_valid == false then
-
         reaper.ImGui_SetNextWindowSize(ctx, 
             path_width, path_height,
             r.ImGui_Cond_FirstUseEver()
@@ -93,7 +93,6 @@ imgui_wrapper.loop = function(ctx, viewport, state, obj)
     
     -- GUI --
     if confirmed_path_valid == true then
-
         visible, open = reaper.ImGui_Begin(ctx, obj.info.algorithm_name, true, r.ImGui_WindowFlags_NoCollapse())
 
         local restored = false

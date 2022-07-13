@@ -11,7 +11,7 @@ local reaper = reaper
 reacoma = {}
 reacoma.settings = {}
 reacoma.lib = script_path
-reacoma.version = "2.2.0a"
+reacoma.settings.required_cli_version = 100
 reacoma.global_state = {}
 reacoma.global_state.active = false
 state = {}
@@ -90,6 +90,7 @@ if not reaper.ImGui_GetVersion or not version_satisfied then
     end
     reacoma.settings.fatal = true
 else
+    dofile(reaper.GetResourcePath() .. '/Scripts/ReaTeam Extensions/API/imgui.lua')('0.7') -- shim the version we want
     -- ImGui Specific Stuff
     reacoma.colors = require("colors")
     reacoma.imgui_helpers = require("imgui_helpers")

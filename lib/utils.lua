@@ -319,4 +319,15 @@ utils.dataquery = function(idx, data)
     end
 end
 
+utils.is_version_valid = function()
+    local version_cmd = reacoma.settings.path .. "/fluid-ampslice" .. ' -version'
+    local version = r.ExecProcess(version_cmd, 0):match('%d.%d.%d'):gsub('%.', '')
+    r.ImGui_Text(ctx, tonumber(version))
+    if tonumber(version) < reacoma.settings.required_cli_version then            
+        r.ImGui_text(ctx, 'Version invalid')
+    else
+        r.ImGui_Text(ctx, 'Version is valid')
+    end
+end
+
 return utils
