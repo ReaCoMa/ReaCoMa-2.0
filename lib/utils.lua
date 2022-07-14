@@ -281,7 +281,7 @@ end
 utils.split_space = function(input_string)
     -- Splits an <input_string> seperated by spaces into a table
     local t = {}
-    for word in input_string:gmatch("%w+") do table.insert(t, word) end
+    for word in input_string:gmatch("%S+") do table.insert(t, word) end
     return t
 end
 
