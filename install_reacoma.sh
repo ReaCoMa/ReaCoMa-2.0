@@ -48,23 +48,32 @@ curl -s -L "$REAIMGUI_VERSIONED_URL/$FILE" --output "$DYLIB_OUTPUT/$FILE" >> /de
 # Get FluCoMa CLI Tools
 if [ "$DISTRO" == "Darwin" ]
 then
-    FLUCOMA_RELEASE="https://github.com/flucoma/flucoma-cli/releases/download/1.0.0-TB2.beta6/FluCoMa-CLI-Mac.zip"
+    FLUCOMA_RELEASE='https://github.com/flucoma/flucoma-cli/releases/download/1.0.2/FluCoMa-CLI-Mac.dmg'
 else
-    FLUCOMA_RELEASE="https://github.com/flucoma/flucoma-cli/releases/download/1.0.0-TB2.beta6/FluCoMa-CLI-Linux.zip"
+    FLUCOMA_RELEASE='https://github.com/flucoma/flucoma-cli/releases/download/1.0.2/FluCoMa-CLI-Linux.tar.gz'
 fi
 
 # make the folder for the binaries
-BINARY_LOCATION="$REACOMA_LOCATION/bin"
+BINARY_LOCATION="$REACOMA_LOCATION"
 mkdir -p "$BINARY_LOCATION"
 
-ZIP_LOCATION="$HOME/Downloads/flucoma-cli.zip"
-curl -s -L "$FLUCOMA_RELEASE" --output "$ZIP_LOCATION"
-unzip -o -q "$HOME/Downloads/flucoma-cli.zip" -d "$HOME/Downloads/"
-cp -a "$HOME/Downloads/FluidCorpusManipulation/bin/." "$BINARY_LOCATION"
-echo "3. Executables copied to $BINARY_LOCATION"
-
-echo "4. Cleaning Up Files..."
-rm -r "$ZIP_LOCATION"
-rm -r "$HOME/Downloads/FluidCorpusManipulation"
+if [ "$DISTRO" == "Darwin" ]
+then
+    ZIP_LOCATION="$HOME/Downloads/flucoma-cli.dmg"
+    curl -s -L "$FLUCOMA_RELEASE" --output "$ZIP_LOCATION"
+    hdiutil attach "$ZIP_LOCATION"
+    echo "3. Executables copied to $BINARY_LOCATION"
+    cp -a /Volumes/FluCoMa-CLI-Mac/FluidCorpusManipulation/bin "$BINARY_LOCATION"
+    echo "4. Cleaning Up Files..."
+    hdiutil detach /Volumes/FluCoMa-CLI-Mac
+else
+    ZIP_LOCATION="$HOME/Downloads/flucoma-cli.tar.gz"
+    curl -s -L "$FLUCOMA_RELEASE" --output "$ZIP_LOCATION"
+    tar -xvf "$ZIP_LOCATION"
+    echo "3. Executables copied to $BINARY_LOCATION"
+    cp -a "$HOME/Downloads/FluidCorpusManipulation/bin" "$BINARY_LOCATION"
+    echo "4. Cleaning Up Files..."
+    rm -rf "$ZIP_LOCATION"
+fi
 
 echo "DONE! Now run one of the scripts from REAPER"
