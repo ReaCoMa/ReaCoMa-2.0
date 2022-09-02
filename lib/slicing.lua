@@ -58,8 +58,6 @@ slicing.process = function(item_index, data, gate_based_slicer)
             slice_points[i] = (slice_points[i] + data.take_ofs_samples[item_index]) / data.playrate[item_index]
         else
             slice_points[i] = (slice_points[i] - data.take_ofs_samples[item_index]) / data.playrate[item_index]
-            -- reaper.ShowConsoleMsg(slice_points[i])
-            -- reaper.ShowConsoleMsg('\n')
         end
         -- and convert to seconds for REAPER
         slice_points[i] = utils.sampstos(

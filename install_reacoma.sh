@@ -10,14 +10,20 @@ REAIMGUI_VERSIONED_URL="https://github.com/cfillion/reaimgui/releases/download/v
 # The extension of the shared library will be determined by the DISTRO
 if [ $DISTRO == "Darwin" ]
 then
+    REATEAM="$HOME/Library/Application Support/REAPER/Scripts/ReaTeam Extensions"
+    LUA_LOCATION="$REATEAM/API"
     REACOMA_LOCATION="$HOME/Library/Application Support/REAPER/Scripts/ReaCoMa-2.0"
     DYLIB_OUTPUT="$HOME/Library/Application Support/REAPER/UserPlugins" 
     EXT=".dylib"
 else
+    REATEAM="$HOME/.config/REAPER/Scripts/ReaTeam Extensions"
+    LUA_LOCATION="$REATEAM/API"
     REACOMA_LOCATION="$HOME/.config/REAPER/Scripts/ReaCoMa-2.0"
     DYLIB_OUTPUT="$HOME/.config/REAPER/UserPlugins" 
     EXT=".so"
 fi
+
+echo "$LUA_LOCATION"
 
 # Download ReaCoMa to the UserScripts place
 if [ -d "$REACOMA_LOCATION" ]
@@ -29,7 +35,7 @@ else
     echo "1. ReaCoMa downloaded to '$REACOMA_LOCATION'"
 fi
 
-
+# Download ImGui
 if [ "$ARCH" == "arm64" ]
 then
     echo "2. ARM64 Architecture Identified for ImGui"
@@ -44,6 +50,11 @@ fi
 
 CONCAT_OUTPUT="$DYLIB_OUTPUT/$FILE"
 curl -s -L "$REAIMGUI_VERSIONED_URL/$FILE" --output "$DYLIB_OUTPUT/$FILE" >> /dev/null
+
+# imgui.lua file
+mkdir -p "$REATEAM" && echo "Creating ReaTeam folder"
+mkdir -p "$LUA_LOCATION" && echo "Creating API folder"
+curl -s -L "$REAIMGUI_VERSIONED_URL/imgui.lua" --output "$LUA_LOCATION/imgui.lua"
 
 # Get FluCoMa CLI Tools
 if [ "$DISTRO" == "Darwin" ]
