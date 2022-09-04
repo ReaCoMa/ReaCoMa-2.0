@@ -1,8 +1,8 @@
 -----------------------------------------------------------
--- ReaCoMa by James Bradbury | reacoma@jamesbradbury.xyz --
+-- ReaCoMa by James Bradbury | reacoma@jamesbradbury.net --
 -----------------------------------------------------------
 
-local info = debug.getinfo(1,'S');
+local info = debug.getinfo(1,'S')
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
 package.path = package.path .. ";" .. script_path .. "?.lua"
 
