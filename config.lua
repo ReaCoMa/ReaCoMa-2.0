@@ -21,7 +21,5 @@ reacoma.output = "source"
 -- Options: 
     -- description: You can set a custom path. It has to be an absolute path and be valid.
 -- Examples:
-    -- reacoma.binaries = "/usr/local/bin"
 reacoma.binaries = "default"
 -------------------------------------------------------------------------------------
-    
