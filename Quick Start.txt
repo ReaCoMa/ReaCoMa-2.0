@@ -1,0 +1,6 @@
+Drag the "ReaCoMa 2.0" folder to the "REAPER Scripts" folder. "REAPER Scripts" is an alias (shortcut) to ~/Library/Application Support/REAPER/Scripts
+
+Next, you will have to install ReaImGui (https://forum.cockos.com/showthread.php?t=250419) a library that displays graphics for controlling the scripts. You can install this two ways:
+
+1. Through ReaPack (https://reapack.com/)
+2. Manually (https://github.com/ReaCoMa/ReaCoMa-2.0/wiki/installation#step-2-install-reaimgui)
