@@ -59,9 +59,9 @@ curl -s -L "$REAIMGUI_VERSIONED_URL/imgui.lua" --output "$LUA_LOCATION/imgui.lua
 # Get FluCoMa CLI Tools
 if [ "$DISTRO" == "Darwin" ]
 then
-    FLUCOMA_RELEASE='https://github.com/flucoma/flucoma-cli/releases/download/1.0.2/FluCoMa-CLI-Mac.dmg'
+    FLUCOMA_RELEASE='https://github.com/flucoma/flucoma-cli/releases/download/1.0.4/FluCoMa-CLI-Mac.dmg'
 else
-    FLUCOMA_RELEASE='https://github.com/flucoma/flucoma-cli/releases/download/1.0.2/FluCoMa-CLI-Linux.tar.gz'
+    FLUCOMA_RELEASE='https://github.com/flucoma/flucoma-cli/releases/download/1.0.4/FluCoMa-CLI-Linux.tar.gz'
 fi
 
 # make the folder for the binaries
