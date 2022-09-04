@@ -14,3 +14,14 @@
     -- reacoma.output = "~/my_custom_output"
 reacoma.output = "source"
 -------------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------------
+-- Parameter Description: Custom binary location
+-- Default: "default"
+-- Options: 
+    -- description: You can set a custom path. It has to be an absolute path and be valid.
+-- Examples:
+    -- reacoma.binaries = "/usr/local/bin"
+reacoma.binaries = "default"
+-------------------------------------------------------------------------------------
+    
