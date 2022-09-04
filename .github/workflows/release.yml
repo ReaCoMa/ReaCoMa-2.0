@@ -11,7 +11,7 @@ jobs:
           fetch-depth: 0
 
       - name: install dependencies
-        run: brew install create-dmg
+        run: npm install --location=global appdmg
 
       - name: Create Release DMG
         run: sh create_release.sh
