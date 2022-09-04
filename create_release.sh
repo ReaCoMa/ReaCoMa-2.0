@@ -18,7 +18,7 @@ test -f "$NAME.dmg" && rm -f "$NAME.dmg"
 test -f release && rm -rf release
 mkdir -p release
 mkdir -p "release/$NAME"
-rsync -av -q . "release/$NAME" --exclude "$NAME" --exclude "REAPER Scripts" --exclude create_release.sh --exclude .github
+rsync -av -q . "release/$NAME" --exclude "$NAME" --exclude "REAPER Scripts" --exclude create_release.sh --exclude .github --exclude release --exclude assets
 
 create-dmg --add-file "REAPER Scripts" "REAPER Scripts" 300 150 --add-file "Quick Start.rtf" "Quick Start.rtf" 30 30 --volname "$NAME" --volicon "assets/icon.icns" --window-size 500 300 --window-pos 0 0 --icon "ReaCoMa 2.0" 30 150 --icon-size 48 "$NAME.dmg" release
 
