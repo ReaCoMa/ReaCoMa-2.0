@@ -1,6 +1,6 @@
 {
   "title": "ReaCoMa",
-  "icon": "assets/icon.icns",
+  "icon": "../assets/icon.icns",
   "window": {
     "size": {
       "width": 500,
@@ -8,8 +8,8 @@
     }
   },
   "contents": [
-    { "x": 30, "y": 150, "type": "file", "path": "./release/ReaCoMa 2.0" },
-    { "x": 30, "y": 30, "type": "file", "path": "./Quick Start.rtf"},
-    { "x": 300, "y": 150, "type": "link", "path": "~/"}
+    { "x": 30, "y": 150, "type": "file", "path": "release/ReaCoMa 2.0" },
+    { "x": 30, "y": 30, "type": "file", "path": "../Quick Start.rtf"},
+    { "x": 300, "y": 150, "type": "file", "path": "Drag the ReaCoMa 2.0 Folder Here.app"}
   ]
 }
