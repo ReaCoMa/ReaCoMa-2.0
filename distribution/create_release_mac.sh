@@ -13,7 +13,7 @@ test -f "$NAME.dmg" && rm -f "$NAME.dmg"
 test -f release && rm -rf release
 mkdir -p release
 mkdir -p "release/$NAME"
-rsync -av -q .. "release/$NAME" --exclude .github --exclude release --exclude assets --exclude tests --exclude install.bat
+rsync -av -q .. "release/$NAME" --exclude .github --exclude . --exclude release --exclude assets --exclude tests --exclude install.bat
 
 appdmg dmg.json "$NAME.dmg"
 
