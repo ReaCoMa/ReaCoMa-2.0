@@ -15,12 +15,8 @@ test -f "$NAME.dmg" && rm -f "$NAME.dmg"
 test -f release && rm -rf release
 mkdir -p release
 mkdir -p "release/$NAME"
-rsync -av -q . "release/$NAME" --exclude "$NAME" --exclude "REAPER Scripts" --exclude create_release_win.sh --exclude create_release_win.sh --exclude .github --exclude release --exclude assets --exclude tests --exclude install.bat
+rsync -av -q .. "release/$NAME" --exclude .github --exclude release --exclude assets --exclude tests --exclude install.bat
 
-appdmg ./dmg.json ./ReaCoMa\ 2.0.dmg
-
-# Alias(es)
-# test -f "REAPER Scripts" && rm -f "REAPER Scripts"
-# ln -s ~/Library/Application\ Support/REAPER/Scripts REAPER\ Scripts
+appdmg dmg.json "$NAME.dmg"
 
 rm -rf release
