@@ -1,6 +1,5 @@
 NAME="ReaCoMa 2.0"
 CLI="https://github.com/flucoma/flucoma-cli/releases/download/1.0.4/FluCoMa-CLI-Mac.dmg"
-IMGUI="https://github.com/cfillion/reaimgui/releases/download/v0.7"
 
 # Get CLI Binaries
 curl -s -L "$CLI" --output cli.dmg
@@ -8,7 +7,6 @@ hdiutil attach cli.dmg
 cp -a /Volumes/FluCoMa-CLI-Mac/FluidCorpusManipulation/bin .
 hdiutil detach /Volumes/FluCoMa-CLI-Mac
 rm cli.dmg
-
 
 # Create DMG
 test -f "$NAME.dmg" && rm -f "$NAME.dmg"
