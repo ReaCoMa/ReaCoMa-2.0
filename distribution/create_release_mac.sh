@@ -8,13 +8,13 @@ cp -a /Volumes/FluCoMa-CLI-Mac/FluidCorpusManipulation/bin .
 hdiutil detach /Volumes/FluCoMa-CLI-Mac
 rm cli.dmg
 
-# Create DMG
+# # Create DMG
 test -f "$NAME.dmg" && rm -f "$NAME.dmg"
 test -f release && rm -rf release
 mkdir -p release
 mkdir -p "release/$NAME"
-rsync -av -q .. "release/$NAME" --exclude .github --exclude . --exclude release --exclude assets --exclude tests --exclude install.bat
+rsync -av -q --exclude=.github --exclude=.git --exclude=assets --exclude=tests --exclude=distribution . "release/$NAME"
 
-appdmg dmg.json "$NAME.dmg"
+appdmg distribution/dmg.json "$NAME.dmg"
 
 rm -rf release
