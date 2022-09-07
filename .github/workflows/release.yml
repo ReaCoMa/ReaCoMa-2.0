@@ -23,6 +23,9 @@ jobs:
       - name: Create Release ZIP
         run: sh distribution/create_release.sh win
 
+      - name: Create Release TAR
+        run: sh distribution/create_release.sh linux
+
       - name: package and upload
         uses: softprops/action-gh-release@v1
         with:
