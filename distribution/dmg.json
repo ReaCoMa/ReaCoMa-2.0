@@ -9,7 +9,7 @@
   },
   "contents": [
     { "x": 30, "y": 150, "type": "file", "path": "../release/ReaCoMa 2.0" },
-    { "x": 30, "y": 30, "type": "file", "path": "../Quick Start.rtf"},
+    { "x": 30, "y": 30, "type": "file", "path": "Quick Start.rtf"},
     { "x": 300, "y": 150, "type": "file", "path": "Install ReaCoMa.app"}
   ]
 }
