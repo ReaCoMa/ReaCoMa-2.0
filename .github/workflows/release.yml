@@ -27,8 +27,8 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           name: ${{ steps.tag.outputs.version }}
-          body: "ReaCoMa 2.0 .dmg installer"
-          files: "ReaCoMa"
+          body: "This is an automated ReaCoMa release. Download the appropriate version for your operating system."
+          files: "ReaCoMa*"
           prerelease: true
           tag_name: ${{ steps.tag.outputs.version }}
           draft: false

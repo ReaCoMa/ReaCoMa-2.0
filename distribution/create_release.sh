@@ -17,7 +17,7 @@ if [ "$OS" == "win" ]; then
 	# # Create a ZIP
 	mkdir -p release
 	mkdir -p "release/$NAME"
-	rsync -av -q --exclude=.github --exclude=.git --exclude=assets --exclude=tests --exclude=distribution . "release/$NAME"
+	rsync -av -q --exclude=.github --exclude="ReaCoMa 2.0.dmg" --exclude=.git --exclude=assets --exclude=tests --exclude=distribution . "release/$NAME"
 	cp distribution/install.bat release
 	cp distribution/Quick\ Start.txt release
 
@@ -35,7 +35,7 @@ else
 	test -f "$NAME.dmg" && rm -f "$NAME.dmg"
 	mkdir -p release
 	mkdir -p "release/$NAME"
-	rsync -av -q --exclude=.github --exclude=.git --exclude=assets --exclude=tests --exclude=distribution . "release/$NAME"
+	rsync -av -q --exclude=.github --exclude="ReaCoMa 2.0.zip" --exclude=.git --exclude=assets --exclude=tests --exclude=distribution . "release/$NAME"
 
 	appdmg distribution/dmg.json "$NAME.dmg"
 fi
