@@ -10,22 +10,25 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Get latest tag
+        run: echo "::set-output name=version::$(git describe --tags --abbrev=0)"
+        id: tag
+
       - name: install dependencies
         run: npm install --location=global appdmg
 
       - name: Create Release DMG
-        run: sh create_release.sh
+        run: sh create_release.sh mac
 
-      - name: Get latest tag
-        run: echo "::set-output name=version::$(git describe --tags --abbrev=0)"
-        id: tag
+      - name: Create Release ZIP
+        run: sh create_release.sh win
 
       - name: package and upload
         uses: softprops/action-gh-release@v1
         with:
           name: ${{ steps.tag.outputs.version }}
           body: "ReaCoMa 2.0 .dmg installer"
-          files: "*.dmg"
+          files: "ReaCoMa"
           prerelease: true
           tag_name: ${{ steps.tag.outputs.version }}
           draft: false
