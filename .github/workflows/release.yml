@@ -18,10 +18,10 @@ jobs:
         run: npm install --location=global appdmg
 
       - name: Create Release DMG
-        run: sh create_release.sh mac
+        run: sh distribution/create_release.sh mac
 
       - name: Create Release ZIP
-        run: sh create_release.sh win
+        run: sh distribution/create_release.sh win
 
       - name: package and upload
         uses: softprops/action-gh-release@v1
