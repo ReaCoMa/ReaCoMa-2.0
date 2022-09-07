@@ -19,6 +19,7 @@ if [ "$OS" == "win" ]; then
 	mkdir -p "release/$NAME"
 	rsync -av -q --exclude=.github --exclude=.git --exclude=assets --exclude=tests --exclude=distribution . "release/$NAME"
 	cp distribution/install.bat release
+	cp distribution/Quick\ Start.txt release
 
 	zip -r ReaCoMa\ 2.0.zip release
 else
