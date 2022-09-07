@@ -11,7 +11,6 @@ local reaper = reaper
 reacoma = {}
 reacoma.settings = {}
 reacoma.lib = script_path
-reacoma.version = "2.2.5"
 reacoma.global_state = {}
 reacoma.global_state.active = false
 state = {}
