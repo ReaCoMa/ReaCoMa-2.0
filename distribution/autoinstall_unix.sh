@@ -27,28 +27,29 @@ else
     LIB_OUTPUT="$HOME/.config/REAPER/UserPlugins" 
     EXT=".so"
     curl -sL "$NIX" --output reacoma.tar.gz
+    tar -xvf reacoma.tar.gz
+    cp -r release/ReaCoMa\ 2.0 "$REACOMA_LOCATION"
+    rm -rf reacoma.tar.gz
 fi
 
-
-
 # Download ImGui
-# if [ "$ARCH" == "arm64" ]; then
-#     echo "2. ARM64 Architecture Identified for ImGui"
-#     FILE="reaper_imgui-arm64$EXT"
-# fi
+if [ "$ARCH" == "arm64" ]; then
+    echo "ARM64 Architecture Identified for ImGui"
+    FILE="reaper_imgui-arm64$EXT"
+fi
 
-# if [ "$ARCH" == "x86_64" ]; then
-#     echo "2. x86_64 architecture identified for ImGui"
-#     FILE="reaper_imgui-x86_64$EXT"
-# fi
+if [ "$ARCH" == "x86_64" ]; then
+    echo "x86_64 architecture identified for ImGui"
+    FILE="reaper_imgui-x86_64$EXT"
+fi
 
-# CONCAT_OUTPUT="$LIB_OUTPUT/$FILE"
-# curl -s -L "$REAIMGUI_VERSIONED_URL/$FILE" --output "$LIB_OUTPUT/$FILE" >> /dev/null
+CONCAT_OUTPUT="$LIB_OUTPUT/$FILE"
+curl -s -L "$REAIMGUI_VERSIONED_URL/$FILE" --output "$LIB_OUTPUT/$FILE" >> /dev/null
 
-# # imgui.lua file
-# LUA_LOCATION="$REATEAM/API"
-# mkdir -p "$REATEAM" && echo "Creating ReaTeam folder"
-# mkdir -p "$LUA_LOCATION" && echo "Creating API folder"
-# curl -s -L "$REAIMGUI_VERSIONED_URL/imgui.lua" --output "$LUA_LOCATION/imgui.lua"
+# imgui.lua file
+LUA_LOCATION="$REATEAM/API"
+mkdir -p "$REATEAM" && echo "Creating ReaTeam folder"
+mkdir -p "$LUA_LOCATION" && echo "Creating API folder"
+curl -s -L "$REAIMGUI_VERSIONED_URL/imgui.lua" --output "$LUA_LOCATION/imgui.lua"
 
-# echo "DONE! Now run one of the scripts from REAPER"
+echo "DONE! Now run one of the scripts from REAPER"
