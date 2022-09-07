@@ -14,14 +14,28 @@ if [ "$OS" == "win" ]; then
 	rm -rf FluidCorpusManipulation
 	rm cli.zip
 
-	# # Create a ZIP
+	# Create a ZIP
 	mkdir -p release
 	mkdir -p "release/$NAME"
 	rsync -av -q --exclude=.github --exclude="ReaCoMa 2.0.dmg" --exclude=.git --exclude=assets --exclude=tests --exclude=distribution . "release/$NAME"
-	cp distribution/install.bat release
 	cp distribution/Quick\ Start.txt release
 
 	zip -r ReaCoMa\ 2.0.zip release
+elif [ "$OS" == "linux" ]; then
+	rm -rf FluidCorpusManipulation
+	CLI="https://github.com/flucoma/flucoma-cli/releases/download/$CLI_VERSION/FluCoMa-CLI-Linux.tar.gz"
+	curl -s -L "$CLI" --output cli.tar.gz
+	tar -xvf cli.tar.gz
+	mv FluidCorpusManipulation/bin .
+	rm -rf FluidCorpusManipulation
+	rm cli.tar.gz
+
+	# Create a ZIP
+	mkdir -p release
+	mkdir -p "release/$NAME"
+	rsync -av -q --exclude=.github --exclude="ReaCoMa 2.0.dmg" --exclude=.git --exclude=assets --exclude=tests --exclude=distribution . "release/$NAME"
+	cp distribution/Quick\ Start.txt release
+	tar czf ReaCoMa\ 2.0.tar.gz release 
 else
 	CLI="https://github.com/flucoma/flucoma-cli/releases/download/$CLI_VERSION/FluCoMa-CLI-Mac.dmg"
 	# Get CLI Binaries
