@@ -19,8 +19,9 @@ if [ $DISTRO == "Darwin" ]; then
     EXT=".dylib"
     curl -sL "$MAC" --output reacoma.dmg
     hdiutil attach reacoma.dmg -quiet
-    cp -r /Volumes/ReaCoMa/ReaCoMa\ 2.0 "$REACOMA_LOCATION"
+    rsync -av -q /Volumes/ReaCoMa/ReaCoMa\ 2.0 "$REACOMA_LOCATION"
     hdiutil detach /Volumes/ReaCoMa -quiet
+    rm -rf reacoma.dmg
 else
     REATEAM="$HOME/.config/REAPER/Scripts/ReaTeam Extensions"
     REACOMA_LOCATION="$HOME/.config/REAPER/Scripts"
@@ -28,7 +29,7 @@ else
     EXT=".so"
     curl -sL "$NIX" --output reacoma.tar.gz
     tar -xvf reacoma.tar.gz
-    cp -r release/ReaCoMa\ 2.0 "$REACOMA_LOCATION"
+    rsync -av -q release/ReaCoMa\ 2.0 "$REACOMA_LOCATION"
     rm -rf reacoma.tar.gz
 fi
 
