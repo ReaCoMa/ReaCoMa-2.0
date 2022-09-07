@@ -8,15 +8,25 @@ Write-Output "Please CLOSE REAPER for this script to work."
 $ProgressPreference= 'SilentlyContinue'
 
 Write-Output "Downloading ReaComa"
+
+# Download the latest ReaCoMa release
 Invoke-WebRequest -Uri $reacoma_dist -OutFile ($env:USERPROFILE+'\Downloads\reacoma.zip')
 
-Expand-Archive -LiteralPath ($env:USERPROFILE+'\Downloads\reacoma.zip') -DestinationPath ($reacoma_location) -Force
+# Unzip and expand the latest ReaCoMa release
+Expand-Archive -LiteralPath ($env:USERPROFILE+'\Downloads\reacoma.zip') -DestinationPath ($env:USERPROFILE+'\Downloads') -Force
 
-write-output "Downloading ReaImGui"
+# Copy ReaCoMa folder to scripts
+Copy-Item -Path ($env:USERPROFILE+'\Downloads\release\ReaCoMa 2.0') -Destination ($resource_path+'\Scripts\') -Recurse
+
+Write-Output "Downloading ReaImGui"
+
+#Download the ReaImGui .dll
 Invoke-WebRequest -Uri ($reaimgui_url_base+'reaper_imgui-x64.dll') -OutFile ($resource_path+'\UserPlugins\reaper_imgui-x64.dll')
 
+# Make sure the ReaTeam folder exists
 New-Item -ItemType Directory -Force -Path ($resource_path+'\Scripts\ReaTeam Extensions\API\')
 
+# Download the imgui.lua
 Invoke-WebRequest -Uri ($reaimgui_url_base+'imgui.lua') -OutFile ($resource_path+'\Scripts\ReaTeam Extensions\API\reaper_imgui-x64.dll')
 
 $ProgressPreference= 'Continue'
