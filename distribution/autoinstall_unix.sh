@@ -3,7 +3,7 @@
 CLI_VERSION="1.0.4"
 
 echo "---- ReaCoMa 2.0 Installer Script ----"
-echo "This installer will download ReaCoMa, ReaImGui and the FluCoMa CLI Executables.\nAll temporary files such as .zip will be downloaded to your user downloads folder and removed afterwards\n"
+echo "This installer will download ReaCoMa and ReaImGui.\nAll temporary files such as .zip will be downloaded to your user downloads folder and removed afterwards\n"
 
 ARCH=`uname -m`
 DISTRO=`uname`
@@ -51,34 +51,5 @@ curl -s -L "$REAIMGUI_VERSIONED_URL/$FILE" --output "$LIB_OUTPUT/$FILE" >> /dev/
 mkdir -p "$REATEAM" && echo "Creating ReaTeam folder"
 mkdir -p "$LUA_LOCATION" && echo "Creating API folder"
 curl -s -L "$REAIMGUI_VERSIONED_URL/imgui.lua" --output "$LUA_LOCATION/imgui.lua"
-
-# Get FluCoMa CLI Tools
-if [ "$DISTRO" == "Darwin" ]; then
-    FLUCOMA_RELEASE="https://github.com/flucoma/flucoma-cli/releases/download/$CLI_VERSION/FluCoMa-CLI-Mac.dmg"
-else
-    FLUCOMA_RELEASE="https://github.com/flucoma/flucoma-cli/releases/download/$CLI_VERSION/FluCoMa-CLI-Linux.tar.gz"
-fi
-
-# make the folder for the binaries
-BINARY_LOCATION="$REACOMA_LOCATION"
-mkdir -p "$BINARY_LOCATION"
-
-if [ "$DISTRO" == "Darwin" ]; then
-    ZIP_LOCATION="$HOME/Downloads/flucoma-cli.dmg"
-    curl -s -L "$FLUCOMA_RELEASE" --output "$ZIP_LOCATION"
-    hdiutil attach "$ZIP_LOCATION" -quiet
-    echo "3. Executables copied to $BINARY_LOCATION"
-    cp -a /Volumes/FluCoMa-CLI-Mac/FluidCorpusManipulation/bin "$BINARY_LOCATION"
-    echo "4. Cleaning Up Files..."
-    hdiutil detach /Volumes/FluCoMa-CLI-Mac -quiet
-else
-    ZIP_LOCATION="$HOME/Downloads/flucoma-cli.tar.gz"
-    curl -s -L "$FLUCOMA_RELEASE" --output "$ZIP_LOCATION"
-    tar -xvf "$ZIP_LOCATION"
-    echo "3. Executables copied to $BINARY_LOCATION"
-    cp -a "$HOME/Downloads/FluidCorpusManipulation/bin" "$BINARY_LOCATION"
-    echo "4. Cleaning Up Files..."
-    rm -rf "$ZIP_LOCATION"
-fi
 
 echo "DONE! Now run one of the scripts from REAPER"
