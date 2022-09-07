@@ -40,9 +40,9 @@ else
 	CLI="https://github.com/flucoma/flucoma-cli/releases/download/$CLI_VERSION/FluCoMa-CLI-Mac.dmg"
 	# Get CLI Binaries
 	curl -s -L "$CLI" --output cli.dmg
-	hdiutil attach cli.dmg
+	hdiutil attach cli.dmg -quiet
 	cp -a /Volumes/FluCoMa-CLI-Mac/FluidCorpusManipulation/bin .
-	hdiutil detach /Volumes/FluCoMa-CLI-Mac
+	hdiutil detach /Volumes/FluCoMa-CLI-Mac -quiet
 	rm cli.dmg
 
 	# Create DMG
