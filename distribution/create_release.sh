@@ -17,7 +17,7 @@ if [ "$OS" == "win" ]; then
 	# Create a ZIP
 	mkdir -p release
 	mkdir -p "release/$NAME"
-	rsync -av -q --exclude=release --exclude=.github --exclude="ReaCoMa 2.0.dmg" --exclude=.git --exclude=assets --exclude=tests --exclude=distribution . "release/$NAME"
+	rsync -av -q --exclude=release --exclude=.github --exclude="ReaCoMa 2.0.dmg" --exclude="ReaCoMa 2.0.tar.gz" --exclude=.git --exclude=assets --exclude=tests --exclude=distribution . "release/$NAME"
 	cp distribution/Quick\ Start.txt release
 
 	zip -r ReaCoMa\ 2.0.zip release
@@ -33,7 +33,7 @@ elif [ "$OS" == "linux" ]; then
 	# Create a ZIP
 	mkdir -p release
 	mkdir -p "release/$NAME"
-	rsync -av -q --exclude=release --exclude=.github --exclude="ReaCoMa 2.0.dmg" --exclude=.git --exclude=assets --exclude=tests --exclude=distribution . "release/$NAME"
+	rsync -av -q --exclude=release --exclude=.github --exclude="ReaCoMa 2.0.dmg" --exclude="ReaCoMa 2.0.zip" --exclude=.git --exclude=assets --exclude=tests --exclude=distribution . "release/$NAME"
 	cp distribution/Quick\ Start.txt release
 	tar czf ReaCoMa\ 2.0.tar.gz release 
 else
@@ -49,7 +49,7 @@ else
 	test -f "$NAME.dmg" && rm -f "$NAME.dmg"
 	mkdir -p release
 	mkdir -p "release/$NAME"
-	rsync -av -q --exclude=release --exclude=.github --exclude="ReaCoMa 2.0.zip" --exclude=.git --exclude=assets --exclude=tests --exclude=distribution . "release/$NAME"
+	rsync -av -q --exclude=release --exclude=.github --exclude="ReaCoMa 2.0.zip" --exclude="ReaCoMa 2.0.dmg" --exclude=.git --exclude=assets --exclude=tests --exclude=distribution . "release/$NAME"
 
 	appdmg distribution/dmg.json "$NAME.dmg"
 fi
