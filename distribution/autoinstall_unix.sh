@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 CLI_VERSION="1.0.4"
 # ReaCoMa URLs
@@ -12,7 +12,8 @@ echo "---- ReaCoMa 2.0 Installer Script ----"
 echo "This installer will download ReaCoMa and ReaImGui.\nAll temporary files such as .zip will be downloaded to your user downloads folder and removed afterwards\n"
 
 # The extension of the shared library will be determined by the DISTRO
-if [ $DISTRO == "Darwin" ]; then
+if [ $DISTRO == "Darwin" ]
+then
     REATEAM="$HOME/Library/Application Support/REAPER/Scripts/ReaTeam Extensions"
     REACOMA_LOCATION="$HOME/Library/Application Support/REAPER/Scripts"
     LIB_OUTPUT="$HOME/Library/Application Support/REAPER/UserPlugins" 
@@ -40,12 +41,14 @@ else
 fi
 
 # Download ImGui
-if [ "$ARCH" == "arm64" ]; then
+if [ "$ARCH" == "arm64" ]
+then
     echo "ARM64 Architecture Identified for ImGui"
     FILE="reaper_imgui-arm64$EXT"
 fi
 
-if [ "$ARCH" == "x86_64" ]; then
+if [ "$ARCH" == "x86_64" ]
+then
     echo "x86_64 architecture identified for ImGui"
     FILE="reaper_imgui-x86_64$EXT"
 fi
