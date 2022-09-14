@@ -35,17 +35,13 @@ imgui_wrapper.loop = function(ctx, viewport, state, obj)
             'preview',
             reacoma.settings.slice_preview
         )
-        if not reacoma.settings.slice_preview then
-            reaper.ImGui_BeginDisabled(ctx)
-        end
+        if not reacoma.settings.slice_preview then reaper.ImGui_BeginDisabled(ctx) end
         reaper.ImGui_SameLine(ctx)
         _,  reacoma.settings.immediate_preview = reaper.ImGui_Checkbox(ctx,
             'immediate',
             reacoma.settings.immediate_preview
         )
-        if not reacoma.settings.slice_preview then
-            reaper.ImGui_EndDisabled(ctx)
-        end
+        if not reacoma.settings.slice_preview then reaper.ImGui_EndDisabled(ctx) end
     else
         reacoma.settings.slice_preview = false
         reacoma.settings.immediate_preview = false
