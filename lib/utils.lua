@@ -7,7 +7,7 @@ utils.bool_to_string = { [true]='true', [false]='false' }
 
 utils.DEBUG = function(string)
     -- Handy function for quickly debugging strings
-    reaper.ShowConsoleMsg(string)
+    reaper.ShowConsoleMsg(tostring(string))
     reaper.ShowConsoleMsg("\n")
 end
 
