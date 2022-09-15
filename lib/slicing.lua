@@ -66,6 +66,7 @@ slicing.process = function(item_index, data, gate_based_slicer)
         )
     end
 
+    reaper.Undo_BeginBlock()
     for i=1, #slice_points do
         local slice_pos = slice_points[i]
 
@@ -77,6 +78,7 @@ slicing.process = function(item_index, data, gate_based_slicer)
             colour
         )
     end
+    reaper.Undo_EndBlock2(0, 'reacoma marker add', -1)
 end
 
 return slicing

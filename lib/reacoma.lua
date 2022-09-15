@@ -129,5 +129,3 @@ else
     reacoma.sines = require("algorithms/sines")
     reacoma.transients = require("algorithms/transients")
 end
-
-reaper.Undo_BeginBlock2(0)

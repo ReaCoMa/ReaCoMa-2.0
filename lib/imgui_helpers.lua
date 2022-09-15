@@ -81,7 +81,7 @@ imgui_helpers.update_state = function(ctx, obj, update)
     end
 end
 
-imgui_helpers.process = function(obj)
+imgui_helpers.process = function(obj, mode)
     -- This is called everytime there is a process button pressed
     -- This button is uniform across layers/slices and is found at the top left
     local state = obj.perform_update(obj.parameters)
@@ -108,18 +108,27 @@ imgui_helpers.process = function(obj)
                 table.insert(take_markers, marker)
             end
             
+            reaper.Undo_BeginBlock()
             -- Now remove them from the item
             for j=1, num_markers do
                 reaper.DeleteTakeMarker(take, num_markers-j)
             end
+            reaper.Undo_EndBlock2(0, 'reacoma marker delete', -1)
 
+
+            reaper.Undo_BeginBlock()
             for j=1, #take_markers do
                 local slice_pos = take_markers[j]
-                item = reaper.SplitMediaItem(
-                    item, 
-                    slice_pos + state.item_pos[i]
-                )
+                local real_position = slice_pos + state.item_pos[i] -- adjust for offset of item
+                if mode == 'split' then
+                    item = reaper.SplitMediaItem(item, real_position)
+                elseif mode == 'marker' then
+                    local scheme = reacoma.colors.scheme[i] or { r=255, g=0, b=0 }
+                    local color = reaper.ColorToNative( scheme.r, scheme.g, scheme.b ) | 0x1000000
+                    reaper.AddProjectMarker2(0, false, real_position, real_position, '', -1, color)
+                end
             end
+            reaper.Undo_EndBlock2(0, 'reacoma process markers', -1)
         end
         reaper.UpdateArrange()
     end
