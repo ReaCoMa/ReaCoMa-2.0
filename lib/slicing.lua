@@ -68,7 +68,6 @@ slicing.process = function(item_index, data, gate_based_slicer)
 
     for i=1, #slice_points do
         local slice_pos = slice_points[i]
-        -- slice_pos = data.item_pos[item_index] + slice_pos
 
         local colour = reaper.ColorToNative(0, 0, 0) | 0x1000000
         reaper.SetTakeMarker(
