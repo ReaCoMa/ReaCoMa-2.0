@@ -31,20 +31,17 @@ imgui_wrapper.loop = function(ctx, viewport, state, obj)
 
     if obj.info.action == 'segment' then
         reaper.ImGui_SameLine(ctx)
-        _, reacoma.settings.slice_preview = reaper.ImGui_Checkbox(ctx,
-            'preview',
-            reacoma.settings.slice_preview
-        )
+        _, reacoma.settings.slice_preview = reaper.ImGui_Checkbox(ctx,'preview',reacoma.settings.slice_preview)
         if not reacoma.settings.slice_preview then reaper.ImGui_BeginDisabled(ctx) end
         reaper.ImGui_SameLine(ctx)
-        _,  reacoma.settings.immediate_preview = reaper.ImGui_Checkbox(ctx,
-            'immediate',
-            reacoma.settings.immediate_preview
-        )
+        _,  reacoma.settings.immediate_preview = reaper.ImGui_Checkbox(ctx,'immediate',reacoma.settings.immediate_preview)
         if not reacoma.settings.slice_preview then reaper.ImGui_EndDisabled(ctx) end
+        reaper.ImGui_SameLine(ctx)
+        _, reacoma.settings.markers = reaper.ImGui_Checkbox(ctx, 'markers', reacoma.settings.markers)
     else
         reacoma.settings.slice_preview = false
         reacoma.settings.immediate_preview = false
+        reacoma.settings.markers = false
     end
 
     if obj.defaults ~= nil then
