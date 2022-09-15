@@ -23,11 +23,11 @@ if reaper.HasExtState("reacoma", "slice_preview") then
     if immediate == 'false' then immediate = false else immediate = true end
     reacoma.settings.slice_preview = preview
     reacoma.settings.immediate_preview = immediate
-    reacoma.settings.preview_pending = false
+    reacoma.global_state.preview_pending = false
 else
     reacoma.settings.slice_preview = false
     reacoma.settings.immediate_preview = false
-    reacoma.settings.preview_pending = false
+    reacoma.global_state.preview_pending = false
 end
 
 -- Add modules to reacoma table
