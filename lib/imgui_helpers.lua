@@ -62,19 +62,16 @@ end
 
 imgui_helpers.do_preview = function(ctx, obj, change)
     if obj.info.action ~= 'segment' or not reacoma.settings.slice_preview then
-      return false
+        return false
     end
-    local changing = change ~= 0
-    local dragging = reaper.ImGui_IsMouseDragging(ctx, reaper.ImGui_MouseButton_Left())
-    local mousedown = reaper.ImGui_IsMouseDown(ctx, reaper.ImGui_MouseButton_Left())
-    local mouseup = reacoma.global_state.mousedown and not mousedown
-    local immediate_preview = changing and dragging and reacoma.settings.slice_preview and reacoma.settings.immediate_preview
-    local mouseup_preview = mouseup and reacoma.settings.slice_preview
-    
-    -- now store the state of the mousedown after checking
-    -- this lets you check the difference between mouse state
-    reacoma.global_state.mousedown = reaper.ImGui_IsMouseDown(ctx, reaper.ImGui_MouseButton_Left())
-    return immediate_preview or mouseup_preview
+    local drag_preview = change > 0 and reacoma.settings.immediate_preview
+    local end_drag_preview = (
+        not reacoma.settings.immediate_preview and 
+        not reaper.ImGui_IsMouseDown(ctx, reaper.ImGui_MouseButton_Left()) and 
+        reacoma.global_state.preview_pending
+    )
+    reacoma.global_state.preview_pending = not end_drag_preview and (reacoma.global_state.preview_pending or (change > 0 and not reacoma.settings.immediate_preview))
+    return drag_preview or end_drag_preview
 end
 
 imgui_helpers.update_state = function(ctx, obj, update)
