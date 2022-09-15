@@ -26,7 +26,14 @@ imgui_wrapper.loop = function(ctx, viewport, state, obj)
     local restored = false
     
     if reaper.ImGui_Button(ctx, obj.info.action) or (reacoma.global_state.active == 0 and reaper.ImGui_IsKeyPressed(ctx, 13)) then
-        state = reacoma.imgui_helpers.process(obj) -- TODO: make this respond to slicer/layers
+        state = reacoma.imgui_helpers.process(obj, 'split') -- TODO: make this respond to slicer/layers
+    end
+
+    if obj.info.action == 'segment' then
+        reaper.ImGui_SameLine(ctx)
+        if reaper.ImGui_Button(ctx, 'create markers') then
+            state = reacoma.imgui_helpers.process(obj, 'marker')
+        end
     end
 
     if obj.info.action == 'segment' then
@@ -36,12 +43,9 @@ imgui_wrapper.loop = function(ctx, viewport, state, obj)
         reaper.ImGui_SameLine(ctx)
         _,  reacoma.settings.immediate_preview = reaper.ImGui_Checkbox(ctx,'immediate',reacoma.settings.immediate_preview)
         if not reacoma.settings.slice_preview then reaper.ImGui_EndDisabled(ctx) end
-        reaper.ImGui_SameLine(ctx)
-        _, reacoma.settings.markers = reaper.ImGui_Checkbox(ctx, 'markers', reacoma.settings.markers)
     else
         reacoma.settings.slice_preview = false
         reacoma.settings.immediate_preview = false
-        reacoma.settings.markers = false
     end
 
     if obj.defaults ~= nil then
