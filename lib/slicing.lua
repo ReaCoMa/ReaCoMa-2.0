@@ -66,19 +66,18 @@ slicing.process = function(item_index, data, gate_based_slicer)
         )
     end
 
-    reaper.Undo_BeginBlock()
     for i=1, #slice_points do
         local slice_pos = slice_points[i]
 
-        local colour = reaper.ColorToNative(0, 0, 0) | 0x1000000
+        local scheme = reacoma.colors.scheme[item_index] or { r=255, g=0, b=0 }
+        local color = reaper.ColorToNative( scheme.r, scheme.g, scheme.b ) | 0x1000000
         reaper.SetTakeMarker(
             data.take[item_index], 
             -1, '', 
             slice_pos, 
-            colour
+            color
         )
     end
-    reaper.Undo_EndBlock2(0, 'reacoma marker add', -1)
 end
 
 return slicing

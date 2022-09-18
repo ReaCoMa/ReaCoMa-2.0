@@ -108,12 +108,10 @@ imgui_helpers.process = function(obj, mode)
                 table.insert(take_markers, marker)
             end
             
-            reaper.Undo_BeginBlock()
             -- Now remove them from the item
             for j=1, num_markers do
                 reaper.DeleteTakeMarker(take, num_markers-j)
             end
-            reaper.Undo_EndBlock2(0, 'reacoma marker delete', -1)
 
 
             reaper.Undo_BeginBlock()
