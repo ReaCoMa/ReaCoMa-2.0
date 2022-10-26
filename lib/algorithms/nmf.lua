@@ -45,7 +45,7 @@ function decompose(parameters)
     end
 end
 
-hpss = {
+nmf = {
     info = {
         algorithm_name = 'Non-negative matrix factorisation',
         ext_name = 'reacoma.nmf',
@@ -101,4 +101,4 @@ hpss = {
     perform_update = decompose
 }
 
-return hpss
+return nmf
