@@ -25,9 +25,9 @@ decompose = function(parameters)
     -- append the result to the target
 
 
-    for source, target in pairs(matrix) do
+    -- for source, target in pairs(matrix) do
         
-    end
+    -- end
 
 --     for i=1, num_selected_items do
 --         reacoma.container.get_data(i, data)
@@ -54,7 +54,7 @@ decompose = function(parameters)
 --         reacoma.layers.process(i, data)
 --         reaper.UpdateArrange()
 --     end
--- end
+end
 
 nmfcross = {
     info = {
@@ -62,7 +62,6 @@ nmfcross = {
         ext_name = 'reacoma.nmfcross',
         action = 'decompose',
         source_target_matrix = true
-
     },
     parameters =  {
         {
