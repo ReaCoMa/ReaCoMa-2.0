@@ -1,0 +1,37 @@
+name: release
+on:
+  workflow_dispatch:
+
+jobs:          
+  release:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Get latest tag
+        run: echo "::set-output name=version::$(git describe --tags --abbrev=0)"
+        id: tag
+
+      - name: install dependencies
+        run: npm install --location=global appdmg
+
+      - name: Create Release DMG
+        run: sh distribution/create_release.sh mac
+
+      - name: Create Release ZIP
+        run: sh distribution/create_release.sh win
+
+      - name: Create Release TAR
+        run: sh distribution/create_release.sh linux
+
+      - name: package and upload
+        uses: softprops/action-gh-release@v1
+        with:
+          name: ${{ steps.tag.outputs.version }}
+          body: "This is an automated ReaCoMa release. Download the appropriate version for your operating system."
+          files: "ReaCoMa*"
+          prerelease: true
+          tag_name: ${{ steps.tag.outputs.version }}
+          draft: false

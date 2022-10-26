@@ -1,0 +1,3 @@
+Read the manual installation instructions:
+
+https://github.com/ReaCoMa/ReaCoMa-2.0/wiki/installation#manual-installation

@@ -1,0 +1,14 @@
+{
+  "title": "ReaCoMa",
+  "icon": "../assets/icon.icns",
+  "window": {
+    "size": {
+      "width": 500,
+      "height": 300
+    }
+  },
+  "contents": [
+    { "x": 30, "y": 150, "type": "file", "path": "../release/ReaCoMa 2.0" },
+    { "x": 30, "y": 30, "type": "file", "path": "Quick Start.rtf"}
+  ]
+}

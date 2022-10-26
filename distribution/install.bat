@@ -1,0 +1,1 @@
+move "ReaCoMa 2.0" %userprofile%\AppData\Roaming\REAPER\Scripts

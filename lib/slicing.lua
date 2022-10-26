@@ -58,8 +58,6 @@ slicing.process = function(item_index, data, gate_based_slicer)
             slice_points[i] = (slice_points[i] + data.take_ofs_samples[item_index]) / data.playrate[item_index]
         else
             slice_points[i] = (slice_points[i] - data.take_ofs_samples[item_index]) / data.playrate[item_index]
-            -- reaper.ShowConsoleMsg(slice_points[i])
-            -- reaper.ShowConsoleMsg('\n')
         end
         -- and convert to seconds for REAPER
         slice_points[i] = utils.sampstos(
@@ -70,14 +68,14 @@ slicing.process = function(item_index, data, gate_based_slicer)
 
     for i=1, #slice_points do
         local slice_pos = slice_points[i]
-        -- slice_pos = data.item_pos[item_index] + slice_pos
 
-        local colour = reaper.ColorToNative(0, 0, 0) | 0x1000000
+        local scheme = reacoma.colors.scheme[item_index] or { r=255, g=0, b=0 }
+        local color = reaper.ColorToNative( scheme.r, scheme.g, scheme.b ) | 0x1000000
         reaper.SetTakeMarker(
             data.take[item_index], 
             -1, '', 
             slice_pos, 
-            colour
+            color
         )
     end
 end

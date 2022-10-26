@@ -7,7 +7,7 @@ utils.bool_to_string = { [true]='true', [false]='false' }
 
 utils.DEBUG = function(string)
     -- Handy function for quickly debugging strings
-    reaper.ShowConsoleMsg(string)
+    reaper.ShowConsoleMsg(tostring(string))
     reaper.ShowConsoleMsg("\n")
 end
 
@@ -281,7 +281,7 @@ end
 utils.split_space = function(input_string)
     -- Splits an <input_string> seperated by spaces into a table
     local t = {}
-    for word in input_string:gmatch("%w+") do table.insert(t, word) end
+    for word in input_string:gmatch("%S+") do table.insert(t, word) end
     return t
 end
 

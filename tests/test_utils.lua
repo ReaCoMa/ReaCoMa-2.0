@@ -1,6 +1,6 @@
 package.path = '../lib/?.lua;' .. package.path
 require 'busted.runner'()
-require '../lib/utils'
+require 'utils'
 
 
 describe("Reverse Table", function()
@@ -144,6 +144,16 @@ describe("Check space splitting is predictable", function()
       "param2",
       "param3",
       "param5"
+    }
+    assert.are_same(utils.split_space(c1), test_case)
+  end)
+
+  it("Split spaces with other characters in them", function()
+    c1 = "1024 -1 -1"
+    test_case = {
+      "1024",
+      "-1",
+      "-1"
     }
     assert.are_same(utils.split_space(c1), test_case)
   end)

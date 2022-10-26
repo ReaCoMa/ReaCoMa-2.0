@@ -64,12 +64,15 @@ end
 
 imgui_helpers.do_preview = function(ctx, obj, change)
     if obj.info.action ~= 'segment' or not reacoma.settings.slice_preview then
-      return false
+        return false
     end
-    local left = reaper.ImGui_MouseButton_Left()
-    local drag_preview = change > 0 and reacoma.settings.drag_preview
-    local end_drag_preview = not reacoma.settings.immediate_preview and not reaper.ImGui_IsMouseDown(ctx, left) and reacoma.settings.preview_pending
-    reacoma.settings.preview_pending = not end_drag_preview and (reacoma.settings.preview_pending or (change > 0 and not reacoma.settings.immediate_preview))
+    local drag_preview = change > 0 and reacoma.settings.immediate_preview
+    local end_drag_preview = (
+        not reacoma.settings.immediate_preview and 
+        not reaper.ImGui_IsMouseDown(ctx, reaper.ImGui_MouseButton_Left()) and 
+        reacoma.global_state.preview_pending
+    )
+    reacoma.global_state.preview_pending = not end_drag_preview and (reacoma.global_state.preview_pending or (change > 0 and not reacoma.settings.immediate_preview))
     return drag_preview or end_drag_preview
 end
 
@@ -80,7 +83,7 @@ imgui_helpers.update_state = function(ctx, obj, update)
     end
 end
 
-imgui_helpers.process = function(obj)
+imgui_helpers.process = function(obj, mode)
     -- This is called everytime there is a process button pressed
     -- This button is uniform across layers/slices and is found at the top left
     local state = obj.perform_update(obj.parameters)
@@ -112,13 +115,20 @@ imgui_helpers.process = function(obj)
                 reaper.DeleteTakeMarker(take, num_markers-j)
             end
 
+
+            reaper.Undo_BeginBlock()
             for j=1, #take_markers do
                 local slice_pos = take_markers[j]
-                item = reaper.SplitMediaItem(
-                    item, 
-                    slice_pos + state.item_pos[i]
-                )
+                local real_position = slice_pos + state.item_pos[i] -- adjust for offset of item
+                if mode == 'split' then
+                    item = reaper.SplitMediaItem(item, real_position)
+                elseif mode == 'marker' then
+                    local scheme = reacoma.colors.scheme[i] or { r=255, g=0, b=0 }
+                    local color = reaper.ColorToNative( scheme.r, scheme.g, scheme.b ) | 0x1000000
+                    reaper.AddProjectMarker2(0, false, real_position, real_position, '', -1, color)
+                end
             end
+            reaper.Undo_EndBlock2(0, 'reacoma process markers', -1)
         end
         reaper.UpdateArrange()
     end
