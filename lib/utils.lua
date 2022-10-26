@@ -327,4 +327,25 @@ utils.tablesize = function(t)
     return count
 end
 
+utils.indexof = function(t, value)
+    for i, v in ipairs(t) do
+        if v == value then
+            return i
+        end
+    end
+    return nil
+end
+
+utils.split_table = function(t, point)
+	local l, r = {}, {}
+
+	for k, v in ipairs(items) do
+		if k <= point then
+			table.insert(l, v)
+		else
+			table.insert(r, v)
+		end
+	end	
+end
+
 return utils
