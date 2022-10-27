@@ -344,6 +344,13 @@ utils.compare_item_tables = function(a, b)
     return true
 end
 
-return utils
+utils.grab_selected_items = function()
+    local temp_items = {}
+    local num_items = reaper.CountSelectedMediaItems(0)
+    for i=1, num_items do
+        temp_items[i] = reaper.GetSelectedMediaItem(0, i-1)
+    end
+    return temp_items
+end
 
-\ No newline at end of file
+return utils
