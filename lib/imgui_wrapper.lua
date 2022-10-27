@@ -5,7 +5,7 @@ local r = reaper
 local path_width = 500
 local path_height = 285
 
-local rt_items = reacoma.utils.deep_copy(reacoma.container.generic)
+local rt_items, swap_items = {}, {}
 
 -- FRAME LOOP --
 open = true
@@ -27,7 +27,11 @@ imgui_wrapper.loop = function(ctx, viewport, state, obj)
     local restored = false
 
     if reaper.ImGui_Button(ctx, obj.info.action) or (reacoma.global_state.active == 0 and reaper.ImGui_IsKeyPressed(ctx, 13)) then
-        state = reacoma.imgui_helpers.process(obj, 'split') -- TODO: make this respond to slicer/layers
+        if obj.info.source_target_matrix == true then
+            state = reacoma.imgui_helpers.process(obj, 'cross', swap_items)
+        else
+            state = reacoma.imgui_helpers.process(obj, 'split')
+        end
     end
 
     if obj.info.action == 'segment' then
@@ -56,44 +60,45 @@ imgui_wrapper.loop = function(ctx, viewport, state, obj)
 
     state = reacoma.imgui_helpers.update_state(ctx, obj, restored)
 
-    local temp_items = reacoma.utils.deep_copy(reacoma.container.generic)
-    local num_items = reaper.CountSelectedMediaItems(0)
-    for i=1, num_items do
-        reacoma.container.get_data(i, temp_items)
+    if obj.info.source_target_matrix == true then 
+        local temp_items = reacoma.utils.grab_selected_items()
+        if not reacoma.utils.compare_item_tables(temp_items, rt_items) then
+            rt_items = reacoma.utils.deep_copy(temp_items)
+            swap_items = reacoma.utils.deep_copy(temp_items)
+        end
+    
+        if r.ImGui_BeginTable(ctx, 'mappings', 2) then
+            r.ImGui_TableSetupColumn(ctx, 'Source')
+            r.ImGui_TableSetupColumn(ctx, 'Target')
+            r.ImGui_TableHeadersRow(ctx)
+            r.ImGui_TableNextRow(ctx)
+            
+            for i, v in ipairs(swap_items) do
+                r.ImGui_PushID(ctx, i)
+                r.ImGui_TableNextColumn(ctx)
+                local name = r.GetTakeName(r.GetActiveTake(v))
+                r.ImGui_PushStyleVar(ctx, r.ImGui_StyleVar_ButtonTextAlign(), 0, 0)
+                r.ImGui_Button(ctx, name, 150, 20)
+                r.ImGui_PopStyleVar(ctx)
+                if r.ImGui_BeginDragDropSource(ctx, r.ImGui_DragDropFlags_None()) then
+                    r.ImGui_SetDragDropPayload(ctx, 'DND_DEMO_CELL', tostring(i))
+                    r.ImGui_Text(ctx, ('Swap %s'):format(name))
+                    r.ImGui_EndDragDropSource(ctx)
+                end
+                if r.ImGui_BeginDragDropTarget(ctx) then
+                    local rv, payload = r.ImGui_AcceptDragDropPayload(ctx, 'DND_DEMO_CELL')
+                    if rv then
+                        local payload_i = tonumber(payload)
+                        swap_items[i] = swap_items[payload_i]
+                        swap_items[payload_i] = v
+                    end
+                    r.ImGui_EndDragDropTarget(ctx)
+                end
+                r.ImGui_PopID(ctx)
+            end
+            r.ImGui_EndTable(ctx)
+        end
     end
-    -- if reacoma.utils.compare_tables(temp_items, rt_items) then
-    --     rt_items = temp_items
-        -- reacoma.utils.DEBUG("The are the same")
-    -- end
-
-    -- if r.ImGui_BeginTable(ctx, 'mappings', 2) then
-    --     r.ImGui_TableSetupColumn(ctx, 'Source')
-    --     r.ImGui_TableSetupColumn(ctx, 'Target')
-    --     r.ImGui_TableHeadersRow(ctx)
-    --     r.ImGui_TableNextRow(ctx)
-        
-    --     for i, v in ipairs(items) do
-    --         r.ImGui_PushID(ctx, i)
-    --         r.ImGui_TableNextColumn(ctx)
-    --         r.ImGui_Button(ctx, items[i], 60, 20)
-    --         if r.ImGui_BeginDragDropSource(ctx, r.ImGui_DragDropFlags_None()) then
-    --             r.ImGui_SetDragDropPayload(ctx, 'DND_DEMO_CELL', tostring(i))
-    --             r.ImGui_Text(ctx, ('Swap %s'):format(items[i]))
-    --             r.ImGui_EndDragDropSource(ctx)
-    --         end
-    --         if r.ImGui_BeginDragDropTarget(ctx) then
-    --             local rv, payload = r.ImGui_AcceptDragDropPayload(ctx, 'DND_DEMO_CELL')
-    --             if rv then
-    --                 local payload_i = tonumber(payload)
-    --                 items[i] = items[payload_i]
-    --                 items[payload_i] = v
-    --             end
-    --             r.ImGui_EndDragDropTarget(ctx)
-    --         end
-    --         r.ImGui_PopID(ctx)
-    --     end
-    --     r.ImGui_EndTable(ctx)
-    -- end
 
     reaper.ImGui_End(ctx)
     if open then
