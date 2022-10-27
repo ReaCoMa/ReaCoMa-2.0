@@ -66,7 +66,6 @@ hpss = {
             min = 3,
             max = 51,
             value = 17,
-            type = 'sliderint',
             desc = 'The size, in spectral frames, of the median filter for the harmonic component.'
         },
         {
@@ -75,7 +74,6 @@ hpss = {
             min = 3,
             max = 51,
             value = 31,
-            type = 'sliderint',
             desc = 'The size, in spectral bins, of the median filter for the percussive component.'
         },
         {
@@ -84,7 +82,6 @@ hpss = {
             min = 32,
             max = 8192,
             value = 1024,
-            type = 'sliderint',
             desc = 'window size'
         },
         {
@@ -93,7 +90,6 @@ hpss = {
             min = 32,
             max = 8192,
             value = 512,
-            type = 'sliderint',
             desc = 'hop size'
         },
         {
@@ -102,7 +98,6 @@ hpss = {
             min = 32,
             max = 8192,
             value = 1024,
-            type = 'sliderint',
             desc = 'fft size' 
         }
     },

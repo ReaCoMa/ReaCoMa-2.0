@@ -68,7 +68,6 @@ ampgate = {
             min = 1,
             max = 3000,
             value = 10,
-            type = 'sliderint',
             desc = 'The number of samples the envelope follower will take to reach the next value when rising.'
         },
         {
@@ -77,7 +76,6 @@ ampgate = {
             min = 1,
             max = 3000,
             value = 10,
-            type = 'sliderint',
             desc = 'The number of samples the envelope follower will take to reach the next value when falling.'
         },
         {
@@ -86,7 +84,6 @@ ampgate = {
             min = -144.0,
             max = 144.0,
             value = -90.0,
-            type = 'sliderdouble',
             desc = 'The threshold in dB of the envelope follower to trigger an onset, aka to go ON when in OFF state.'
         },
         {
@@ -95,7 +92,6 @@ ampgate = {
             min = -144.0,
             max = 144.0,
             value = -90.0,
-            type = 'sliderdouble',
             desc = 'The threshold in dB of the envelope follower to trigger an offset, , aka to go ON when in OFF state.'
         },
         {
@@ -104,7 +100,6 @@ ampgate = {
             min = 1,
             max = 3000,
             value = 1,
-            type = 'sliderint',
             desc = 'The length in samples that the Slice will stay ON. Changes of states during that period will be ignored.'
         },
         {
@@ -113,7 +108,6 @@ ampgate = {
             min = 1,
             max = 3000,
             value = 1,
-            type = 'sliderint',
             desc = 'The length in samples that the Slice will stay ON. Changes of states during that period will be ignored.'
         },
         {
@@ -122,7 +116,6 @@ ampgate = {
             min = 1,
             max = 3000,
             value = 1,
-            type = 'sliderint',
             desc = 'The length in samples that the envelope have to be above the threshold to consider it a valid transition to ON. The Slice will start at the first sample when the condition is met. Therefore, this affects the latency.'
         },
         {
@@ -131,7 +124,6 @@ ampgate = {
             min = 1,
             max = 3000,
             value = 1,
-            type = 'sliderint',
             desc = 'The length in samples that the envelope have to be below the threshold to consider it a valid transition to OFF. The Slice will end at the first sample when the condition is met. Therefore, this affects the latency.'
         },
         {
@@ -140,7 +132,6 @@ ampgate = {
             min = 0,
             max = 3000,
             value = 0,
-            type = 'sliderint',
             desc = 'The length of the buffer kept before an onset to allow the algorithm, once a new Slice is detected, to go back in time (up to that many samples) to find the minimum amplitude as the Slice onset point. This affects the latency of the algorithm.'
         },
         {
@@ -149,7 +140,6 @@ ampgate = {
             min = 0,
             max = 3000,
             value = 0,
-            type = 'sliderint',
             desc = 'The length of the buffer kept after an offset to allow the algorithm, once the slice is considered finished, to wait further in time (up to that many samples) to find a minimum amplitude as the slice offset point. This affects the latency of the algorithm.'
         },
         {
@@ -158,7 +148,6 @@ ampgate = {
             min = 0,
             max = 20000,
             value = 85,
-            type = 'sliderdouble',
             flag = reaper.ImGui_SliderFlags_Logarithmic(),
             desc = 'The frequency of the fourth-order Linkwitz-Riley high-pass filter.'
         },

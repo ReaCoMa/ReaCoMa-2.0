@@ -77,7 +77,6 @@ sines = {
             widget = reaper.ImGui_Combo,
             value = 0,
             items = 'greedy\0hungarian\0',
-            type = 'combo',
             desc = 'The algorithm used to track the sinusoidal continuity between spectral frames.'
         },
         {
@@ -86,7 +85,6 @@ sines = {
             min = 1.0,
             max = 10000.0,
             value = 50.0,
-            type = 'sliderdouble',
             desc = 'The frequency difference allowed for a track to diverge between frames, in Hertz.'
         },
         {
@@ -95,7 +93,6 @@ sines = {
             min = 1.0,
             max = 200.0,
             value = 15.0,
-            type = 'sliderdouble',
             desc = 'The amplitude difference allowed for a track to diverge between frames, in dB.'
         },
         {
@@ -104,7 +101,6 @@ sines = {
             min = 0.0,
             max = 1.0,
             value = 0.5,
-            type = 'sliderdouble',
             desc = 'The probability of the tracking algorithm to find a track.'
         },
         {
@@ -113,7 +109,6 @@ sines = {
             min = 1,
             max = 1024,
             value = 76,
-            type = 'sliderint',
             desc = 'The number of bins used to resynthesises a peak.'
         },
         {
@@ -122,7 +117,6 @@ sines = {
             min = -144,
             max = 0,
             value = -60,
-            type = 'sliderdouble',
             desc = 'The threshold in dB above which to consider a peak to start a sinusoidal component tracking, for the high end of the spectrum.'
         },
         {
@@ -131,7 +125,6 @@ sines = {
             min = -144,
             max = 0,
             value = -24,
-            type = 'sliderdouble',
             desc = 'The threshold in dB above which to consider a peak to start a sinusoidal component tracking, for the low end of the spectrum.'
         },
         {
@@ -140,7 +133,6 @@ sines = {
             min = -144,
             max = 0,
             value = -96,
-            type = 'sliderdouble',
             desc = 'The threshold in dB above which a magnitude peak is considered to be a sinusoidal component.'
         },
         {
@@ -149,7 +141,6 @@ sines = {
             min = 1,
             max = 40,
             value = 15,
-            type = 'sliderint',
             desc = 'The minimum duration, in spectral frames, for a sinusoidal track to be accepted as a partial.'
         },
         {
@@ -158,7 +149,6 @@ sines = {
             min = 32,
             max = 8192,
             value = 1024,
-            type = 'sliderint',
             desc = 'window size'
         },
         {
@@ -167,7 +157,6 @@ sines = {
             min = 32,
             max = 8192,
             value = 512,
-            type = 'sliderint', 
             desc = 'hop size'
         },
         {
@@ -176,7 +165,6 @@ sines = {
             min = 32,
             max = 8192,
             value = 1024,
-            type = 'sliderint',
             desc = 'fft size'
         }
     },

@@ -60,7 +60,6 @@ noveltyslice = {
             widget = reaper.ImGui_Combo,
             value = 0,
             items = 'spectrum\0mfcc\0chroma\0pitch\0loudness\0',
-            type = 'combo',
             desc = 'The feature on which novelty is computed.'
         },
         {
@@ -69,7 +68,6 @@ noveltyslice = {
             min = 0.0,
             max = 1.0,
             value = 0.5,
-            type = 'sliderdouble',
             desc = 'The normalised threshold, between 0 an 1, on the novelty curve to consider it a segmentation point.'
         },
         {
@@ -78,7 +76,6 @@ noveltyslice = {
             min = 3,
             max = 51,
             value = 3,
-            type = 'sliderint',
             desc = 'The granularity of the window in which the algorithm looks for change, in FFT frames.'
         },
         {
@@ -87,7 +84,6 @@ noveltyslice = {
             min = 1,
             max = 100,
             value = 1,
-            type = 'sliderint',
             desc = 'The size of a smoothing filter that is applied on the novelty curve. A larger filter filter size allows for cleaner cuts on very sharp changes.'
         },
         {
@@ -96,7 +92,6 @@ noveltyslice = {
             min = 0,
             max = 20,
             value = 2,
-            type = 'sliderint',
             desc = 'The minimum duration of a slice in number of hop size.'
         },
         {
@@ -105,7 +100,6 @@ noveltyslice = {
             min = 32,
             max = 8192,
             value = 1024,
-            type = 'sliderint',
             desc = 'window size'
         },
         {
@@ -114,7 +108,6 @@ noveltyslice = {
             min = 32,
             max = 8192,
             value = 512,
-            type = 'sliderint',
             desc = 'hop size'
         },
         {
@@ -123,7 +116,6 @@ noveltyslice = {
             min = 32,
             max = 8192,
             value = 1024,
-            type = 'sliderint',
             desc = 'fft size' 
         }
     },

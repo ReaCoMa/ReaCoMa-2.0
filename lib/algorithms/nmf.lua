@@ -58,7 +58,6 @@ nmf = {
             min = 1,
             max = 10,
             value = 2,
-            type = 'sliderint',
             desc = 'The number of elements the NMF algorithm will try to divide the spectrogram of the source in.'
         },
         {
@@ -67,7 +66,6 @@ nmf = {
             min = 1,
             max = 300,
             value = 100,
-            type = 'sliderint',
             desc = 'The NMF process is iterative, trying to converge to the smallest error in its factorisation. The number of iterations will decide how many times it tries to adjust its estimates. Higher numbers here will be more CPU expensive, lower numbers will be more unpredictable in quality.'
         },
         {
@@ -76,7 +74,6 @@ nmf = {
             min = 32,
             max = 8192,
             value = 1024,
-            type = 'sliderint',
             desc = 'window size'
         },
         {
@@ -85,7 +82,6 @@ nmf = {
             min = 32,
             max = 8192,
             value = 512,
-            type = 'sliderint',
             desc = 'hop size'
         },
         {
@@ -94,7 +90,6 @@ nmf = {
             min = 32,
             max = 8192,
             value = 1024,
-            type = 'sliderint',
             desc = 'fft size' 
         }
     },

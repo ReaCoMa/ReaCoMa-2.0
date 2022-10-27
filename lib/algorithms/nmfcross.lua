@@ -13,15 +13,9 @@ decompose = function(parameters, item_bundle)
         parameters[7].value
     )
 
-    local data = reacoma.utils.deep_copy(reacoma.container.generic)
-    data.outputs = {
-        output = {}
-    }
-
     -- If there is a source without a target remove it
     if #item_bundle % 2 ~= 0 then
         table.remove(item_bundle, #item_bundle)
-        reaper.ShowConsoleMsg(#item_bundle)
     end
 
     -- iterate over the bundle in strides of 2
@@ -62,7 +56,6 @@ nmfcross = {
             min = 1,
             max = 100,
             value = 7,
-            type = 'sliderint',
             desc = 'Control the repetition of source templates in the reconstruction by specifying a number of frames within which a template should not be re-used. Units are spectral frames.'
         },
 		{
@@ -71,7 +64,6 @@ nmfcross = {
             min = 1,
             max = 100,
             value = 10,
-            type = 'sliderint',
             desc = 'Control the spectral density of the output sound by restricting the number of simultaneous templates that can be used. Units are spectral bins.'
         },
 		{
@@ -80,7 +72,6 @@ nmfcross = {
             min = 1,
             max = 100,
             value = 7,
-            type = 'sliderint',
             desc = 'Promote the use of N successive source frames, giving greater continuity in the result. This can not be bigger than the size of the source buffer, but useful values tend to be much lower (in the tens).'
         },
         {
@@ -89,7 +80,6 @@ nmfcross = {
             min = 1,
             max = 300,
             value = 50,
-            type = 'sliderint',
             desc = 'The NMF process is iterative, trying to converge to the smallest error in its factorisation. The number of iterations will decide how many times it tries to adjust its estimates. Higher numbers here will be more CPU expensive, lower numbers will be more unpredictable in quality.'
         },
         {
@@ -98,7 +88,6 @@ nmfcross = {
             min = 32,
             max = 8192,
             value = 1024,
-            type = 'sliderint',
             desc = 'window size'
         },
         {
@@ -107,7 +96,6 @@ nmfcross = {
             min = 32,
             max = 8192,
             value = 512,
-            type = 'sliderint',
             desc = 'hop size'
         },
         {
@@ -116,7 +104,6 @@ nmfcross = {
             min = 32,
             max = 8192,
             value = 1024,
-            type = 'sliderint',
             desc = 'fft size' 
         }
     },

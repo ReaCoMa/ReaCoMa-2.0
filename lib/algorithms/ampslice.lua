@@ -64,7 +64,6 @@ ampslice = {
             min = 1,
             max = 1000,
             value = 1,
-            type = 'sliderint',
             desc = 'The number of samples the relative envelope follower will take to reach the next value when falling.'
         },
         {
@@ -73,7 +72,6 @@ ampslice = {
             min = 1,
             max = 1000,
             value = 1,
-            type = 'sliderint',
             desc = 'The number of samples the relative envelope follower will take to reach the next value when raising.'
         },
         {
@@ -82,7 +80,6 @@ ampslice = {
             min = 1,
             max = 1000,
             value = 1,
-            type = 'sliderint',
             desc = 'The number of samples the absolute envelope follower will take to reach the next value when falling.'
         },
         {
@@ -91,7 +88,6 @@ ampslice = {
             min = 1,
             max = 1000,
             value = 1,
-            type = 'sliderint',
             desc = 'The number of samples the absolute envelope follower will take to reach the next value when raising.'
         },
         {
@@ -100,7 +96,6 @@ ampslice = {
             min = -144,
             max = 144,
             value = 144,
-            type = 'sliderdouble',
             desc = 'The threshold in dB of the relative envelope follower to trigger an onset, aka to go ON when in OFF state. It is computed on the difference between the two envelope followers.'
         },
         {
@@ -109,7 +104,6 @@ ampslice = {
             min = -144,
             max = 144,
             value = -144,
-            type = 'sliderdouble',
             desc = 'The threshold in dB of the relative envelope follower to reset, aka to allow the differential envelop to trigger again.'
         },
         {
@@ -118,7 +112,6 @@ ampslice = {
             min = -144,
             max = 144,
             value = -60,
-            type = 'sliderdouble',
             desc = 'The level in dB the slowRamp needs to be above to consider a detected difference valid, allowing to ignore the slices in the noise floor.'
         },
         {
@@ -127,7 +120,6 @@ ampslice = {
             min = 0,
             max = 3000,
             value = 2,
-            type = 'sliderint',
             desc = 'The length in samples that the Slice will stay ON. Changes of states during that period will be ignored.'
         },
         {
@@ -136,11 +128,9 @@ ampslice = {
             min = 0,
             max = 20000,
             value = 85,
-            type = 'sliderdouble',
             flag = reaper.ImGui_SliderFlags_Logarithmic(),
             desc = 'The frequency of the fourth-order Linkwitz-Riley high-pass filter.'
         },
-
     },
     perform_update = segment
 }
