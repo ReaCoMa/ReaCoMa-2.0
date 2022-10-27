@@ -4,7 +4,6 @@ utils.bool_to_number = { [true]=1, [false]=0 }
 utils.string_to_bool = { ['true']=true, ['false']=false }
 utils.bool_to_string = { [true]='true', [false]='false' }
 
-
 utils.DEBUG = function(string)
     -- Handy function for quickly debugging strings
     reaper.ShowConsoleMsg(tostring(string))
