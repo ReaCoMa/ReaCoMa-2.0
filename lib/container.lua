@@ -32,6 +32,11 @@ end
 container.get_item_info = function(item_index)
     local info = {}
     local item = reaper.GetSelectedMediaItem(0, item_index-1)
+    return container.get_take_info_from_item(item)
+    
+end
+
+container.get_take_info_from_item = function(item)
     local take = reaper.GetActiveTake(item)
     local take_markers = reaper.GetNumTakeMarkers(take)
     local src = reaper.GetMediaItemTake_Source(take)
@@ -73,6 +78,9 @@ container.get_item_info = function(item_index)
     local item_len_samples = floor(utils.stosamps(item_len, sr))
 
     -- Yeah this is verbose but it makes it cleaner
+    local info = {
+
+    }
     info.item = item
     info.take = take
     info.take_markers = take_markers
@@ -90,7 +98,7 @@ container.get_item_info = function(item_index)
     info.playtype = playtype
     info.path = reacoma.utils.form_path(full_path)
     -- Slicing specific stuff
-    info.tmp = full_path .. utils.uuid(item_index) .. "fs.csv"
+    info.tmp = full_path .. utils.uuid(item_index or -1) .. "fs.csv"
 
     return info
 end
