@@ -1,9 +1,8 @@
-decompose = function(parameters)
+decompose = function(parameters, item_bundle)
     local exe = reacoma.utils.wrap_quotes(
         reacoma.settings.path .. "/fluid-nmfcross"
     )
 
-    local num_selected_items = reaper.CountSelectedMediaItems(0)
     local timesparsity = parameters[1].value
     local polyphony = parameters[2].value
     local continuity = parameters[3].value
@@ -19,41 +18,34 @@ decompose = function(parameters)
         output = {}
     }
 
-    -- get mappings and convert to a matrix...? or get the matrix...?
-    -- gets a matrix of items to process
-    -- get_data as per normalbut cross the items and return an output
-    -- append the result to the target
+    -- If there is a source without a target remove it
+    if #item_bundle % 2 ~= 0 then
+        table.remove(item_bundle, #item_bundle)
+        reaper.ShowConsoleMsg(#item_bundle)
+    end
 
+    -- iterate over the bundle in strides of 2
+    for i=1, #item_bundle, 2 do
+        local source_info = reacoma.container.get_take_info_from_item(item_bundle[i])
+        local target_info = reacoma.container.get_take_info_from_item(item_bundle[i+1])
+        local output = target_info.path .. "_nmfcross_" .. reacoma.utils.uuid(i) .. ".wav"
 
-    -- for source, target in pairs(matrix) do
-        
-    -- end
+		local cli = exe .. 
+		" -source " .. reacoma.utils.wrap_quotes(source_info.full_path) ..
+		" -target " .. reacoma.utils.wrap_quotes(target_info.full_path) ..
+		" -output " .. reacoma.utils.wrap_quotes(output) ..
+		" -timesparsity " .. timesparsity ..
+		" -polyphony " .. polyphony ..
+		" -continuity " .. continuity ..
+		" -iterations " .. iterations ..
+		" -fftsettings " .. fftsettings
 
---     for i=1, num_selected_items do
---         reacoma.container.get_data(i, data)
-
---         table.insert(
---             data.outputs.output,
---             data.path[i] .. "_nmfcross_" .. reacoma.utils.uuid(i) .. ".wav"
---         )
-
--- 		local cli = exe .. 
--- 		" -source " .. reacoma.utils.wrap_quotes(data.full_path[i]) ..
--- 		" -target " .. reacoma.utils.wrap_quotes(data.full_path[i]) ..
--- 		" -output " .. reacoma.utils.wrap_quotes(data.outputs.components[i]) ..
--- 		" -timesparsity " .. timesparsity ..
--- 		" -polyphony " .. polyphony ..
--- 		" -continuity " .. continuity ..
--- 		" -iterations " .. iterations ..
--- 		" -fftsettings " .. fftsettings
---         table.insert(data.cmd, cli)
-
---         reacoma.utils.cmdline(data.cmd[i])
---         reacoma.layers.exist(i, data)
---         reaper.SelectAllMediaItems(0, 0)
---         reacoma.layers.process(i, data)
---         reaper.UpdateArrange()
---     end
+        reacoma.utils.cmdline(cli)
+        -- reacoma.layers.exist(i, data)
+        reaper.SelectAllMediaItems(0, 0)
+        reacoma.layers.process_matrix(source_info, target_info, output)
+        reaper.UpdateArrange()
+    end
 end
 
 nmfcross = {
