@@ -21,12 +21,6 @@ utils.deep_copy = function(obj, seen)
   return res
 end
 
-utils.arrange = function(undo_msg)
-    reaper.Undo_BeginBlock()
-    reaper.UpdateArrange()
-    reaper.Undo_EndBlock(undo_msg, 0)
-end
-
 utils.spairs = function(t, order)
     -- This function orders a table given a function as <order>
     -- If no function is passed then it used the default sort function
@@ -308,15 +302,6 @@ utils.wrap_quotes = function(input_string)
     -- Surrounds an <input_string> with quotation marks
     -- This is almost always required for passing things to the command line
     return '"'..input_string..'"'
-end
-
-
-utils.dataquery = function(idx, data)
-    -- Takes in some 'data' and makes a nice print out
-    reaper.ShowConsoleMsg("Item Length Samples: " .. data.item_len_samples[idx] .. "\n")
-    if data.slice_points_string then
-        reaper.ShowConsoleMsg("Slice Points: " .. data.slice_points_string[idx] .. "\n")
-    end
 end
 
 utils.tablesize = function(t)
