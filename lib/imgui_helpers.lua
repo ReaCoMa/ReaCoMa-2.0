@@ -1,3 +1,5 @@
+local r = reaper
+
 imgui_helpers = {}
 
 imgui_helpers.create_context = function(name)
@@ -83,22 +85,17 @@ imgui_helpers.update_state = function(ctx, obj, update)
     end
 end
 
-imgui_helpers.process = function(obj, mode)
+imgui_helpers.process = function(obj, mode, optional_item_bundle)
     -- This is called everytime there is a process button pressed
     -- This button is uniform across layers/slices and is found at the top left
-    local state = obj.perform_update(obj.parameters)
-
+    if mode == 'cross' then
+        local state = obj.perform_update(obj.parameters, optional_item_bundle)
+    else
+        local state = obj.perform_update(obj.parameters)
+    end
+    -- This block performs segmentation related tasks with markers
     if obj.info.action == 'segment' then
-        -- Handle muting
-        -- local mute = 0
-        -- reaper.SetMediaItemInfo_Value(
-        --     data.item[item_index], 
-        --     "B_MUTE", 
-        --     mute_state
-        -- )
-        -- if mute_state == 1 then mute_state = 0 else mute_state = 1 end
-        local num_selected_items = reaper.CountSelectedMediaItems(0)
-        for i=1, num_selected_items do
+        for i=1, reaper.CountSelectedMediaItems(0) do
             item = reaper.GetSelectedMediaItem(0, i-1)
             take = reaper.GetActiveTake(item)
             num_markers = reaper.GetNumTakeMarkers(take)
@@ -114,7 +111,6 @@ imgui_helpers.process = function(obj, mode)
             for j=1, num_markers do
                 reaper.DeleteTakeMarker(take, num_markers-j)
             end
-
 
             reaper.Undo_BeginBlock()
             for j=1, #take_markers do
@@ -134,6 +130,10 @@ imgui_helpers.process = function(obj, mode)
     end
 
     return state
+end
+
+imgui_helpers.grab_selected_items = function(temp_items, rt_items, swap_items)
+
 end
 
 return imgui_helpers
