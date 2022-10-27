@@ -9,8 +9,6 @@ reacoma.params.get(obj)
 reacoma.global_state.width = 390
 reacoma.global_state.height = 400
 
-mappings = {}
-
 ctx, viewport = imgui_helpers.create_context(obj.info.algorithm_name)
 
 reaper.defer(
