@@ -29,8 +29,13 @@ layers.process = function(item_index, data)
     end
 end
 
-layers.process_cross = function(item_index, data)
-    
+layers.process_matrix = function(source, target, output)
+    reaper.SetMediaItemSelected(target.item, true)
+    reaper.InsertMedia(output, 3)
+    -- reaper.SetMediaItemTakeInfo_Value(take, "D_PLAYRATE", data.playrate[item_index])
+    -- reaper.SetMediaItemTakeInfo_Value(take, "I_PITCHMODE", data.playtype[item_index])
+    -- if data.reverse[item_index] then reaper.Main_OnCommand(41051, 0) end
+
 end
 
 return layers
