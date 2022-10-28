@@ -2,42 +2,6 @@ package.path = '../lib/?.lua;' .. package.path
 require 'busted.runner'()
 require 'utils'
 
-describe("compare tables", function()
-  it("should return true for the same order", function() 
-		local items_1 = { "one", "two", "three", "four" }
-		local items_2 = { "one", "two", "three", "four" }
-    assert.are.equal(utils.compare_tables(items_1, items_2), true)
-  end)
-  it("should return true for a different order", function() 
-		local items_1 = { "one", "two", "three", "four" }
-		local items_2 = { "one", "two", "four", "three" }
-    assert.are.equal(utils.compare_tables(items_1, items_2), true)
-  end)
-  it("should return true for a table of tables", function() 
-		local items_1 = { 
-      dogs = {
-        "marlie",
-        "maddie"
-      },
-      cats = {
-        "felix",
-        "steve"
-      }
-    }
-		local items_2 = { 
-      dogs = {
-        "marlie",
-        "maddie"
-      },
-      cats = {
-        "felix",
-        "steve"
-      }
-    }
-    assert.are.equal(utils.compare_tables(items_1, items_2), true)
-  end)
-end)
-
 describe("Split a table in various ways", function ()
 	it("should split evenly", function()
 		local items = { "one", "two", "three", "four" }
