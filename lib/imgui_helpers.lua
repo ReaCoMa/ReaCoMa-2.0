@@ -28,13 +28,13 @@ imgui_helpers.draw_gui = function(ctx, obj)
     local active = 0
     local temp = nil
     for parameter, d in pairs(obj.parameters) do
-        if d.type == 'sliderint' then
+        if d.widget == reaper.ImGui_SliderInt then
             temp, d.value = d.widget(
                 ctx, 
                 d.name, d.value, d.min, d.max
             )
         end
-        if d.type == 'sliderdouble' then
+        if d.widget == reaper.ImGui_SliderDouble then
             temp, d.value = d.widget(
                 ctx,
                 d.name, d.value, d.min, d.max,
@@ -42,7 +42,7 @@ imgui_helpers.draw_gui = function(ctx, obj)
                 d.flag or 0
             )
         end
-        if d.type == 'combo' then
+        if d.widget == reaper.ImGui_Combo then
             temp, d.value = d.widget(
                 ctx, 
                 d.name, d.value, d.items
@@ -58,7 +58,6 @@ imgui_helpers.draw_gui = function(ctx, obj)
         -- ... we don't want to trigger a change
         change = change + reacoma.utils.bool_to_number[temp]
     end
-
 
     reacoma.global_state.active = active
     return change
