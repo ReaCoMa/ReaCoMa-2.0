@@ -32,12 +32,14 @@ decompose = function(parameters, item_bundle)
         " -startframea " .. source_a.take_ofs_samples ..
         " -startframeb " .. source_b.take_ofs_samples
 
-        reacoma.utils.DEBUG(cli)
-
         reacoma.utils.cmdline(cli)
-        -- reacoma.layers.exist(i, data)
+        reacoma.layers.matrix_output_exists(output)
         reaper.SelectAllMediaItems(0, 0)
-        reacoma.layers.process_matrix(source_a, source_b, output)
+        local append_target = 0
+        if source_a.item_len_samples > source_b.item_len_samples then
+            append_target = 1
+        end
+        reacoma.layers.process_matrix(source_a, source_b, output, append_target)
         reaper.UpdateArrange()
     end
 end
