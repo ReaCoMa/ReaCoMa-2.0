@@ -129,4 +129,5 @@ else
     reacoma.sines = require("algorithms/sines")
     reacoma.transients = require("algorithms/transients")
     reacoma.nmfcross = require("algorithms/nmfcross")
+    reacoma.audiotransport = require("algorithms/audiotransport")
 end
