@@ -15,6 +15,13 @@ layers.exist = function(item_index, data)
     end
 end
 
+layers.matrix_output_exists = function(output)
+    if not reacoma.paths.file_exists(output) then
+        reacoma.utils.DEBUG(output .. " failed to be made by the command line.")
+        reacoma.utils.assert(false)
+    end
+end
+
 layers.process = function(item_index, data)
     if item_index > 1 then reaper.SetMediaItemSelected(data.item[item_index-1], false) end
     reaper.SetMediaItemSelected(data.item[item_index], true)
