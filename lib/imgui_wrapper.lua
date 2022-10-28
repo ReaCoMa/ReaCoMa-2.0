@@ -68,8 +68,8 @@ imgui_wrapper.loop = function(ctx, viewport, state, obj)
         end
     
         if r.ImGui_BeginTable(ctx, 'mappings', 2) then
-            r.ImGui_TableSetupColumn(ctx, 'Source')
-            r.ImGui_TableSetupColumn(ctx, 'Target')
+            r.ImGui_TableSetupColumn(ctx, obj.info.column_a)
+            r.ImGui_TableSetupColumn(ctx, obj.info.column_b)
             r.ImGui_TableHeadersRow(ctx)
             r.ImGui_TableNextRow(ctx)
             
