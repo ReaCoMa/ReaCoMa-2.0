@@ -35,7 +35,7 @@ decompose = function(parameters, item_bundle)
 		" -fftsettings " .. fftsettings
 
         reacoma.utils.cmdline(cli)
-        -- reacoma.layers.exist(i, data)
+        reacoma.layers.matrix_output_exists(output)
         reaper.SelectAllMediaItems(0, 0)
         reacoma.layers.process_matrix(source_info, target_info, output)
         reaper.UpdateArrange()
