@@ -47,7 +47,9 @@ nmfcross = {
         algorithm_name = 'Resynthesise a target sound based on a source sound',
         ext_name = 'reacoma.nmfcross',
         action = 'decompose',
-        source_target_matrix = true
+        source_target_matrix = true,
+        column_a = 'Source',
+        column_b = 'Target'
     },
     parameters =  {
         {
