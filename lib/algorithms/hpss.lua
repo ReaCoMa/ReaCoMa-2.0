@@ -14,43 +14,29 @@ function decompose(parameters)
 
     local maskingmode = '0'
 
-    local data = reacoma.utils.deep_copy(reacoma.container.generic)
-    data.outputs = {
-        harmonic = {},
-        percussive = {}
-    }
-
+    local processed_items = {}
     for i=1, num_selected_items do
-        reacoma.container.get_data(i, data)
+        local data = reacoma.container.get_item_info(i)
 
-        table.insert(
-            data.outputs.harmonic,
-            data.path[i] .. "_hpss-h_" .. reacoma.utils.uuid(i) .. ".wav"
-        )
-        table.insert(
-            data.outputs.percussive,
-            data.path[i] .. "_hpss-p_" .. reacoma.utils.uuid(i) .. ".wav"
-        )
+        data.outputs = {
+            harmonic = data.path .. "_hpss-h_" .. reacoma.utils.uuid(i) .. ".wav",
+            percussive = data.path .. "_hpss-p_" .. reacoma.utils.uuid(i) .. ".wav"
+        }
 
-        table.insert(
-            data.cmd, 
-            exe .. 
-            " -source " .. reacoma.utils.wrap_quotes(data.full_path[i]) .. 
-            " -harmonic " .. reacoma.utils.wrap_quotes(data.outputs.harmonic[i]) .. 
-            " -percussive " .. reacoma.utils.wrap_quotes(data.outputs.percussive[i]) ..  
-            " -harmfiltersize " .. hfs .. " " .. hfs ..
-            " -percfiltersize " .. pfs .. " " .. pfs ..
-            " -maskingmode " .. maskingmode ..
-            " -fftsettings " .. fftsettings .. 
-            " -numframes " .. data.item_len_samples[i] .. 
-            " -startframe " .. data.take_ofs_samples[i]
-        )
-        reacoma.utils.cmdline(data.cmd[i])
-        reacoma.layers.exist(i, data)
-        reaper.SelectAllMediaItems(0, 0)
-        reacoma.layers.process(i, data)
-        reaper.UpdateArrange()
+        data.cmd = exe .. 
+        " -source " .. reacoma.utils.wrap_quotes(data.full_path) .. 
+        " -harmonic " .. reacoma.utils.wrap_quotes(data.outputs.harmonic) .. 
+        " -percussive " .. reacoma.utils.wrap_quotes(data.outputs.percussive) ..  
+        " -harmfiltersize " .. hfs .. " " .. hfs ..
+        " -percfiltersize " .. pfs .. " " .. pfs ..
+        " -maskingmode " .. maskingmode ..
+        " -fftsettings " .. fftsettings .. 
+        " -numframes " .. data.item_len_samples .. 
+        " -startframe " .. data.take_ofs_samples
+
+        table.insert(processed_items, data)
     end
+    reacoma.layers.process_all_items(processed_items)
 end
 
 hpss = {
