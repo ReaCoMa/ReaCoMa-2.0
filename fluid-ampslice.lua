@@ -13,6 +13,11 @@ ctx, viewport = imgui_helpers.create_context(obj.info.algorithm_name)
 
 reaper.defer(
     function()
-        reacoma.imgui_wrapper.loop(ctx, viewport, state, obj)
+        reacoma.imgui_wrapper.loop({
+			ctx=ctx, 
+			viewport=viewport, 
+			state={}, 
+			obj=obj
+		})
     end
 )
