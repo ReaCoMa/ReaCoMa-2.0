@@ -16,21 +16,22 @@ function segment(parameters)
     local lookahead = parameters[10].value
     local highpassfreq = parameters[11].value
 
-    local data = reacoma.utils.deep_copy(reacoma.container.generic)
+
+    local processed_items = {}
     for i=1, num_selected_items do
-        reacoma.container.get_data(i, data)
+        local data = reacoma.container.get_item_info(i)
 
         -- Remove any existing take markers
         for j=1, data.take_markers[i] do
             reaper.DeleteTakeMarker(
-                data.take[i], 
-                data.take_markers[i] - j
+                data.take, 
+                data.take_markers - j
             )
         end
         
         local cmd = exe .. 
-        " -source " .. reacoma.utils.wrap_quotes(data.full_path[i]) .. 
-        " -indices " .. reacoma.utils.wrap_quotes(data.tmp[i]) ..
+        " -source " .. reacoma.utils.wrap_quotes(data.full_path) .. 
+        " -indices " .. reacoma.utils.wrap_quotes(data.tmp) ..
         " -rampup " .. rampup ..
         " -rampdown " .. rampdown ..
         " -onthreshold " .. onthreshold ..
@@ -42,17 +43,19 @@ function segment(parameters)
         " -lookback " .. lookback ..
         " -lookahead " .. lookahead ..
         " -highpassfreq " .. highpassfreq ..
-        " -numframes " .. data.item_len_samples[i] .. 
-        " -startframe " .. data.take_ofs_samples[i]
+        " -numframes " .. data.item_len_samples .. 
+        " -startframe " .. data.take_ofs_samples
 
         reacoma.utils.cmdline(cmd)
-        table.insert(data.slice_points_string, reacoma.utils.readfile(data.tmp[i]))
-        reacoma.slicing.process(i, data, true)
+        data.slice_points_string = reacoma.utils.readfile(data.tmp)
+        
+        reacoma.slicing.process(data, true)
+        reacoma.utils.cleanup2(data.tmp)
+        table.insert(processed_items, data)
     end
     
     reaper.UpdateArrange()
-    reacoma.utils.cleanup(data.tmp)
-    return data
+    return processed_items
 end
 
 ampgate = {
