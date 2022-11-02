@@ -228,6 +228,10 @@ utils.cleanup = function(path_table)
     end
 end
 
+utils.cleanup2 = function(path)
+    os.remove(path)
+end
+
 utils.capture = function(cmd, raw)
     -- Captures and returns the output of a command line call
     -- <cmd> is the command and <raw> is flag determining raw or sanitised return
