@@ -357,4 +357,11 @@ utils.grab_selected_items = function()
     return temp_items
 end
 
+utils.deselect_all_items = function()
+    while reaper.CountSelectedMediaItems(0) > 0 do
+        local item = reaper.GetSelectedMediaItem(0, 0)
+        reaper.SetMediaItemSelected(item, false)
+    end
+end
+
 return utils
