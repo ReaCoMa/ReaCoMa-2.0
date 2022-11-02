@@ -87,10 +87,11 @@ end
 imgui_helpers.process = function(obj, mode, optional_item_bundle)
     -- This is called everytime there is a process button pressed
     -- This button is uniform across layers/slices and is found at the top left
+    local state
     if mode == 'cross' then
-        local state = obj.perform_update(obj.parameters, optional_item_bundle)
+        state = obj.perform_update(obj.parameters, optional_item_bundle)
     else
-        local state = obj.perform_update(obj.parameters)
+        state = obj.perform_update(obj.parameters)
     end
     -- This block performs segmentation related tasks with markers
     if obj.info.action == 'segment' then
@@ -127,7 +128,6 @@ imgui_helpers.process = function(obj, mode, optional_item_bundle)
         end
         reaper.UpdateArrange()
     end
-
     return state
 end
 
