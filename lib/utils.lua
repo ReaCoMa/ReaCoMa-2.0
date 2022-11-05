@@ -364,4 +364,8 @@ utils.deselect_all_items = function()
     end
 end
 
+utils.precise_equals = function(a, b, epsilon)
+    return math.abs(a - b) <= epsilon
+end
+
 return utils
