@@ -19,7 +19,7 @@ function segment(parameters)
         local data = reacoma.container.get_item_info(i)
 
         -- Remove any existing take markers
-        for j=1, data.take_markers[i] do
+        for j=1, data.take_markers do
             reaper.DeleteTakeMarker(
                 data.take, 
                 data.take_markers - j
