@@ -3,13 +3,14 @@ local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
 loadfile(script_path .. "../../lib/reacoma.lua")()
 dofile(script_path .. "slice_stats.lua")
 
-
-obj = reacoma.noveltyslice
+obj = reacoma.onsetslice
 reacoma.global_state.width = 445
 reacoma.global_state.height = 245
-ctx, viewport = imgui_helpers.create_context(obj.info.algorithm_name)
+local ctx, viewport = imgui_helpers.create_context(obj.info.algorithm_name)
 
 function test()
+	reacoma.utils.deselect_all_items()
+
 	local voice_media_item = reaper.GetMediaItem(0, 1)
 	local track = reaper.GetTrack(0, 1)
 	local _, track_name  = reaper.GetTrackName(track)
@@ -19,7 +20,7 @@ function test()
 	reacoma.imgui_helpers.process(obj, 'split')
 	local splits = reaper.CountTrackMediaItems(track)
 
-	assert(splits == 68)
+	assert(splits == 14)
 	for i=1, splits do
 		local item = reaper.GetTrackMediaItem(track, i-1)
 		local length = reaper.GetMediaItemInfo_Value(item, "D_LENGTH")
@@ -34,7 +35,6 @@ function test()
 		)
 	end
 	reaper.Undo_DoUndo2(0)
-	reacoma.utils.DEBUG('noveltyslice test passed')
 end
 
 reaper.defer(
@@ -46,6 +46,8 @@ reaper.defer(
 			obj=obj,
 			test=true
 		})
+
+		reaper.ExecProcess("sleep 0.25", 0)
 
 		test()
 	end
