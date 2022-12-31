@@ -13,48 +13,31 @@ function decompose(parameters)
     local windowsize = parameters[7].value
     local clumplength = parameters[8].value
 
-    local data = reacoma.utils.deep_copy(reacoma.container.generic)
-    data.outputs = {
-        transients = {},
-        residual = {}
-    }
-
+    local processed_items = {}
     for i=1, num_selected_items do
-        reacoma.container.get_data(i, data)
+        local data = reacoma.container.get_item_info(i)
 
-        table.insert(
-            data.outputs.transients,
-            data.path[i] .. "_ts-t_" .. reacoma.utils.uuid(i) .. ".wav"
-        )
+        data.outputs = {
+            transients = data.path .. "_ts-t_" .. reacoma.utils.uuid(i) .. ".wav",
+            residual = data.path .. "_ts-r_" .. reacoma.utils.uuid(i) .. ".wav"
+        }
 
-        table.insert(
-            data.outputs.residual,
-            data.path[i] .. "_ts-r_" .. reacoma.utils.uuid(i) .. ".wav"
-        )
-
-        table.insert(
-            data.cmd, 
-            exe .. 
-            " -source " .. reacoma.utils.wrap_quotes(data.full_path[i]) .. 
-            " -transients " .. reacoma.utils.wrap_quotes(data.outputs.transients[i]) .. 
-            " -residual " .. reacoma.utils.wrap_quotes(data.outputs.residual[i]) ..
-            " -order " .. order ..
-            " -blocksize " .. blocksize ..
-            " -padsize " .. padsize ..
-            " -skew " .. skew ..
-            " -threshfwd " .. threshfwd .. 
-            " -threshback " .. threshback ..
-            " -windowsize " .. windowsize .. 
-            " -clumplength " .. clumplength ..
-            " -numframes " .. data.item_len_samples[i] .. 
-            " -startframe " .. data.take_ofs_samples[i]
-        )
-        reacoma.utils.cmdline(data.cmd[i])
-        reacoma.layers.exist(i, data)
-        reaper.SelectAllMediaItems(0, 0)
-        reacoma.layers.process(i, data)
-        reaper.UpdateArrange()
+        data.cmd = exe .. 
+        " -source " .. reacoma.utils.wrap_quotes(data.full_path) .. 
+        " -transients " .. reacoma.utils.wrap_quotes(data.outputs.transients) .. 
+        " -residual " .. reacoma.utils.wrap_quotes(data.outputs.residual) ..
+        " -order " .. order ..
+        " -blocksize " .. blocksize ..
+        " -padsize " .. padsize ..
+        " -skew " .. skew ..
+        " -threshfwd " .. threshfwd .. 
+        " -threshback " .. threshback ..
+        " -windowsize " .. windowsize .. 
+        " -clumplength " .. clumplength ..
+        " -numframes " .. data.item_len_samples .. 
+        " -startframe " .. data.take_ofs_samples
     end
+    reacoma.layers.process_all_items(processed_items)
 end
 
 transients = {

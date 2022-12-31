@@ -13,36 +13,29 @@ function decompose(parameters)
     )
 
     local data = reacoma.utils.deep_copy(reacoma.container.generic)
-    data.outputs = {
-        components = {}
-    }
 
+
+    local processed_items = {}
     for i=1, num_selected_items do
-        reacoma.container.get_data(i, data)
+        local data = reacoma.container.get_item_info(i)
 
-        table.insert(
-            data.outputs.components,
-            data.path[i] .. "_nmf_" .. reacoma.utils.uuid(i) .. ".wav"
-        )
+        data.outputs = {
+            components = data.path .. "_nmf_" .. reacoma.utils.uuid(i) .. ".wav"
+        }
 
-        table.insert(
-            data.cmd, 
-            exe .. 
-            " -source " .. reacoma.utils.wrap_quotes(data.full_path[i]) .. 
-            " -resynth " .. reacoma.utils.wrap_quotes(data.outputs.components[i]) ..
-            " -resynthmode " .. 1 ..
-            " -iterations " .. iterations ..
-            " -components " .. components .. 
-            " -fftsettings " .. fftsettings ..
-            " -numframes " .. data.item_len_samples[i] .. 
-            " -startframe " .. data.take_ofs_samples[i]
-        )
-        reacoma.utils.cmdline(data.cmd[i])
-        reacoma.layers.exist(i, data)
-        reaper.SelectAllMediaItems(0, 0)
-        reacoma.layers.process(i, data)
-        reaper.UpdateArrange()
+        data.cmd = exe .. 
+        " -source " .. reacoma.utils.wrap_quotes(data.full_path) .. 
+        " -resynth " .. reacoma.utils.wrap_quotes(data.outputs.components) ..
+        " -resynthmode " .. 1 ..
+        " -iterations " .. iterations ..
+        " -components " .. components .. 
+        " -fftsettings " .. fftsettings ..
+        " -numframes " .. data.item_len_samples .. 
+        " -startframe " .. data.take_ofs_samples
+        
+        table.insert(processed_items, data)
     end
+    reacoma.layers.process_all_items(processed_items)
 end
 
 nmf = {

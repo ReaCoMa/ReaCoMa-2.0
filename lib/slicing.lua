@@ -16,16 +16,16 @@ slicing.rm_dup = function(slice_table)
     return res
 end
 
-slicing.process = function(item_index, data, gate_based_slicer)
+slicing.process = function(data, gate_based_slicer)
     local slice_points = nil
 
     if gate_based_slicer then
         slice_points = utils.split_space(
-            data.slice_points_string[item_index]
+            data.slice_points_string
         )
     else
         slice_points = utils.split_comma(
-            data.slice_points_string[item_index]
+            data.slice_points_string
         )
     end
 
@@ -37,10 +37,10 @@ slicing.process = function(item_index, data, gate_based_slicer)
     end
 
     -- Invert the table around the middle point (mirror!)
-    if data.reverse[item_index] then
+    if data.reverse == true then
         for i=1, #slice_points do
             slice_points[i] = (
-                data.item_len_samples[item_index] - slice_points[i]
+                data.item_len_samples - slice_points[i]
             )   
         end
         utils.reverse_table(slice_points)
@@ -48,31 +48,31 @@ slicing.process = function(item_index, data, gate_based_slicer)
     
     -- if the left boundary is the start remove it
     -- This protects situations where the slice point is implicit in the boundaries of the media item
-    if tonumber(slice_points[1]) == data.take_ofs_samples[item_index] then 
+    if tonumber(slice_points[1]) == data.take_ofs_samples then 
         table.remove(slice_points, 1) 
     end
 
     -- now sanitise the numbers to adjust for the take offset and playback rate
     for i=1, #slice_points do
-        if data.reverse[item_index] then
-            slice_points[i] = (slice_points[i] + data.take_ofs_samples[item_index]) / data.playrate[item_index]
+        if data.reverse == true then
+            slice_points[i] = (slice_points[i] + data.take_ofs_samples) / data.playrate
         else
-            slice_points[i] = (slice_points[i] - data.take_ofs_samples[item_index]) / data.playrate[item_index]
+            slice_points[i] = (slice_points[i] - data.take_ofs_samples) / data.playrate
         end
         -- and convert to seconds for REAPER
         slice_points[i] = utils.sampstos(
             slice_points[i],
-            data.sr[item_index]
+            data.sr
         )
     end
 
     for i=1, #slice_points do
         local slice_pos = slice_points[i]
 
-        local scheme = reacoma.colors.scheme[item_index] or { r=255, g=0, b=0 }
+        local scheme = reacoma.colors.scheme[1] or { r=255, g=0, b=0 }
         local color = reaper.ColorToNative( scheme.r, scheme.g, scheme.b ) | 0x1000000
         reaper.SetTakeMarker(
-            data.take[item_index], 
+            data.take, 
             -1, '', 
             slice_pos, 
             color

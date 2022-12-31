@@ -228,6 +228,10 @@ utils.cleanup = function(path_table)
     end
 end
 
+utils.cleanup2 = function(path)
+    os.remove(path)
+end
+
 utils.capture = function(cmd, raw)
     -- Captures and returns the output of a command line call
     -- <cmd> is the command and <raw> is flag determining raw or sanitised return
@@ -351,6 +355,13 @@ utils.grab_selected_items = function()
         temp_items[i] = reaper.GetSelectedMediaItem(0, i-1)
     end
     return temp_items
+end
+
+utils.deselect_all_items = function()
+    while reaper.CountSelectedMediaItems(0) > 0 do
+        local item = reaper.GetSelectedMediaItem(0, 0)
+        reaper.SetMediaItemSelected(item, false)
+    end
 end
 
 return utils

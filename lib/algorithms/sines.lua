@@ -19,50 +19,35 @@ function decompose(parameters)
         parameters[12].value
     )
 
-    local data = reacoma.utils.deep_copy(reacoma.container.generic)
-    data.outputs = {
-        sines = {},
-        residual = {}
-    }
-
+    local processed_items = {}
     for i=1, num_selected_items do
-        reacoma.container.get_data(i, data)
+        local data = reacoma.container.get_item_info(i)
 
-        table.insert(
-            data.outputs.sines,
-            data.path[i] .. "_sines-s_" .. reacoma.utils.uuid(i) .. ".wav"
-        )
+        data.outputs = {
+            sines = data.path .. "_sines-s_" .. reacoma.utils.uuid(i) .. ".wav",
+            residual = data.path .. "_sines-r_" .. reacoma.utils.uuid(i) .. ".wav"
+        }
 
-        table.insert(
-            data.outputs.residual,
-            data.path[i] .. "_sines-r_" .. reacoma.utils.uuid(i) .. ".wav"
-        )
-
-        table.insert(
-            data.cmd, 
-            exe .. 
-            " -source " .. reacoma.utils.wrap_quotes(data.full_path[i]) .. 
-            " -sines " .. reacoma.utils.wrap_quotes(data.outputs.sines[i]) ..
-            " -residual " .. reacoma.utils.wrap_quotes(data.outputs.residual[i]) .. 
-            " -birthhighthreshold " .. bhthresh ..
-            " -birthlowthreshold " .. blthresh ..
-            " -detectionthreshold " .. dethresh ..
-            " -trackfreqrange " .. trackfreqrange ..
-            " -trackingmethod " .. trackingmethod ..
-            " -trackmagrange " .. trackmagrange ..
-            " -trackprob " .. trackprob ..
-            " -bandwidth " .. bandwidth ..
-            " -fftsettings " .. fftsettings ..
-            " -mintracklen " .. mintracklen ..
-            " -numframes " .. data.item_len_samples[i] .. 
-            " -startframe " .. data.take_ofs_samples[i]
-        )
-        reacoma.utils.cmdline(data.cmd[i])
-        reacoma.layers.exist(i, data)
-        reaper.SelectAllMediaItems(0, 0)
-        reacoma.layers.process(i, data)
-        reaper.UpdateArrange()
+        data.cmd = exe .. 
+        " -source " .. reacoma.utils.wrap_quotes(data.full_path) .. 
+        " -sines " .. reacoma.utils.wrap_quotes(data.outputs.sines) ..
+        " -residual " .. reacoma.utils.wrap_quotes(data.outputs.residual) .. 
+        " -birthhighthreshold " .. bhthresh ..
+        " -birthlowthreshold " .. blthresh ..
+        " -detectionthreshold " .. dethresh ..
+        " -trackfreqrange " .. trackfreqrange ..
+        " -trackingmethod " .. trackingmethod ..
+        " -trackmagrange " .. trackmagrange ..
+        " -trackprob " .. trackprob ..
+        " -bandwidth " .. bandwidth ..
+        " -fftsettings " .. fftsettings ..
+        " -mintracklen " .. mintracklen ..
+        " -numframes " .. data.item_len_samples .. 
+        " -startframe " .. data.take_ofs_samples
+        
+        table.insert(processed_items, data)
     end
+    layers.process_all_items(processed_items)
 end
 
 sines = {
