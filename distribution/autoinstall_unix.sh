@@ -1,6 +1,6 @@
 #! /bin/bash
 
-CLI_VERSION="1.0.4"
+CLI_VERSION="1.0.6"
 # ReaCoMa URLs
 MAC="https://github.com/ReaCoMa/ReaCoMa-2.0/releases/latest/download/ReaCoMa.2.0.dmg"
 NIX="https://github.com/ReaCoMa/ReaCoMa-2.0/releases/latest/download/ReaCoMa.2.0.tar.gz"

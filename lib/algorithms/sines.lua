@@ -4,7 +4,7 @@ function decompose(parameters)
     )
 
     local num_selected_items = reaper.CountSelectedMediaItems(0)
-    local trackingmethod = parameters[1].value
+    local trackmethod = parameters[1].value
     local trackfreqrange = parameters[2].value
     local trackmagrange = parameters[3].value
     local trackprob = parameters[4].value
@@ -36,7 +36,7 @@ function decompose(parameters)
         " -birthlowthreshold " .. blthresh ..
         " -detectionthreshold " .. dethresh ..
         " -trackfreqrange " .. trackfreqrange ..
-        " -trackingmethod " .. trackingmethod ..
+        " -trackmethod " .. trackmethod ..
         " -trackmagrange " .. trackmagrange ..
         " -trackprob " .. trackprob ..
         " -bandwidth " .. bandwidth ..
@@ -58,7 +58,7 @@ sines = {
     },
     parameters =  {
         {
-            name = 'trackingmethod',
+            name = 'trackmethod',
             widget = reaper.ImGui_Combo,
             value = 0,
             items = 'greedy\0hungarian\0',

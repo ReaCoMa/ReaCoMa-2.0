@@ -1,5 +1,5 @@
 NAME="ReaCoMa 2.0"
-CLI_VERSION="1.0.4"
+CLI_VERSION="1.0.6"
 OS="$1"
 
 test -f release && rm -rf release
