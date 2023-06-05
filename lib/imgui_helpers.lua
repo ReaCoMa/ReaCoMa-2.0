@@ -88,6 +88,8 @@ imgui_helpers.process = function(obj, mode, optional_item_bundle)
     -- This is called everytime there is a process button pressed
     -- This button is uniform across layers/slices and is found at the top left
     local processed_items = {}
+
+    -- if the mode is cross or transport we provide an optional item bundle which contains the pairs of items
     if mode == 'cross' then
         processed_items = obj.perform_update(obj.parameters, optional_item_bundle)
     else
