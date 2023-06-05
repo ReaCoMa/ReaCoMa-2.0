@@ -8,6 +8,13 @@ utils.DEBUG = function(string)
     -- Handy function for quickly debugging strings
     reaper.ShowConsoleMsg(tostring(string))
     reaper.ShowConsoleMsg("\n")
+
+    if not reacoma.debug.cli_already_posted and reacoma.debug.cli_already_posted ~= '' then 
+        reaper.ShowConsoleMsg(
+            '\nThe most recent CLI call was:\n\n'..reacoma.debug.cli..'\n\n'
+        )
+        reaper.debug.cli_already_posted = true
+    end
 end
 
 utils.deep_copy = function(obj, seen)
@@ -98,6 +105,7 @@ utils.uuid = function(idx)
 end
 
 utils.cmdline = function(invocation)
+    reacoma.debug.cli = invocation
     -- Calls the <command> at the system's shell
     -- The implementation slightly differs for each operating system
     -- 06/08/2020 23:26:07 Seems ExecProcess works equally well everywhere
