@@ -9,6 +9,9 @@ package.path = package.path .. ";" .. script_path .. "?.lua"
 -- Require the modules
 local r = reaper
 reacoma = {}
+reacoma.debug = {
+    cli = ''
+}
 reacoma.settings = {}
 reacoma.lib = script_path
 reacoma.global_state = {}
