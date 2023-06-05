@@ -112,7 +112,7 @@ if not reaper.ImGui_GetVersion or not version_satisfied then
     end
     reacoma.settings.fatal = true
 else
-    dofile(reaper.GetResourcePath() .. '/Scripts/ReaTeam Extensions/API/imgui.lua')('0.7') -- shim the version we want
+    dofile(reaper.GetResourcePath() .. '/Scripts/ReaTeam Extensions/API/imgui.lua')('0.8.6') -- shim the version we want
     reacoma.colors = require("colors")
     reacoma.imgui_helpers = require("imgui_helpers")
     reacoma.imgui_wrapper = require("imgui_wrapper")
