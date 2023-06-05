@@ -25,7 +25,7 @@ imgui_wrapper.loop = function(args)
     local restored = false
 
     if reaper.ImGui_Button(args.ctx, args.obj.info.action) or (reacoma.global_state.active == 0 and reaper.ImGui_IsKeyPressed(args.ctx, 13)) then
-        if args.obj.info.source_targset_matrix == true then
+        if args.obj.info.source_target_matrix == true then
             args.state = reacoma.imgui_helpers.process(args.obj, 'cross', swap_items)
         else
             args.state = reacoma.imgui_helpers.process(args.obj, 'split')
@@ -58,7 +58,7 @@ imgui_wrapper.loop = function(args)
 
     args.state = reacoma.imgui_helpers.update_state(args.ctx, args.obj, restored)
 
-    if args.obj.info.source_targset_matrix == true then 
+    if args.obj.info.source_target_matrix == true then 
         local temp_items = reacoma.utils.grab_selected_items()
         if not reacoma.utils.compare_item_tables(temp_items, rt_items) then
             rt_items = reacoma.utils.deep_copy(temp_items)
@@ -83,14 +83,14 @@ imgui_wrapper.loop = function(args)
                     r.ImGui_Text(args.ctx, ('Swap %s'):format(name))
                     r.ImGui_EndDragDropSource(args.ctx)
                 end
-                if r.ImGui_BeginDragDropTargset(args.ctx) then
+                if r.ImGui_BeginDragDropTarget(args.ctx) then
                     local rv, payload = r.ImGui_AcceptDragDropPayload(args.ctx, 'DND_DEMO_CELL')
                     if rv then
                         local payload_i = tonumber(payload)
                         swap_items[i] = swap_items[payload_i]
                         swap_items[payload_i] = v
                     end
-                    r.ImGui_EndDragDropTargset(args.ctx)
+                    r.ImGui_EndDragDropTarget(args.ctx)
                 end
                 r.ImGui_PopID(args.ctx)
             end
