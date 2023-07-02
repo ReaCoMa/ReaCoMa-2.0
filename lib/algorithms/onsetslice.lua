@@ -83,9 +83,8 @@ onsetslice = {
         },
         {
             name = 'filtersize',
-            widget = reaper.ImGui_SliderInt,
-            min = 1,
-            max = 101,
+            widget = reacoma.widgets.FilterSlider,
+            -- TODO finish this
             value = 5,
             desc = 'The size of a smoothing filter that is applied on the novelty curve. A larger filter filter size allows for cleaner cuts on very sharp changes.'
         },
