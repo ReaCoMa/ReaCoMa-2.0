@@ -3,23 +3,23 @@ local r = reaper
 local helpers = {}
 
 helpers.create_context = function(name)
-    local context = reaper.ImGui_CreateContext(name)
-    local viewport = reaper.ImGui_GetMainViewport(context)
+    local context = r.ImGui_CreateContext(name)
+    local viewport = r.ImGui_GetMainViewport(context)
     return context, viewport
 end
 
 helpers.help_marker = function(ctx, desc)
-    reaper.ImGui_SameLine(ctx)
-    reaper.ImGui_TextDisabled(ctx, '(?)')
-    if reaper.ImGui_IsItemHovered(ctx) then
-      reaper.ImGui_BeginTooltip(ctx)
-      reaper.ImGui_PushTextWrapPos(
+    r.ImGui_SameLine(ctx)
+    r.ImGui_TextDisabled(ctx, '(?)')
+    if r.ImGui_IsItemHovered(ctx) then
+      r.ImGui_BeginTooltip(ctx)
+      r.ImGui_PushTextWrapPos(
           ctx, 
-          reaper.ImGui_GetFontSize(ctx) * 15.0
+          r.ImGui_GetFontSize(ctx) * 15.0
         )
-      reaper.ImGui_Text(ctx, desc)
-      reaper.ImGui_PopTextWrapPos(ctx)
-      reaper.ImGui_EndTooltip(ctx)
+      r.ImGui_Text(ctx, desc)
+      r.ImGui_PopTextWrapPos(ctx)
+      r.ImGui_EndTooltip(ctx)
     end
   end
 
@@ -47,7 +47,7 @@ helpers.draw_gui = function(ctx, obj)
                 )
             param.value = param.widget.opts[param.index]
         end
-        local widget_active = reaper.ImGui_IsItemActive(ctx)
+        local widget_active = r.ImGui_IsItemActive(ctx)
         -- Draw the mouseover description
         local help_text = param.desc or 'no help available'
         helpers.help_marker(ctx, help_text)
@@ -69,7 +69,7 @@ helpers.do_preview = function(ctx, obj, change)
     local drag_preview = change > 0 and reacoma.settings.immediate_preview
     local end_drag_preview = (
         not reacoma.settings.immediate_preview and 
-        not reaper.ImGui_IsMouseDown(ctx, reaper.ImGui_MouseButton_Left()) and 
+        not r.ImGui_IsMouseDown(ctx, r.ImGui_MouseButton_Left()) and 
         reacoma.global_state.preview_pending
     )
     reacoma.global_state.preview_pending = not end_drag_preview and (reacoma.global_state.preview_pending or (change > 0 and not reacoma.settings.immediate_preview))
@@ -78,7 +78,7 @@ end
 
 helpers.update_state = function(ctx, obj, update)
     local change = helpers.draw_gui(ctx, obj)
-    if helpers.do_preview(ctx, obj, change + utils.bool_to_number[update]) then
+    if helpers.do_preview(ctx, obj, change + reacoma.utils.bool_to_number[update]) then
         return obj.perform_update(obj.parameters)
     end
 end
@@ -98,37 +98,37 @@ helpers.process = function(obj, mode, optional_item_bundle)
     -- This block performs segmentation related tasks with markers
     if obj.info.action == 'segment' then
         for i=1, #processed_items do
-            item = reaper.GetSelectedMediaItem(0, i-1)
-            take = reaper.GetActiveTake(item)
-            num_markers = reaper.GetNumTakeMarkers(take)
+            local item = r.GetSelectedMediaItem(0, i-1)
+            local take = r.GetActiveTake(item)
+            local num_markers = r.GetNumTakeMarkers(take)
             
             -- Collect the take markers
-            take_markers = {}
+            local take_markers = {}
             for j=1, num_markers do
-                marker = reaper.GetTakeMarker(take, j-1)
+                local marker = r.GetTakeMarker(take, j-1)
                 table.insert(take_markers, marker)
             end
             
             -- Now remove them from the item
             for j=1, num_markers do
-                reaper.DeleteTakeMarker(take, num_markers-j)
+                r.DeleteTakeMarker(take, num_markers-j)
             end
 
-            reaper.Undo_BeginBlock()
+            r.Undo_BeginBlock()
             for j=1, #take_markers do
                 local slice_pos = take_markers[j]
                 local real_position = slice_pos + processed_items[i].item_pos -- adjust for offset of item
                 if mode == 'split' then
-                    item = reaper.SplitMediaItem(item, real_position)
+                    item = r.SplitMediaItem(item, real_position)
                 elseif mode == 'marker' then
                     local scheme = reacoma.colors.scheme[i] or { r=255, g=0, b=0 }
-                    local color = reaper.ColorToNative( scheme.r, scheme.g, scheme.b ) | 0x1000000
-                    reaper.AddProjectMarker2(0, false, real_position, real_position, '', -1, color)
+                    local color = r.ColorToNative( scheme.r, scheme.g, scheme.b ) | 0x1000000
+                    r.AddProjectMarker2(0, false, real_position, real_position, '', -1, color)
                 end
             end
-            reaper.Undo_EndBlock2(0, 'reacoma process markers', -1)
+            r.Undo_EndBlock2(0, 'reacoma process markers', -1)
         end
-        reaper.UpdateArrange()
+        r.UpdateArrange()
     end
     return processed_items
 end
@@ -176,6 +176,5 @@ helpers.matrix_gui = function(args, rt_items, swap_items)
         end
     end
 end
-
 
 return helpers

@@ -45,65 +45,29 @@ wrapper.loop = function(args)
         reacoma.settings.immediate_preview = false
     end
 
-    -- TODO this is currently not even running because 
-    -- nothing ever gets stored in the defaults
-    if args.obj.defaults ~= nil then
-        if r.ImGui_Button(args.ctx, "defaults") then
-            args.state = params.restore_defaults(args.obj)
-            restored = true
-        end
-    end
-
     args.state = reacoma.imgui.helpers.update_state(args.ctx, args.obj, restored)
 
-    -- TODO: Abstract this into modular code
-    if args.obj.info.source_target_matrix == true then 
-        local temp_items = reacoma.utils.grab_selected_items()
-        if not reacoma.utils.compare_item_tables(temp_items, rt_items) then
-            rt_items = reacoma.utils.deep_copy(temp_items)
-            swap_items = reacoma.utils.deep_copy(temp_items)
-        end
-    
-        if r.ImGui_BeginTable(args.ctx, 'mappings', 2) then
-            r.ImGui_TableSetupColumn(args.ctx, args.obj.info.column_a)
-            r.ImGui_TableSetupColumn(args.ctx, args.obj.info.column_b)
-            r.ImGui_TableHeadersRow(args.ctx)
-            r.ImGui_TableNextRow(args.ctx)
-            
-            for i, v in ipairs(swap_items) do
-                r.ImGui_PushID(args.ctx, i)
-                r.ImGui_TableNextColumn(args.ctx)
-                local name = r.GetTakeName(r.GetActiveTake(v))
-                r.ImGui_PushStyleVar(args.ctx, r.ImGui_StyleVar_ButtonTextAlign(), 0, 0)
-                r.ImGui_Button(args.ctx, name, 150, 20)
-                r.ImGui_PopStyleVar(args.ctx)
-                if r.ImGui_BeginDragDropSource(args.ctx, r.ImGui_DragDropFlags_None()) then
-                    r.ImGui_SetDragDropPayload(args.ctx, 'DND_DEMO_CELL', tostring(i))
-                    r.ImGui_Text(args.ctx, ('Swap %s'):format(name))
-                    r.ImGui_EndDragDropSource(args.ctx)
+    reacoma.imgui.helpers.matrix_gui(args, rt_items, swap_items)
+
+    -- Preset System
+    if r.ImGui_CollapsingHeader(ctx, 'Presets', nil, r.ImGui_TreeNodeFlags_None()) then
+        for i = 1, #presets do
+            if r.ImGui_Button(ctx, i) then
+                if r.ImGui_IsKeyDown(ctx, r.ImGui_Mod_Ctrl()) then
+                    r.ShowConsoleMsg('Ctrl was down')
                 end
-                if r.ImGui_BeginDragDropTarget(args.ctx) then
-                    local rv, payload = r.ImGui_AcceptDragDropPayload(args.ctx, 'DND_DEMO_CELL')
-                    if rv then
-                        local payload_i = tonumber(payload)
-                        swap_items[i] = swap_items[payload_i]
-                        swap_items[payload_i] = v
-                    end
-                    r.ImGui_EndDragDropTarget(args.ctx)
-                end
-                r.ImGui_PopID(args.ctx)
+                -- ImGui_IsKeyDown(ctx, ImGui_Mod_Shift())
+                -- ImGui_IsKeyDown(ctx, ImGui_Mod_Alt())
+                -- ImGui_IsKeyDown(ctx, ImGui_Mod_Super())
             end
-            r.ImGui_EndTable(args.ctx)
+        end
+        if r.ImGui_Button(ctx, '+ add preset') then
+            presets[#presets+1] = #presets+1
         end
     end
 
-    -- Preset Systems
 
     r.ImGui_End(args.ctx)
-
-    if args.test then
-        open = false
-    end
     
     if open then
         r.defer(
@@ -120,8 +84,8 @@ wrapper.loop = function(args)
         r.ImGui_DestroyContext(args.ctx)
         r.Undo_EndBlock2(0, args.obj.info.ext_name, 4)
         reacoma.params.set(args.obj)
-        r.SetExtState('reacoma', 'slice_preview', utils.bool_to_string[reacoma.settings.slice_preview], true)
-        r.SetExtState('reacoma', 'immediate_preview', utils.bool_to_string[reacoma.settings.immediate_preview], true)
+        r.SetExtState('reacoma', 'slice_preview', reacoma.utils.bool_to_string[reacoma.settings.slice_preview], true)
+        r.SetExtState('reacoma', 'immediate_preview', reacoma.utils.bool_to_string[reacoma.settings.immediate_preview], true)
         return
     end
 end
