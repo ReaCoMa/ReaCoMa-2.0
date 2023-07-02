@@ -319,18 +319,38 @@ end
 
 utils.grab_selected_items = function()
     local temp_items = {}
-    local num_items = reaper.CountSelectedMediaItems(0)
+    local num_items = r.CountSelectedMediaItems(0)
     for i=1, num_items do
-        temp_items[i] = reaper.GetSelectedMediaItem(0, i-1)
+        temp_items[i] = r.GetSelectedMediaItem(0, i-1)
     end
     return temp_items
 end
 
 utils.deselect_all_items = function()
-    while reaper.CountSelectedMediaItems(0) > 0 do
-        local item = reaper.GetSelectedMediaItem(0, 0)
-        reaper.SetMediaItemSelected(item, false)
+    while r.CountSelectedMediaItems(0) > 0 do
+        local item = r.GetSelectedMediaItem(0, 0)
+        r.SetMediaItemSelected(item, false)
     end
 end
+
+utils.table_to_string = function(tbl)
+	local str_table = {}
+	for k, v in pairs(tbl) do
+		local key = type(k) == "string" and '["' .. k .. '"]' or "[" .. tostring(k) .. "]"
+		local value = type(v) == "table" and utils.table_to_string(v) or tostring(v)
+		table.insert(str_table, key .. " = " .. value)
+	end
+	return "{" .. table.concat(str_table, ", ") .. "}"
+end
+
+utils.string_to_table = function(str)
+	local func = load("return " .. str)
+	if func then
+		local tbl = func()
+		return tbl
+	end
+	return nil
+end
+
 
 return utils
