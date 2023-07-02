@@ -1,4 +1,5 @@
 local r = reaper
+
 local params = {}
 
 -- So we don't have to figure out what the index of a table is
@@ -12,6 +13,16 @@ params.find_index = function(tbl, value)
 	  end
 	end
 	return nil
+end
+
+params.find_by_name = function(self, name)
+    for _, tbl in ipairs(self.parameters) do
+        if tbl.name == name then
+        return tbl
+        end
+    end
+    reaper.ShowConsoleMsg(name.. ' not found')
+    return nil
 end
 
 params.set = function(obj)
@@ -57,6 +68,5 @@ params.restore_defaults = function(obj)
         idx = idx + 1
     end
 end
-
 
 return params
