@@ -1,5 +1,3 @@
-local widgets = {}
-
 function generate_odds(start, finish)
 	local odd_tbl = {}
 	
@@ -9,7 +7,7 @@ function generate_odds(start, finish)
 	end
 	
 	for i = start, finish, 2 do
-	  table.insert(odd_tbl, i)
+	  table.insert(odd_tbl, math.floor(i))
 	end
 	
 	return odd_tbl
@@ -21,12 +19,14 @@ function generate_powers_of_two(start_number, end_number)
 	for power = 0, end_number do
 	  local value = 2 ^ power
 	  if value >= start_number and value <= end_number then
-		table.insert(powers_table, value)
+		table.insert(powers_table, math.floor(value))
 	  end
 	end
 	
 	return powers_table
 end
+
+local widgets = {}
 
 -- For FFT parameters
 widgets.FFTSlider = {
@@ -41,7 +41,5 @@ widgets.FilterSlider = {
 widgets.KernelSlider = {
 	opts = generate_odds(3, 71)
 }
-
-
 
 return widgets
