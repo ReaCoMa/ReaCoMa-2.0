@@ -9,7 +9,7 @@ reacoma.params.get(obj)
 reacoma.global_state.width = 445
 reacoma.global_state.height = 245
 
-ctx, viewport = imgui_helpers.create_context(obj.info.algorithm_name)
+ctx, viewport = reacoma.imgui.helpers.create_context(obj.info.algorithm_name)
 
 reaper.defer(
     function()
