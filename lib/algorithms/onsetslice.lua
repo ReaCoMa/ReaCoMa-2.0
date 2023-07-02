@@ -3,7 +3,7 @@ function segment(parameters)
         reacoma.settings.path .. "/fluid-onsetslice"
     )
 
-    local num_selected_items = reaper.CountSelectedMediaItems(0)
+    local num_selected_items = r.CountSelectedMediaItems(0)
     local metric = parameters[1].value
     local threshold = parameters[2].value
     local minslicelength = parameters[3].value
@@ -21,7 +21,7 @@ function segment(parameters)
 
         -- Remove any existing take markers
         for j=1, data.take_markers do
-            reaper.DeleteTakeMarker(
+            r.DeleteTakeMarker(
                 data.take, 
                 data.take_markers - j
             )
@@ -47,7 +47,7 @@ function segment(parameters)
         table.insert(processed_items, data)
     end
     
-    reaper.UpdateArrange()
+    r.UpdateArrange()
     return processed_items
 end
 
@@ -60,14 +60,14 @@ onsetslice = {
     parameters =  {
         {
             name = 'metric',
-            widget = reaper.ImGui_Combo,
+            widget = r.ImGui_Combo,
             value = 0,
             items = 'energy\0high frequency content\0spectral flux\0modified kullback-leibler\0itakura-saito\0cosine\0phase deviation\0weighted phase deviation\0complex domain\0rectified complex domain\0',
             desc = 'The metric used to derive a difference curve between spectral frames'
         },
         {
             name = 'threshold',
-            widget = reaper.ImGui_SliderDouble,
+            widget = r.ImGui_SliderDouble,
             min = 0.0,
             max = 2.0,
             value = 0.5,
@@ -75,7 +75,7 @@ onsetslice = {
         },
         {
             name = 'minslicelength',
-            widget = reaper.ImGui_SliderInt,
+            widget = r.ImGui_SliderInt,
             min = 0,
             max = 20,
             value = 2,
@@ -85,12 +85,12 @@ onsetslice = {
             name = 'filtersize',
             widget = reacoma.imgui.widgets.FilterSlider,
             value = 5,
-            index = params.find_index(reacoma.imgui.widgets.FilterSlider.opts, 17),
+            index = reacoma.params.find_index(reacoma.imgui.widgets.FilterSlider.opts, 17),
             desc = 'The size of a smoothing filter that is applied on the novelty curve. A larger filter filter size allows for cleaner cuts on very sharp changes.'
         },
         {
             name = 'framedelta',
-            widget = reaper.ImGui_SliderInt,
+            widget = r.ImGui_SliderInt,
             min = 0,
             max = 20,
             value = 0,
@@ -100,21 +100,21 @@ onsetslice = {
             name = 'window size',
             widget = reacoma.imgui.widgets.FFTSlider,
             value = 1024,
-            index = params.find_index(reacoma.imgui.widgets.FFTSlider.opts, 1024),
+            index = reacoma.params.find_index(reacoma.imgui.widgets.FFTSlider.opts, 1024),
             desc = 'window size'
         },
         {
             name = 'hop size',
             widget = reacoma.imgui.widgets.FFTSlider,
             value = 512,
-            index = params.find_index(reacoma.imgui.widgets.FFTSlider.opts, 512),
+            index = reacoma.params.find_index(reacoma.imgui.widgets.FFTSlider.opts, 512),
             desc = 'hop size'
         },
         {
             name = 'fft size',
             widget = reacoma.imgui.widgets.FFTSlider,
             value = 1024,
-            index = params.find_index(reacoma.imgui.widgets.FFTSlider.opts, 1024),
+            index = reacoma.params.find_index(reacoma.imgui.widgets.FFTSlider.opts, 1024),
             desc = 'fft size',
         }
     },

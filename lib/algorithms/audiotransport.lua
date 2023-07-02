@@ -1,4 +1,6 @@
-decompose = function(parameters, item_bundle)
+local r = reaper
+
+function decompose(parameters, item_bundle)
     local exe = reacoma.utils.wrap_quotes(
         reacoma.settings.path .. "/fluid-audiotransport"
     )
@@ -34,17 +36,17 @@ decompose = function(parameters, item_bundle)
 
         reacoma.utils.cmdline(cli)
         reacoma.layers.matrix_output_exists(output)
-        reaper.SelectAllMediaItems(0, 0)
+        r.SelectAllMediaItems(0, 0)
         local append_target = 0
         if source_a.item_len_samples > source_b.item_len_samples then
             append_target = 1
         end
         reacoma.layers.process_matrix(source_a, source_b, output, append_target)
-        reaper.UpdateArrange()
+        r.UpdateArrange()
     end
 end
 
-audiotransport = {
+local audiotransport = {
     info = {
         algorithm_name = 'Interpolates between the spectra of two sounds.',
         ext_name = 'reacoma.audiotransport',
@@ -56,7 +58,7 @@ audiotransport = {
     parameters =  {
         {
             name = 'interpolation',
-            widget = reaper.ImGui_SliderDouble,
+            widget = r.ImGui_SliderDouble,
             min = 0.0,
             max = 1.0,
             value = 0.5,
@@ -66,21 +68,21 @@ audiotransport = {
             name = 'window size',
             widget = reacoma.imgui.widgets.FFTSlider,
             value = 1024,
-            index = params.find_index(reacoma.imgui.widgets.FFTSlider.opts, 1024),
+            index = reacoma.params.find_index(reacoma.imgui.widgets.FFTSlider.opts, 1024),
             desc = 'window size'
         },
         {
             name = 'hop size',
             widget = reacoma.imgui.widgets.FFTSlider,
             value = 512,
-            index = params.find_index(reacoma.imgui.widgets.FFTSlider.opts, 512),
+            index = reacoma.params.find_index(reacoma.imgui.widgets.FFTSlider.opts, 512),
             desc = 'hop size'
         },
         {
             name = 'fft size',
             widget = reacoma.imgui.widgets.FFTSlider,
             value = 1024,
-            index = params.find_index(reacoma.imgui.widgets.FFTSlider.opts, 1024),
+            index = reacoma.params.find_index(reacoma.imgui.widgets.FFTSlider.opts, 1024),
             desc = 'fft size',
         }
     },

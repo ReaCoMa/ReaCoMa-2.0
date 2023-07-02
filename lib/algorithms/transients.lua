@@ -3,7 +3,7 @@ function decompose(parameters)
         reacoma.settings.path .. "/fluid-transients"
     )
 
-    local num_selected_items = reaper.CountSelectedMediaItems(0)
+    local num_selected_items = r.CountSelectedMediaItems(0)
     local order = parameters[1].value
     local blocksize = parameters[2].value
     local padsize = parameters[3].value
@@ -49,7 +49,7 @@ transients = {
     parameters =  {
         {
             name = 'order',
-            widget = reaper.ImGui_SliderInt,
+            widget = r.ImGui_SliderInt,
             min = 10,
             max = 400,
             value = 20,
@@ -57,7 +57,7 @@ transients = {
         },
         {
             name = 'blocksize',
-            widget = reaper.ImGui_SliderInt,
+            widget = r.ImGui_SliderInt,
             min = 100,
             max = 1024,
             value = 256,
@@ -65,7 +65,7 @@ transients = {
         },
         {
             name = 'padsize',
-            widget = reaper.ImGui_SliderInt,
+            widget = r.ImGui_SliderInt,
             min = 0,
             max = 512,
             value = 128,
@@ -73,7 +73,7 @@ transients = {
         },
         {
             name = 'skew',
-            widget = reaper.ImGui_SliderDouble,
+            widget = r.ImGui_SliderDouble,
             min = -10.0,
             max = 10.0,
             value = 0.0,
@@ -81,7 +81,7 @@ transients = {
         },
         {
             name = 'threshfwd',
-            widget = reaper.ImGui_SliderDouble,
+            widget = r.ImGui_SliderDouble,
             min = 0.0,
             max = 8.0,
             value = 2.0,
@@ -89,7 +89,7 @@ transients = {
         },
         {
             name = 'threshback',
-            widget = reaper.ImGui_SliderDouble,
+            widget = r.ImGui_SliderDouble,
             min = 0.0,
             max = 8.0,
             value = 1.1,
@@ -97,7 +97,7 @@ transients = {
         },
         {
             name = 'windowsize',
-            widget = reaper.ImGui_SliderInt,
+            widget = r.ImGui_SliderInt,
             min = 0,
             max = 400,
             value = 14,
@@ -105,7 +105,7 @@ transients = {
         },
         {
             name = 'clumplength',
-            widget = reaper.ImGui_SliderInt,
+            widget = r.ImGui_SliderInt,
             min = 0,
             max = 1000,
             value = 25,

@@ -1,9 +1,11 @@
+local r = reaper
+
 function segment(parameters)
     local exe = reacoma.utils.wrap_quotes(
         reacoma.settings.path .. "/fluid-ampslice"
     )
 
-    local num_selected_items = reaper.CountSelectedMediaItems(0)
+    local num_selected_items = r.CountSelectedMediaItems(0)
     local fastrampup = parameters[1].value
     local fastrampdown = parameters[2].value
     local slowrampup = parameters[3].value
@@ -20,7 +22,7 @@ function segment(parameters)
 
         -- Remove any existing take markers
         for j=1, data.take_markers do
-            reaper.DeleteTakeMarker(
+            r.DeleteTakeMarker(
                 data.take, 
                 data.take_markers - j
             )
@@ -49,11 +51,11 @@ function segment(parameters)
         table.insert(processed_items, data)
     end
     
-    reaper.UpdateArrange()
+    r.UpdateArrange()
     return processed_items
 end
 
-ampslice = {
+local ampslice = {
     info = {
         algorithm_name = 'Ampslice Slicing',
         ext_name = 'reacoma.ampslice',
@@ -62,7 +64,7 @@ ampslice = {
     parameters =  {
         {
             name = 'fastrampdown',
-            widget = reaper.ImGui_SliderInt,
+            widget = r.ImGui_SliderInt,
             min = 1,
             max = 1000,
             value = 1,
@@ -70,7 +72,7 @@ ampslice = {
         },
         {
             name = 'fastrampup',
-            widget = reaper.ImGui_SliderInt,
+            widget = r.ImGui_SliderInt,
             min = 1,
             max = 1000,
             value = 1,
@@ -78,7 +80,7 @@ ampslice = {
         },
         {
             name = 'slowrampdown',
-            widget = reaper.ImGui_SliderInt,
+            widget = r.ImGui_SliderInt,
             min = 1,
             max = 1000,
             value = 1,
@@ -86,7 +88,7 @@ ampslice = {
         },
         {
             name = 'slowrampup',
-            widget = reaper.ImGui_SliderInt,
+            widget = r.ImGui_SliderInt,
             min = 1,
             max = 1000,
             value = 1,
@@ -94,7 +96,7 @@ ampslice = {
         },
         {
             name = 'onthreshold',
-            widget = reaper.ImGui_SliderDouble,
+            widget = r.ImGui_SliderDouble,
             min = -144,
             max = 144,
             value = 144,
@@ -102,7 +104,7 @@ ampslice = {
         },
         {
             name = 'offthreshold',
-            widget = reaper.ImGui_SliderDouble,
+            widget = r.ImGui_SliderDouble,
             min = -144,
             max = 144,
             value = -144,
@@ -110,7 +112,7 @@ ampslice = {
         },
         {
             name = 'floor',
-            widget = reaper.ImGui_SliderDouble,
+            widget = r.ImGui_SliderDouble,
             min = -144,
             max = 144,
             value = -60,
@@ -118,7 +120,7 @@ ampslice = {
         },
         {
             name = 'minslicelength',
-            widget = reaper.ImGui_SliderInt,
+            widget = r.ImGui_SliderInt,
             min = 0,
             max = 3000,
             value = 2,
@@ -126,11 +128,11 @@ ampslice = {
         },
         {
             name = 'highpassfreq',
-            widget = reaper.ImGui_SliderDouble,
+            widget = r.ImGui_SliderDouble,
             min = 0,
             max = 20000,
             value = 85,
-            flag = reaper.ImGui_SliderFlags_Logarithmic(),
+            flag = r.ImGui_SliderFlags_Logarithmic(),
             desc = 'The frequency of the fourth-order Linkwitz-Riley high-pass filter.'
         },
     },

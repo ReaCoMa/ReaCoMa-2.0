@@ -1,9 +1,11 @@
+local r = reaper
+
 function decompose(parameters)
     local exe = reacoma.utils.wrap_quotes(
         reacoma.settings.path .. "/fluid-nmf"
     )
 
-    local num_selected_items = reaper.CountSelectedMediaItems(0)
+    local num_selected_items = r.CountSelectedMediaItems(0)
     local components = parameters[1].value
     local iterations = parameters[2].value
     local fftsettings = reacoma.utils.form_fft_string(
@@ -38,7 +40,7 @@ function decompose(parameters)
     reacoma.layers.process_all_items(processed_items)
 end
 
-nmf = {
+local nmf = {
     info = {
         algorithm_name = 'Non-negative matrix factorisation',
         ext_name = 'reacoma.nmf',
@@ -47,7 +49,7 @@ nmf = {
     parameters =  {
         {
             name = 'components',
-            widget = reaper.ImGui_SliderInt,
+            widget = r.ImGui_SliderInt,
             min = 1,
             max = 10,
             value = 2,
@@ -55,7 +57,7 @@ nmf = {
         },
         {
             name = 'iterations',
-            widget = reaper.ImGui_SliderInt,
+            widget = r.ImGui_SliderInt,
             min = 1,
             max = 300,
             value = 100,
@@ -65,21 +67,21 @@ nmf = {
             name = 'window size',
             widget = reacoma.imgui.widgets.FFTSlider,
             value = 1024,
-            index = params.find_index(reacoma.imgui.widgets.FFTSlider.opts, 1024),
+            index = reacoma.params.find_index(reacoma.imgui.widgets.FFTSlider.opts, 1024),
             desc = 'window size'
         },
         {
             name = 'hop size',
             widget = reacoma.imgui.widgets.FFTSlider,
             value = 512,
-            index = params.find_index(reacoma.imgui.widgets.FFTSlider.opts, 512),
+            index = reacoma.params.find_index(reacoma.imgui.widgets.FFTSlider.opts, 512),
             desc = 'hop size'
         },
         {
             name = 'fft size',
             widget = reacoma.imgui.widgets.FFTSlider,
             value = 1024,
-            index = params.find_index(reacoma.imgui.widgets.FFTSlider.opts, 1024),
+            index = reacoma.params.find_index(reacoma.imgui.widgets.FFTSlider.opts, 1024),
             desc = 'fft size',
         }
     },

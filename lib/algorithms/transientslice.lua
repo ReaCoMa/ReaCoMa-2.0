@@ -3,7 +3,7 @@ function segment(parameters)
         reacoma.settings.path .. "/fluid-transientslice"
     )
 
-    local num_selected_items = reaper.CountSelectedMediaItems(0)
+    local num_selected_items = r.CountSelectedMediaItems(0)
     local order = parameters[1].value
     local blocksize = parameters[2].value
     local padsize = parameters[3].value
@@ -20,7 +20,7 @@ function segment(parameters)
 
         -- Remove any existing take markers
         for j=1, data.take_markers do
-            reaper.DeleteTakeMarker(
+            r.DeleteTakeMarker(
                 data.take, 
                 data.take_markers - j
             )
@@ -49,7 +49,7 @@ function segment(parameters)
         table.insert(processed_items, data)
     end
     
-    reaper.UpdateArrange()
+    r.UpdateArrange()
     return processed_items
 end
 
@@ -62,7 +62,7 @@ transientslice = {
     parameters =  {
         {
             name = 'order',
-            widget = reaper.ImGui_SliderInt,
+            widget = r.ImGui_SliderInt,
             min = 10,
             max = 400,
             value = 20,
@@ -70,7 +70,7 @@ transientslice = {
         },
         {
             name = 'blocksize',
-            widget = reaper.ImGui_SliderInt,
+            widget = r.ImGui_SliderInt,
             min = 100,
             max = 1024,
             value = 256,
@@ -78,7 +78,7 @@ transientslice = {
         },
         {
             name = 'padsize',
-            widget = reaper.ImGui_SliderInt,
+            widget = r.ImGui_SliderInt,
             min = 0,
             max = 512,
             value = 128,
@@ -86,7 +86,7 @@ transientslice = {
         },
         {
             name = 'skew',
-            widget = reaper.ImGui_SliderDouble,
+            widget = r.ImGui_SliderDouble,
             min = -10.0,
             max = 10.0,
             value = 0.0,
@@ -94,7 +94,7 @@ transientslice = {
         },
         {
             name = 'threshfwd',
-            widget = reaper.ImGui_SliderDouble,
+            widget = r.ImGui_SliderDouble,
             min = 0.0,
             max = 8.0,
             value = 2.0,
@@ -102,7 +102,7 @@ transientslice = {
         },
         {
             name = 'threshback',
-            widget = reaper.ImGui_SliderDouble,
+            widget = r.ImGui_SliderDouble,
             min = 0.0,
             max = 8.0,
             value = 1.1,
@@ -110,7 +110,7 @@ transientslice = {
         },
         {
             name = 'windowsize',
-            widget = reaper.ImGui_SliderInt,
+            widget = r.ImGui_SliderInt,
             min = 0,
             max = 400,
             value = 14,
@@ -118,7 +118,7 @@ transientslice = {
         },
         {
             name = 'clumplength',
-            widget = reaper.ImGui_SliderInt,
+            widget = r.ImGui_SliderInt,
             min = 0,
             max = 1000,
             value = 25,
@@ -126,7 +126,7 @@ transientslice = {
         },
         {
             name = 'minslicelength',
-            widget = reaper.ImGui_SliderInt,
+            widget = r.ImGui_SliderInt,
             min = 0,
             max = 3000,
             value = 1000,

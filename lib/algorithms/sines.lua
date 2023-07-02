@@ -3,7 +3,7 @@ function decompose(parameters)
         reacoma.settings.path .. "/fluid-sines"
     )
 
-    local num_selected_items = reaper.CountSelectedMediaItems(0)
+    local num_selected_items = r.CountSelectedMediaItems(0)
     local trackmethod = parameters[1].value
     local trackfreqrange = parameters[2].value
     local trackmagrange = parameters[3].value
@@ -59,14 +59,14 @@ sines = {
     parameters =  {
         {
             name = 'trackmethod',
-            widget = reaper.ImGui_Combo,
+            widget = r.ImGui_Combo,
             value = 0,
             items = 'greedy\0hungarian\0',
             desc = 'The algorithm used to track the sinusoidal continuity between spectral frames.'
         },
         {
             name = 'trackfreqrange',
-            widget = reaper.ImGui_SliderDouble,
+            widget = r.ImGui_SliderDouble,
             min = 1.0,
             max = 10000.0,
             value = 50.0,
@@ -74,7 +74,7 @@ sines = {
         },
         {
             name = 'trackmagrange',
-            widget = reaper.ImGui_SliderDouble,
+            widget = r.ImGui_SliderDouble,
             min = 1.0,
             max = 200.0,
             value = 15.0,
@@ -82,7 +82,7 @@ sines = {
         },
         {
             name = 'trackprob',
-            widget = reaper.ImGui_SliderDouble,
+            widget = r.ImGui_SliderDouble,
             min = 0.0,
             max = 1.0,
             value = 0.5,
@@ -90,7 +90,7 @@ sines = {
         },
         {
             name = 'bandwidth',
-            widget = reaper.ImGui_SliderInt,
+            widget = r.ImGui_SliderInt,
             min = 1,
             max = 1024,
             value = 76,
@@ -98,7 +98,7 @@ sines = {
         },
         {
             name = 'birthhighthreshold',
-            widget = reaper.ImGui_SliderDouble,
+            widget = r.ImGui_SliderDouble,
             min = -144,
             max = 0,
             value = -60,
@@ -106,7 +106,7 @@ sines = {
         },
         {
             name = 'birthlowthreshold',
-            widget = reaper.ImGui_SliderDouble,
+            widget = r.ImGui_SliderDouble,
             min = -144,
             max = 0,
             value = -24,
@@ -114,7 +114,7 @@ sines = {
         },
         {
             name = 'detectionthreshold',
-            widget = reaper.ImGui_SliderDouble,
+            widget = r.ImGui_SliderDouble,
             min = -144,
             max = 0,
             value = -96,
@@ -122,7 +122,7 @@ sines = {
         },
         {
             name = 'mintracklen',
-            widget = reaper.ImGui_SliderInt,
+            widget = r.ImGui_SliderInt,
             min = 1,
             max = 40,
             value = 15,
@@ -132,21 +132,21 @@ sines = {
             name = 'window size',
             widget = reacoma.imgui.widgets.FFTSlider,
             value = 1024,
-            index = params.find_index(reacoma.imgui.widgets.FFTSlider.opts, 1024),
+            index = reacoma.params.find_index(reacoma.imgui.widgets.FFTSlider.opts, 1024),
             desc = 'window size'
         },
         {
             name = 'hop size',
             widget = reacoma.imgui.widgets.FFTSlider,
             value = 512,
-            index = params.find_index(reacoma.imgui.widgets.FFTSlider.opts, 512),
+            index = reacoma.params.find_index(reacoma.imgui.widgets.FFTSlider.opts, 512),
             desc = 'hop size'
         },
         {
             name = 'fft size',
             widget = reacoma.imgui.widgets.FFTSlider,
             value = 1024,
-            index = params.find_index(reacoma.imgui.widgets.FFTSlider.opts, 1024),
+            index = reacoma.params.find_index(reacoma.imgui.widgets.FFTSlider.opts, 1024),
             desc = 'fft size',
         }
     },

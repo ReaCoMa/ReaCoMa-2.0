@@ -3,7 +3,7 @@ function segment(parameters)
         reacoma.settings.path .. "/fluid-noveltyslice"
     )
 
-    local num_selected_items = reaper.CountSelectedMediaItems(0)
+    local num_selected_items = r.CountSelectedMediaItems(0)
     local algorithm = parameters[1].value
     local threshold = parameters[2].value
     local kernelsize = parameters[3].value
@@ -21,7 +21,7 @@ function segment(parameters)
 
         -- Remove any existing take markers
         for j=1, data.take_markers do
-            reaper.DeleteTakeMarker(
+            r.DeleteTakeMarker(
                 data.take, 
                 data.take_markers - j
             )
@@ -47,7 +47,7 @@ function segment(parameters)
         table.insert(processed_items, data)
     end
     
-    reaper.UpdateArrange()
+    r.UpdateArrange()
     return processed_items
 end
 
@@ -60,14 +60,14 @@ noveltyslice = {
     parameters =  {
         {
             name = 'algorithm',
-            widget = reaper.ImGui_Combo,
+            widget = r.ImGui_Combo,
             value = 0,
             items = 'spectrum\0mfcc\0chroma\0pitch\0loudness\0',
             desc = 'The feature on which novelty is computed.'
         },
         {
             name = 'threshold',
-            widget = reaper.ImGui_SliderDouble,
+            widget = r.ImGui_SliderDouble,
             min = 0.0,
             max = 1.0,
             value = 0.5,
@@ -77,19 +77,19 @@ noveltyslice = {
             name = 'kernelsize',
             widget = reacoma.imgui.widgets.KernelSlider,
             value = 3,
-            index = params.find_index(reacoma.imgui.widgets.KernelSlider.opts, 3),
+            index = reacoma.params.find_index(reacoma.imgui.widgets.KernelSlider.opts, 3),
             desc = 'The granularity of the window in which the algorithm looks for change, in FFT frames.'
         },
         {
             name = 'filtersize',
             widget = reacoma.imgui.widgets.FilterSlider,
             value = 1,
-            index = params.find_index(reacoma.imgui.widgets.FilterSlider.opts, 17),
+            index = reacoma.params.find_index(reacoma.imgui.widgets.FilterSlider.opts, 17),
             desc = 'The size of a smoothing filter that is applied on the novelty curve. A larger filter filter size allows for cleaner cuts on very sharp changes.'
         },
         {
             name = 'minslicelength',
-            widget = reaper.ImGui_SliderInt,
+            widget = r.ImGui_SliderInt,
             min = 0,
             max = 20,
             value = 2,
@@ -99,21 +99,21 @@ noveltyslice = {
             name = 'window size',
             widget = reacoma.imgui.widgets.FFTSlider,
             value = 1024,
-            index = params.find_index(reacoma.imgui.widgets.FFTSlider.opts, 1024),
+            index = reacoma.params.find_index(reacoma.imgui.widgets.FFTSlider.opts, 1024),
             desc = 'window size'
         },
         {
             name = 'hop size',
             widget = reacoma.imgui.widgets.FFTSlider,
             value = 512,
-            index = params.find_index(reacoma.imgui.widgets.FFTSlider.opts, 512),
+            index = reacoma.params.find_index(reacoma.imgui.widgets.FFTSlider.opts, 512),
             desc = 'hop size'
         },
         {
             name = 'fft size',
             widget = reacoma.imgui.widgets.FFTSlider,
             value = 1024,
-            index = params.find_index(reacoma.imgui.widgets.FFTSlider.opts, 1024),
+            index = reacoma.params.find_index(reacoma.imgui.widgets.FFTSlider.opts, 1024),
             desc = 'fft size',
         }
     },

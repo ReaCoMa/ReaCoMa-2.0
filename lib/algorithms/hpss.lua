@@ -1,9 +1,11 @@
+local r = reaper
+
 function decompose(parameters)
     local exe = reacoma.utils.wrap_quotes(
         reacoma.settings.path .. "/fluid-hpss"
     )
 
-    local num_selected_items = reaper.CountSelectedMediaItems(0)
+    local num_selected_items = r.CountSelectedMediaItems(0)
     local hfs = parameters[1].value
     local pfs = parameters[2].value
     local fftsettings = reacoma.utils.form_fft_string(
@@ -39,7 +41,7 @@ function decompose(parameters)
     reacoma.layers.process_all_items(processed_items)
 end
 
-hpss = {
+local hpss = {
     info = {
         algorithm_name = 'Harmonic-percussive source separation',
         ext_name = 'reacoma.hpss',
@@ -50,12 +52,12 @@ hpss = {
             name = 'harmfiltersize',
             widget = reacoma.imgui.widgets.FilterSlider,
             value = 17,
-            index = params.find_index(reacoma.imgui.widgets.FilterSlider.opts, 17),
+            index = reacoma.params.find_index(reacoma.imgui.widgets.FilterSlider.opts, 17),
             desc = 'The size in spectral frames of the median filter for the harmonic component.'
         },
         {
             name = 'percfiltersize',
-            widget = reaper.ImGui_SliderInt,
+            widget = r.ImGui_SliderInt,
             min = 3,
             max = 51,
             value = 31,
@@ -65,21 +67,21 @@ hpss = {
             name = 'window size',
             widget = reacoma.imgui.widgets.FFTSlider,
             value = 1024,
-            index = params.find_index(reacoma.imgui.widgets.FFTSlider.opts, 1024),
+            index = reacoma.params.find_index(reacoma.imgui.widgets.FFTSlider.opts, 1024),
             desc = 'window size'
         },
         {
             name = 'hop size',
             widget = reacoma.imgui.widgets.FFTSlider,
             value = 512,
-            index = params.find_index(reacoma.imgui.widgets.FFTSlider.opts, 512),
+            index = reacoma.params.find_index(reacoma.imgui.widgets.FFTSlider.opts, 512),
             desc = 'hop size'
         },
         {
             name = 'fft size',
             widget = reacoma.imgui.widgets.FFTSlider,
             value = 1024,
-            index = params.find_index(reacoma.imgui.widgets.FFTSlider.opts, 1024),
+            index = reacoma.params.find_index(reacoma.imgui.widgets.FFTSlider.opts, 1024),
             desc = 'fft size',
         }
     },
