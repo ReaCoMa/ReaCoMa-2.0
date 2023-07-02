@@ -106,12 +106,6 @@ end
 
 utils.cmdline = function(invocation)
     reacoma.debug.cli = invocation
-    -- Calls the <command> at the system's shell
-    -- The implementation slightly differs for each operating system
-    -- 06/08/2020 23:26:07 Seems ExecProcess works equally well everywhere
-    -- local opsys = reaper.GetOS()
-    -- if opsys == "Win64" then retval = reaper.ExecProcess(command, 0) end
-    -- if opsys == "OSX64" or opsys == "Other" then  retval = reaper.ExecProcess(command, 0) end
     local retval = reaper.ExecProcess(invocation, 0)
     
     if not retval then
@@ -206,11 +200,21 @@ utils.form_path = function(path)
     end
 end
 
-utils.table_contains = function(tab, val)
-    for i=1, #tab do
-        if tab[i] == val then return true end
+utils.table_contains = function(tbl, value)
+    for i=1, #tbl do
+        if tbl[i] == value then return true end
     end
     return false
+end
+
+-- Tests if val is a property of a table (tbl)
+utils.table_has = function(tbl, val)
+	for _, v in pairs(tbl) do
+		if v == val then
+			return true 
+		end
+	end
+	return false
 end
 
 utils.check_extension = function(path)

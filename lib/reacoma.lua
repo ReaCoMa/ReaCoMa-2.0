@@ -107,7 +107,7 @@ local IMGUI_VERSION, IMGUI_VERSION_NUM, REAIMGUI_VERSION = reaper.ImGui_GetVersi
 local version_satisfied = IMGUI_VERSION_NUM >= 18800 or nil
 if not reaper.ImGui_GetVersion or not version_satisfied then
     local rv = r.ShowMessageBox(
-        "ReaImGui 0.7 or greater is a dependency of ReaCoMa version 2.0 and needs to be installed. \n\nReaCoMa can not install it for you, but it is simple to install. I suggest managing its installation through ReaPack. If you click OK, you will be taken to the ReaPack website which has instructions for installation.",
+        "ReaImGui 0.8.6 or greater is a dependency of ReaCoMa 2.0 and needs to be installed. \n\nReaCoMa can not install it for you, but it is simple to install. I suggest managing its installation through ReaPack. If you click OK, you will be taken to the ReaPack website which has instructions for installation.",
         "Dependency Missing", 1
     )
     if rv == 1 then
@@ -119,14 +119,13 @@ else
     reacoma.colors = require("colors")
     reacoma.imgui_helpers = require("imgui_helpers")
     reacoma.imgui_wrapper = require("imgui_wrapper")
+    reacoma.widgets = require('custom_widgets') -- custom widgets
 
-    -- Slicing
     reacoma.noveltyslice = require("algorithms/noveltyslice")
     reacoma.ampslice = require("algorithms/ampslice")
     reacoma.transientslice = require("algorithms/transientslice")
     reacoma.onsetslice = require("algorithms/onsetslice")
     reacoma.ampgate = require("algorithms/ampgate")
-    -- Layers
     reacoma.hpss = require("algorithms/hpss")
     reacoma.nmf = require("algorithms/nmf")
     reacoma.sines = require("algorithms/sines")
@@ -134,3 +133,4 @@ else
     reacoma.nmfcross = require("algorithms/nmfcross")
     reacoma.audiotransport = require("algorithms/audiotransport")
 end
+

@@ -26,37 +26,36 @@ imgui_helpers.HelpMarker = function(ctx, desc)
 imgui_helpers.draw_gui = function(ctx, obj)
     local change = 0
     local active = 0
-    local temp = nil
-    for parameter, d in pairs(obj.parameters) do
-        if d.widget == reaper.ImGui_SliderInt then
-            temp, d.value = d.widget(
-                ctx, 
-                d.name, d.value, d.min, d.max
-            )
-        end
-        if d.widget == reaper.ImGui_SliderDouble then
-            temp, d.value = d.widget(
-                ctx,
-                d.name, d.value, d.min, d.max,
-                '%.3f',
-                d.flag or 0
-            )
-        end
-        if d.widget == reaper.ImGui_Combo then
-            temp, d.value = d.widget(
-                ctx, 
-                d.name, d.value, d.items
-            )
+    local rv = nil
+    for _, param in pairs(obj.parameters) do
+        if param.widget == reaper.ImGui_SliderInt then
+            rv, param.value = 
+                param.widget(ctx, param.name, param.value, param.min, param.max)
+        elseif param.widget == reaper.ImGui_SliderDouble then
+            rv, param.value = param.widget(ctx, 
+                param.name, param.value, param.min, param.max, '%.3f', param.flag or 0)
+        elseif param.widget == reaper.ImGui_Combo then
+            rv, param.value = 
+                param.widget(ctx, param.name, param.value, param.items)
+        elseif param.widget == reacoma.widgets.FFTSlider then
+            rv, param.index = reaper.ImGui_SliderInt(
+                    ctx, 
+                    param.name, 
+                    param.index, 
+                    1, #reacoma.widgets.FFTSlider.opts,
+                    reacoma.widgets.FFTSlider.opts[param.index]
+                )
+            param.value = reacoma.widgets.FFTSlider.opts[param.index]
         end
         local widget_active = reaper.ImGui_IsItemActive(ctx)
         -- Draw the mouseover description
-        local help_text = d.desc or 'no help available'
+        local help_text = param.desc or 'no help available'
         imgui_helpers.HelpMarker(ctx, help_text)
         active = active + reacoma.utils.bool_to_number[widget_active]
         -- TODO:
         -- If something is active (edited currently)...
         -- ... we don't want to trigger a change
-        change = change + reacoma.utils.bool_to_number[temp]
+        change = change + reacoma.utils.bool_to_number[rv]
     end
 
     reacoma.global_state.active = active

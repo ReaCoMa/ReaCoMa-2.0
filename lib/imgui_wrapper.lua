@@ -49,6 +49,8 @@ imgui_wrapper.loop = function(args)
         reacoma.settings.immediate_preview = false
     end
 
+    -- TODO this is currently not even running because 
+    -- nothing ever gets stored in the defaults
     if args.obj.defaults ~= nil then
         if reaper.ImGui_Button(args.ctx, "defaults") then
             args.state = params.restore_defaults(args.obj)
@@ -58,6 +60,7 @@ imgui_wrapper.loop = function(args)
 
     args.state = reacoma.imgui_helpers.update_state(args.ctx, args.obj, restored)
 
+    -- TODO: Abstract this into modular code
     if args.obj.info.source_target_matrix == true then 
         local temp_items = reacoma.utils.grab_selected_items()
         if not reacoma.utils.compare_item_tables(temp_items, rt_items) then
