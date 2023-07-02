@@ -64,27 +64,25 @@ hpss = {
         },
         {
             name = 'window size',
-            widget = reaper.ImGui_SliderInt,
-            min = 32,
-            max = 8192,
+            widget = reacoma.widgets.FFTSlider,
+            index = 1,
             value = 1024,
             desc = 'window size'
         },
         {
             name = 'hop size',
-            widget = reaper.ImGui_SliderInt,
-            min = 32,
-            max = 8192,
+            widget = reacoma.widgets.FFTSlider,
+            index = 1,
             value = 512,
             desc = 'hop size'
         },
         {
             name = 'fft size',
-            widget = reaper.ImGui_SliderInt,
-            min = 32,
-            max = 8192,
+            widget = reacoma.widgets.FFTSlider,
+            -- TODO find a way to infer the index needed from the value.
+            index = 1,
             value = 1024,
-            desc = 'fft size' 
+            desc = 'fft size',
         }
     },
     perform_update = decompose
