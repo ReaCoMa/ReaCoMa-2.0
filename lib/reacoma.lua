@@ -11,7 +11,6 @@ reacoma = {}
 reacoma.debug = { cli = '' }
 reacoma.settings = { version = 210 } -- this needs to be changed on major version releases
 reacoma.global_state = { active = false }
-state = {}
 loadfile(script_path .. "../config.lua")() -- load the config
 
 -- Add modules to reacoma table
@@ -28,7 +27,7 @@ reacoma.utils     = require("utils")
 if not os then
     reacoma.settings.restricted = true
     reacoma.settings.fatal = true
-    reaper.ShowMessageBox(
+    r.ShowMessageBox(
         "You have executed the ReaCoMa script in 'Restricted Mode'.\n\nReaCoMa needs this setting to be turned OFF.\n\nYou can disable resitrcted mode on the file selection pane when choosing a script.",
         "Restricted mode warning",
         0
@@ -44,8 +43,8 @@ app_version = tonumber(app_version)
 
 if app_version < 609 then
     reacoma.settings.fatal = true
-    reaper.ShowMessageBox(
-        "ReaCoMa 2.0 requires a minimum of version 6.09 for REAPER.\n\nPlease update REAPER.",
+    r.ShowMessageBox(
+        "ReaCoMa 2.0 requires a minimum of version 6.09 for r.\n\nPlease update r.",
         "Version Warning",
         0
     )
@@ -57,7 +56,7 @@ reacoma.binaries = reacoma.binaries or "default"
 if reacoma.binaries == "default" then 
     reacoma.settings.path = script_path:gsub("lib/", "bin")
     if not reacoma.paths.is_path_valid(reacoma.settings.path) then
-        reaper.ShowMessageBox(
+        r.ShowMessageBox(
             "The default binary location (" .. reacoma.settings.path .. ") does not contain valid FluCoMa binaries. Check that this folder contains the binaries.",
             "Binary folder invalid",
             0
@@ -67,7 +66,7 @@ if reacoma.binaries == "default" then
 else
     reacoma.settings.path = reacoma.paths.expandtilde(reacoma.binaries)
     if not reacoma.paths.is_path_valid(reacoma.settings.path) then
-        reaper.ShowMessageBox(
+        r.ShowMessageBox(
             "The custom path set in config.lua (" .. reacoma.binaries .. ") does not contain valid FluCoMa binaries.",
             "Custom binary path invalid",
             0
@@ -87,9 +86,9 @@ if reacoma.output ~= "source" and reacoma.output ~= "media" then
 end
 
 -- Check that ReaImGui exists and is at least the ninimum version
-local IMGUI_VERSION, IMGUI_VERSION_NUM, REAIMGUI_VERSION = reaper.ImGui_GetVersion()
+local IMGUI_VERSION, IMGUI_VERSION_NUM, REAIMGUI_VERSION = r.ImGui_GetVersion()
 local version_satisfied = IMGUI_VERSION_NUM >= 18800 or nil
-if not reaper.ImGui_GetVersion or not version_satisfied then
+if not r.ImGui_GetVersion or not version_satisfied then
     local rv = r.ShowMessageBox(
         "ReaImGui 0.8.6 or greater is a dependency of ReaCoMa 2.0 and needs to be installed. \n\nReaCoMa can not install it for you, but it is simple to install. I suggest managing its installation through ReaPack. If you click OK, you will be taken to the ReaPack website which has instructions for installation.",
         "Dependency Missing", 1
@@ -99,7 +98,7 @@ if not reaper.ImGui_GetVersion or not version_satisfied then
     end
     reacoma.settings.fatal = true
 else
-    dofile(reaper.GetResourcePath() .. '/Scripts/ReaTeam Extensions/API/imgui.lua')('0.8.6') -- shim the version we want
+    dofile(r.GetResourcePath() .. '/Scripts/ReaTeam Extensions/API/imgui.lua')('0.8.6') -- shim the version we want
     reacoma.colors = require("colors")
     reacoma.imgui_helpers = require("imgui_helpers")
     reacoma.imgui_wrapper = require("imgui_wrapper")
@@ -120,10 +119,10 @@ else
 end
 
 -- Update the slice preview settings
-if reaper.HasExtState("reacoma", "slice_preview") then
-    local preview = reaper.GetExtState("reacoma", "slice_preview")
+if r.HasExtState("reacoma", "slice_preview") then
+    local preview = r.GetExtState("reacoma", "slice_preview")
     if preview == 'false' then preview = false else preview = true end
-    local immediate = reaper.GetExtState("reacoma", "immediate_preview")
+    local immediate = r.GetExtState("reacoma", "immediate_preview")
     if immediate == 'false' then immediate = false else immediate = true end
     reacoma.settings.slice_preview = preview
     reacoma.settings.immediate_preview = immediate
