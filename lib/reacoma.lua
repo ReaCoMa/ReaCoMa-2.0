@@ -6,32 +6,13 @@ local info = debug.getinfo(1,'S')
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
 package.path = package.path .. ";" .. script_path .. "?.lua"
 
--- Require the modules
 local r = reaper
 reacoma = {}
-reacoma.debug = {
-    cli = ''
-}
-reacoma.settings = {}
-reacoma.lib = script_path
-reacoma.global_state = {}
-reacoma.global_state.active = false
+reacoma.debug = { cli = '' }
+reacoma.settings = { version = 210 } -- this needs to be changed on major version releases
+reacoma.global_state = { active = false }
 state = {}
 loadfile(script_path .. "../config.lua")() -- load the config
-
-if reaper.HasExtState("reacoma", "slice_preview") then
-    local preview = reaper.GetExtState("reacoma", "slice_preview")
-    if preview == 'false' then preview = false else preview = true end
-    local immediate = reaper.GetExtState("reacoma", "immediate_preview")
-    if immediate == 'false' then immediate = false else immediate = true end
-    reacoma.settings.slice_preview = preview
-    reacoma.settings.immediate_preview = immediate
-    reacoma.global_state.preview_pending = false
-else
-    reacoma.settings.slice_preview = false
-    reacoma.settings.immediate_preview = false
-    reacoma.global_state.preview_pending = false
-end
 
 -- Add modules to reacoma table
 reacoma.container = require("container")
@@ -55,6 +36,7 @@ if not os then
     return
 end
 
+-- Check that REAPER is at least the minimum version
 app_version = r.GetAppVersion()
 app_version = app_version:sub(1, 4)
 app_version = app_version:gsub('%.', '')
@@ -70,6 +52,7 @@ if app_version < 609 then
     return
 end
 
+-- Check that the FluCoMa Binaries exist
 reacoma.binaries = reacoma.binaries or "default"
 if reacoma.binaries == "default" then 
     reacoma.settings.path = script_path:gsub("lib/", "bin")
@@ -93,6 +76,7 @@ else
     end
 end
 
+-- Now determine if the configuration file has a custom flucoma binaries path
 reacoma.output = reacoma.output or "source" -- If this isn't set we set a default.
 if reacoma.output ~= "source" and reacoma.output ~= "media" then
     reacoma.output = reacoma.paths.expandtilde(reacoma.output)
@@ -102,7 +86,7 @@ if reacoma.output ~= "source" and reacoma.output ~= "media" then
     end
 end
 
--- Check that ReaImGui exists
+-- Check that ReaImGui exists and is at least the ninimum version
 local IMGUI_VERSION, IMGUI_VERSION_NUM, REAIMGUI_VERSION = reaper.ImGui_GetVersion()
 local version_satisfied = IMGUI_VERSION_NUM >= 18800 or nil
 if not reaper.ImGui_GetVersion or not version_satisfied then
@@ -121,16 +105,32 @@ else
     reacoma.imgui_wrapper = require("imgui_wrapper")
     reacoma.widgets = require('custom_widgets') -- custom widgets
 
-    reacoma.noveltyslice = require("algorithms/noveltyslice")
-    reacoma.ampslice = require("algorithms/ampslice")
-    reacoma.transientslice = require("algorithms/transientslice")
-    reacoma.onsetslice = require("algorithms/onsetslice")
-    reacoma.ampgate = require("algorithms/ampgate")
-    reacoma.hpss = require("algorithms/hpss")
-    reacoma.nmf = require("algorithms/nmf")
-    reacoma.sines = require("algorithms/sines")
-    reacoma.transients = require("algorithms/transients")
-    reacoma.nmfcross = require("algorithms/nmfcross")
-    reacoma.audiotransport = require("algorithms/audiotransport")
+    reacoma.algorithms = {}
+    reacoma.algorithms.noveltyslice = require("algorithms/noveltyslice")
+    reacoma.algorithms.ampslice = require("algorithms/ampslice")
+    reacoma.algorithms.transientslice = require("algorithms/transientslice")
+    reacoma.algorithms.onsetslice = require("algorithms/onsetslice")
+    reacoma.algorithms.ampgate = require("algorithms/ampgate")
+    reacoma.algorithms.hpss = require("algorithms/hpss")
+    reacoma.algorithms.nmf = require("algorithms/nmf")
+    reacoma.algorithms.sines = require("algorithms/sines")
+    reacoma.algorithms.transients = require("algorithms/transients")
+    reacoma.algorithms.nmfcross = require("algorithms/nmfcross")
+    reacoma.algorithms.audiotransport = require("algorithms/audiotransport")
+end
+
+-- Update the slice preview settings
+if reaper.HasExtState("reacoma", "slice_preview") then
+    local preview = reaper.GetExtState("reacoma", "slice_preview")
+    if preview == 'false' then preview = false else preview = true end
+    local immediate = reaper.GetExtState("reacoma", "immediate_preview")
+    if immediate == 'false' then immediate = false else immediate = true end
+    reacoma.settings.slice_preview = preview
+    reacoma.settings.immediate_preview = immediate
+    reacoma.global_state.preview_pending = false
+else
+    reacoma.settings.slice_preview = false
+    reacoma.settings.immediate_preview = false
+    reacoma.global_state.preview_pending = false
 end
 
