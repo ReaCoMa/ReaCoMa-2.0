@@ -1,4 +1,5 @@
-utils = {}
+local r = reaper
+local utils = {}
 
 utils.bool_to_number = { [true]=1, [false]=0 }
 utils.string_to_bool = { ['true']=true, ['false']=false }
@@ -6,14 +7,14 @@ utils.bool_to_string = { [true]='true', [false]='false' }
 
 utils.DEBUG = function(string)
     -- Handy function for quickly debugging strings
-    reaper.ShowConsoleMsg(tostring(string))
-    reaper.ShowConsoleMsg("\n")
+    r.ShowConsoleMsg(tostring(string))
+    r.ShowConsoleMsg("\n")
 
     if not reacoma.debug.cli_already_posted and reacoma.debug.cli_already_posted ~= '' then 
-        reaper.ShowConsoleMsg(
+        r.ShowConsoleMsg(
             '\nThe most recent CLI call was:\n\n'..reacoma.debug.cli..'\n\n'
         )
-        reaper.debug.cli_already_posted = true
+        reacoma.debug.cli_already_posted = true
     end
 end
 
@@ -63,35 +64,6 @@ utils.reverse_table = function(t)
 	end
 end
 
-utils.next_pow_str = function(value, return_type)
-    -- Finds the next power of <x> and returns it as return_type
-    local return_type = return_type or 'string'
-    local snap = math.floor(2^math.ceil(math.log(value)/math.log(2)))
-
-    if return_type == 'string' then
-        return tostring(snap)
-    end
-    if return_type == 'number' then
-        return tonumber(snap)
-    end
-end
-
-utils.get_max_fft_size = function(fft_string)
-    -- Given the three fftsettings values find the maximum fft size
-    -- We have to do this because you can pass 1 as a valid argument
-    local split_settings = utils.split_space(fft_string)
-    local window = split_settings[1] 
-    local fft = split_settings[3]
-    local adjusted_fft = ""
-
-    if fft == "1" then 
-        adjusted_fft = utils.next_pow_str(tonumber(window), 'string') 
-        return adjusted_fft
-    else
-        return fft
-    end
-end
-
 utils.form_fft_string = function(window, hop, fft)
     -- always append -1 so that maxfftsize matches fft
     return string.format('%d %d %d -1', window, hop, fft)
@@ -101,12 +73,12 @@ utils.uuid = function(idx)
     -- Generates a universally unique identifier string
     -- Increases uniqueness by appending a number <idx>
     -- <idx> is generally taken as a loop value
-    return tostring(reaper.time_precise()):gsub("%.+", "") .. idx
+    return tostring(r.time_precise()):gsub("%.+", "") .. idx
 end
 
 utils.cmdline = function(invocation)
     reacoma.debug.cli = invocation
-    local retval = reaper.ExecProcess(invocation, 0)
+    local retval = r.ExecProcess(invocation, 0)
     
     if not retval then
         utils.DEBUG("There was an error executing the command: "..command)
@@ -127,7 +99,7 @@ utils.assert = function(test)
 end
 
 utils.open_browser = function(url)
-    local opsys = reaper.GetOS()
+    local opsys = r.GetOS()
     local retval = ""
     if opsys == "Win64" then
         utils.cmdline("explorer " .. url)
@@ -188,7 +160,7 @@ end
 
 utils.form_path = function(path)
     -- Forms a path given the reacoma.output settings
-    local opsys = reaper.GetOS()
+    local opsys = r.GetOS()
     if reacoma.output == "source" then
         return utils.basename(path)
     elseif reacoma.output == "media" then
@@ -306,25 +278,10 @@ utils.lace_tables = function(table1, table2)
     return laced
 end
 
-utils.rmdelim = function(input_string)
-    -- Removes delimiters from an <input_string>
-    local nodots = input_string.gsub(input_string, "%.", "")
-    local nospace = nodots.gsub(nodots, "%s", "")
-    return nospace
-end
-
 utils.wrap_quotes = function(input_string)
     -- Surrounds an <input_string> with quotation marks
     -- This is almost always required for passing things to the command line
     return '"'..input_string..'"'
-end
-
-utils.tablesize = function(t)
-    local count = 0
-    for _, __ in pairs(t) do
-        count = count + 1
-    end
-    return count
 end
 
 utils.indexof = function(t, value)
