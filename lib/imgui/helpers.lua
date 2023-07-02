@@ -37,7 +37,7 @@ imgui_helpers.draw_gui = function(ctx, obj)
         elseif param.widget == reaper.ImGui_Combo then
             rv, param.value = 
                 param.widget(ctx, param.name, param.value, param.items)
-        elseif reacoma.utils.table_has(reacoma.widgets, param.widget) then
+        elseif reacoma.utils.table_has(reacoma.imgui.widgets, param.widget) then
             rv, param.index = reaper.ImGui_SliderInt(
                     ctx, 
                     param.name, 
@@ -133,8 +133,6 @@ imgui_helpers.process = function(obj, mode, optional_item_bundle)
     return processed_items
 end
 
-imgui_helpers.grab_selected_items = function(temp_items, rt_items, swap_items)
-
-end
+imgui_helpers.grab_selected_items = function(temp_items, rt_items, swap_items) end
 
 return imgui_helpers

@@ -16,7 +16,7 @@ end
 params.set = function(obj)
     for _, param in pairs(obj.parameters) do
         -- Handle custom parameters
-        if reacoma.utils.table_has(reacoma.widgets, param.widget) then
+        if reacoma.utils.table_has(reacoma.imgui.widgets, param.widget) then
             reaper.SetExtState(reacoma.settings.version..obj.info.ext_name, param.name, param.index, true)
         else
             reaper.SetExtState(reacoma.settings.version..obj.info.ext_name, param.name, param.value, true)
@@ -28,7 +28,7 @@ params.get = function(obj)
     for _, param in pairs(obj.parameters) do
         if reaper.HasExtState(reacoma.settings.version..obj.info.ext_name, param.name) then
             -- Test if parameter is a custom widget
-            if reacoma.utils.table_has(reacoma.widgets, param.widget) then
+            if reacoma.utils.table_has(reacoma.imgui.widgets, param.widget) then
                 param.index = reaper.GetExtState(reacoma.settings.version..obj.info.ext_name, param.name)
             else
                 param.value = reaper.GetExtState(reacoma.settings.version..obj.info.ext_name, param.name)

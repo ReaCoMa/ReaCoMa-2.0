@@ -75,16 +75,16 @@ noveltyslice = {
         },
         {
             name = 'kernelsize',
-            widget = reacoma.widgets.KernelSlider,
+            widget = reacoma.imgui.widgets.KernelSlider,
             value = 3,
-            index = params.find_index(reacoma.widgets.KernelSlider.opts, 3),
+            index = params.find_index(reacoma.imgui.widgets.KernelSlider.opts, 3),
             desc = 'The granularity of the window in which the algorithm looks for change, in FFT frames.'
         },
         {
             name = 'filtersize',
-            widget = reacoma.widgets.FilterSlider,
+            widget = reacoma.imgui.widgets.FilterSlider,
             value = 1,
-            index = params.find_index(reacoma.widgets.FilterSlider.opts, 17),
+            index = params.find_index(reacoma.imgui.widgets.FilterSlider.opts, 17),
             desc = 'The size of a smoothing filter that is applied on the novelty curve. A larger filter filter size allows for cleaner cuts on very sharp changes.'
         },
         {
@@ -97,23 +97,23 @@ noveltyslice = {
         },
         {
             name = 'window size',
-            widget = reacoma.widgets.FFTSlider,
+            widget = reacoma.imgui.widgets.FFTSlider,
             value = 1024,
-            index = params.find_index(reacoma.widgets.FFTSlider.opts, 1024),
+            index = params.find_index(reacoma.imgui.widgets.FFTSlider.opts, 1024),
             desc = 'window size'
         },
         {
             name = 'hop size',
-            widget = reacoma.widgets.FFTSlider,
+            widget = reacoma.imgui.widgets.FFTSlider,
             value = 512,
-            index = params.find_index(reacoma.widgets.FFTSlider.opts, 512),
+            index = params.find_index(reacoma.imgui.widgets.FFTSlider.opts, 512),
             desc = 'hop size'
         },
         {
             name = 'fft size',
-            widget = reacoma.widgets.FFTSlider,
+            widget = reacoma.imgui.widgets.FFTSlider,
             value = 1024,
-            index = params.find_index(reacoma.widgets.FFTSlider.opts, 1024),
+            index = params.find_index(reacoma.imgui.widgets.FFTSlider.opts, 1024),
             desc = 'fft size',
         }
     },

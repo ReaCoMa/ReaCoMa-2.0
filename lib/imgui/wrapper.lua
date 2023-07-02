@@ -24,16 +24,16 @@ imgui_wrapper.loop = function(args)
 
     if r.ImGui_Button(args.ctx, args.obj.info.action) or (reacoma.global_state.active == 0 and r.ImGui_IsKeyPressed(args.ctx, 13)) then
         if args.obj.info.source_target_matrix == true then
-            args.state = reacoma.imgui_helpers.process(args.obj, 'cross', swap_items)
+            args.state = reacoma.imgui.helpers.process(args.obj, 'cross', swap_items)
         else
-            args.state = reacoma.imgui_helpers.process(args.obj, 'split')
+            args.state = reacoma.imgui.helpers.process(args.obj, 'split')
         end
     end
 
     if args.obj.info.action == 'segment' then
         r.ImGui_SameLine(args.ctx)
         if r.ImGui_Button(args.ctx, 'create markers') then
-            args.state = reacoma.imgui_helpers.process(args.obj, 'marker')
+            args.state = reacoma.imgui.helpers.process(args.obj, 'marker')
         end
         
         r.ImGui_SameLine(args.ctx)
@@ -56,7 +56,7 @@ imgui_wrapper.loop = function(args)
         end
     end
 
-    args.state = reacoma.imgui_helpers.update_state(args.ctx, args.obj, restored)
+    args.state = reacoma.imgui.helpers.update_state(args.ctx, args.obj, restored)
 
     -- TODO: Abstract this into modular code
     if args.obj.info.source_target_matrix == true then 
@@ -98,6 +98,8 @@ imgui_wrapper.loop = function(args)
             r.ImGui_EndTable(args.ctx)
         end
     end
+
+    -- Preset Systems
 
     r.ImGui_End(args.ctx)
 

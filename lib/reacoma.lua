@@ -100,10 +100,11 @@ if not r.ImGui_GetVersion or not version_satisfied then
 else
     dofile(r.GetResourcePath() .. '/Scripts/ReaTeam Extensions/API/imgui.lua')('0.8.6') -- shim the version we want
     reacoma.colors = require("colors")
-    reacoma.imgui_helpers = require("imgui_helpers")
-    reacoma.imgui_wrapper = require("imgui_wrapper")
-    reacoma.widgets = require('custom_widgets') -- custom widgets
-
+    reacoma.imgui = {
+        helpers = require("imgui/helpers"),
+        wrapper = require("imgui/wrapper"),
+        widgets = require('imgui/widgets')
+    }
     reacoma.algorithms = {}
     reacoma.algorithms.noveltyslice = require("algorithms/noveltyslice")
     reacoma.algorithms.ampslice = require("algorithms/ampslice")

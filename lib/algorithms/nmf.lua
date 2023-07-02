@@ -63,23 +63,23 @@ nmf = {
         },
         {
             name = 'window size',
-            widget = reacoma.widgets.FFTSlider,
+            widget = reacoma.imgui.widgets.FFTSlider,
             value = 1024,
-            index = params.find_index(reacoma.widgets.FFTSlider.opts, 1024),
+            index = params.find_index(reacoma.imgui.widgets.FFTSlider.opts, 1024),
             desc = 'window size'
         },
         {
             name = 'hop size',
-            widget = reacoma.widgets.FFTSlider,
+            widget = reacoma.imgui.widgets.FFTSlider,
             value = 512,
-            index = params.find_index(reacoma.widgets.FFTSlider.opts, 512),
+            index = params.find_index(reacoma.imgui.widgets.FFTSlider.opts, 512),
             desc = 'hop size'
         },
         {
             name = 'fft size',
-            widget = reacoma.widgets.FFTSlider,
+            widget = reacoma.imgui.widgets.FFTSlider,
             value = 1024,
-            index = params.find_index(reacoma.widgets.FFTSlider.opts, 1024),
+            index = params.find_index(reacoma.imgui.widgets.FFTSlider.opts, 1024),
             desc = 'fft size',
         }
     },
