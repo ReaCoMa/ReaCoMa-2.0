@@ -1,30 +1,28 @@
 imgui_wrapper = {}
 
 local r = reaper
-
 local path_width = 500
 local path_height = 285
-
 local rt_items, swap_items = {}, {}
 
--- FRAME LOOP --
+-- ANIMATION LOOP --
 imgui_wrapper.loop = function(args)
     
     local pos = { r.ImGui_Viewport_GetWorkPos(args.viewport) }
-    local w, h = reaper.ImGui_Viewport_GetSize(args.viewport)
+    local w, h = r.ImGui_Viewport_GetSize(args.viewport)
     
-    reaper.ImGui_SetNextWindowPos(args.ctx, pos[1] + 100, pos[2] + 100, r.ImGui_Cond_FirstUseEver())
-    reaper.ImGui_SetNextWindowSize(args.ctx, 
+    r.ImGui_SetNextWindowPos(args.ctx, pos[1] + 100, pos[2] + 100, r.ImGui_Cond_FirstUseEver())
+    r.ImGui_SetNextWindowSize(args.ctx, 
         reacoma.global_state.width,
         reacoma.global_state.height, 
         r.ImGui_Cond_FirstUseEver()
     )
 
-    visible, open = reaper.ImGui_Begin(args.ctx, args.obj.info.algorithm_name, true, r.ImGui_WindowFlags_NoCollapse())
+    visible, open = r.ImGui_Begin(args.ctx, args.obj.info.algorithm_name, true, r.ImGui_WindowFlags_NoCollapse())
 
     local restored = false
 
-    if reaper.ImGui_Button(args.ctx, args.obj.info.action) or (reacoma.global_state.active == 0 and reaper.ImGui_IsKeyPressed(args.ctx, 13)) then
+    if r.ImGui_Button(args.ctx, args.obj.info.action) or (reacoma.global_state.active == 0 and r.ImGui_IsKeyPressed(args.ctx, 13)) then
         if args.obj.info.source_target_matrix == true then
             args.state = reacoma.imgui_helpers.process(args.obj, 'cross', swap_items)
         else
@@ -33,17 +31,17 @@ imgui_wrapper.loop = function(args)
     end
 
     if args.obj.info.action == 'segment' then
-        reaper.ImGui_SameLine(args.ctx)
-        if reaper.ImGui_Button(args.ctx, 'create markers') then
+        r.ImGui_SameLine(args.ctx)
+        if r.ImGui_Button(args.ctx, 'create markers') then
             args.state = reacoma.imgui_helpers.process(args.obj, 'marker')
         end
         
-        reaper.ImGui_SameLine(args.ctx)
-        _, reacoma.settings.slice_preview = reaper.ImGui_Checkbox(args.ctx,'preview',reacoma.settings.slice_preview)
-        if not reacoma.settings.slice_preview then reaper.ImGui_BeginDisabled(args.ctx) end
-        reaper.ImGui_SameLine(args.ctx)
-        _,  reacoma.settings.immediate_preview = reaper.ImGui_Checkbox(args.ctx,'immediate',reacoma.settings.immediate_preview)
-        if not reacoma.settings.slice_preview then reaper.ImGui_EndDisabled(args.ctx) end
+        r.ImGui_SameLine(args.ctx)
+        _, reacoma.settings.slice_preview = r.ImGui_Checkbox(args.ctx,'preview',reacoma.settings.slice_preview)
+        if not reacoma.settings.slice_preview then r.ImGui_BeginDisabled(args.ctx) end
+        r.ImGui_SameLine(args.ctx)
+        _,  reacoma.settings.immediate_preview = r.ImGui_Checkbox(args.ctx,'immediate',reacoma.settings.immediate_preview)
+        if not reacoma.settings.slice_preview then r.ImGui_EndDisabled(args.ctx) end
     else
         reacoma.settings.slice_preview = false
         reacoma.settings.immediate_preview = false
@@ -52,7 +50,7 @@ imgui_wrapper.loop = function(args)
     -- TODO this is currently not even running because 
     -- nothing ever gets stored in the defaults
     if args.obj.defaults ~= nil then
-        if reaper.ImGui_Button(args.ctx, "defaults") then
+        if r.ImGui_Button(args.ctx, "defaults") then
             args.state = params.restore_defaults(args.obj)
             restored = true
         end
@@ -101,14 +99,14 @@ imgui_wrapper.loop = function(args)
         end
     end
 
-    reaper.ImGui_End(args.ctx)
+    r.ImGui_End(args.ctx)
 
     if args.test then
         open = false
     end
     
     if open then
-        reaper.defer(
+        r.defer(
             function() 
                 imgui_wrapper.loop({
                     ctx=args.ctx, 
@@ -119,11 +117,11 @@ imgui_wrapper.loop = function(args)
             end
         )
     else
-        reaper.ImGui_DestroyContext(args.ctx)
-        reaper.Undo_EndBlock2(0, args.obj.info.ext_name, 4)
+        r.ImGui_DestroyContext(args.ctx)
+        r.Undo_EndBlock2(0, args.obj.info.ext_name, 4)
         reacoma.params.set(args.obj)
-        reaper.SetExtState('reacoma', 'slice_preview', utils.bool_to_string[reacoma.settings.slice_preview], true)
-        reaper.SetExtState('reacoma', 'immediate_preview', utils.bool_to_string[reacoma.settings.immediate_preview], true)
+        r.SetExtState('reacoma', 'slice_preview', utils.bool_to_string[reacoma.settings.slice_preview], true)
+        r.SetExtState('reacoma', 'immediate_preview', utils.bool_to_string[reacoma.settings.immediate_preview], true)
         return
     end
 end
