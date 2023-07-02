@@ -30,7 +30,7 @@ local widgets = {}
 
 -- For FFT parameters
 widgets.FFTSlider = {
-	opts = generate_powers_of_two(64, 32768)
+	opts = generate_powers_of_two(2, 65536)
 }
 
 -- For parameters which snap to odds like filters or kernel sizes
