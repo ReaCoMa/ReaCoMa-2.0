@@ -1,21 +1,16 @@
 local r = reaper
 
-function decompose(parameters)
+function decompose(params)
     local exe = reacoma.utils.wrap_quotes(
         reacoma.settings.path .. "/fluid-nmf"
     )
 
     local num_selected_items = r.CountSelectedMediaItems(0)
-    local components = parameters[1].value
-    local iterations = parameters[2].value
     local fftsettings = reacoma.utils.form_fft_string(
-        parameters[3].value, 
-        parameters[4].value, 
-        parameters[5].value
+        params:find_by_name('window size'), 
+        params:find_by_name('hop size'), 
+        params:find_by_name('fft size')
     )
-
-    local data = reacoma.utils.deep_copy(reacoma.container.generic)
-
 
     local processed_items = {}
     for i=1, num_selected_items do
@@ -29,8 +24,8 @@ function decompose(parameters)
         " -source " .. reacoma.utils.wrap_quotes(data.full_path) .. 
         " -resynth " .. reacoma.utils.wrap_quotes(data.outputs.components) ..
         " -resynthmode " .. 1 ..
-        " -iterations " .. iterations ..
-        " -components " .. components .. 
+        " -iterations " .. params:find_by_name('iterations') ..
+        " -components " .. params:find_by_name('components') .. 
         " -fftsettings " .. fftsettings ..
         " -numframes " .. data.item_len_samples .. 
         " -startframe " .. data.take_ofs_samples
@@ -41,6 +36,7 @@ function decompose(parameters)
 end
 
 local nmf = {
+    find_by_name = reacoma.params.find_by_name,
     info = {
         algorithm_name = 'Non-negative matrix factorisation',
         ext_name = 'reacoma.nmf',

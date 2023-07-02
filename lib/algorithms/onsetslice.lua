@@ -1,18 +1,15 @@
-function segment(parameters)
+local r = reaper
+
+function segment(params)
     local exe = reacoma.utils.wrap_quotes(
         reacoma.settings.path .. "/fluid-onsetslice"
     )
 
     local num_selected_items = r.CountSelectedMediaItems(0)
-    local metric = parameters[1].value
-    local threshold = parameters[2].value
-    local minslicelength = parameters[3].value
-    local filtersize = parameters[4].value
-    local framedelta = parameters[5].value
     local fftsettings = reacoma.utils.form_fft_string(
-        parameters[6].value, 
-        parameters[7].value, 
-        parameters[8].value
+        params:find_by_name('window size'), 
+        params:find_by_name('hop size'), 
+        params:find_by_name('fft size')
     )
 
     local processed_items = {}
@@ -30,11 +27,11 @@ function segment(parameters)
         local cmd = exe .. 
         " -source " .. reacoma.utils.wrap_quotes(data.full_path) .. 
         " -indices " .. reacoma.utils.wrap_quotes(data.tmp) ..
-        " -metric " .. metric .. 
-        " -minslicelength " .. minslicelength ..
-        " -threshold " .. threshold .. 
-        " -filtersize " .. filtersize .. 
-        " -framedelta " .. framedelta ..
+        " -metric " .. params:find_by_name('metric') .. 
+        " -minslicelength " .. params:find_by_name('minslicelength') ..
+        " -threshold " .. params:find_by_name('threshold') .. 
+        " -filtersize " .. params:find_by_name('filtersize') .. 
+        " -framedelta " .. params:find_by_name('framedelta') ..
         " -fftsettings " .. fftsettings .. 
         " -numframes " .. data.item_len_samples .. 
         " -startframe " .. data.take_ofs_samples
@@ -51,7 +48,8 @@ function segment(parameters)
     return processed_items
 end
 
-onsetslice = {
+local onsetslice = {
+    find_by_name = reacoma.params.find_by_name,
     info = {
         algorithm_name = 'Onset Slice',
         ext_name = 'reacoma.onsetslice',

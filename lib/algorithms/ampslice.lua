@@ -1,21 +1,11 @@
 local r = reaper
 
-function segment(parameters)
+function segment(params)
     local exe = reacoma.utils.wrap_quotes(
         reacoma.settings.path .. "/fluid-ampslice"
     )
 
     local num_selected_items = r.CountSelectedMediaItems(0)
-    local fastrampup = parameters[1].value
-    local fastrampdown = parameters[2].value
-    local slowrampup = parameters[3].value
-    local slowrampdown = parameters[4].value
-    local onthreshold = parameters[5].value
-    local offthreshold = parameters[6].value
-    local floor = parameters[7].value
-    local minslicelength = parameters[8].value
-    local highpassfreq = parameters[9].value
-
     local processed_items = {}
     for i=1, num_selected_items do
         local data = reacoma.container.get_item_info(i)
@@ -31,15 +21,15 @@ function segment(parameters)
         local cmd = exe .. 
         " -source " .. reacoma.utils.wrap_quotes(data.full_path) .. 
         " -indices " .. reacoma.utils.wrap_quotes(data.tmp) .. 
-        " -fastrampup " .. fastrampup ..
-        " -fastrampdown " .. fastrampdown ..
-        " -slowrampup " .. slowrampup ..
-        " -slowrampdown " .. slowrampdown ..
-        " -onthreshold " .. onthreshold ..
-        " -offthreshold " .. offthreshold ..
-        " -floor " .. floor ..
-        " -minslicelength " .. minslicelength ..
-        " -highpassfreq " .. highpassfreq ..
+        " -fastrampup " .. params:find_by_name('fastrampup') ..
+        " -fastrampdown " .. params:find_by_name('fastrampdown') ..
+        " -slowrampup " .. params:find_by_name('slowrampup') ..
+        " -slowrampdown " .. params:find_by_name('slowrampdown') ..
+        " -onthreshold " .. params:find_by_name('onthreshold') ..
+        " -offthreshold " .. params:find_by_name('offthreshold') ..
+        " -floor " .. params:find_by_name('floor') ..
+        " -minslicelength " .. params:find_by_name('minslicelength') ..
+        " -highpassfreq " .. params:find_by_name('highpassfreq') ..
         " -numframes " .. data.item_len_samples .. 
         " -startframe " .. data.take_ofs_samples
 
@@ -56,6 +46,7 @@ function segment(parameters)
 end
 
 local ampslice = {
+    find_by_name = reacoma.params.find_by_name,
     info = {
         algorithm_name = 'Ampslice Slicing',
         ext_name = 'reacoma.ampslice',

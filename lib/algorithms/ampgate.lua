@@ -1,23 +1,11 @@
 local r = reaper
 
-function segment(parameters)
+function segment(params)
     local exe = reacoma.utils.wrap_quotes(
         reacoma.settings.path .. "/fluid-ampgate"
     )
 
     local num_selected_items = r.CountSelectedMediaItems(0)
-    local rampup = parameters[1].value
-    local rampdown = parameters[2].value
-    local onthreshold = parameters[3].value
-    local offthreshold = parameters[4].value
-    local minslicelength = parameters[5].value
-    local minsilencelength = parameters[6].value
-    local minlengthabove = parameters[7].value
-    local minlengthbelow = parameters[8].value
-    local lookback = parameters[9].value
-    local lookahead = parameters[10].value
-    local highpassfreq = parameters[11].value
-
 
     local processed_items = {}
     for i=1, num_selected_items do
@@ -34,17 +22,17 @@ function segment(parameters)
         local cmd = exe .. 
         " -source " .. reacoma.utils.wrap_quotes(data.full_path) .. 
         " -indices " .. reacoma.utils.wrap_quotes(data.tmp) ..
-        " -rampup " .. rampup ..
-        " -rampdown " .. rampdown ..
-        " -onthreshold " .. onthreshold ..
-        " -offthreshold " .. offthreshold ..
-        " -minslicelength " .. minslicelength ..
-        " -minsilencelength " .. minsilencelength ..
-        " -minlengthabove " .. minlengthabove ..
-        " -minlengthbelow " .. minlengthbelow ..
-        " -lookback " .. lookback ..
-        " -lookahead " .. lookahead ..
-        " -highpassfreq " .. highpassfreq ..
+        " -rampup " .. params:find_by_name('rampup') ..
+        " -rampdown " .. params:find_by_name('rampdown') ..
+        " -onthreshold " .. params:find_by_name('onthreshold') ..
+        " -offthreshold " .. params:find_by_name('offthreshold') ..
+        " -minslicelength " .. params:find_by_name('minslicelength') ..
+        " -minsilencelength " .. params:find_by_name('minsilencelength') ..
+        " -minlengthabove " .. params:find_by_name('minlengthabove') ..
+        " -minlengthbelow " .. params:find_by_name('minlengthbelow') ..
+        " -lookback " .. params:find_by_name('lookback') ..
+        " -lookahead " .. params:find_by_name('lookahead') ..
+        " -highpassfreq " .. params:find_by_name('highpassfreq') ..
         " -numframes " .. data.item_len_samples .. 
         " -startframe " .. data.take_ofs_samples
 
@@ -61,6 +49,7 @@ function segment(parameters)
 end
 
 local ampgate = {
+    find_by_name = reacoma.params.find_by_name,
     info = {
         algorithm_name = 'Ampgate Slicing',
         ext_name = 'reacoma.ampgate',

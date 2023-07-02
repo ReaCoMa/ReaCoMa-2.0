@@ -1,22 +1,15 @@
-function decompose(parameters)
+local r = reaper
+
+function decompose(params)
     local exe = reacoma.utils.wrap_quotes(
         reacoma.settings.path .. "/fluid-sines"
     )
 
     local num_selected_items = r.CountSelectedMediaItems(0)
-    local trackmethod = parameters[1].value
-    local trackfreqrange = parameters[2].value
-    local trackmagrange = parameters[3].value
-    local trackprob = parameters[4].value
-    local bandwidth = parameters[5].value
-    local bhthresh = parameters[6].value
-    local blthresh = parameters[7].value
-    local dethresh = parameters[8].value
-    local mintracklen = parameters[9].value
     local fftsettings = reacoma.utils.form_fft_string(
-        parameters[10].value, 
-        parameters[11].value, 
-        parameters[12].value
+        params:find_by_name('window size'), 
+        params:find_by_name('hop size'), 
+        params:find_by_name('fft size')
     )
 
     local processed_items = {}
@@ -32,16 +25,16 @@ function decompose(parameters)
         " -source " .. reacoma.utils.wrap_quotes(data.full_path) .. 
         " -sines " .. reacoma.utils.wrap_quotes(data.outputs.sines) ..
         " -residual " .. reacoma.utils.wrap_quotes(data.outputs.residual) .. 
-        " -birthhighthreshold " .. bhthresh ..
-        " -birthlowthreshold " .. blthresh ..
-        " -detectionthreshold " .. dethresh ..
-        " -trackfreqrange " .. trackfreqrange ..
-        " -trackmethod " .. trackmethod ..
-        " -trackmagrange " .. trackmagrange ..
-        " -trackprob " .. trackprob ..
-        " -bandwidth " .. bandwidth ..
+        " -birthhighthreshold " .. params:find_by_name('birthhighthreshold') ..
+        " -birthlowthreshold " .. params:find_by_name('birthlowthreshold') ..
+        " -detectionthreshold " .. params:find_by_name('detectionthreshold') ..
+        " -trackfreqrange " .. params:find_by_name('trackfreqrange') ..
+        " -trackmethod " .. params:find_by_name('trackmethod') ..
+        " -trackmagrange " .. params:find_by_name('trackmagrange') ..
+        " -trackprob " .. params:find_by_name('trackprob') ..
+        " -bandwidth " .. params:find_by_name('bandwidth') ..
+        " -mintracklen " .. params:find_by_name('mintracklen') ..
         " -fftsettings " .. fftsettings ..
-        " -mintracklen " .. mintracklen ..
         " -numframes " .. data.item_len_samples .. 
         " -startframe " .. data.take_ofs_samples
         
@@ -50,7 +43,8 @@ function decompose(parameters)
     layers.process_all_items(processed_items)
 end
 
-sines = {
+local sines = {
+    find_by_name = reacoma.params.find_by_name,
     info = {
         algorithm_name = 'Sines',
         ext_name = 'reacoma.sines',

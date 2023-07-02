@@ -1,15 +1,14 @@
 local r = reaper
 
-function decompose(parameters, item_bundle)
+function decompose(params, item_bundle)
     local exe = reacoma.utils.wrap_quotes(
         reacoma.settings.path .. "/fluid-audiotransport"
     )
 
-    local interpolation = parameters[1].value
     local fftsettings = reacoma.utils.form_fft_string(
-        parameters[2].value, 
-        parameters[3].value, 
-        parameters[4].value
+        params:find_by_name('window size'), 
+        params:find_by_name('hop size'), 
+        params:find_by_name('fft size')
     )
 
     -- If there is a source without a target remove it
@@ -27,7 +26,7 @@ function decompose(parameters, item_bundle)
 		" -sourcea " .. reacoma.utils.wrap_quotes(source_a.full_path) ..
 		" -sourceb " .. reacoma.utils.wrap_quotes(source_b.full_path) ..
 		" -destination " .. reacoma.utils.wrap_quotes(output) ..
-		" -interpolation " .. interpolation ..
+		" -interpolation " .. params:find_by_name('interpolation') ..
 		" -fftsettings " .. fftsettings ..
         " -numframesa " .. source_a.item_len_samples .. 
         " -numframesb " .. source_b.item_len_samples ..
@@ -47,6 +46,7 @@ function decompose(parameters, item_bundle)
 end
 
 local audiotransport = {
+    find_by_name = reacoma.params.find_by_name,
     info = {
         algorithm_name = 'Interpolates between the spectra of two sounds.',
         ext_name = 'reacoma.audiotransport',

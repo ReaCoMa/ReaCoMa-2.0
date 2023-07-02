@@ -1,18 +1,11 @@
-function decompose(parameters)
+local r = reaper
+
+function decompose(params)
     local exe = reacoma.utils.wrap_quotes(
         reacoma.settings.path .. "/fluid-transients"
     )
 
     local num_selected_items = r.CountSelectedMediaItems(0)
-    local order = parameters[1].value
-    local blocksize = parameters[2].value
-    local padsize = parameters[3].value
-    local skew = parameters[4].value
-    local threshfwd = parameters[5].value
-    local threshback = parameters[6].value
-    local windowsize = parameters[7].value
-    local clumplength = parameters[8].value
-
     local processed_items = {}
     for i=1, num_selected_items do
         local data = reacoma.container.get_item_info(i)
@@ -26,21 +19,22 @@ function decompose(parameters)
         " -source " .. reacoma.utils.wrap_quotes(data.full_path) .. 
         " -transients " .. reacoma.utils.wrap_quotes(data.outputs.transients) .. 
         " -residual " .. reacoma.utils.wrap_quotes(data.outputs.residual) ..
-        " -order " .. order ..
-        " -blocksize " .. blocksize ..
-        " -padsize " .. padsize ..
-        " -skew " .. skew ..
-        " -threshfwd " .. threshfwd .. 
-        " -threshback " .. threshback ..
-        " -windowsize " .. windowsize .. 
-        " -clumplength " .. clumplength ..
+        " -order " .. params:find_by_name('order') ..
+        " -blocksize " .. params:find_by_name('blocksize') ..
+        " -padsize " .. params:find_by_name('padsize') ..
+        " -skew " .. params:find_by_name('skew') ..
+        " -threshfwd " .. params:find_by_name('threshfwd') .. 
+        " -threshback " .. params:find_by_name('threshback') ..
+        " -windowsize " .. params:find_by_name('windowsize') .. 
+        " -clumplength " .. params:find_by_name('clumplength') ..
         " -numframes " .. data.item_len_samples .. 
         " -startframe " .. data.take_ofs_samples
     end
     reacoma.layers.process_all_items(processed_items)
 end
 
-transients = {
+local transients = {
+    find_by_name = reacoma.params.find_by_name,
     info = {
         algorithm_name = 'Transient Extraction',
         ext_name = 'reacoma.transients',

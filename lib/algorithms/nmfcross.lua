@@ -1,18 +1,14 @@
 local r = reaper
 
-function decompose(parameters, item_bundle)
+function decompose(params, item_bundle)
     local exe = reacoma.utils.wrap_quotes(
         reacoma.settings.path .. "/fluid-nmfcross"
     )
 
-    local timesparsity = parameters[1].value
-    local polyphony = parameters[2].value
-    local continuity = parameters[3].value
-    local iterations = parameters[4].value
     local fftsettings = reacoma.utils.form_fft_string(
-        parameters[5].value, 
-        parameters[6].value, 
-        parameters[7].value
+        params:find_by_name('window size'), 
+        params:find_by_name('hop size'), 
+        params:find_by_name('fft size')
     )
 
     -- If there is a source without a target remove it
@@ -30,10 +26,10 @@ function decompose(parameters, item_bundle)
 		" -source " .. reacoma.utils.wrap_quotes(source_info.full_path) ..
 		" -target " .. reacoma.utils.wrap_quotes(target_info.full_path) ..
 		" -output " .. reacoma.utils.wrap_quotes(output) ..
-		" -timesparsity " .. timesparsity ..
-		" -polyphony " .. polyphony ..
-		" -continuity " .. continuity ..
-		" -iterations " .. iterations ..
+		" -timesparsity " .. params:find_by_name('time sparsity') ..
+		" -polyphony " .. params:find_by_name('polyphony') ..
+		" -continuity " .. params:find_by_name('continuity') ..
+		" -iterations " .. params:find_by_name('iterations') ..
 		" -fftsettings " .. fftsettings
 
         reacoma.utils.cmdline(cli)
@@ -45,6 +41,7 @@ function decompose(parameters, item_bundle)
 end
 
 local nmfcross = {
+    find_by_name = reacoma.params.find_by_name,
     info = {
         algorithm_name = 'Resynthesise a target sound based on a source sound',
         ext_name = 'reacoma.nmfcross',
@@ -53,48 +50,55 @@ local nmfcross = {
         column_a = 'Source',
         column_b = 'Target'
     },
-    parameters =  {
-        ["time sparsity"] = {
+    parameters = {
+        {
+            name = "time sparsity",
             widget = r.ImGui_SliderInt,
             min = 1,
             max = 100,
             value = 7,
             desc = 'Control the repetition of source templates in the reconstruction by specifying a number of frames within which a template should not be re-used. Units are spectral frames.'
         },
-        ["polyphony"] = {
+        {
+            name = "polyphony",
             widget = r.ImGui_SliderInt,
             min = 1,
             max = 100,
             value = 10,
             desc = 'Control the spectral density of the output sound by restricting the number of simultaneous templates that can be used. Units are spectral bins.'
         },
-        ["continuity"] = {
+        {
+            name = "continuity",
             widget = r.ImGui_SliderInt,
             min = 1,
             max = 100,
             value = 7,
             desc = 'Promote the use of N successive source frames, giving greater continuity in the result. This can not be bigger than the size of the source buffer, but useful values tend to be much lower (in the tens).'
         },
-        ["iterations"] = {
+        {
+            name = "iterations",
             widget = r.ImGui_SliderInt,
             min = 1,
             max = 300,
             value = 50,
             desc = 'The NMF process is iterative, trying to converge to the smallest error in its factorisation. The number of iterations will decide how many times it tries to adjust its estimates. Higher numbers here will be more CPU expensive, lower numbers will be more unpredictable in quality.'
         },
-        ["window size"] = {
+        {
+            name = "window size",
             widget = reacoma.imgui.widgets.FFTSlider,
             value = 1024,
             index = reacoma.params.find_index(reacoma.imgui.widgets.FFTSlider.opts, 1024),
             desc = 'window size'
         },
-        ["hop size"] = {
+        {
+            name = "hop size",
             widget = reacoma.imgui.widgets.FFTSlider,
             value = 512,
             index = reacoma.params.find_index(reacoma.imgui.widgets.FFTSlider.opts, 512),
             desc = 'hop size'
         },
-        ["fft size"] = {
+        {
+            name = "fft size",
             widget = reacoma.imgui.widgets.FFTSlider,
             value = 1024,
             index = reacoma.params.find_index(reacoma.imgui.widgets.FFTSlider.opts, 1024),
