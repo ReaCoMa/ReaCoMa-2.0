@@ -3,7 +3,7 @@ local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
 loadfile(script_path .. "lib/reacoma.lua")()
 if reacoma.settings.fatal then return end
 
-obj = reacoma.transientslice
+obj = reacoma.algorithms.transientslice
 reacoma.params.get(obj)
 
 reacoma.global_state.width = 445
