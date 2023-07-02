@@ -1,6 +1,6 @@
 local r = reaper
 
-helpers = {}
+local helpers = {}
 
 helpers.create_context = function(name)
     local context = reaper.ImGui_CreateContext(name)
@@ -8,7 +8,7 @@ helpers.create_context = function(name)
     return context, viewport
 end
 
-helpers.HelpMarker = function(ctx, desc)
+helpers.help_marker = function(ctx, desc)
     reaper.ImGui_SameLine(ctx)
     reaper.ImGui_TextDisabled(ctx, '(?)')
     if reaper.ImGui_IsItemHovered(ctx) then
@@ -50,7 +50,7 @@ helpers.draw_gui = function(ctx, obj)
         local widget_active = reaper.ImGui_IsItemActive(ctx)
         -- Draw the mouseover description
         local help_text = param.desc or 'no help available'
-        helpers.HelpMarker(ctx, help_text)
+        helpers.help_marker(ctx, help_text)
         active = active + reacoma.utils.bool_to_number[widget_active]
         -- TODO:
         -- If something is active (edited currently)...
@@ -135,6 +135,47 @@ end
 
 helpers.grab_selected_items = function(temp_items, rt_items, swap_items) end
 
+helpers.matrix_gui = function(args, rt_items, swap_items)
+    if args.obj.info.source_target_matrix == true then 
+        local temp_items = reacoma.utils.grab_selected_items()
+        if not reacoma.utils.compare_item_tables(temp_items, rt_items) then
+            rt_items = reacoma.utils.deep_copy(temp_items)
+            swap_items = reacoma.utils.deep_copy(temp_items)
+        end
+    
+        if r.ImGui_BeginTable(args.ctx, 'mappings', 2) then
+            r.ImGui_TableSetupColumn(args.ctx, args.obj.info.column_a)
+            r.ImGui_TableSetupColumn(args.ctx, args.obj.info.column_b)
+            r.ImGui_TableHeadersRow(args.ctx)
+            r.ImGui_TableNextRow(args.ctx)
+            
+            for i, v in ipairs(swap_items) do
+                r.ImGui_PushID(args.ctx, i)
+                r.ImGui_TableNextColumn(args.ctx)
+                local name = r.GetTakeName(r.GetActiveTake(v))
+                r.ImGui_PushStyleVar(args.ctx, r.ImGui_StyleVar_ButtonTextAlign(), 0, 0)
+                r.ImGui_Button(args.ctx, name, 150, 20)
+                r.ImGui_PopStyleVar(args.ctx)
+                if r.ImGui_BeginDragDropSource(args.ctx, r.ImGui_DragDropFlags_None()) then
+                    r.ImGui_SetDragDropPayload(args.ctx, 'DND_DEMO_CELL', tostring(i))
+                    r.ImGui_Text(args.ctx, ('Swap %s'):format(name))
+                    r.ImGui_EndDragDropSource(args.ctx)
+                end
+                if r.ImGui_BeginDragDropTarget(args.ctx) then
+                    local rv, payload = r.ImGui_AcceptDragDropPayload(args.ctx, 'DND_DEMO_CELL')
+                    if rv then
+                        local payload_i = tonumber(payload)
+                        swap_items[i] = swap_items[payload_i]
+                        swap_items[payload_i] = v
+                    end
+                    r.ImGui_EndDragDropTarget(args.ctx)
+                end
+                r.ImGui_PopID(args.ctx)
+            end
+            r.ImGui_EndTable(args.ctx)
+        end
+    end
+end
 
 
 return helpers
