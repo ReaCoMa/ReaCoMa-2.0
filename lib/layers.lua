@@ -1,31 +1,28 @@
 local info = debug.getinfo(1,'S');
 local script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
-dofile(script_path .. "OrderedTables.lua")
-floor = math.floor
-abs = math.abs
+dofile(script_path .. "ordered_tables.lua")
 
 layers = {}
 
-layers.exist = function(data)
-    for _, v in pairs(data.outputs) do
-        if not reacoma.paths.file_exists(v) then
-            reacoma.utils.DEBUG(v .. " failed to be made by the command line.")
-            reacoma.utils.assert(false)
-        end
-    end
-end
-
-layers.matrix_output_exists = function(output)
+layers.output_exists = function(output)
     if not reacoma.paths.file_exists(output) then
         reacoma.utils.DEBUG(output .. " failed to be made by the command line.")
         reacoma.utils.assert(false)
     end
 end
 
+layers.exist = function(data)
+    for _, output in pairs(data.outputs) do
+        layers.output_exists(output)
+    end
+end
+
+layers.matrix_output_exists = output_exists
+
 layers.process = function(data)
     reacoma.utils.deselect_all_items()
     reaper.SetMediaItemSelected(data.item, true)
-    for k, v in orderedPairs(data.outputs) do
+    for k, v in ordered_pairs(data.outputs) do
         reaper.InsertMedia(data.outputs[k], 3)
         reaper.SetMediaItemTakeInfo_Value(data.take, "D_PLAYRATE", data.playrate)
         reaper.SetMediaItemTakeInfo_Value(data.take, "I_PITCHMODE", data.playtype)
