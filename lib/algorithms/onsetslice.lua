@@ -84,8 +84,8 @@ onsetslice = {
         {
             name = 'filtersize',
             widget = reacoma.widgets.FilterSlider,
-            -- TODO finish this
             value = 5,
+            index = params.find_index(reacoma.widgets.FilterSlider.opts, 17),
             desc = 'The size of a smoothing filter that is applied on the novelty curve. A larger filter filter size allows for cleaner cuts on very sharp changes.'
         },
         {
@@ -98,27 +98,24 @@ onsetslice = {
         },
         {
             name = 'window size',
-            widget = reaper.ImGui_SliderInt,
-            min = 32,
-            max = 8192,
+            widget = reacoma.widgets.FFTSlider,
             value = 1024,
+            index = params.find_index(reacoma.widgets.FFTSlider.opts, 1024),
             desc = 'window size'
         },
         {
             name = 'hop size',
-            widget = reaper.ImGui_SliderInt,
-            min = 32,
-            max = 8192,
+            widget = reacoma.widgets.FFTSlider,
             value = 512,
+            index = params.find_index(reacoma.widgets.FFTSlider.opts, 512),
             desc = 'hop size'
         },
         {
             name = 'fft size',
-            widget = reaper.ImGui_SliderInt,
-            min = 32,
-            max = 8192,
+            widget = reacoma.widgets.FFTSlider,
             value = 1024,
-            desc = 'fft size'
+            index = params.find_index(reacoma.widgets.FFTSlider.opts, 1024),
+            desc = 'fft size',
         }
     },
     perform_update = segment

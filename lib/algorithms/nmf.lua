@@ -63,27 +63,24 @@ nmf = {
         },
         {
             name = 'window size',
-            widget = reaper.ImGui_SliderInt,
-            min = 32,
-            max = 8192,
+            widget = reacoma.widgets.FFTSlider,
             value = 1024,
+            index = params.find_index(reacoma.widgets.FFTSlider.opts, 1024),
             desc = 'window size'
         },
         {
             name = 'hop size',
-            widget = reaper.ImGui_SliderInt,
-            min = 32,
-            max = 8192,
+            widget = reacoma.widgets.FFTSlider,
             value = 512,
+            index = params.find_index(reacoma.widgets.FFTSlider.opts, 512),
             desc = 'hop size'
         },
         {
             name = 'fft size',
-            widget = reaper.ImGui_SliderInt,
-            min = 32,
-            max = 8192,
+            widget = reacoma.widgets.FFTSlider,
             value = 1024,
-            desc = 'fft size' 
+            index = params.find_index(reacoma.widgets.FFTSlider.opts, 1024),
+            desc = 'fft size',
         }
     },
     perform_update = decompose

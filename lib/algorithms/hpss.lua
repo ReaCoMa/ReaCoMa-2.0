@@ -41,18 +41,17 @@ end
 
 hpss = {
     info = {
-        algorithm_name = 'Harmonic Percussive Source Separation',
+        algorithm_name = 'Harmonic-percussive source separation',
         ext_name = 'reacoma.hpss',
         action = 'decompose'
     },
     parameters =  {
         {
             name = 'harmfiltersize',
-            widget = reaper.ImGui_SliderInt,
-            min = 3,
-            max = 51,
+            widget = reacoma.widgets.FilterSlider,
             value = 17,
-            desc = 'The size, in spectral frames, of the median filter for the harmonic component.'
+            index = params.find_index(reacoma.widgets.FilterSlider.opts, 17),
+            desc = 'The size in spectral frames of the median filter for the harmonic component.'
         },
         {
             name = 'percfiltersize',
@@ -60,28 +59,27 @@ hpss = {
             min = 3,
             max = 51,
             value = 31,
-            desc = 'The size, in spectral bins, of the median filter for the percussive component.'
+            desc = 'The size in spectral bins of the median filter for the percussive component.'
         },
         {
             name = 'window size',
             widget = reacoma.widgets.FFTSlider,
-            index = 1,
             value = 1024,
+            index = params.find_index(reacoma.widgets.FFTSlider.opts, 1024),
             desc = 'window size'
         },
         {
             name = 'hop size',
             widget = reacoma.widgets.FFTSlider,
-            index = 1,
             value = 512,
+            index = params.find_index(reacoma.widgets.FFTSlider.opts, 512),
             desc = 'hop size'
         },
         {
             name = 'fft size',
             widget = reacoma.widgets.FFTSlider,
-            -- TODO find a way to infer the index needed from the value.
-            index = 1,
             value = 1024,
+            index = params.find_index(reacoma.widgets.FFTSlider.opts, 1024),
             desc = 'fft size',
         }
     },
