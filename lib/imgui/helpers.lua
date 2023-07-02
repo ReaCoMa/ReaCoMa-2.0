@@ -1,14 +1,14 @@
 local r = reaper
 
-imgui_helpers = {}
+helpers = {}
 
-imgui_helpers.create_context = function(name)
+helpers.create_context = function(name)
     local context = reaper.ImGui_CreateContext(name)
     local viewport = reaper.ImGui_GetMainViewport(context)
     return context, viewport
 end
 
-imgui_helpers.HelpMarker = function(ctx, desc)
+helpers.HelpMarker = function(ctx, desc)
     reaper.ImGui_SameLine(ctx)
     reaper.ImGui_TextDisabled(ctx, '(?)')
     if reaper.ImGui_IsItemHovered(ctx) then
@@ -23,7 +23,7 @@ imgui_helpers.HelpMarker = function(ctx, desc)
     end
   end
 
-imgui_helpers.draw_gui = function(ctx, obj)
+helpers.draw_gui = function(ctx, obj)
     local change = 0
     local active = 0
     local rv = nil
@@ -50,7 +50,7 @@ imgui_helpers.draw_gui = function(ctx, obj)
         local widget_active = reaper.ImGui_IsItemActive(ctx)
         -- Draw the mouseover description
         local help_text = param.desc or 'no help available'
-        imgui_helpers.HelpMarker(ctx, help_text)
+        helpers.HelpMarker(ctx, help_text)
         active = active + reacoma.utils.bool_to_number[widget_active]
         -- TODO:
         -- If something is active (edited currently)...
@@ -62,7 +62,7 @@ imgui_helpers.draw_gui = function(ctx, obj)
     return change
 end
 
-imgui_helpers.do_preview = function(ctx, obj, change)
+helpers.do_preview = function(ctx, obj, change)
     if obj.info.action ~= 'segment' or not reacoma.settings.slice_preview then
         return false
     end
@@ -76,14 +76,14 @@ imgui_helpers.do_preview = function(ctx, obj, change)
     return drag_preview or end_drag_preview
 end
 
-imgui_helpers.update_state = function(ctx, obj, update)
-    local change = imgui_helpers.draw_gui(ctx, obj)
-    if imgui_helpers.do_preview(ctx, obj, change + utils.bool_to_number[update]) then
+helpers.update_state = function(ctx, obj, update)
+    local change = helpers.draw_gui(ctx, obj)
+    if helpers.do_preview(ctx, obj, change + utils.bool_to_number[update]) then
         return obj.perform_update(obj.parameters)
     end
 end
 
-imgui_helpers.process = function(obj, mode, optional_item_bundle)
+helpers.process = function(obj, mode, optional_item_bundle)
     -- This is called everytime there is a process button pressed
     -- This button is uniform across layers/slices and is found at the top left
     local processed_items = {}
@@ -133,6 +133,8 @@ imgui_helpers.process = function(obj, mode, optional_item_bundle)
     return processed_items
 end
 
-imgui_helpers.grab_selected_items = function(temp_items, rt_items, swap_items) end
+helpers.grab_selected_items = function(temp_items, rt_items, swap_items) end
 
-return imgui_helpers
+
+
+return helpers

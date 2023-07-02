@@ -1,4 +1,4 @@
-imgui_wrapper = {}
+wrapper = {}
 
 local r = reaper
 local path_width = 500
@@ -6,7 +6,7 @@ local path_height = 285
 local rt_items, swap_items = {}, {}
 
 -- ANIMATION LOOP --
-imgui_wrapper.loop = function(args)
+wrapper.loop = function(args)
     
     local pos = { r.ImGui_Viewport_GetWorkPos(args.viewport) }
     local w, h = r.ImGui_Viewport_GetSize(args.viewport)
@@ -110,7 +110,7 @@ imgui_wrapper.loop = function(args)
     if open then
         r.defer(
             function() 
-                imgui_wrapper.loop({
+                wrapper.loop({
                     ctx=args.ctx, 
                     viewport=args.viewport, 
                     state=args.state, 
@@ -128,4 +128,4 @@ imgui_wrapper.loop = function(args)
     end
 end
 
-return imgui_wrapper
+return wrapper
