@@ -1,9 +1,7 @@
-wrapper = {}
-
 local r = reaper
-local path_width = 500
-local path_height = 285
-local rt_items, swap_items = {}, {}
+local wrapper = {}
+local rt_items, swap_items = {}, {} -- for matrix algorithms
+presets = {1, 2, 3, 4, 5}
 
 -- ANIMATION LOOP --
 wrapper.loop = function(args)
