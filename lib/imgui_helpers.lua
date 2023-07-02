@@ -37,15 +37,15 @@ imgui_helpers.draw_gui = function(ctx, obj)
         elseif param.widget == reaper.ImGui_Combo then
             rv, param.value = 
                 param.widget(ctx, param.name, param.value, param.items)
-        elseif param.widget == reacoma.widgets.FFTSlider then
+        elseif reacoma.utils.table_has(reacoma.widgets, param.widget) then
             rv, param.index = reaper.ImGui_SliderInt(
                     ctx, 
                     param.name, 
                     param.index, 
-                    1, #reacoma.widgets.FFTSlider.opts,
-                    reacoma.widgets.FFTSlider.opts[param.index]
+                    1, #param.widget.opts,
+                    param.widget.opts[param.index]
                 )
-            param.value = reacoma.widgets.FFTSlider.opts[param.index]
+            param.value = param.widget.opts[param.index]
         end
         local widget_active = reaper.ImGui_IsItemActive(ctx)
         -- Draw the mouseover description
