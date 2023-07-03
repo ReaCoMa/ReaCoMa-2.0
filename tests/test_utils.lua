@@ -1,6 +1,6 @@
-package.path = '../lib/?.lua;' .. package.path
+package.path = 'lib/?.lua;' .. package.path
 require 'busted.runner'()
-require 'utils'
+local utils = require('utils')
 
 describe("Split a table in various ways", function ()
 	it("should split evenly", function()
@@ -17,54 +17,6 @@ describe("Reverse Table", function()
     rev = {5, 4, 3, 2, 1}
     utils.reverse_table(foo)
     assert.are_same(foo, rev)
-  end)
-end)
-
-describe("Find next power of two from string", function()
-  it("Should be true for these common cases", function()
-    c1 = "500 1 1"
-    c2 = "1023 1 1"
-    c3 = "2040 1 1"
-    c4 = "4091 1 1"
-    c5 = "8183 1 1"
-    c6 = "400 1 512"
-    c7 = "1000 1 1024"
-    c8 = "2001 1 2048"
-    c9 = "4003 1 4096"
-    c10 = "8100 1 8192"
-    assert.are.same(utils.get_max_fft_size(c1), "512")
-    assert.are.same(utils.get_max_fft_size(c2), "1024")
-    assert.are.same(utils.get_max_fft_size(c3), "2048")
-    assert.are.same(utils.get_max_fft_size(c4), "4096")
-    assert.are.same(utils.get_max_fft_size(c5), "8192")
-    assert.are.same(utils.get_max_fft_size(c6), "512")
-    assert.are.same(utils.get_max_fft_size(c7), "1024")
-    assert.are.same(utils.get_max_fft_size(c8), "2048")
-    assert.are.same(utils.get_max_fft_size(c9), "4096")
-    assert.are.same(utils.get_max_fft_size(c10), "8192")
-  end)
-end)
-
-describe("Find next power of 2", function()
-  it("Return a power of two for these", function()
-    c1 = 3
-    c2 = 5
-    c3 = 7
-    c4 = 9
-    c5 = 12
-    c6 = 40000
-    c7 = 19
-    c8 = 500
-    c9 = 1000
-    assert.are_same(utils.next_pow_str(c1), '4')
-    assert.are_same(utils.next_pow_str(c2), '8')
-    assert.are_same(utils.next_pow_str(c3), '8')
-    assert.are_same(utils.next_pow_str(c4), '16')
-    assert.are_same(utils.next_pow_str(c5), '16')
-    assert.are_same(utils.next_pow_str(c6), '65536')
-    assert.are_same(utils.next_pow_str(c7), '32')
-    assert.are_same(utils.next_pow_str(c8), '512')
-    assert.are_same(utils.next_pow_str(c9), '1024')
   end)
 end)
 
@@ -177,20 +129,12 @@ describe("Lacing tables is predictable", function()
   end)
 end)
 
-describe("Remove delimiters", function()
-  it("Should have no delimiters in the string", function()
-    delimited = "foo.bar is the best.worst"
-    expected = "foobaristhebestworst"
-    assert.are_same(utils.rmdelim(delimited), expected)
-  end)
-end)
-
 describe("wrap_quotes a string for CLI", function()
   it("Should return something that is double quoted", function()
-    c1 = '/home/james/Documents/Max 8/Packages/Worst Path Ever'
-    c2 = "/home/james/Documents/Max 8/Packages/Worst Path Ever"
+    local c1 = '/home/james/Documents/Max 8/Packages/Worst Path Ever'
+    local c2 = "/home/james/Documents/Max 8/Packages/Worst Path Ever"
 
-    expected = '"/home/james/Documents/Max 8/Packages/Worst Path Ever"'
+    local expected = '"/home/james/Documents/Max 8/Packages/Worst Path Ever"'
 
     assert.are_same(utils.wrap_quotes(c1), expected)
     assert.are_same(utils.wrap_quotes(c2), expected)
@@ -198,21 +142,26 @@ describe("wrap_quotes a string for CLI", function()
   end)
 end)
 
--- describe("Check line splitting is predictable", function()
---   it("Split them commas", function()
---     c1 = "param1\rparam2\rparam3\rparam5  "
---     c2 = "param1\nparam2\nparam3\nparam5"
---     c3 = "param1\rparam2\nparam3\rparam5"
+describe('comparing item tables', function ()
+  it('should be true', function()
+    local a = {1, 2, 3, 4, 5}
+    local b = {1, 2, 3, 4, 5}
+    local equality = utils.compare_item_tables(a, b)
+    assert.are_same(equality, true)
+  end)
 
---     test_case = {
---       [1] = "param1",
---       "param2",
---       "param3",
---       "param5"
---     }
---     assert.are.equals(utils.split_line(c1), test_case)
---     assert.are.equals(utils.split_line(c2), test_case)
---     assert.are.equals(utils.split_line(c3), test_case)
+  it('should not be true', function ()
+    local a = {1, 2, 3, 4, 5}
+    local b = {1, 2, 3, 4, 6}
+    local equality = utils.compare_item_tables(a, b)
+    assert.are_same(equality, false)
+  end)
 
---   end)
--- end)
+  it('should be true for deep tables', function ()
+    local a = {1, 2, 3, 4, help = {1, 2, 3, 4, 5}}
+    local b = {1, 2, 3, 4, help = {1, 2, 3, 4, 5}}
+    local equality = utils.compare_item_tables(a, b)
+    assert.are_same(equality, true)
+  end)
+  
+end)
