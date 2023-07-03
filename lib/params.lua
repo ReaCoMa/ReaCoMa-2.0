@@ -15,13 +15,13 @@ params.find_index = function(tbl, value)
 	return nil
 end
 
-params.find_by_name = function(self, name)
-    for _, tbl in ipairs(self.parameters) do
-        if tbl.name == name then
-        return tbl
+params.find_by_name = function(param_tbl, query_name)
+    for _, param in ipairs(param_tbl) do
+        if param.name == query_name then
+            return param.value
         end
     end
-    reaper.ShowConsoleMsg(name.. ' not found')
+    r.ShowConsoleMsg(query_name.. ' not found')
     return nil
 end
 
@@ -67,6 +67,28 @@ params.restore_defaults = function(obj)
         param.value = obj.defaults[idx]
         idx = idx + 1
     end
+end
+
+-- stores a parameter into an extended storagein reaper
+-- namespaces by slot, algorithm name
+params.store_preset = function(obj, slot)
+    r.ShowConsoleMsg('storing!')
+    r.SetExtState(
+        obj.info.ext_name,
+        'preset'..slot,
+        reacoma.utils.table_to_string(obj.parameters),
+        true
+    )
+end
+
+params.get_preset = function(obj, slot)
+    if r.HasExtState(obj.info.ext_name, 'preset'..slot) then
+        r.ShowConsoleMsg('retrieving!')
+        local preset_string = r.GetExtState(obj.info.ext_name, 'preset'..slot)
+        local preset_table = reacoma.utils.string_to_table(preset_string)
+        r.ShowConsoleMsg(preset_string)
+    end
+    -- obj.parameters = reacoma.utils.string_to_table(preset)
 end
 
 return params
