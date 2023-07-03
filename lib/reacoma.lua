@@ -19,8 +19,6 @@ reacoma.layers    = require("layers")
 reacoma.slicing   = require("slicing")
 reacoma.params    = require("params")
 reacoma.paths     = require("paths")
-reacoma.sorting   = require("sorting")
-reacoma.tagging   = require("tagging")
 reacoma.utils     = require("utils")
 
 -- Check that we are not running in restricted mode
