@@ -22,17 +22,17 @@ function segment(params)
         local cmd = exe .. 
         " -source " .. reacoma.utils.wrap_quotes(data.full_path) .. 
         " -indices " .. reacoma.utils.wrap_quotes(data.tmp) ..
-        " -rampup " .. params:find_by_name('rampup') ..
-        " -rampdown " .. params:find_by_name('rampdown') ..
-        " -onthreshold " .. params:find_by_name('onthreshold') ..
-        " -offthreshold " .. params:find_by_name('offthreshold') ..
-        " -minslicelength " .. params:find_by_name('minslicelength') ..
-        " -minsilencelength " .. params:find_by_name('minsilencelength') ..
-        " -minlengthabove " .. params:find_by_name('minlengthabove') ..
-        " -minlengthbelow " .. params:find_by_name('minlengthbelow') ..
-        " -lookback " .. params:find_by_name('lookback') ..
-        " -lookahead " .. params:find_by_name('lookahead') ..
-        " -highpassfreq " .. params:find_by_name('highpassfreq') ..
+        " -rampup " .. reacoma.params.find_by_name(params, 'rampup') ..
+        " -rampdown " .. reacoma.params.find_by_name(params, 'rampdown') ..
+        " -onthreshold " .. reacoma.params.find_by_name(params, 'onthreshold') ..
+        " -offthreshold " .. reacoma.params.find_by_name(params, 'offthreshold') ..
+        " -minslicelength " .. reacoma.params.find_by_name(params, 'minslicelength') ..
+        " -minsilencelength " .. reacoma.params.find_by_name(params, 'minsilencelength') ..
+        " -minlengthabove " .. reacoma.params.find_by_name(params, 'minlengthabove') ..
+        " -minlengthbelow " .. reacoma.params.find_by_name(params, 'minlengthbelow') ..
+        " -lookback " .. reacoma.params.find_by_name(params, 'lookback') ..
+        " -lookahead " .. reacoma.params.find_by_name(params, 'lookahead') ..
+        " -highpassfreq " .. reacoma.params.find_by_name(params, 'highpassfreq') ..
         " -numframes " .. data.item_len_samples .. 
         " -startframe " .. data.take_ofs_samples
 
@@ -49,7 +49,6 @@ function segment(params)
 end
 
 local ampgate = {
-    find_by_name = reacoma.params.find_by_name,
     info = {
         algorithm_name = 'Ampgate Slicing',
         ext_name = 'reacoma.ampgate',

@@ -19,14 +19,14 @@ function decompose(params)
         " -source " .. reacoma.utils.wrap_quotes(data.full_path) .. 
         " -transients " .. reacoma.utils.wrap_quotes(data.outputs.transients) .. 
         " -residual " .. reacoma.utils.wrap_quotes(data.outputs.residual) ..
-        " -order " .. params:find_by_name('order') ..
-        " -blocksize " .. params:find_by_name('blocksize') ..
-        " -padsize " .. params:find_by_name('padsize') ..
-        " -skew " .. params:find_by_name('skew') ..
-        " -threshfwd " .. params:find_by_name('threshfwd') .. 
-        " -threshback " .. params:find_by_name('threshback') ..
-        " -windowsize " .. params:find_by_name('windowsize') .. 
-        " -clumplength " .. params:find_by_name('clumplength') ..
+        " -order " .. reacoma.params.find_by_name(params, 'order') ..
+        " -blocksize " .. reacoma.params.find_by_name(params, 'blocksize') ..
+        " -padsize " .. reacoma.params.find_by_name(params, 'padsize') ..
+        " -skew " .. reacoma.params.find_by_name(params, 'skew') ..
+        " -threshfwd " .. reacoma.params.find_by_name(params, 'threshfwd') .. 
+        " -threshback " .. reacoma.params.find_by_name(params, 'threshback') ..
+        " -windowsize " .. reacoma.params.find_by_name(params, 'windowsize') .. 
+        " -clumplength " .. reacoma.params.find_by_name(params, 'clumplength') ..
         " -numframes " .. data.item_len_samples .. 
         " -startframe " .. data.take_ofs_samples
     end
@@ -34,7 +34,6 @@ function decompose(params)
 end
 
 local transients = {
-    find_by_name = reacoma.params.find_by_name,
     info = {
         algorithm_name = 'Transient Extraction',
         ext_name = 'reacoma.transients',

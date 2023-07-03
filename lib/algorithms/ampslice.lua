@@ -21,15 +21,15 @@ function segment(params)
         local cmd = exe .. 
         " -source " .. reacoma.utils.wrap_quotes(data.full_path) .. 
         " -indices " .. reacoma.utils.wrap_quotes(data.tmp) .. 
-        " -fastrampup " .. params:find_by_name('fastrampup') ..
-        " -fastrampdown " .. params:find_by_name('fastrampdown') ..
-        " -slowrampup " .. params:find_by_name('slowrampup') ..
-        " -slowrampdown " .. params:find_by_name('slowrampdown') ..
-        " -onthreshold " .. params:find_by_name('onthreshold') ..
-        " -offthreshold " .. params:find_by_name('offthreshold') ..
-        " -floor " .. params:find_by_name('floor') ..
-        " -minslicelength " .. params:find_by_name('minslicelength') ..
-        " -highpassfreq " .. params:find_by_name('highpassfreq') ..
+        " -fastrampup " .. reacoma.params.find_by_name(params, 'fastrampup') ..
+        " -fastrampdown " .. reacoma.params.find_by_name(params, 'fastrampdown') ..
+        " -slowrampup " .. reacoma.params.find_by_name(params, 'slowrampup') ..
+        " -slowrampdown " .. reacoma.params.find_by_name(params, 'slowrampdown') ..
+        " -onthreshold " .. reacoma.params.find_by_name(params, 'onthreshold') ..
+        " -offthreshold " .. reacoma.params.find_by_name(params, 'offthreshold') ..
+        " -floor " .. reacoma.params.find_by_name(params, 'floor') ..
+        " -minslicelength " .. reacoma.params.find_by_name(params, 'minslicelength') ..
+        " -highpassfreq " .. reacoma.params.find_by_name(params, 'highpassfreq') ..
         " -numframes " .. data.item_len_samples .. 
         " -startframe " .. data.take_ofs_samples
 
@@ -46,7 +46,6 @@ function segment(params)
 end
 
 local ampslice = {
-    find_by_name = reacoma.params.find_by_name,
     info = {
         algorithm_name = 'Ampslice Slicing',
         ext_name = 'reacoma.ampslice',

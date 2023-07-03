@@ -1,20 +1,20 @@
 local r = reaper
 
+local find_by_name = reacoma.params.find_by_name
+
 function decompose(params)
     local exe = reacoma.utils.wrap_quotes(
         reacoma.settings.path .. "/fluid-hpss"
     )
 
     local num_selected_items = r.CountSelectedMediaItems(0)
-    local hfs = params:find_by_name('harmfiltersize')
-    local pfs = params:find_by_name('percfiltersize')
+    local hfs = find_by_name(params, 'harmfiltersize')
+    local pfs = find_by_name(params, 'percfiltersize')
     local fftsettings = reacoma.utils.form_fft_string(
-        params:find_by_name('window size'), 
-        params:find_by_name('hop size'), 
-        params:find_by_name('fft size')
+        find_by_name(params, 'window size'), 
+        find_by_name(params, 'hop size'), 
+        find_by_name(params, 'fft size')
     )
-
-    local maskingmode = '0'
 
     local processed_items = {}
     for i=1, num_selected_items do
@@ -31,7 +31,7 @@ function decompose(params)
         " -percussive " .. reacoma.utils.wrap_quotes(data.outputs.percussive) ..  
         " -harmfiltersize " .. hfs .. " " .. hfs ..
         " -percfiltersize " .. pfs .. " " .. pfs ..
-        " -maskingmode " .. maskingmode ..
+        " -maskingmode " .. '0' ..
         " -fftsettings " .. fftsettings .. 
         " -numframes " .. data.item_len_samples .. 
         " -startframe " .. data.take_ofs_samples
@@ -42,7 +42,6 @@ function decompose(params)
 end
 
 local hpss = {
-    find_by_name = reacoma.params.find_by_name,
     info = {
         algorithm_name = 'Harmonic-percussive source separation',
         ext_name = 'reacoma.hpss',

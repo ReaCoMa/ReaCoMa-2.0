@@ -6,9 +6,9 @@ function decompose(params, item_bundle)
     )
 
     local fftsettings = reacoma.utils.form_fft_string(
-        params:find_by_name('window size'), 
-        params:find_by_name('hop size'), 
-        params:find_by_name('fft size')
+        reacoma.params.find_by_name(params, 'window size'), 
+        reacoma.params.find_by_name(params, 'hop size'), 
+        reacoma.params.find_by_name(params, 'fft size')
     )
 
     -- If there is a source without a target remove it
@@ -26,10 +26,10 @@ function decompose(params, item_bundle)
 		" -source " .. reacoma.utils.wrap_quotes(source_info.full_path) ..
 		" -target " .. reacoma.utils.wrap_quotes(target_info.full_path) ..
 		" -output " .. reacoma.utils.wrap_quotes(output) ..
-		" -timesparsity " .. params:find_by_name('time sparsity') ..
-		" -polyphony " .. params:find_by_name('polyphony') ..
-		" -continuity " .. params:find_by_name('continuity') ..
-		" -iterations " .. params:find_by_name('iterations') ..
+		" -timesparsity " .. reacoma.params.find_by_name(params, 'time sparsity') ..
+		" -polyphony " .. reacoma.params.find_by_name(params, 'polyphony') ..
+		" -continuity " .. reacoma.params.find_by_name(params, 'continuity') ..
+		" -iterations " .. reacoma.params.find_by_name(params, 'iterations') ..
 		" -fftsettings " .. fftsettings
 
         reacoma.utils.cmdline(cli)
@@ -41,7 +41,6 @@ function decompose(params, item_bundle)
 end
 
 local nmfcross = {
-    find_by_name = reacoma.params.find_by_name,
     info = {
         algorithm_name = 'Resynthesise a target sound based on a source sound',
         ext_name = 'reacoma.nmfcross',

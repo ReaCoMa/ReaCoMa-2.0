@@ -6,9 +6,9 @@ function decompose(params, item_bundle)
     )
 
     local fftsettings = reacoma.utils.form_fft_string(
-        params:find_by_name('window size'), 
-        params:find_by_name('hop size'), 
-        params:find_by_name('fft size')
+        reacoma.params.find_by_name(params, 'window size'), 
+        reacoma.params.find_by_name(params, 'hop size'), 
+        reacoma.params.find_by_name(params, 'fft size')
     )
 
     -- If there is a source without a target remove it
@@ -26,7 +26,7 @@ function decompose(params, item_bundle)
 		" -sourcea " .. reacoma.utils.wrap_quotes(source_a.full_path) ..
 		" -sourceb " .. reacoma.utils.wrap_quotes(source_b.full_path) ..
 		" -destination " .. reacoma.utils.wrap_quotes(output) ..
-		" -interpolation " .. params:find_by_name('interpolation') ..
+		" -interpolation " .. reacoma.params.find_by_name(params, 'interpolation') ..
 		" -fftsettings " .. fftsettings ..
         " -numframesa " .. source_a.item_len_samples .. 
         " -numframesb " .. source_b.item_len_samples ..
@@ -46,7 +46,6 @@ function decompose(params, item_bundle)
 end
 
 local audiotransport = {
-    find_by_name = reacoma.params.find_by_name,
     info = {
         algorithm_name = 'Interpolates between the spectra of two sounds.',
         ext_name = 'reacoma.audiotransport',

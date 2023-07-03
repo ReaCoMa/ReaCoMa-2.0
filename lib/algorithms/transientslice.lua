@@ -21,15 +21,15 @@ function segment(params)
         local cmd = exe .. 
         " -source " .. reacoma.utils.wrap_quotes(data.full_path) .. 
         " -indices " .. reacoma.utils.wrap_quotes(data.tmp) .. 
-        " -order " .. params:find_by_name('order') .. 
-        " -blocksize " .. params:find_by_name('blocksize') .. 
-        " -padsize " .. params:find_by_name('padsizes') .. 
-        " -skew " .. params:find_by_name('skew') .. 
-        " -threshfwd " .. params:find_by_name('threshfwd') .. 
-        " -threshback " .. params:find_by_name('threshback') ..
-        " -windowsize " .. params:find_by_name('windowsize') .. 
-        " -clumplength " .. params:find_by_name('clumplength') .. 
-        " -minslicelength " .. params:find_by_name('minslicelength') ..
+        " -order " .. reacoma.params.find_by_name(params, 'order') .. 
+        " -blocksize " .. reacoma.params.find_by_name(params, 'blocksize') .. 
+        " -padsize " .. reacoma.params.find_by_name(params, 'padsizes') .. 
+        " -skew " .. reacoma.params.find_by_name(params, 'skew') .. 
+        " -threshfwd " .. reacoma.params.find_by_name(params, 'threshfwd') .. 
+        " -threshback " .. reacoma.params.find_by_name(params, 'threshback') ..
+        " -windowsize " .. reacoma.params.find_by_name(params, 'windowsize') .. 
+        " -clumplength " .. reacoma.params.find_by_name(params, 'clumplength') .. 
+        " -minslicelength " .. reacoma.params.find_by_name(params, 'minslicelength') ..
         " -numframes " .. data.item_len_samples .. 
         " -startframe " .. data.take_ofs_samples
 
@@ -46,7 +46,6 @@ function segment(params)
 end
 
 local transientslice = {
-    find_by_name = reacoma.params.find_by_name,
     info = {
         algorithm_name = 'Transient Slice',
         ext_name = 'reacoma.transientslice',

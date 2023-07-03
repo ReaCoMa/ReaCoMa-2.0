@@ -7,9 +7,9 @@ function decompose(params)
 
     local num_selected_items = r.CountSelectedMediaItems(0)
     local fftsettings = reacoma.utils.form_fft_string(
-        params:find_by_name('window size'), 
-        params:find_by_name('hop size'), 
-        params:find_by_name('fft size')
+        reacoma.params.find_by_name(params, 'window size'), 
+        reacoma.params.find_by_name(params, 'hop size'), 
+        reacoma.params.find_by_name(params, 'fft size')
     )
 
     local processed_items = {}
@@ -25,15 +25,15 @@ function decompose(params)
         " -source " .. reacoma.utils.wrap_quotes(data.full_path) .. 
         " -sines " .. reacoma.utils.wrap_quotes(data.outputs.sines) ..
         " -residual " .. reacoma.utils.wrap_quotes(data.outputs.residual) .. 
-        " -birthhighthreshold " .. params:find_by_name('birthhighthreshold') ..
-        " -birthlowthreshold " .. params:find_by_name('birthlowthreshold') ..
-        " -detectionthreshold " .. params:find_by_name('detectionthreshold') ..
-        " -trackfreqrange " .. params:find_by_name('trackfreqrange') ..
-        " -trackmethod " .. params:find_by_name('trackmethod') ..
-        " -trackmagrange " .. params:find_by_name('trackmagrange') ..
-        " -trackprob " .. params:find_by_name('trackprob') ..
-        " -bandwidth " .. params:find_by_name('bandwidth') ..
-        " -mintracklen " .. params:find_by_name('mintracklen') ..
+        " -birthhighthreshold " .. reacoma.params.find_by_name(params, 'birthhighthreshold') ..
+        " -birthlowthreshold " .. reacoma.params.find_by_name(params, 'birthlowthreshold') ..
+        " -detectionthreshold " .. reacoma.params.find_by_name(params, 'detectionthreshold') ..
+        " -trackfreqrange " .. reacoma.params.find_by_name(params, 'trackfreqrange') ..
+        " -trackmethod " .. reacoma.params.find_by_name(params, 'trackmethod') ..
+        " -trackmagrange " .. reacoma.params.find_by_name(params, 'trackmagrange') ..
+        " -trackprob " .. reacoma.params.find_by_name(params, 'trackprob') ..
+        " -bandwidth " .. reacoma.params.find_by_name(params, 'bandwidth') ..
+        " -mintracklen " .. reacoma.params.find_by_name(params, 'mintracklen') ..
         " -fftsettings " .. fftsettings ..
         " -numframes " .. data.item_len_samples .. 
         " -startframe " .. data.take_ofs_samples
@@ -44,7 +44,6 @@ function decompose(params)
 end
 
 local sines = {
-    find_by_name = reacoma.params.find_by_name,
     info = {
         algorithm_name = 'Sines',
         ext_name = 'reacoma.sines',
