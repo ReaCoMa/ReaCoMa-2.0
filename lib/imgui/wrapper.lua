@@ -5,9 +5,8 @@ presets = {1, 2, 3, 4, 5}
 
 -- ANIMATION LOOP --
 wrapper.loop = function(args)
-    
     local pos = { r.ImGui_Viewport_GetWorkPos(args.viewport) }
-    local w, h = r.ImGui_Viewport_GetSize(args.viewport)
+    -- local w, h = r.ImGui_Viewport_GetSize(args.viewport)
     
     r.ImGui_SetNextWindowPos(args.ctx, pos[1] + 100, pos[2] + 100, r.ImGui_Cond_FirstUseEver())
     r.ImGui_SetNextWindowSize(args.ctx, 
@@ -49,23 +48,24 @@ wrapper.loop = function(args)
 
     reacoma.imgui.helpers.matrix_gui(args, rt_items, swap_items)
 
-    -- Preset System
-    if r.ImGui_CollapsingHeader(ctx, 'Presets', nil, r.ImGui_TreeNodeFlags_None()) then
-        for i = 1, #presets do
-            if r.ImGui_Button(ctx, i) then
-                if r.ImGui_IsKeyDown(ctx, r.ImGui_Mod_Ctrl()) then
-                    r.ShowConsoleMsg('Ctrl was down')
-                end
+    -- TODO: Preset System
+    -- if r.ImGui_CollapsingHeader(ctx, 'Presets', nil, r.ImGui_TreeNodeFlags_None()) then
+        -- for i = 1, #presets do
+            -- if r.ImGui_Button(ctx, i) then
+                -- if r.ImGui_IsKeyDown(ctx, r.ImGui_Mod_Super()) then
+                    -- reacoma.params.store_preset(args.obj, i)
+                -- else
+                    -- reacoma.params.get_preset(args.obj, i)
+                -- end
                 -- ImGui_IsKeyDown(ctx, ImGui_Mod_Shift())
                 -- ImGui_IsKeyDown(ctx, ImGui_Mod_Alt())
                 -- ImGui_IsKeyDown(ctx, ImGui_Mod_Super())
-            end
-        end
-        if r.ImGui_Button(ctx, '+ add preset') then
-            presets[#presets+1] = #presets+1
-        end
-    end
-
+            -- end
+        -- end
+        -- if r.ImGui_Button(ctx, '+ add preset') then
+        --     presets[#presets+1] = #presets+1
+        -- end
+    -- end
 
     r.ImGui_End(args.ctx)
     
