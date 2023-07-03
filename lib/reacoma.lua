@@ -11,7 +11,7 @@ reacoma = {}
 reacoma.debug = { cli = '' }
 reacoma.settings = { version = 210 } -- this needs to be changed on major version releases
 reacoma.global_state = { active = false }
-loadfile(script_path .. "../config.lua")() -- load the config
+
 
 -- Add modules to reacoma table
 reacoma.container = require("container")
