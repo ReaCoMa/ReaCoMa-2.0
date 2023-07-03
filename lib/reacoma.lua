@@ -49,9 +49,12 @@ if app_version < 609 then
     return
 end
 
+local configuration = require 'configuration'
+local config_path = r.GetResourcePath()..'/Scripts/reacoma.ini'
+
 -- Check that the FluCoMa Binaries exist
-reacoma.binaries = reacoma.binaries or "default"
-if reacoma.binaries == "default" then 
+reacoma.binaries = configuration.get_ini_value(config_path, 'reacoma', 'binaries')
+if reacoma.binaries == false then 
     reacoma.settings.path = script_path:gsub("lib/", "bin")
     if not reacoma.paths.is_path_valid(reacoma.settings.path) then
         r.ShowMessageBox(
@@ -74,7 +77,9 @@ else
 end
 
 -- Now determine if the configuration file has a custom flucoma binaries path
-reacoma.output = reacoma.output or "source" -- If this isn't set we set a default.
+reacoma.output = 
+    configuration.get_ini_value(config_path, 'reacoma', 'output') or 'source'
+
 if reacoma.output ~= "source" and reacoma.output ~= "media" then
     reacoma.output = reacoma.paths.expandtilde(reacoma.output)
     if not reacoma.utils.dir_exists(reacoma.output) then
