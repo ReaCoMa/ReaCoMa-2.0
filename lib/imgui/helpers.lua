@@ -27,18 +27,19 @@ helpers.draw_gui = function(ctx, obj)
     local change = 0
     local active = 0
     local rv = nil
+
     for _, param in pairs(obj.parameters) do
-        if param.widget == reaper.ImGui_SliderInt then
+        if param.widget == r.ImGui_SliderInt then
             rv, param.value = 
                 param.widget(ctx, param.name, param.value, param.min, param.max)
-        elseif param.widget == reaper.ImGui_SliderDouble then
+        elseif param.widget == r.ImGui_SliderDouble then
             rv, param.value = param.widget(ctx, 
                 param.name, param.value, param.min, param.max, '%.3f', param.flag or 0)
-        elseif param.widget == reaper.ImGui_Combo then
+        elseif param.widget == r.ImGui_Combo then
             rv, param.value = 
                 param.widget(ctx, param.name, param.value, param.items)
         elseif reacoma.utils.table_has(reacoma.imgui.widgets, param.widget) then
-            rv, param.index = reaper.ImGui_SliderInt(
+            rv, param.index = r.ImGui_SliderInt(
                     ctx, 
                     param.name, 
                     param.index, 
