@@ -71,24 +71,30 @@ end
 
 -- stores a parameter into an extended storagein reaper
 -- namespaces by slot, algorithm name
+
+local function create_slot_identifier(name, slot)
+    return string.format('preset.%s.%d', name, slot)
+end
+
 params.store_preset = function(obj, slot)
-    r.ShowConsoleMsg('storing!')
-    r.SetExtState(
-        obj.info.ext_name,
-        'preset'..slot,
-        reacoma.utils.table_to_string(obj.parameters),
-        true
-    )
+    for _, param in pairs(obj.parameters) do
+        r.SetExtState(
+            obj.info.ext_name,
+            create_slot_identifier(param.name, slot),
+            param.value,
+            true
+        )
+    end
 end
 
 params.get_preset = function(obj, slot)
-    if r.HasExtState(obj.info.ext_name, 'preset'..slot) then
-        r.ShowConsoleMsg('retrieving!')
-        local preset_string = r.GetExtState(obj.info.ext_name, 'preset'..slot)
-        local preset_table = reacoma.utils.string_to_table(preset_string)
-        r.ShowConsoleMsg(preset_string)
+    for _, param in pairs(obj.parameters) do
+        local id = create_slot_identifier(param.name, slot)
+        if r.HasExtState(obj.info.ext_name, id) then
+            local v = r.GetExtState(obj.info.ext_name, id)
+            param.value = v
+        end
     end
-    -- obj.parameters = reacoma.utils.string_to_table(preset)
 end
 
 return params
