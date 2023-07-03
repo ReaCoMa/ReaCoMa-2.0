@@ -160,7 +160,6 @@ end
 
 utils.form_path = function(path)
     -- Forms a path given the reacoma.output settings
-    local opsys = r.GetOS()
     if reacoma.output == "source" then
         return utils.basename(path)
     elseif reacoma.output == "media" then
@@ -332,25 +331,5 @@ utils.deselect_all_items = function()
         r.SetMediaItemSelected(item, false)
     end
 end
-
-utils.table_to_string = function(tbl)
-	local str_table = {}
-	for k, v in pairs(tbl) do
-		local key = type(k) == "string" and '["' .. k .. '"]' or "[" .. tostring(k) .. "]"
-		local value = type(v) == "table" and utils.table_to_string(v) or tostring(v)
-		table.insert(str_table, key .. " = " .. value)
-	end
-	return "{" .. table.concat(str_table, ", ") .. "}"
-end
-
-utils.string_to_table = function(str)
-	local func = load("return " .. str)
-	if func then
-		local tbl = func()
-		return tbl
-	end
-	return nil
-end
-
 
 return utils
