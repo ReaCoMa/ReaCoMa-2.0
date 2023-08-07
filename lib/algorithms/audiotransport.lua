@@ -34,7 +34,7 @@ function decompose(params, item_bundle)
         " -startframeb " .. source_b.take_ofs_samples
 
         reacoma.utils.cmdline(cli)
-        reacoma.layers.matrix_output_exists(output)
+        reacoma.layers.output_exists(output)
         r.SelectAllMediaItems(0, 0)
         local append_target = 0
         if source_a.item_len_samples > source_b.item_len_samples then

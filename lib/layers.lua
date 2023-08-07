@@ -17,8 +17,6 @@ layers.exist = function(data)
     end
 end
 
-layers.matrix_output_exists = output_exists
-
 layers.process = function(data)
     reacoma.utils.deselect_all_items()
     reaper.SetMediaItemSelected(data.item, true)
