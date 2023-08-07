@@ -26,6 +26,9 @@ jobs:
       - name: Create Release TAR
         run: sh distribution/create_release.sh linux
 
+      - name: Echo Tag
+        run: echo ${{ steps.tag.outputs.version }}
+
       - name: package and upload
         uses: softprops/action-gh-release@v1
         with:
