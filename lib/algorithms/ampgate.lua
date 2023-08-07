@@ -37,9 +37,10 @@ function segment(params)
         " -startframe " .. data.take_ofs_samples
 
         reacoma.utils.cmdline(cmd)
+
         data.slice_points_string = reacoma.utils.readfile(data.tmp)
-        
-        reacoma.slicing.process(data, true)
+
+        reacoma.slicing.gateslice(data)
         reacoma.utils.cleanup2(data.tmp)
         table.insert(processed_items, data)
     end
