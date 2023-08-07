@@ -1,7 +1,7 @@
 function __gen_ordered_index( t )
     local ordered_index = {}
     for key in pairs(t) do
-        table.insert( ordered_index, key )
+        table.insert(ordered_index, key )
     end
     table.sort(ordered_index)
     return ordered_index
