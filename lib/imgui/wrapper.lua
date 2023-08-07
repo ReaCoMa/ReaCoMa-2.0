@@ -46,7 +46,47 @@ wrapper.loop = function(args)
 
     args.state = reacoma.imgui.helpers.update_state(args.ctx, args.obj, restored)
 
-    reacoma.imgui.helpers.matrix_gui(args, rt_items, swap_items)
+    -- TODO: don't rely here on duplication of code
+    -- reacoma.imgui.helpers.matrix_gui(args, rt_items, swap_items)
+    if args.obj.info.source_target_matrix == true then 
+        local temp_items = reacoma.utils.grab_selected_items()
+        if not reacoma.utils.compare_item_tables(temp_items, rt_items) then
+            rt_items = reacoma.utils.deep_copy(temp_items)
+            swap_items = reacoma.utils.deep_copy(temp_items)
+        end
+    
+        if r.ImGui_BeginTable(args.ctx, 'mappings', 2) then
+            r.ImGui_TableSetupColumn(args.ctx, args.obj.info.column_a)
+            r.ImGui_TableSetupColumn(args.ctx, args.obj.info.column_b)
+            r.ImGui_TableHeadersRow(args.ctx)
+            r.ImGui_TableNextRow(args.ctx)
+            
+            for i, v in ipairs(swap_items) do
+                r.ImGui_PushID(args.ctx, i)
+                r.ImGui_TableNextColumn(args.ctx)
+                local name = r.GetTakeName(r.GetActiveTake(v))
+                r.ImGui_PushStyleVar(args.ctx, r.ImGui_StyleVar_ButtonTextAlign(), 0, 0)
+                r.ImGui_Button(args.ctx, name, 150, 20)
+                r.ImGui_PopStyleVar(args.ctx)
+                if r.ImGui_BeginDragDropSource(args.ctx, r.ImGui_DragDropFlags_None()) then
+                    r.ImGui_SetDragDropPayload(args.ctx, 'DND_DEMO_CELL', tostring(i))
+                    r.ImGui_Text(args.ctx, ('Swap %s'):format(name))
+                    r.ImGui_EndDragDropSource(args.ctx)
+                end
+                if r.ImGui_BeginDragDropTarget(args.ctx) then
+                    local rv, payload = r.ImGui_AcceptDragDropPayload(args.ctx, 'DND_DEMO_CELL')
+                    if rv then
+                        local payload_i = tonumber(payload)
+                        swap_items[i] = swap_items[payload_i]
+                        swap_items[payload_i] = v
+                    end
+                    r.ImGui_EndDragDropTarget(args.ctx)
+                end
+                r.ImGui_PopID(args.ctx)
+            end
+            r.ImGui_EndTable(args.ctx)
+        end
+    end
 
     -- TODO: Preset System
     -- if r.ImGui_CollapsingHeader(ctx, 'Presets', nil, r.ImGui_TreeNodeFlags_None()) then
