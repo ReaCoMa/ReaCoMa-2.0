@@ -33,7 +33,7 @@ function decompose(params, item_bundle)
 		" -fftsettings " .. fftsettings
 
         reacoma.utils.cmdline(cli)
-        reacoma.layers.matrix_output_exists(output)
+        reacoma.layers.output_exists(output)
         r.SelectAllMediaItems(0, 0)
         reacoma.layers.process_matrix(source_info, target_info, output)
         r.UpdateArrange()
