@@ -23,7 +23,7 @@ function segment(params)
         " -indices " .. reacoma.utils.wrap_quotes(data.tmp) .. 
         " -order " .. reacoma.params.find_by_name(params, 'order') .. 
         " -blocksize " .. reacoma.params.find_by_name(params, 'blocksize') .. 
-        " -padsize " .. reacoma.params.find_by_name(params, 'padsizes') .. 
+        " -padsize " .. reacoma.params.find_by_name(params, 'padsize') .. 
         " -skew " .. reacoma.params.find_by_name(params, 'skew') .. 
         " -threshfwd " .. reacoma.params.find_by_name(params, 'threshfwd') .. 
         " -threshback " .. reacoma.params.find_by_name(params, 'threshback') ..
