@@ -20,16 +20,14 @@ slicing.process = function(data, gate_based_slicer)
     local slice_points = nil
 
     if gate_based_slicer then
-        slice_points = utils.split_space(
+        slice_points = reacoma.utils.split_space(
             data.slice_points_string
         )
     else
-        slice_points = utils.split_comma(
+        slice_points = reacoma.utils.split_comma(
             data.slice_points_string
         )
     end
-
-    -- slice_points = slicing.rm_dup(slice_points)
 
     -- Also test if the slice points are logical, otherwise exit
     if gate_based_slicer and (slice_points[1] == '-1' or slice_points[2] == '-1') then 
@@ -43,7 +41,7 @@ slicing.process = function(data, gate_based_slicer)
                 data.item_len_samples - slice_points[i]
             )   
         end
-        utils.reverse_table(slice_points)
+        reacoma.utils.reverse_table(slice_points)
     end
     
     -- if the left boundary is the start remove it
@@ -60,7 +58,7 @@ slicing.process = function(data, gate_based_slicer)
             slice_points[i] = (slice_points[i] - data.take_ofs_samples) / data.playrate
         end
         -- and convert to seconds for REAPER
-        slice_points[i] = utils.sampstos(
+        slice_points[i] = reacoma.utils.sampstos(
             slice_points[i],
             data.sr
         )
