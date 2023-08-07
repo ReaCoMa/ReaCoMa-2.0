@@ -29,6 +29,8 @@ function decompose(params)
         " -clumplength " .. reacoma.params.find_by_name(params, 'clumplength') ..
         " -numframes " .. data.item_len_samples .. 
         " -startframe " .. data.take_ofs_samples
+
+        table.insert(processed_items, data)
     end
     reacoma.layers.process_all_items(processed_items)
 end
