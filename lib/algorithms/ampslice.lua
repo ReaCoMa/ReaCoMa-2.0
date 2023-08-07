@@ -57,7 +57,7 @@ local ampslice = {
             widget = r.ImGui_SliderInt,
             min = 1,
             max = 1000,
-            value = 1,
+            value = 100,
             desc = 'The number of samples the relative envelope follower will take to reach the next value when falling.'
         },
         {
@@ -65,45 +65,45 @@ local ampslice = {
             widget = r.ImGui_SliderInt,
             min = 1,
             max = 1000,
-            value = 1,
+            value = 100,
             desc = 'The number of samples the relative envelope follower will take to reach the next value when raising.'
         },
         {
             name = 'slowrampdown',
             widget = r.ImGui_SliderInt,
             min = 1,
-            max = 1000,
-            value = 1,
+            max = 10000,
+            value = 1000,
             desc = 'The number of samples the absolute envelope follower will take to reach the next value when falling.'
         },
         {
             name = 'slowrampup',
             widget = r.ImGui_SliderInt,
             min = 1,
-            max = 1000,
-            value = 1,
+            max = 10000,
+            value = 1000,
             desc = 'The number of samples the absolute envelope follower will take to reach the next value when raising.'
         },
         {
             name = 'onthreshold',
             widget = r.ImGui_SliderDouble,
-            min = -144,
-            max = 144,
-            value = 144,
+            min = -48,
+            max = 48,
+            value = 12,
             desc = 'The threshold in dB of the relative envelope follower to trigger an onset, aka to go ON when in OFF state. It is computed on the difference between the two envelope followers.'
         },
         {
             name = 'offthreshold',
             widget = r.ImGui_SliderDouble,
-            min = -144,
-            max = 144,
-            value = -144,
+            min = -48,
+            max = 48,
+            value = 0,
             desc = 'The threshold in dB of the relative envelope follower to reset, aka to allow the differential envelop to trigger again.'
         },
         {
             name = 'floor',
             widget = r.ImGui_SliderDouble,
-            min = -144,
+            min = 0,
             max = 144,
             value = -60,
             desc = 'The level in dB the slowRamp needs to be above to consider a detected difference valid, allowing to ignore the slices in the noise floor.'
