@@ -59,39 +59,39 @@ local ampgate = {
             name = 'rampup',
             widget = r.ImGui_SliderInt,
             min = 1,
-            max = 3000,
-            value = 10,
+            max = 10000,
+            value = 100,
             desc = 'The number of samples the envelope follower will take to reach the next value when rising.'
         },
         {
             name = 'rampdown',
             widget = r.ImGui_SliderInt,
             min = 1,
-            max = 3000,
-            value = 10,
+            max = 10000,
+            value = 100,
             desc = 'The number of samples the envelope follower will take to reach the next value when falling.'
         },
         {
             name = 'onthreshold',
             widget = r.ImGui_SliderDouble,
-            min = -144.0,
-            max = 144.0,
-            value = -90.0,
+            min = -90,
+            max = 24,
+            value = -24,
             desc = 'The threshold in dB of the envelope follower to trigger an onset, aka to go ON when in OFF state.'
         },
         {
             name = 'offthreshold',
             widget = r.ImGui_SliderDouble,
-            min = -144.0,
-            max = 144.0,
-            value = -90.0,
+            min = -90,
+            max = 24,
+            value = -48,
             desc = 'The threshold in dB of the envelope follower to trigger an offset, , aka to go ON when in OFF state.'
         },
         {
             name = 'minslicelength',
             widget = r.ImGui_SliderInt,
             min = 1,
-            max = 3000,
+            max = 10000,
             value = 1,
             desc = 'The length in samples that the Slice will stay ON. Changes of states during that period will be ignored.'
         },
@@ -99,7 +99,7 @@ local ampgate = {
             name = 'minsilencelength',
             widget = r.ImGui_SliderInt,
             min = 1,
-            max = 3000,
+            max = 10000,
             value = 1,
             desc = 'The length in samples that the Slice will stay ON. Changes of states during that period will be ignored.'
         },
@@ -115,7 +115,7 @@ local ampgate = {
             name = 'minlengthbelow',
             widget = r.ImGui_SliderInt,
             min = 1,
-            max = 3000,
+            max = 10000,
             value = 1,
             desc = 'The length in samples that the envelope have to be below the threshold to consider it a valid transition to OFF. The Slice will end at the first sample when the condition is met. Therefore, this affects the latency.'
         },
@@ -125,7 +125,7 @@ local ampgate = {
             min = 0,
             max = 3000,
             value = 0,
-            desc = 'The length of the buffer kept before an onset to allow the algorithm, once a new Slice is detected, to go back in time (up to that many samples) to find the minimum amplitude as the Slice onset point. This affects the latency of the algorithm.'
+            desc = 'The length of the buffer kept before an onset to allow the algorithm, once a new slice is detected, to go back in time (up to that many samples) to find the minimum amplitude as the Slice onset point. This affects the latency of the algorithm.'
         },
         {
             name = 'lookahead',
