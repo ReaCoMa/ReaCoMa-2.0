@@ -3,6 +3,9 @@ local configuration = {}
 local r = reaper
 
 configuration.get_ini_value = function(ini_file_name, section, key)
+	-- Check that file exists in the first place
+	if not reaper.file_exists(ini_file_name) then return false end
+
 	local section_found = false
 	local key_found = false
 	for line in io.lines(ini_file_name) do
