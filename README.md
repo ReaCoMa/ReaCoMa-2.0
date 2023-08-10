@@ -1,12 +1,18 @@
 # ReaCoMa 2.0
 
+🔊 Join the Discord sever! 🔊
+
+https://discord.gg/RvJMJ4nz
+
+---
+
 <p align="center">
 <img src="http://assets.jb.imap.cc/reacoma.jpg" alt="reacoma_logo" width="25%" height="25%">
 </p>
 
 ReaCoMa 2 is a project developed by [James Bradbury](https://jamesbradbury.net). It enables you to use the [FluCoMa tools](https://www.flucoma.org) directly within REAPER. 
 
-Join the Discord sever! https://discord.gg/RvJMJ4nz
+
 
 > :warning: ReaCoMa 2.0 only works in **REAPER version 6.09 or greater**. I rely on some ReaScript API's that were added in this release.
 
