@@ -1,0 +1,70 @@
+name: Bug Report
+description: Create a bug report
+title: "Bug: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for taking the time to fill out this bug report!
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: Please tell us what you were doing! You can include code and files by drag and dropping them into the text area.
+      description: The more details we have the easier it is to understand the problem. Please include example code to reproduce the situation if possible. You can drop files in this text area.
+    validations:
+      required: true
+
+  - type: textarea
+    id: audio-file
+    attributes:
+      label: If you encountered an error processig a file, can you please upload the file here? Make sure to compress it beforehand or use a sharing service.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-result
+    attributes:
+      label: What was the expected result?
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual-result
+    attributes:
+      label: What was the actual result?
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: Now for some information about your system.
+
+  - type: input
+    id: flucoma-version
+    attributes:
+      label: FluCoMa Version
+      description: What version of ReaCoMa were you using
+      placeholder: 2.7
+    validations:
+      required: true
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: What operating system were you using?
+      options:
+        - Mac
+        - Windows
+        - Linux
+    validations:
+      required: true
+
+  - type: input
+    id: os-version
+    attributes:
+      label: Operating system version
+      description: What version of your operating system were you using?
+      placeholder: macOS 10.13
+    validations:
+      required: true
