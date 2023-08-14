@@ -89,6 +89,7 @@ helpers.process = function(obj, mode, optional_item_bundle)
     -- This button is uniform across layers/slices and is found at the top left
     local processed_items = {}
 
+    reaper.Undo_BeginBlock2(0)
     -- if the mode is cross or transport we provide an optional item bundle which contains the pairs of items
     if mode == 'cross' then
         processed_items = obj.perform_update(obj.parameters, optional_item_bundle)
@@ -115,7 +116,6 @@ helpers.process = function(obj, mode, optional_item_bundle)
                 r.DeleteTakeMarker(take, num_markers-j)
             end
 
-            r.Undo_BeginBlock()
             for j=1, #take_markers do
                 local slice_pos = take_markers[j]
                 local real_position = slice_pos + processed_items[i].item_pos -- adjust for offset of item
@@ -127,10 +127,10 @@ helpers.process = function(obj, mode, optional_item_bundle)
                     r.AddProjectMarker2(0, false, real_position, real_position, '', -1, color)
                 end
             end
-            r.Undo_EndBlock2(0, 'reacoma process markers', -1)
         end
         r.UpdateArrange()
     end
+    reaper.Undo_EndBlock2(0, obj.info.ext_name, -1)
     return processed_items
 end
 
