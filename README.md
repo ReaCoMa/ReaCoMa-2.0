@@ -2,7 +2,7 @@
 
 🔊 Join the Discord sever! 🔊
 
-https://discord.gg/RvJMJ4nz
+[Discord Invite Link](https://discord.gg/3E9ujqqd5y)
 
 ---
 
