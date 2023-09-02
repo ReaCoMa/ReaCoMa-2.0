@@ -1,5 +1,6 @@
 NAME="ReaCoMa 2.0"
 CLI_VERSION="1.0.6"
+IMGUI_VERSION="v0.8.7.2"
 OS="$1"
 
 test -f release && rm -rf release
@@ -44,6 +45,13 @@ else
 	cp -a /Volumes/FluCoMa-CLI-Mac/FluidCorpusManipulation/bin .
 	hdiutil detach /Volumes/FluCoMa-CLI-Mac -quiet
 	rm cli.dmg
+
+	# Download ReaImGui
+	IMGUI_ARM="https://github.com/cfillion/reaimgui/releases/download/$IMGUI_VERSION/reaper_imgui-arm64.dylib"
+	IMGUI_INTEL="https://github.com/cfillion/reaimgui/releases/download/$IMGUI_VERSION/reaper_imgui-x86_64.dylib"
+	echo "$IMGUI_ARM"
+	curl -L "$IMGUI_ARM" --output "distribution/imgui-arm.dylib"
+	curl -L "$IMGUI_INTEL" --output "distribution/imgui-intel.dylib"
 
 	# Create DMG
 	test -f "$NAME.dmg" && rm -f "$NAME.dmg"
