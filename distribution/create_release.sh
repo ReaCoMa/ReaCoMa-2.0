@@ -18,7 +18,7 @@ if [ "$OS" == "win" ]; then
 	mkdir -p release
 	mkdir -p "release/$NAME"
 	rsync -av -q --exclude=release --exclude=.github --exclude="ReaCoMa 2.0.dmg" --exclude="ReaCoMa 2.0.tar.gz" --exclude=.git --exclude=assets --exclude=tests --exclude=distribution . "release/$NAME"
-	cp distribution/Quick\ Start.txt release
+	cp distribution/Quick\ Start.txt release/*
 
 	zip -r ReaCoMa\ 2.0.zip release
 elif [ "$OS" == "linux" ]; then
@@ -35,7 +35,7 @@ elif [ "$OS" == "linux" ]; then
 	mkdir -p "release/$NAME"
 	rsync -av -q --exclude=release --exclude=.github --exclude="ReaCoMa 2.0.dmg" --exclude="ReaCoMa 2.0.zip" --exclude=.git --exclude=assets --exclude=tests --exclude=distribution . "release/$NAME"
 	cp distribution/Quick\ Start.txt release
-	tar czf ReaCoMa\ 2.0.tar.gz release 
+	tar czf ReaCoMa\ 2.0.tar.gz release /*
 else
 	CLI="https://github.com/flucoma/flucoma-cli/releases/download/$CLI_VERSION/FluCoMa-CLI-Mac.dmg"
 	# Get CLI Binaries
