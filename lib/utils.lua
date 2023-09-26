@@ -81,7 +81,7 @@ utils.cmdline = function(invocation)
     local retval = r.ExecProcess(invocation, 0)
     
     if not retval then
-        utils.DEBUG("There was an error executing the command: "..command)
+        utils.DEBUG("There was an error executing the command: " .. invocation .. "\n")
         utils.DEBUG("See the return value and error below:\n")
         utils.DEBUG(tostring(retval))
         utils.assert(false)
