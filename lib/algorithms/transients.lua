@@ -2,7 +2,9 @@ local r = reaper
 
 function decompose(params)
     local exe = reacoma.utils.wrap_quotes(
-        reacoma.settings.path .. "/fluid-transients"
+        reacoma.utils.cross_platform_executable(
+            reacoma.settings.path .. "/fluid-transients"
+        )
     )
 
     local num_selected_items = r.CountSelectedMediaItems(0)

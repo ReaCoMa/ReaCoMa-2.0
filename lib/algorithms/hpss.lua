@@ -4,7 +4,9 @@ local find_by_name = reacoma.params.find_by_name
 
 function decompose(params)
     local exe = reacoma.utils.wrap_quotes(
-        reacoma.settings.path .. "/fluid-hpss"
+        reacoma.utils.cross_platform_executable(
+            reacoma.settings.path .. "/fluid-hpss"
+        )
     )
 
     local num_selected_items = r.CountSelectedMediaItems(0)

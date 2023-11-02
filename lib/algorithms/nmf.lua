@@ -3,7 +3,9 @@ local r = reaper
 
 function decompose(params)
     local exe = reacoma.utils.wrap_quotes(
-        reacoma.settings.path .. "/fluid-nmf"
+        reacoma.utils.cross_platform_executable(
+            reacoma.settings.path .. "/fluid-nmf"
+        )
     )
 
     local num_selected_items = r.CountSelectedMediaItems(0)

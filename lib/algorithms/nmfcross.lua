@@ -2,7 +2,9 @@ local r = reaper
 
 function decompose(params, item_bundle)
     local exe = reacoma.utils.wrap_quotes(
-        reacoma.settings.path .. "/fluid-nmfcross"
+        reacoma.utils.cross_platform_executable(
+            reacoma.settings.path .. "/fluid-nmfcross"
+        )
     )
 
     local fftsettings = reacoma.utils.form_fft_string(

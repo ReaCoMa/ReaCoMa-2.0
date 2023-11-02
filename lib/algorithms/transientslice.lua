@@ -2,7 +2,9 @@ local r = reaper
 
 function segment(params)
     local exe = reacoma.utils.wrap_quotes(
-        reacoma.settings.path .. "/fluid-transientslice"
+        reacoma.utils.cross_platform_executable(
+            reacoma.settings.path .. "/fluid-transientslice"
+        )
     )
 
     local num_selected_items = r.CountSelectedMediaItems(0)
