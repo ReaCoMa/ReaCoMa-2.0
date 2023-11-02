@@ -76,6 +76,17 @@ utils.uuid = function(idx)
     return tostring(r.time_precise()):gsub("%.+", "") .. idx
 end
 
+utils.cross_platform_executable = function(executable)
+    -- Returns the executable with the correct extension for the platform
+    local opsys = r.GetOS()
+    if opsys == "Win64" then
+        return executable .. ".exe"
+    else
+        return executable
+    end
+end
+    
+    
 utils.cmdline = function(invocation)
     reacoma.debug.cli = invocation
     local retval = r.ExecProcess(invocation, 0)
