@@ -88,24 +88,23 @@ wrapper.loop = function(args)
         end
     end
 
-    -- TODO: Preset System
-    -- if r.ImGui_CollapsingHeader(ctx, 'Presets', nil, r.ImGui_TreeNodeFlags_None()) then
-        -- for i = 1, #presets do
-            -- if r.ImGui_Button(ctx, i) then
-                -- if r.ImGui_IsKeyDown(ctx, r.ImGui_Mod_Super()) then
-                    -- reacoma.params.store_preset(args.obj, i)
-                -- else
-                    -- reacoma.params.get_preset(args.obj, i)
-                -- end
+    if r.ImGui_CollapsingHeader(ctx, 'Presets', nil, r.ImGui_TreeNodeFlags_None()) then
+        for i = 1, #presets do
+            if r.ImGui_Button(ctx, i) then
+                if r.ImGui_IsKeyDown(ctx, r.ImGui_Mod_Super()) then
+                    reacoma.params.store_preset(args.obj, i)
+                else
+                    reacoma.params.get_preset(args.obj, i)
+                end
                 -- ImGui_IsKeyDown(ctx, ImGui_Mod_Shift())
                 -- ImGui_IsKeyDown(ctx, ImGui_Mod_Alt())
                 -- ImGui_IsKeyDown(ctx, ImGui_Mod_Super())
-            -- end
-        -- end
-        -- if r.ImGui_Button(ctx, '+ add preset') then
-        --     presets[#presets+1] = #presets+1
-        -- end
-    -- end
+            end
+        end
+        if r.ImGui_Button(ctx, '+ add preset') then
+            presets[#presets+1] = #presets+1
+        end
+    end
 
     r.ImGui_End(args.ctx)
     

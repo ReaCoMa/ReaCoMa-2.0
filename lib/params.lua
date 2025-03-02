@@ -73,14 +73,15 @@ end
 -- namespaces by slot, algorithm name
 
 local function create_slot_identifier(name, slot)
-    return string.format('preset.%s.%d', name, slot)
+    return string.format('preset.%s.%d', string.gsub(name, "%s+", ""), slot)
 end
 
 params.store_preset = function(obj, slot)
     for _, param in pairs(obj.parameters) do
+        local id = create_slot_identifier(param.name, slot)
         r.SetExtState(
             obj.info.ext_name,
-            create_slot_identifier(param.name, slot),
+            id,
             param.value,
             true
         )
@@ -89,10 +90,25 @@ end
 
 params.get_preset = function(obj, slot)
     for _, param in pairs(obj.parameters) do
+        local original_name = param.name
         local id = create_slot_identifier(param.name, slot)
+        
         if r.HasExtState(obj.info.ext_name, id) then
             local v = r.GetExtState(obj.info.ext_name, id)
-            param.value = v
+            
+            if reacoma.utils.table_has(reacoma.imgui.widgets, param.widget) then
+                local num_value = tonumber(v)
+                param.value = num_value
+                param.index = reacoma.params.find_index(param.widget.opts, num_value)
+            else
+                if type(param.value) == "number" then
+                    param.value = tonumber(v)
+                elseif type(param.value) == "boolean" then
+                    param.value = (v == "true")
+                else
+                    param.value = v
+                end
+            end
         end
     end
 end
