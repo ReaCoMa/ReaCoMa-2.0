@@ -109,17 +109,17 @@ else
         widgets = require('imgui/widgets')
     }
     reacoma.algorithms = {}
-    reacoma.algorithms.noveltyslice = require("algorithms/noveltyslice")
-    reacoma.algorithms.ampslice = require("algorithms/ampslice")
-    reacoma.algorithms.transientslice = require("algorithms/transientslice")
-    reacoma.algorithms.onsetslice = require("algorithms/onsetslice")
-    reacoma.algorithms.ampgate = require("algorithms/ampgate")
-    reacoma.algorithms.hpss = require("algorithms/hpss")
-    reacoma.algorithms.nmf = require("algorithms/nmf")
-    reacoma.algorithms.sines = require("algorithms/sines")
-    reacoma.algorithms.transients = require("algorithms/transients")
-    reacoma.algorithms.nmfcross = require("algorithms/nmfcross")
-    reacoma.algorithms.audiotransport = require("algorithms/audiotransport")
+
+    -- Loop over items in the algorithms folder to add them to the algorithms
+    local algorithm_files = {}
+    local directory = io.popen('ls ' .. script_path .. 'algorithms/')
+    for file in directory:lines() do
+        if file:match("%.lua$") then
+            local algorithm = file:match("(.+)%..+$")
+            reacoma.algorithms[algorithm] = require("algorithms/" .. algorithm)
+        end
+    end
+    directory:close()
 end
 
 -- Update the slice preview settings
