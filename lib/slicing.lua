@@ -16,7 +16,7 @@ slicing.rm_dup = function(slice_table)
     return res
 end
 
-slicing.convert_to_take_marker = function(slice_points, data)
+slicing.convert_to_source_time = function(slice_points, data)
     
     -- Invert the table around the middle point (mirror!)
     if data.reverse == true then
@@ -66,7 +66,7 @@ slicing.gateslice = function(data)
         return 
     end
 
-    slice_points = slicing.convert(slice_points, data)
+    slice_points = slicing.convert_to_source_time(slice_points, data)
 
     for i=1, #slice_points do
         local slice_pos = slice_points[i]
@@ -85,7 +85,7 @@ end
 slicing.process = function(data)
     local slice_points = reacoma.utils.split_comma(data.slice_points_string)
 
-    slice_points = slicing.convert(slice_points, data)
+    slice_points = slicing.convert_to_source_time(slice_points, data)
 
     for i=1, #slice_points do
         local slice_pos = slice_points[i]
