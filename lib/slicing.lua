@@ -16,7 +16,7 @@ slicing.rm_dup = function(slice_table)
     return res
 end
 
-slicing.convert = function(slice_points, data)
+slicing.convert_to_take_marker = function(slice_points, data)
     
     -- Invert the table around the middle point (mirror!)
     if data.reverse == true then
